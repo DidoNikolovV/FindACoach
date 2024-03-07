@@ -1,21 +1,13 @@
 package com.softuni.fitlaunch.model.dto.comment;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
 public class CommentMessageDTO {
     private String message;
-
-    public CommentMessageDTO() {
-    }
-
-    public CommentMessageDTO(String message) {
-        this.message = message;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public CommentMessageDTO setMessage(String message) {
-        this.message = message;
-        return this;
-    }
 }
