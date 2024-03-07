@@ -1,10 +1,6 @@
 package com.softuni.fitlaunch.service.schedulers;
 
 
-import com.softuni.fitlaunch.service.UserActivationService;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-
 //@Component
 //public class ActivationLinkCleanupScheduler {
 //

@@ -1,9 +1,6 @@
 package com.softuni.fitlaunch.model.dto.program;
 
 import com.softuni.fitlaunch.model.dto.comment.CommentCreationDTO;
-import com.softuni.fitlaunch.model.enums.LevelEnum;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotNull;
 
 import java.util.List;

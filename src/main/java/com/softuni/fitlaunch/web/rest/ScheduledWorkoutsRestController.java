@@ -12,7 +12,12 @@ import com.softuni.fitlaunch.service.ScheduleWorkoutService;
 import com.softuni.fitlaunch.service.UserService;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 

@@ -1,16 +1,20 @@
 package com.softuni.fitlaunch.web;
 
 
+import com.softuni.fitlaunch.model.dto.ExerciseDTO;
 import com.softuni.fitlaunch.model.dto.program.ProgramWeekWorkoutDTO;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.workout.CreateWorkoutDTO;
-import com.softuni.fitlaunch.model.dto.ExerciseDTO;
-import com.softuni.fitlaunch.model.entity.*;
-import com.softuni.fitlaunch.service.*;
+import com.softuni.fitlaunch.service.ClientService;
+import com.softuni.fitlaunch.service.ExerciseService;
+import com.softuni.fitlaunch.service.FileUpload;
+import com.softuni.fitlaunch.service.UserService;
+import com.softuni.fitlaunch.service.WorkoutExerciseService;
+import com.softuni.fitlaunch.service.WorkoutService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.security.Principal;
 import java.util.List;

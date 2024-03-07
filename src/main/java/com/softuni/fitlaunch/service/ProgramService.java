@@ -1,14 +1,23 @@
 package com.softuni.fitlaunch.service;
 
 
-
 import com.softuni.fitlaunch.model.dto.program.ProgramDTO;
 import com.softuni.fitlaunch.model.dto.program.ProgramWeekDTO;
 import com.softuni.fitlaunch.model.dto.program.ProgramWeekWorkoutDTO;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
-import com.softuni.fitlaunch.model.entity.*;
-import com.softuni.fitlaunch.repository.*;
+import com.softuni.fitlaunch.model.entity.ClientEntity;
+import com.softuni.fitlaunch.model.entity.ProgramEntity;
+import com.softuni.fitlaunch.model.entity.ProgramWeekEntity;
+import com.softuni.fitlaunch.model.entity.ProgramWeekWorkoutEntity;
+import com.softuni.fitlaunch.model.entity.ProgramWorkoutExerciseEntity;
+import com.softuni.fitlaunch.model.entity.UserEntity;
+import com.softuni.fitlaunch.repository.ClientRepository;
+import com.softuni.fitlaunch.repository.CoachRepository;
+import com.softuni.fitlaunch.repository.ProgramRepository;
+import com.softuni.fitlaunch.repository.ProgramWeekRepository;
+import com.softuni.fitlaunch.repository.ProgramWeekWorkoutRepository;
+import com.softuni.fitlaunch.repository.UserRepository;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;

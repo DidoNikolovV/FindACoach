@@ -1,78 +1,38 @@
 package com.softuni.fitlaunch.model.dto.user;
 
-import com.softuni.fitlaunch.model.enums.UserTitleEnum;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Data
 public class UserRegisterDTO {
 
-    @NotNull
-    @Size(min = 3, max = 20, message = "Username must be between 3 and 20 characters long!")
+    @NotBlank(message = "Username should not be null nor empty")
+    @Length(min = 2, max = 255, message = "Username should be between 2 and 255 characters long!")
+    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Invalid username")
     private String username;
 
     @Email(message = "Invalid email!")
-    @NotBlank(message = "Invalid email!")
+    @Length(min = 2, max = 255, message = "Email should be between 2 and 255 characters long!")
+    @NotBlank(message = "Email should not be null nor empty")
     private String email;
 
-    @NotNull
-    @Size(min = 5, max = 10, message = "Password must be between 5 and 10 characters long!")
+    @NotBlank(message = "Password should not be null nor empty")
+    @Length(min = 5, max = 127, message = "Password should be between 5 and 127 characters long!")
     private String password;
 
-    @NotNull
-    @Size(min = 5, max = 10, message = "Confirm password must be between 5 and 10 characters long!")
+    @NotBlank(message = "Confirm password should not be null nor empty")
+    @Length(min = 5, max = 127, message = "Confirm password must be between 5 and 127 characters long!")
     private String confirmPassword;
 
+    @NotBlank(message = "Title should not be null nor empty")
+    @Length(min = 4, max = 255, message = "Title should be between 2 and 255 characters long!")
     private String title;
-
-    public String getUsername() {
-        return username;
-    }
-
-    public UserRegisterDTO setUsername(String username) {
-        this.username = username;
-        return this;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public UserRegisterDTO setEmail(String email) {
-        this.email = email;
-        return this;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public UserRegisterDTO setPassword(String password) {
-        this.password = password;
-        return this;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public UserRegisterDTO setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-        return this;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public UserRegisterDTO setTitle(String title) {
-        this.title = title;
-        return this;
-    }
 }

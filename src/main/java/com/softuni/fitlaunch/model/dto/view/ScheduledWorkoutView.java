@@ -1,7 +1,5 @@
 package com.softuni.fitlaunch.model.dto.view;
 
-import java.time.LocalDateTime;
-
 public class ScheduledWorkoutView {
 
     private Long id;

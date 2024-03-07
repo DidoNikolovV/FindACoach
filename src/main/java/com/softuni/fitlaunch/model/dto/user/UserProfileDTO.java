@@ -2,15 +2,13 @@ package com.softuni.fitlaunch.model.dto.user;
 
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Data
 public class UserProfileDTO {
 
     private MultipartFile imgUrl;

@@ -2,12 +2,21 @@ package com.softuni.fitlaunch.service;
 
 import com.softuni.fitlaunch.model.dto.comment.CommentCreationDTO;
 import com.softuni.fitlaunch.model.dto.view.CommentView;
-import com.softuni.fitlaunch.model.entity.*;
-import com.softuni.fitlaunch.repository.*;
+import com.softuni.fitlaunch.model.entity.CommentEntity;
+import com.softuni.fitlaunch.model.entity.ProgramEntity;
+import com.softuni.fitlaunch.model.entity.ProgramWeekEntity;
+import com.softuni.fitlaunch.model.entity.ProgramWeekWorkoutEntity;
+import com.softuni.fitlaunch.model.entity.UserEntity;
+import com.softuni.fitlaunch.model.entity.WorkoutEntity;
+import com.softuni.fitlaunch.repository.CommentRepository;
+import com.softuni.fitlaunch.repository.ProgramRepository;
+import com.softuni.fitlaunch.repository.ProgramWeekRepository;
+import com.softuni.fitlaunch.repository.ProgramWeekWorkoutRepository;
+import com.softuni.fitlaunch.repository.UserRepository;
+import com.softuni.fitlaunch.repository.WorkoutRepository;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;

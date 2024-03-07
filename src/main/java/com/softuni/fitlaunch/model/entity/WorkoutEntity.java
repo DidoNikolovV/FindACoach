@@ -2,7 +2,15 @@ package com.softuni.fitlaunch.model.entity;
 
 
 import com.softuni.fitlaunch.model.enums.LevelEnum;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 import java.util.ArrayList;
 import java.util.List;

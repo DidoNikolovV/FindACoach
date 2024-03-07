@@ -1,23 +1,30 @@
 package com.softuni.fitlaunch.web;
 
-import com.softuni.fitlaunch.model.dto.program.ProgramWeekWorkoutDTO;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.user.UserProfileDTO;
 import com.softuni.fitlaunch.model.dto.user.UserRegisterDTO;
 import com.softuni.fitlaunch.model.dto.view.ScheduledWorkoutView;
 import com.softuni.fitlaunch.model.dto.view.UserProfileView;
-import com.softuni.fitlaunch.model.dto.workout.ScheduledWorkoutDTO;
 import com.softuni.fitlaunch.model.entity.UserRoleEntity;
 import com.softuni.fitlaunch.model.enums.UserRoleEnum;
-import com.softuni.fitlaunch.service.*;
+import com.softuni.fitlaunch.service.BlackListService;
+import com.softuni.fitlaunch.service.ClientService;
+import com.softuni.fitlaunch.service.CoachService;
+import com.softuni.fitlaunch.service.ScheduleWorkoutService;
+import com.softuni.fitlaunch.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;

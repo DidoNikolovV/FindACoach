@@ -2,7 +2,6 @@ package com.softuni.fitlaunch.service.schedulers;
 
 
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
-import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.service.EmailService;
 import com.softuni.fitlaunch.service.UserService;
 import org.springframework.scheduling.annotation.Scheduled;

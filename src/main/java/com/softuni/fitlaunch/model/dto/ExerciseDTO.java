@@ -1,7 +1,6 @@
 package com.softuni.fitlaunch.model.dto;
 
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
-import jakarta.persistence.Column;
 import jakarta.validation.constraints.Pattern;
 
 import java.util.List;

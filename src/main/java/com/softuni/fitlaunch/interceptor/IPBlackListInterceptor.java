@@ -5,11 +5,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.View;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 

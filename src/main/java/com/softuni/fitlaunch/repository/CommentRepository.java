@@ -1,6 +1,5 @@
 package com.softuni.fitlaunch.repository;
 
-import com.softuni.fitlaunch.model.dto.view.CommentView;
 import com.softuni.fitlaunch.model.entity.CommentEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

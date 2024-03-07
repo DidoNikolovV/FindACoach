@@ -2,7 +2,6 @@ package com.softuni.fitlaunch.model.dto.workout;
 
 import com.softuni.fitlaunch.model.dto.program.ProgramWorkoutExerciseDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
-import com.softuni.fitlaunch.model.enums.LevelEnum;
 
 import java.util.List;
 

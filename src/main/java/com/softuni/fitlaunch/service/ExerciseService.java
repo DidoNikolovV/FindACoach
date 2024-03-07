@@ -3,13 +3,11 @@ package com.softuni.fitlaunch.service;
 
 import com.softuni.fitlaunch.model.dto.ExerciseDTO;
 import com.softuni.fitlaunch.model.entity.ExerciseEntity;
-import com.softuni.fitlaunch.model.entity.WorkoutExerciseEntity;
 import com.softuni.fitlaunch.repository.ExerciseRepository;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ExerciseService {

@@ -4,18 +4,10 @@ import com.softuni.fitlaunch.model.dto.ExerciseDTO;
 import com.softuni.fitlaunch.model.dto.comment.CommentCreationDTO;
 import com.softuni.fitlaunch.model.dto.program.ProgramWeekDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
-import com.softuni.fitlaunch.model.entity.CommentEntity;
-import com.softuni.fitlaunch.model.entity.ExerciseEntity;
-import com.softuni.fitlaunch.model.entity.UserEntity;
-import com.softuni.fitlaunch.model.entity.WorkoutExerciseEntity;
 import com.softuni.fitlaunch.model.enums.LevelEnum;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -8,7 +8,6 @@ import com.softuni.fitlaunch.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 @Service
 public class UserProfileService {
