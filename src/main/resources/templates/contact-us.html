@@ -3,35 +3,35 @@
 <head th:replace="~{fragments/head}">
 </head>
 <body>
-  <nav th:replace="~{fragments/navbar}"></nav>
-  <div class="container bg-white text-dark">
+<nav th:replace="~{fragments/navbar}"></nav>
+<div class="container bg-white text-dark">
     <h1 class="text-center mb-3">Contact Us</h1>
     <span>Contact our team with any questions or comments at <a href="mailto:support@fitlaunch.com">support@fitlaunch.com</a></span>
     <form class="mt-3">
-      <div class="form-row">
-        <div class="form-group col-md-6">
-          <label for="name">Name:</label>
-          <input type="text" class="form-control" id="name" required>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="name">Name:</label>
+                <input type="text" class="form-control" id="name" required>
+            </div>
+
+            <div class="form-group col-md-6">
+                <label for="email">Email:</label>
+                <input type="email" class="form-control" id="email" required>
+            </div>
         </div>
 
-        <div class="form-group col-md-6">
-          <label for="email">Email:</label>
-          <input type="email" class="form-control" id="email" required>
+        <div class="form-group">
+            <label for="message">Message:</label>
+            <textarea class="form-control" id="message" rows="4" required></textarea>
         </div>
-      </div>
 
-      <div class="form-group">
-        <label for="message">Message:</label>
-        <textarea class="form-control" id="message" rows="4" required></textarea>
-      </div>
-
-      <div class="d-flex justify-content-center">
-        <button type="submit" class="btn btn-danger px-3">Send</button>
-      </div>
+        <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-danger px-3">Send</button>
+        </div>
     </form>
-  </div>
+</div>
 
 
-  <footer th:replace="~{fragments/footer}"></footer>
+<footer th:replace="~{fragments/footer}"></footer>
 </body>
 </html>

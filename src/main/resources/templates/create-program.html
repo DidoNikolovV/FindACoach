@@ -3,74 +3,74 @@
 <head th:replace="~{fragments/head}"></head>
 <nav th:replace="~{fragments/navbar}"></nav>
 <body>
-  <div class="container mt-5">
+<div class="container mt-5">
     <h2 class="mb-4 text-center text-white">Create Program</h2>
 
     <form>
-      <!-- Program Title -->
-      <div class="form-group">
-        <label for="programTitle" class="text-white">Program Title:</label>
-        <input type="text" class="form-control" id="programTitle" name="programTitle" required>
-      </div>
-
-      <!-- Number of Weeks -->
-      <div class="form-group">
-        <label for="weeks" class="text-white">Number of Weeks:</label>
-        <input type="number" class="form-control" id="weeks" name="weeks" min="1" required>
-      </div>
-
-      <!-- Program Days -->
-      <div class="form-group">
-        <label class="text-white">Program Days:</label>
-        <div id="programDays">
-          <!-- Day 1 -->
-          <div class="form-row mb-3">
-            <div class="col">
-              <input type="text" class="form-control" placeholder="Day 1 Name" required>
-            </div>
-            <div class="col">
-              <input type="text" class="form-control" placeholder="Targeted Muscle Groups" required>
-            </div>
-          </div>
-
-          <!-- Add more days dynamically using JavaScript if needed -->
+        <!-- Program Title -->
+        <div class="form-group">
+            <label for="programTitle" class="text-white">Program Title:</label>
+            <input type="text" class="form-control" id="programTitle" name="programTitle" required>
         </div>
 
-      </div>
-
-      <div class="form-group">
-        <label class="text-white">Select Exercises:</label>
-        <div class="row">
-          <div th:each="exercise, exerciseStat: ${allExercises}" class="col-md-4 mb-3">
-            <div class="card-exercise d-flex align-items-center justify-content-end">
-              <div class="card-body">
-                <input type="checkbox" class="form-check-input"
-                       th:id="'exercise-' + ${exercise.id}" name="selectedExerciseIds"
-                       th:value="${exercise.id}" />
-                <label class="form-check-label" th:for="'exercise-' + ${exercise.id}">
-                  <span th:text="${exercise.name}"></span>
-                </label>
-
-<!--                <div class="form-group">-->
-<!--                  <label th:for="'sets-' + ${exerciseStat.index}">Sets</label>-->
-<!--                  <input type="number" class="form-control"-->
-<!--                         th:id="'sets-' + ${exerciseStat.index}" th:name="sets" th:value="${exercise.sets}" />-->
-<!--                </div>-->
-
-<!--                <div class="form-group">-->
-<!--                  <label th:for="'reps-' + ${exerciseStat.index}">Reps</label>-->
-<!--                  <input type="number" class="form-control"-->
-<!--                         th:id="'reps-' + ${exerciseStat.index}"  th:name="reps" th:value="${exercise.reps}"  />-->
-<!--                </div>-->
-              </div>
-            </div>
-          </div>
+        <!-- Number of Weeks -->
+        <div class="form-group">
+            <label for="weeks" class="text-white">Number of Weeks:</label>
+            <input type="number" class="form-control" id="weeks" name="weeks" min="1" required>
         </div>
-      </div>
 
-      <!-- Submit Button -->
-      <button type="submit" class="btn btn-primary">Create Program</button>
+        <!-- Program Days -->
+        <div class="form-group">
+            <label class="text-white">Program Days:</label>
+            <div id="programDays">
+                <!-- Day 1 -->
+                <div class="form-row mb-3">
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Day 1 Name" required>
+                    </div>
+                    <div class="col">
+                        <input type="text" class="form-control" placeholder="Targeted Muscle Groups" required>
+                    </div>
+                </div>
+
+                <!-- Add more days dynamically using JavaScript if needed -->
+            </div>
+
+        </div>
+
+        <div class="form-group">
+            <label class="text-white">Select Exercises:</label>
+            <div class="row">
+                <div th:each="exercise, exerciseStat: ${allExercises}" class="col-md-4 mb-3">
+                    <div class="card-exercise d-flex align-items-center justify-content-end">
+                        <div class="card-body">
+                            <input type="checkbox" class="form-check-input"
+                                   th:id="'exercise-' + ${exercise.id}" name="selectedExerciseIds"
+                                   th:value="${exercise.id}"/>
+                            <label class="form-check-label" th:for="'exercise-' + ${exercise.id}">
+                                <span th:text="${exercise.name}"></span>
+                            </label>
+
+                            <!--                <div class="form-group">-->
+                            <!--                  <label th:for="'sets-' + ${exerciseStat.index}">Sets</label>-->
+                            <!--                  <input type="number" class="form-control"-->
+                            <!--                         th:id="'sets-' + ${exerciseStat.index}" th:name="sets" th:value="${exercise.sets}" />-->
+                            <!--                </div>-->
+
+                            <!--                <div class="form-group">-->
+                            <!--                  <label th:for="'reps-' + ${exerciseStat.index}">Reps</label>-->
+                            <!--                  <input type="number" class="form-control"-->
+                            <!--                         th:id="'reps-' + ${exerciseStat.index}"  th:name="reps" th:value="${exercise.reps}"  />-->
+                            <!--                </div>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Create Program</button>
     </form>
-  </div>
+</div>
 </body>
 </html>

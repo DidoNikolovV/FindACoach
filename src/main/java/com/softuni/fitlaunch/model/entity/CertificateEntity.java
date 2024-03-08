@@ -15,7 +15,7 @@ public class CertificateEntity extends BaseEntity {
 
     @Column(nullable = false)
     private String name;
-    @Column(name="issuing_authority", nullable = false)
+    @Column(name = "issuing_authority", nullable = false)
     private String issuingAuthority;
 
     @Column(name = "issue_date", nullable = false)

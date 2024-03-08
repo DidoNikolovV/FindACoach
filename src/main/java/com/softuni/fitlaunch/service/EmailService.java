@@ -69,7 +69,7 @@ public class EmailService {
 
                 javaMailSender.send(mimeMessageHelper.getMimeMessage());
 
-            } catch(MessagingException e) {
+            } catch (MessagingException e) {
                 throw new RuntimeException(e);
             }
         }

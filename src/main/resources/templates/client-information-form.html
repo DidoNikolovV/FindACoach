@@ -7,64 +7,78 @@
 <nav th:replace="~{fragments/navbar}"></nav>
 <div class="container mt-5 d-flex">
     <div class="card mx-auto">
-      <div class="card-body">
-        <h1 class="text-primary">Welcome to Your Fitness Journey! 🌟</h1>
+        <div class="card-body">
+            <h1 class="text-primary">Welcome to Your Fitness Journey! 🌟</h1>
 
-        <p class="lead" th:text="'Hey ' + ${client.username} + ','"></p>
+            <p class="lead" th:text="'Hey ' + ${client.username} + ','"></p>
 
-        <p class="lead">I'm thrilled to embark on this fitness journey with you! 🚀 To tailor our training program perfectly, I'd love to learn a bit more about you. Your personal details will help me create a plan that suits your needs and aspirations.</p>
+            <p class="lead">I'm thrilled to embark on this fitness journey with you! 🚀 To tailor our training program
+                perfectly, I'd love to learn a bit more about you. Your personal details will help me create a plan that
+                suits your needs and aspirations.</p>
 
-        <p class="lead">Here are a few friendly questions:</p>
+            <p class="lead">Here are a few friendly questions:</p>
 
-        <ol>
-          <li><strong>Weight in kg:</strong> Your weight is an essential factor in customizing your workout routine.</li>
-          <li><strong>Height in cm:</strong> Knowing your height helps us make sure your exercises are just right.</li>
-          <li><strong>Dietary Preferences:</strong> Any specific dietary preferences or restrictions? Veggie lover, carb enthusiast, or maybe gluten-free?</li>
-          <li><strong>Goals You Want to Achieve:</strong> Whether it's building muscle, shedding a few pounds, or improving overall health, share your goals!</li>
-        </ol>
+            <ol>
+                <li><strong>Weight in kg:</strong> Your weight is an essential factor in customizing your workout
+                    routine.
+                </li>
+                <li><strong>Height in cm:</strong> Knowing your height helps us make sure your exercises are just right.
+                </li>
+                <li><strong>Dietary Preferences:</strong> Any specific dietary preferences or restrictions? Veggie
+                    lover, carb enthusiast, or maybe gluten-free?
+                </li>
+                <li><strong>Goals You Want to Achieve:</strong> Whether it's building muscle, shedding a few pounds, or
+                    improving overall health, share your goals!
+                </li>
+            </ol>
 
-        <p class="lead">Feel free to take your time and provide as much information as you're comfortable with. Remember, this is your fitness journey, and we're in it together! 💪</p>
+            <p class="lead">Feel free to take your time and provide as much information as you're comfortable with.
+                Remember, this is your fitness journey, and we're in it together! 💪</p>
 
-        <p class="lead">Let's make every workout count!</p>
+            <p class="lead">Let's make every workout count!</p>
 
-        <p class="lead">Best,<br th:text="${coach.username}"></p>
-      </div>
-      <div>
-        <form th:method="POST" th:object="${client}" th:action="@{/coaches/{coachId}/client/information(coachId=${coach.id})}">
-          <!-- Weight Input -->
-          <div class="form-group">
-            <label for="weight">Weight:</label>
-            <input type="text" class="form-control" id="weight" th:field="*{weight}" placeholder="Enter weight in KG">
-          </div>
+            <p class="lead">Best,<br th:text="${coach.username}"></p>
+        </div>
+        <div>
+            <form th:method="POST" th:object="${client}"
+                  th:action="@{/coaches/{coachId}/client/information(coachId=${coach.id})}">
+                <!-- Weight Input -->
+                <div class="form-group">
+                    <label for="weight">Weight:</label>
+                    <input type="text" class="form-control" id="weight" th:field="*{weight}"
+                           placeholder="Enter weight in KG">
+                </div>
 
-          <!-- Height Input -->
-          <div class="form-group">
-            <label for="height">Height:</label>
-            <input type="text" class="form-control" id="height" th:field="*{height}" placeholder="Enter height in CM">
-          </div>
+                <!-- Height Input -->
+                <div class="form-group">
+                    <label for="height">Height:</label>
+                    <input type="text" class="form-control" id="height" th:field="*{height}"
+                           placeholder="Enter height in CM">
+                </div>
 
-          <!-- Target Goals Input -->
-          <div class="form-group">
-            <label for="targetGoals">Target Goals:</label>
-            <input type="text" class="form-control" id="targetGoals" th:field="*{targetGoals}" placeholder="Enter Goals You Want To Achieve">
-          </div>
+                <!-- Target Goals Input -->
+                <div class="form-group">
+                    <label for="targetGoals">Target Goals:</label>
+                    <input type="text" class="form-control" id="targetGoals" th:field="*{targetGoals}"
+                           placeholder="Enter Goals You Want To Achieve">
+                </div>
 
-          <!-- Dietary Preferences Textarea -->
-          <div class="form-group">
-            <label for="dietaryPreferences">Dietary Preferences:</label>
-            <textarea class="form-control" id="dietaryPreferences" rows="3" th:field="*{dietaryPreferences}"  placeholder="Enter Dietary Preferences"></textarea>
-          </div>
+                <!-- Dietary Preferences Textarea -->
+                <div class="form-group">
+                    <label for="dietaryPreferences">Dietary Preferences:</label>
+                    <textarea class="form-control" id="dietaryPreferences" rows="3" th:field="*{dietaryPreferences}"
+                              placeholder="Enter Dietary Preferences"></textarea>
+                </div>
 
-          <!-- Submit Button -->
-          <button type="submit" class="btn btn-primary btn-block">Submit</button>
-        </form>
-      </div>
-  </div>
-
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary btn-block">Submit</button>
+            </form>
+        </div>
+    </div>
 
 
 </div>
-  <footer th:replace="~{fragments/footer}"></footer>
+<footer th:replace="~{fragments/footer}"></footer>
 
 </body>
 </html>

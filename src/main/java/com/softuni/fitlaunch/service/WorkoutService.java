@@ -139,7 +139,7 @@ public class WorkoutService {
     public void completeExercise(Long workoutId, Long exerciseId) {
         List<WorkoutExerciseEntity> workoutExercises = workoutExerciseRepository.findByWorkoutId(workoutId);
         for (WorkoutExerciseEntity workoutExercise : workoutExercises) {
-            if(workoutExercise.getId().equals(exerciseId)) {
+            if (workoutExercise.getId().equals(exerciseId)) {
                 workoutExercise.setCompleted(true);
                 workoutExerciseRepository.save(workoutExercise);
                 break;

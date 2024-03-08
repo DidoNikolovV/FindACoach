@@ -16,6 +16,7 @@ public class DailyWorkoutReminderScheduler {
     private final EmailService emailService;
 
     private final UserService userService;
+
     public DailyWorkoutReminderScheduler(EmailService emailService, UserService userService) {
         this.emailService = emailService;
         this.userService = userService;

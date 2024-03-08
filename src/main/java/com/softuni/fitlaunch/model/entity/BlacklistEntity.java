@@ -3,7 +3,7 @@ package com.softuni.fitlaunch.model.entity;
 import jakarta.persistence.Entity;
 
 @Entity
-public class BlacklistEntity extends BaseEntity{
+public class BlacklistEntity extends BaseEntity {
 
     private String ipAddress;
 

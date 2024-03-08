@@ -21,9 +21,9 @@ async function postComment(e) {
     fetch(`${url}/api/${programId}/${weekId}/${workoutId}/comments`, {
         method: 'POST',
         headers: {
-         'Content-Type': 'application/json',
-         'Accept': 'application/json',
-         [csrfHeaderName]: csrfHeaderValue
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            [csrfHeaderName]: csrfHeaderValue
         },
         body: JSON.stringify({
             message: messageValue
@@ -64,7 +64,7 @@ fetch(`${url}/api/${programId}/${weekId}/${workoutId}/comments`, {
     }
 }).then(res => res.json())
     .then(data => {
-        for(let comment of data) {
+        for (let comment of data) {
             commentContainer.innerHTML += commentAsHTML(comment)
         }
     })

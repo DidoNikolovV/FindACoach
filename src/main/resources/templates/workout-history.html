@@ -6,25 +6,26 @@
 <nav th:replace="~{fragments/navbar}"></nav>
 
 <div class="container flex-grow-1">
-  <h1 class="text-center mt-5 mb-4 text-white">Workout History</h1>
+    <h1 class="text-center mt-5 mb-4 text-white">Workout History</h1>
 
-  <div th:each="completedWorkout: ${workoutsCompleted}">
-    <table class="table bg-dark text-white">
-      <thead class="bg-dark text-white">
-      <tr>
-        <th style="width: 25%;" th:text="${completedWorkout.name}"></th>
-        <th style="width: 25%;" th:text="${completedWorkout.level}">Exercise</th>
-        <th style="width: 25%;">
-          <a th:href="@{/workouts/{programId}/{weekId}/{id}(programId=${completedWorkout.getProgramWeek().getProgram().id}, weekId=${completedWorkout.getProgramWeek().id}, id=${completedWorkout.id})}" class="text-white">Workout Details</a>
-        </th>
-      </tr>
-      </thead>
-    </table>
+    <div th:each="completedWorkout: ${workoutsCompleted}">
+        <table class="table bg-dark text-white">
+            <thead class="bg-dark text-white">
+            <tr>
+                <th style="width: 25%;" th:text="${completedWorkout.name}"></th>
+                <th style="width: 25%;" th:text="${completedWorkout.level}">Exercise</th>
+                <th style="width: 25%;">
+                    <a th:href="@{/workouts/{programId}/{weekId}/{id}(programId=${completedWorkout.getProgramWeek().getProgram().id}, weekId=${completedWorkout.getProgramWeek().id}, id=${completedWorkout.id})}"
+                       class="text-white">Workout Details</a>
+                </th>
+            </tr>
+            </thead>
+        </table>
 
-    <!-- Collapsible section for workout details -->
-    <div id="detailsCtnr" class="text-white">
+        <!-- Collapsible section for workout details -->
+        <div id="detailsCtnr" class="text-white">
+        </div>
     </div>
-  </div>
 </div>
 
 <footer th:replace="~{fragments/footer}"></footer>

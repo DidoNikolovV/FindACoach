@@ -45,17 +45,17 @@ function updateCalendarEvents() {
                     calendarEvents: calendarEvents,
                 });
 
-                $(calendar).on('selectEvent', function(event, activeEvent) {
+                $(calendar).on('selectEvent', function (event, activeEvent) {
                     var selectedIndex = activeEvent.id;
 
                     console.log("Selected Event Index: " + selectedIndex);
 
-                    if(confirm("Do you want to delete this event?")) {
+                    if (confirm("Do you want to delete this event?")) {
                         deleteCalendarEvent(selectedIndex);
                     }
 
                 })
-            }else {
+            } else {
                 $('#calendar').evoCalendar({
                     theme: 'Default',
                     format: 'MM dd, yyyy',
@@ -77,7 +77,7 @@ function deleteCalendarEvent(eventId) {
             [csrfHeaderName]: csrfHeaderValue
         }
     }).then(res => {
-        if(res.ok) {
+        if (res.ok) {
             $(calendar).evoCalendar('removeCalendarEvent', eventId);
         } else {
             console.error('Failed to delete event: ', res.statusText);

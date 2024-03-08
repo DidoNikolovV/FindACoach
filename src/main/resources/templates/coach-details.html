@@ -3,46 +3,47 @@
 <head th:replace="~{fragments/head}"></head>
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
-  <header class="header">
+<header class="header">
     <div class="container my-5">
-      <div class="row">
-        <img th:src="${coachDetails.imgUrl}" class="img-fluid" alt="Coach Image">
-        <div class="col-md-6">
-          <div class="card">
-            <div class="card-header d-flex justify-content-between align-items-center">
-              <h2>Coach Details</h2>
-              <form th:action="@{/coaches/{id}/client/information(id=*{id})}">
-                <input type="submit" th:value="'Start Training with ' + ${coachDetails.username}" class="btn btn-success my-3">
-              </form>
-            </div>
-            <div class="card-body">
-              <p class="card-text" th:text="'Name: ' + ${coachDetails.username}"></p>
-              <p class="card-text" th:text="'Email: ' + ${coachDetails.email}"></p>
-              <p class="card-text" th:text="'About Him: ' + ${coachDetails.description}"></p>
-              <div>
-                <span>Rating: </span>
-                <span class="badge badge-pill badge-warning" th:text="${coachDetails.rating}"></span>
-              </div>
+        <div class="row">
+            <img th:src="${coachDetails.imgUrl}" class="img-fluid" alt="Coach Image">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h2>Coach Details</h2>
+                        <form th:action="@{/coaches/{id}/client/information(id=*{id})}">
+                            <input type="submit" th:value="'Start Training with ' + ${coachDetails.username}"
+                                   class="btn btn-success my-3">
+                        </form>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text" th:text="'Name: ' + ${coachDetails.username}"></p>
+                        <p class="card-text" th:text="'Email: ' + ${coachDetails.email}"></p>
+                        <p class="card-text" th:text="'About Him: ' + ${coachDetails.description}"></p>
+                        <div>
+                            <span>Rating: </span>
+                            <span class="badge badge-pill badge-warning" th:text="${coachDetails.rating}"></span>
+                        </div>
 
-              <h5 class="mt-4">Certificates:</h5>
-              <ul class="list-group">
-                <li class="list-group-item">
-                  <strong>Certified Fitness Trainer</strong>
-                  <p class="mb-0">
-                    Issued by: <span>Fitness Certification Authority</span>
-                  </p>
-                  <p class="mb-0">
-                    Issue Date: <span>2022-01-01</span>
-                  </p>
-                </li>
-              </ul>
+                        <h5 class="mt-4">Certificates:</h5>
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                <strong>Certified Fitness Trainer</strong>
+                                <p class="mb-0">
+                                    Issued by: <span>Fitness Certification Authority</span>
+                                </p>
+                                <p class="mb-0">
+                                    Issue Date: <span>2022-01-01</span>
+                                </p>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </header>
+</header>
 
-  <footer th:include="~{fragments/footer}"></footer>
+<footer th:include="~{fragments/footer}"></footer>
 </body>
 </html>

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @Setter
 @Entity
 @Table(name = "scheduled_workouts")
-public class ScheduledWorkoutEntity extends BaseEntity{
+public class ScheduledWorkoutEntity extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "coach_id")
     private CoachEntity coach;
@@ -23,7 +23,6 @@ public class ScheduledWorkoutEntity extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "client_id")
     private ClientEntity client;
-
 
 
     private LocalDateTime scheduledDateTime;

@@ -45,7 +45,6 @@ public class UserController {
     private final ScheduleWorkoutService scheduleWorkoutService;
 
 
-
     public UserController(UserService userService, CoachService coachService, ClientService clientService, BlackListService blackListService, ScheduleWorkoutService scheduleWorkoutService) {
         this.userService = userService;
         this.coachService = coachService;
@@ -90,8 +89,8 @@ public class UserController {
 
         UserDTO user = userService.getUserByUsername(username);
 
-        if(user != null) {
-            if(user.isActivated()) {
+        if (user != null) {
+            if (user.isActivated()) {
                 model.addAttribute("username", username);
                 model.addAttribute("bad_credentials", "true");
             } else {
@@ -116,13 +115,13 @@ public class UserController {
     public ModelAndView register(@ModelAttribute("userRegisterDTO") @Valid UserRegisterDTO userRegisterDTO,
                                  BindingResult bindingResult) {
 
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return new ModelAndView("register");
         }
 
 
         boolean hasSuccessfullyRegistered = userService.register(userRegisterDTO);
-        if(!hasSuccessfullyRegistered) {
+        if (!hasSuccessfullyRegistered) {
             ModelAndView modelAndView = new ModelAndView("register");
             modelAndView.addObject("hasRegisterError", true);
             return modelAndView;
@@ -171,7 +170,6 @@ public class UserController {
     }
 
 
-
     @PostMapping("/ban")
     @Secured("ROLE_ADMIN")
     public String banUser(@RequestParam("ipAddress") String ipAddress) {
@@ -206,13 +204,13 @@ public class UserController {
 
         System.out.println("Received activation code: " + activationCode);
 
-        if(activationCode == null || activationCode.isEmpty()) {
+        if (activationCode == null || activationCode.isEmpty()) {
             model.addAttribute("activationError", "Invalid activation code");
             return "email/activation-failed";
         }
 
         boolean activationSuccess = userService.activateUser(activationCode);
-        if(activationSuccess) {
+        if (activationSuccess) {
             return "email/activation-success";
         } else {
             return "email/activation-failed";

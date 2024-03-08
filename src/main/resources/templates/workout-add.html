@@ -1,100 +1,103 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <link rel="stylesheet" th:href="@{/css/reset-css.css}"/>
-  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
-  <link rel="stylesheet" th:href="@{/js/bootstrap.min.js}"/>
-  <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/reset-css.css}"/>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+    <link rel="stylesheet" th:href="@{/js/bootstrap.min.js}"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
 </head>
 <body>
 <div>
-  <nav th:replace="~{fragments/navbar}"></nav>
+    <nav th:replace="~{fragments/navbar}"></nav>
 </div>
 
-  <div class="container my-5">
+<div class="container my-5">
     <h2 class="text-center text-white my-2">Create Workout</h2>
     <form th:object="${createWorkoutDTO}" th:action="@{/workouts/add}" th:method="post" enctype="multipart/form-data">
-      <div class="form-group">
-        <label for="name" class="text-white">Workout Name</label>
-        <input type="text" class="form-control bg-light" id="name" th:field="*{name}">
-      </div>
-      <div class="form-group">
-        <label for="level" class="text-white">Level</label>
-        <select class="form-control" id="level" name="level">
-          <option value="">Select Level</option>
-          <option th:each="level : ${T(com.softuni.fitlaunch.model.enums.LevelEnum).values()}"
-                  th:value="${level}"
-                  th:text="${level}"></option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="description" class="text-white">Description</label>
-        <textarea class="form-control bg-light" id="description" th:field="*{description}" rows="4"></textarea>
-      </div>
-
-      <div class="form-group">
-        <input type="hidden" name="id" id="workoutId" th:value="${createWorkoutDTO.id}">
-        <label for="imgUrl" class="text-white">
-          <img src="/images/add-img.jpg" alt="Upload Image" style="max-width: 100%; height: auto;">
-        </label>
-        <input type="file" class="form-control bg-light" id="imgUrl" name="picture" th:field="*{imgUrl}" accept="image/*">
-      </div>
-
-      <div class="form-group">
-        <label class="text-white">Select Exercises:</label>
-        <div class="row">
-          <div th:each="exercise, exerciseStat: ${exercises}" class="col-md-4 mb-3">
-            <div class="card-exercise d-flex align-items-center justify-content-end">
-              <div class="card-body">
-                <input type="checkbox" class="form-check-input"
-                       th:id="'exercise-' + ${exercise.id}" name="selectedExerciseIds"
-                       th:value="${exercise.id}" />
-                <label class="form-check-label" th:for="'exercise-' + ${exercise.id}">
-                  <span th:text="${exercise.name}"></span>
-                </label>
-
-                <div class="form-group">
-                  <label th:for="'sets-' + ${exerciseStat.index}">Sets</label>
-                  <input type="number" class="form-control"
-                         th:id="'sets-' + ${exerciseStat.index}" th:name="sets" th:value="${exercise.sets}" />
-                </div>
-
-                <div class="form-group">
-                  <label th:for="'reps-' + ${exerciseStat.index}">Reps</label>
-                  <input type="number" class="form-control"
-                         th:id="'reps-' + ${exerciseStat.index}"  th:name="reps" th:value="${exercise.reps}"  />
-                </div>
-              </div>
-            </div>
-          </div>
+        <div class="form-group">
+            <label for="name" class="text-white">Workout Name</label>
+            <input type="text" class="form-control bg-light" id="name" th:field="*{name}">
         </div>
-      </div>
+        <div class="form-group">
+            <label for="level" class="text-white">Level</label>
+            <select class="form-control" id="level" name="level">
+                <option value="">Select Level</option>
+                <option th:each="level : ${T(com.softuni.fitlaunch.model.enums.LevelEnum).values()}"
+                        th:value="${level}"
+                        th:text="${level}"></option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="description" class="text-white">Description</label>
+            <textarea class="form-control bg-light" id="description" th:field="*{description}" rows="4"></textarea>
+        </div>
 
-      <button type="submit" class="btn btn-primary btn-create-workout">Create Workout</button>
+        <div class="form-group">
+            <input type="hidden" name="id" id="workoutId" th:value="${createWorkoutDTO.id}">
+            <label for="imgUrl" class="text-white">
+                <img src="/images/add-img.jpg" alt="Upload Image" style="max-width: 100%; height: auto;">
+            </label>
+            <input type="file" class="form-control bg-light" id="imgUrl" name="picture" th:field="*{imgUrl}"
+                   accept="image/*">
+        </div>
+
+        <div class="form-group">
+            <label class="text-white">Select Exercises:</label>
+            <div class="row">
+                <div th:each="exercise, exerciseStat: ${exercises}" class="col-md-4 mb-3">
+                    <div class="card-exercise d-flex align-items-center justify-content-end">
+                        <div class="card-body">
+                            <input type="checkbox" class="form-check-input"
+                                   th:id="'exercise-' + ${exercise.id}" name="selectedExerciseIds"
+                                   th:value="${exercise.id}"/>
+                            <label class="form-check-label" th:for="'exercise-' + ${exercise.id}">
+                                <span th:text="${exercise.name}"></span>
+                            </label>
+
+                            <div class="form-group">
+                                <label th:for="'sets-' + ${exerciseStat.index}">Sets</label>
+                                <input type="number" class="form-control"
+                                       th:id="'sets-' + ${exerciseStat.index}" th:name="sets"
+                                       th:value="${exercise.sets}"/>
+                            </div>
+
+                            <div class="form-group">
+                                <label th:for="'reps-' + ${exerciseStat.index}">Reps</label>
+                                <input type="number" class="form-control"
+                                       th:id="'reps-' + ${exerciseStat.index}" th:name="reps"
+                                       th:value="${exercise.reps}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-create-workout">Create Workout</button>
     </form>
-  </div>
+</div>
 
 
 <div>
     <footer th:replace="~{fragments/footer}"></footer>
-  </div>
+</div>
 
-  <script>
+<script>
     function addExercise(button) {
-      let exerciseId = button.getAttribute("data-exercise-id");
-      let exerciseName = button.previousElementSibling.textContent;
+        let exerciseId = button.getAttribute("data-exercise-id");
+        let exerciseName = button.previousElementSibling.textContent;
 
-      let listItem = document.createElement("li");
-      listItem.className = "list-group-item";
-      listItem.textContent = exerciseName;
+        let listItem = document.createElement("li");
+        listItem.className = "list-group-item";
+        listItem.textContent = exerciseName;
 
-      let selectedExercises = document.getElementById("selectedExercises");
-      selectedExercises.appendChild(listItem);
+        let selectedExercises = document.getElementById("selectedExercises");
+        selectedExercises.appendChild(listItem);
 
-      button.previousElementSibling.style.display = "none";
-      button.style.display = "none";
+        button.previousElementSibling.style.display = "none";
+        button.style.display = "none";
     }
 
-  </script>
+</script>
 </body>
 </html>

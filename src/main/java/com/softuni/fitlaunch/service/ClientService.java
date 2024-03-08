@@ -5,6 +5,7 @@ import com.softuni.fitlaunch.model.dto.program.ProgramWeekWorkoutDTO;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.entity.ClientEntity;
 import com.softuni.fitlaunch.model.entity.ProgramWeekWorkoutEntity;
+import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.repository.ClientRepository;
 import com.softuni.fitlaunch.repository.ProgramWeekWorkoutRepository;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
@@ -26,6 +27,12 @@ public class ClientService {
         this.modelMapper = modelMapper;
     }
 
+    public ClientDTO registerClient(UserEntity userEntity) {
+        ClientEntity clientEntity = modelMapper.map(userEntity, ClientEntity.class);
+        clientEntity.setCoach(null);
+        clientRepository.save(clientEntity);
+        return modelMapper.map(clientEntity, ClientDTO.class);
+    }
 
     public ClientDTO getClientByUsername(String username) {
         ClientEntity clientEntity = clientRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("Client with username " + username + " was not found"));

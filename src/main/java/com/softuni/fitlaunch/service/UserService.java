@@ -48,21 +48,16 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    
+
     private final RoleRepository roleRepository;
-    private final WorkoutRepository workoutRepository;
 
     private final ProgramWeekWorkoutRepository programWeekWorkoutRepository;
-    private final ProgramWeekRepository programWeekRepository;
 
-    private final WorkoutExerciseRepository workoutExerciseRepository;
 
-    private final ExerciseRepository exerciseRepository;
-    
-    private final CoachRepository coachRepository;
-    private final ClientRepository clientRepository;
+    private final CoachService coachService;
+    private final ClientService clientService;
 
-    private final ProgramRepository programRepository;
+    private final ProgramService programService;
 
     private final ModelMapper modelMapper;
 
@@ -73,18 +68,14 @@ public class UserService {
     private final FileUpload fileUpload;
 
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository, WorkoutRepository workoutRepository, ProgramWeekWorkoutRepository programWeekWorkoutRepository, ProgramWeekRepository programWeekRepository, WorkoutExerciseRepository workoutExerciseRepository, ExerciseRepository exerciseRepository, CoachRepository coachRepository, ClientRepository clientRepository, ProgramRepository programRepository, ModelMapper modelMapper, ApplicationEventPublisher applicationEventPublisher, UserActivationCodeRepository userActivationCodeRepository, FileUpload fileUpload) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository, ProgramWeekWorkoutRepository programWeekWorkoutRepository, CoachService coachService, ClientService clientService, ProgramService programService, ModelMapper modelMapper, ApplicationEventPublisher applicationEventPublisher, UserActivationCodeRepository userActivationCodeRepository, FileUpload fileUpload) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
-        this.workoutRepository = workoutRepository;
         this.programWeekWorkoutRepository = programWeekWorkoutRepository;
-        this.programWeekRepository = programWeekRepository;
-        this.workoutExerciseRepository = workoutExerciseRepository;
-        this.exerciseRepository = exerciseRepository;
-        this.coachRepository = coachRepository;
-        this.clientRepository = clientRepository;
-        this.programRepository = programRepository;
+        this.coachService = coachService;
+        this.clientService = clientService;
+        this.programService = programService;
         this.modelMapper = modelMapper;
         this.applicationEventPublisher = applicationEventPublisher;
         this.userActivationCodeRepository = userActivationCodeRepository;
@@ -95,13 +86,13 @@ public class UserService {
 
         boolean isFirst = userRepository.count() == 0;
 
-        if(!userRegisterDTO.getPassword().equals(userRegisterDTO.getConfirmPassword())) {
+        if (!userRegisterDTO.getPassword().equals(userRegisterDTO.getConfirmPassword())) {
             return false;
         }
 
         Optional<UserEntity> dbUser = userRepository.findByUsername(userRegisterDTO.getUsername());
 
-        if(dbUser.isPresent()) {
+        if (dbUser.isPresent()) {
             return false;
         }
 
@@ -116,24 +107,17 @@ public class UserService {
         user.setImgUrl("/images/profile-avatar.jpg");
 
 
-        if(userRegisterDTO.getTitle().equals((UserTitleEnum.CLIENT.name()))) {
+        if (userRegisterDTO.getTitle().equals((UserTitleEnum.CLIENT.name()))) {
             user.setMembership("Free");
         } else {
             user.setMembership("Yearly");
         }
         user.setTitle(UserTitleEnum.valueOf(userRegisterDTO.getTitle()));
-        
-        if(isClient(user)) {
-            ClientEntity clientEntity = modelMapper.map(user, ClientEntity.class);
-            clientEntity.setCoach(null);
-            clientRepository.save(clientEntity);
+
+        if (isClient(user)) {
+            clientService.registerClient(user);
         } else {
-            CoachEntity coachEntity = modelMapper.map(user, CoachEntity.class);
-            coachEntity.setRating(1.0);
-            coachEntity.setPrograms(programRepository.findAll());
-            coachEntity.setClients(new ArrayList<>());
-            coachEntity.setRole(UserRoleEnum.ADMIN);
-            coachRepository.save(coachEntity);
+            coachService.registerCoach(user);
         }
         userRepository.save(user);
 
@@ -174,7 +158,7 @@ public class UserService {
         UserEntity user = userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("User with " + username + " doesn't exist"));
 
         for (ProgramWeekWorkoutEntity weekWorkoutEntity : user.getWorkoutsStarted()) {
-            if(weekWorkoutEntity.getId().equals(programWeekWorkoutDTO.getId())) {
+            if (weekWorkoutEntity.getId().equals(programWeekWorkoutDTO.getId())) {
                 return true;
             }
         }
@@ -183,17 +167,16 @@ public class UserService {
     }
 
     public void completeProgramWorkout(String username, ProgramWeekWorkoutDTO programWeekWorkoutDTO) {
-        ClientEntity clientEntity = clientRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("Client with " + username + " was not found"));
-
-        ProgramWeekWorkoutEntity programWeekWorkoutEntity = programWeekWorkoutRepository.findById(programWeekWorkoutDTO.getId()).orElseThrow(() -> new ObjectNotFoundException("Workout not found"));
-        clientEntity.getCompletedWorkouts().add(programWeekWorkoutEntity);
-        clientRepository.save(clientEntity);
+        ClientDTO clientByUsername = clientService.getClientByUsername(username);
+        ProgramWeekWorkoutDTO weekWorkoutById = programService.getWeekWorkoutById(programWeekWorkoutDTO.getId());
+        clientService.completedProgramWorkout(clientByUsername, weekWorkoutById);
     }
 
     public boolean isWorkoutCompleted(String username, ProgramWeekWorkoutDTO programWeekWorkoutDTO) {
-        ClientEntity clientEntity = clientRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("Client with " + username + " was not found"));
-        for (ProgramWeekWorkoutEntity weekWorkoutEntity : clientEntity.getCompletedWorkouts()) {
-            if(weekWorkoutEntity.getId().equals(programWeekWorkoutDTO.getId())) {
+        ClientDTO clientDTO = clientService.getClientByUsername(username);
+
+        for (ProgramWeekWorkoutDTO weekWorkoutDTO : clientDTO.getCompletedWorkouts()) {
+            if (weekWorkoutDTO.getId().equals(programWeekWorkoutDTO.getId())) {
                 return true;
             }
         }
@@ -203,36 +186,35 @@ public class UserService {
 
     public void like(UserDTO loggedUser, Long workoutId) {
         UserEntity userEntity = userRepository.findByUsername(loggedUser.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
-        ProgramWeekWorkoutEntity workoutEntity = programWeekWorkoutRepository.findById(workoutId).orElseThrow(() -> new RuntimeException("Workout not found"));
-        Long oldLikes = workoutEntity.getLikes();
-        userEntity.getWorkoutsLiked().add(workoutEntity);
-        workoutEntity.setLikes(oldLikes + 1);
+        ProgramWeekWorkoutEntity weekWorkout = programService.getWeekWorkoutEntityById(workoutId);
+        Long oldLikes = weekWorkout.getLikes();
 
-
-        programWeekWorkoutRepository.save(workoutEntity);
+        userEntity.getWorkoutsLiked().add(weekWorkout);
+        weekWorkout.setLikes(oldLikes + 1);
+//        programWeekWorkoutRepository.save(workoutEntity);
         userRepository.save(userEntity);
     }
 
     public void dislike(UserDTO loggedUser, Long workoutId) {
         UserEntity userEntity = userRepository.findByUsername(loggedUser.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
-        ProgramWeekWorkoutEntity workoutEntity = programWeekWorkoutRepository.findById(workoutId).orElseThrow(() -> new RuntimeException("Workout not found"));
+        ProgramWeekWorkoutEntity weekWorkout = programService.getWeekWorkoutEntityById(workoutId);;
 
-        Long oldLikes = workoutEntity.getLikes();
-        userEntity.getWorkoutsLiked().remove(workoutEntity);
-        if(oldLikes - 1 < 0) {
-            workoutEntity.setLikes(0L);
+        Long oldLikes = weekWorkout.getLikes();
+        userEntity.getWorkoutsLiked().remove(weekWorkout);
+        if (oldLikes - 1 < 0) {
+            weekWorkout.setLikes(0L);
         } else {
-            workoutEntity.setLikes(oldLikes - 1);
+            weekWorkout.setLikes(oldLikes - 1);
         }
 
-        programWeekWorkoutRepository.save(workoutEntity);
+        programWeekWorkoutRepository.save(weekWorkout);
         userRepository.save(userEntity);
     }
 
     public boolean isWorkoutLiked(UserDTO loggedUser, ProgramWeekWorkoutDTO programWeekWorkoutDTO) {
         UserEntity user = userRepository.findByUsername(loggedUser.getUsername()).orElseThrow(() -> new ObjectNotFoundException("User with " + loggedUser.getUsername() + " doesn't exist"));
         for (ProgramWeekWorkoutEntity likedWorkout : user.getWorkoutsLiked()) {
-            if(likedWorkout.getId().equals(programWeekWorkoutDTO.getId())) {
+            if (likedWorkout.getId().equals(programWeekWorkoutDTO.getId())) {
                 return true;
             }
         }
@@ -243,9 +225,9 @@ public class UserService {
     public void changeUserRole(String username, UserRoleEntity role) {
         Optional<UserEntity> optUser = userRepository.findByUsername(username);
 
-        if(optUser.isPresent()) {
+        if (optUser.isPresent()) {
             UserEntity user = optUser.get();
-            if(user.getRoles() == null) {
+            if (user.getRoles() == null) {
                 user.setRoles(new ArrayList<>());
             }
 
@@ -259,10 +241,8 @@ public class UserService {
 
     @Transactional
     public List<WorkoutDTO> getCompletedWorkouts(String username) {
-        ClientEntity clientEntity = clientRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("User not found"));
-        List<WorkoutDTO> completedWorkouts = clientEntity.getCompletedWorkouts().stream().map(workoutEntity -> modelMapper.map(workoutEntity, WorkoutDTO.class)).toList();
-
-        return completedWorkouts;
+        ClientDTO clientByUsername = clientService.getClientByUsername(username);;
+        return clientByUsername.getCompletedWorkouts().stream().map(workoutEntity -> modelMapper.map(workoutEntity, WorkoutDTO.class)).toList();
     }
 
 
@@ -270,7 +250,7 @@ public class UserService {
         Optional<UserEntity> optUser =
                 userRepository.findByUsername(userDTO.getEmail());
 
-        if(optUser.isEmpty()) {
+        if (optUser.isEmpty()) {
             throw new UsernameNotFoundException("User not found");
         }
 
@@ -317,20 +297,18 @@ public class UserService {
     }
 
 
-
     public void completeProgramWorkoutExercise(UserDTO loggedUser, Long weekId, Long workoutId, Long exerciseId) {
         UserEntity userEntity = userRepository.findByUsername(loggedUser.getUsername()).orElseThrow(() -> new ObjectNotFoundException("User not found"));
         ProgramWeekWorkoutEntity programWeekWorkoutEntity = programWeekWorkoutRepository.findById(workoutId).orElseThrow(() -> new ObjectNotFoundException("Workout not found"));
 
         for (ProgramWorkoutExerciseEntity exercise : programWeekWorkoutEntity.getExercises()) {
-            if(exercise.getId().equals(exerciseId)) {
+            if (exercise.getId().equals(exerciseId)) {
                 userEntity.getProgramExercisesCompleted().add(exercise);
                 userRepository.save(userEntity);
                 return;
             }
         }
     }
-
 
 
     public UserProfileView uploadProfilePicture(String username, MultipartFile profilePicture) throws IOException {
@@ -352,9 +330,10 @@ public class UserService {
     }
 
     public boolean hasCompletedWorkout(ClientDTO clientDTO, ProgramWeekWorkoutDTO programWeekWorkoutDTO) {
-        ClientEntity clientEntity = clientRepository.findByUsername(clientDTO.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
-        for (ProgramWeekWorkoutEntity programWeekWorkoutEntity : clientEntity.getCompletedWorkouts()) {
-            if(programWeekWorkoutEntity.getId().equals(programWeekWorkoutDTO.getId())) {
+        ClientDTO clientByUsername = clientService.getClientByUsername(clientDTO.getUsername());
+
+        for (ProgramWeekWorkoutDTO completedWorkout : clientByUsername.getCompletedWorkouts()) {
+            if (completedWorkout.getId().equals(programWeekWorkoutDTO.getId())) {
                 return true;
             }
         }

@@ -27,9 +27,9 @@ public class WorkoutsController {
     @GetMapping("/all")
     public String all(Model model,
                       @PageableDefault(
-            size = 3,
-            sort = "id"
-    ) Pageable pageable) {
+                              size = 3,
+                              sort = "id"
+                      ) Pageable pageable) {
 
         Page<WorkoutDTO> allWorkouts = workoutService.getAllWorkouts(pageable);
         List<LevelEnum> allLevels = workoutService.getAllLevels();

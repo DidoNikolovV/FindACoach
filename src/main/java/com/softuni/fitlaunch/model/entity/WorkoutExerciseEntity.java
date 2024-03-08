@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "workout_exercises")
-public class WorkoutExerciseEntity extends BaseEntity{
+public class WorkoutExerciseEntity extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "workout_id")
@@ -29,7 +29,6 @@ public class WorkoutExerciseEntity extends BaseEntity{
 
     @Column(nullable = false)
     private boolean isCompleted;
-
 
 
     public WorkoutEntity getWorkout() {

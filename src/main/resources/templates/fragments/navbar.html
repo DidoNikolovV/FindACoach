@@ -11,14 +11,16 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'CLIENT', 'COACH')">
-                    <a class="nav-link text-white h6" th:href="@{/users/{username}/calendar(username=${#authentication.principal.username})}">My Calendar</a>
+                    <a class="nav-link text-white h6"
+                       th:href="@{/users/{username}/calendar(username=${#authentication.principal.username})}">My
+                        Calendar</a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'COACH', 'CLIENT')">
                     <a class="nav-link text-white h6" href="/programs/all">Programs</a>
                 </li>
-<!--                <li class="nav-item">-->
-<!--                    <a class="nav-link text-white h6" href="/workouts/all">Workouts</a>-->
-<!--                </li>-->
+                <!--                <li class="nav-item">-->
+                <!--                    <a class="nav-link text-white h6" href="/workouts/all">Workouts</a>-->
+                <!--                </li>-->
                 <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'CLIENT')">
                     <a class="nav-link text-white h6" href="/coaches/all">Coaches</a>
                 </li>
@@ -38,7 +40,9 @@
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <div class="form-inline my-2 my-lg-0 border px-3">
                         <div class="logged-user text-white">
-                            Welcome, <th:block sec:authentication="name"></th:block>!
+                            Welcome,
+                            <th:block sec:authentication="name"></th:block>
+                            !
                         </div>
                         <form th:method="post" th:action="@{/users/logout}">
                             <input type="submit" class="btn btn-link text-white" value="Logout"/>
@@ -68,9 +72,9 @@
         </div>
     </div>
 </nav>
-    <script>
-        $(document).ready(function() {
-            $('.dropdown-toggle').dropdown();
-        });
-    </script>
+<script>
+    $(document).ready(function () {
+        $('.dropdown-toggle').dropdown();
+    });
+</script>
 </html>

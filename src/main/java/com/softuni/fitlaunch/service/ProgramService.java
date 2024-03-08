@@ -57,6 +57,15 @@ public class ProgramService {
         return programRepository.findAll().stream().map(programEntity -> modelMapper.map(programEntity, ProgramDTO.class)).toList();
     }
 
+    public ProgramWeekWorkoutDTO getWeekWorkoutById(Long id) {
+        ProgramWeekWorkoutEntity programWeekWorkoutEntity = programWeekWorkoutRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Workout not found"));
+        return modelMapper.map(programWeekWorkoutEntity, ProgramWeekWorkoutDTO.class);
+    }
+
+    public ProgramWeekWorkoutEntity getWeekWorkoutEntityById(Long id) {
+        return programWeekWorkoutRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Workout not found"));
+    }
+
     public List<ProgramWeekDTO> getAllWeeksByProgramId(Long programId, ClientDTO clientDTO) {
         List<ProgramWeekEntity> programWeeks = programWeekRepository.findAllByProgramId(programId).orElseThrow(() -> new ObjectNotFoundException("Program with id " + programId + " was not found"));
         ClientEntity clientEntity = clientRepository.findByUsername(clientDTO.getUsername()).orElseThrow(() -> new ObjectNotFoundException("Client with " + clientDTO.getUsername() + " was not found"));
@@ -66,7 +75,7 @@ public class ProgramService {
 
         for (ProgramWeekEntity programWeek : programWeeks) {
             for (ProgramWeekWorkoutEntity weekWorkout : programWeek.getWeekWorkouts()) {
-                if(workoutsCompleted.contains(weekWorkout)) {
+                if (workoutsCompleted.contains(weekWorkout)) {
                     weekWorkout.setCompleted(true);
                 }
             }
@@ -95,7 +104,7 @@ public class ProgramService {
         List<ProgramWorkoutExerciseEntity> programExercises = programWeekWorkoutEntity.getExercises();
 
         for (ProgramWorkoutExerciseEntity programExercise : programExercises) {
-            if(userProgramExercisesCompleted.contains(programExercise)) {
+            if (userProgramExercisesCompleted.contains(programExercise)) {
                 programExercise.setCompleted(true);
             }
         }

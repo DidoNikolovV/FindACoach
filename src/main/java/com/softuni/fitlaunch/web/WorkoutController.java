@@ -51,7 +51,7 @@ public class WorkoutController {
     @GetMapping("/workouts/add")
     public String add(Model model) {
 
-        if(!model.containsAttribute("createWorkoutDTO")) {
+        if (!model.containsAttribute("createWorkoutDTO")) {
             model.addAttribute("createWorkoutDTO", new CreateWorkoutDTO());
         }
 

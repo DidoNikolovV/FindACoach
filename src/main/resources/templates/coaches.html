@@ -2,28 +2,30 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head}"></head>
 <body class="d-flex flex-column h-100">
-  <div th:replace="~{fragments/navbar}">
-  </div>
+<div th:replace="~{fragments/navbar}">
+</div>
 
-  <div class="container-fluid d-flex">
+<div class="container-fluid d-flex">
     <div class="row justify-content-center">
-      <div th:each="coach : ${allCoaches}" th:object="${coach}" class="col-md-4 col-lg-4 mb-4" style="margin-right: 5rem;">
-        <div class="card border-0">
-            <img th:src="*{imgUrl}" class="card-img-top" alt="Coach Image">
-          <div class="card-body">
-            <h5 class="card-title" th:text="'Username: ' + *{username}"></h5>
-            <i class="fa-solid fa-envelope"></i>
-            <span class="card-text" th:text="*{email}"></span>
-            <p class="card-text" th:text="*{description}"></p>
-          </div>
-          <a th:href="@{/coaches/{id}(id=*{id})}" type="submit" class="btn btn-info mt-2" style="width: 100%;">Coach Details</a>
+        <div th:each="coach : ${allCoaches}" th:object="${coach}" class="col-md-4 col-lg-4 mb-4"
+             style="margin-right: 5rem;">
+            <div class="card border-0">
+                <img th:src="*{imgUrl}" class="card-img-top" alt="Coach Image">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="'Username: ' + *{username}"></h5>
+                    <i class="fa-solid fa-envelope"></i>
+                    <span class="card-text" th:text="*{email}"></span>
+                    <p class="card-text" th:text="*{description}"></p>
+                </div>
+                <a th:href="@{/coaches/{id}(id=*{id})}" type="submit" class="btn btn-info mt-2" style="width: 100%;">Coach
+                    Details</a>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
+</div>
 
 
-  <footer th:replace="~{fragments/footer}"></footer>
+<footer th:replace="~{fragments/footer}"></footer>
 
 </body>
 </html>

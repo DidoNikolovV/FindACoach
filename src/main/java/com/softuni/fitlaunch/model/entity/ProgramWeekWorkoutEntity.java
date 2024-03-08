@@ -20,7 +20,7 @@ import java.util.List;
 @Table(name = "programs_weeks_workouts")
 @Getter
 @Setter
-public class ProgramWeekWorkoutEntity extends BaseEntity{
+public class ProgramWeekWorkoutEntity extends BaseEntity {
 
     @Column(nullable = false)
     private String name;

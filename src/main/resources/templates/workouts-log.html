@@ -15,52 +15,53 @@
             <th>Action</th>
         </tr>
         </thead>
-        <tbody class="table-light" th:each="completedWorkout: ${completedWorkouts}" >
+        <tbody class="table-light" th:each="completedWorkout: ${completedWorkouts}">
         <!-- Display workout date and name -->
         <tr>
             <td>2024-01-01</td>
             <td th:text="${completedWorkout.name}">Workout</td>
             <!-- Button to view additional details -->
             <td>
-                <button type="button" class="btn btn-info" data-toggle="modal" th:data-target="'#modal_' + ${completedWorkout.id}">
+                <button type="button" class="btn btn-info" data-toggle="modal"
+                        th:data-target="'#modal_' + ${completedWorkout.id}">
                     View Details
                 </button>
             </td>
         </tr>
         </tbody>
-        </table>
+    </table>
 
-        <div th:id="'modal_' + ${completedWorkout.id}" th:each="completedWorkout : ${completedWorkouts}" class="modal fade">
-            <div class="modal-dialog modal-lg mt-7">
-                <div class="modal-content p-5">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <table class="table">
-                                <thead class="thead-dark width: 100">
-                                <tr>
-                                    <th>Exercise</th>
-                                    <th>Weight (kg)</th>
-                                    <th>Sets</th>
-                                    <th>Reps</th>
-                                </tr>
-                                </thead>
-                                <tbody class="table-light">
-                                <tr class="text-container" th:each="exercise: ${completedWorkout.exercises}">
-                                    <td th:text="${exercise.exercise.name}">Bench Press</td>
-                                    <td>150</td>
-                                    <td th:text="${exercise.sets}"></td>
-                                    <td th:text="${exercise.reps}"></td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
-
+    <div th:id="'modal_' + ${completedWorkout.id}" th:each="completedWorkout : ${completedWorkouts}" class="modal fade">
+        <div class="modal-dialog modal-lg mt-7">
+            <div class="modal-content p-5">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table class="table">
+                            <thead class="thead-dark width: 100">
+                            <tr>
+                                <th>Exercise</th>
+                                <th>Weight (kg)</th>
+                                <th>Sets</th>
+                                <th>Reps</th>
+                            </tr>
+                            </thead>
+                            <tbody class="table-light">
+                            <tr class="text-container" th:each="exercise: ${completedWorkout.exercises}">
+                                <td th:text="${exercise.exercise.name}">Bench Press</td>
+                                <td>150</td>
+                                <td th:text="${exercise.sets}"></td>
+                                <td th:text="${exercise.reps}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <footer th:replace="~{fragments/footer}"></footer>
+<footer th:replace="~{fragments/footer}"></footer>
 </body>
 </html>

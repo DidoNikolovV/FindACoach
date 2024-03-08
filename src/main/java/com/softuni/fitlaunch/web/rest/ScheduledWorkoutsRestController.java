@@ -45,7 +45,7 @@ public class ScheduledWorkoutsRestController {
     @GetMapping("/{username}/calendar/scheduledWorkouts")
     public ResponseEntity<List<ScheduledWorkoutView>> getAllScheduledWorkouts(@PathVariable("username") String username) {
         UserDTO userByUsername = userService.getUserByUsername(username);
-        if(userByUsername.getTitle().equals(UserTitleEnum.CLIENT)) {
+        if (userByUsername.getTitle().equals(UserTitleEnum.CLIENT)) {
             ClientDTO clientByUsername = clientService.getClientByUsername(username);
             List<ScheduledWorkoutView> allClientScheduledWorkouts = scheduleWorkoutService.getAllClientScheduledWorkouts(clientByUsername);
             return ResponseEntity.ok(allClientScheduledWorkouts);

@@ -26,7 +26,7 @@ public class ExerciseService {
     }
 
     public ExerciseEntity getExerciseById(Long id) {
-       return exerciseRepository.findById(id).orElse(null);
+        return exerciseRepository.findById(id).orElse(null);
     }
 
     public void saveExercise(ExerciseEntity exercise) {

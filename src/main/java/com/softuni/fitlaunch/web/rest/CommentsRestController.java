@@ -56,7 +56,7 @@ public class CommentsRestController {
     @PostMapping(value = "/{programId}/{weekId}/{workoutId}/comments", consumes = "application/json", produces = "application/json")
     public ResponseEntity<CommentView> postComment(@PathVariable("programId") Long programId,
                                                    @PathVariable("weekId") Long weekId,
-                                                    @PathVariable("workoutId") Long workoutId,
+                                                   @PathVariable("workoutId") Long workoutId,
                                                    @RequestBody CommentMessageDTO commentMessageDTO,
                                                    Principal principal) {
 
@@ -84,13 +84,13 @@ public class CommentsRestController {
                                                      @PathVariable("weekId") Long weekId,
                                                      @PathVariable("workoutId") Long workoutId,
                                                      @PathVariable("commentId") Long commentId,
-                                                         Principal principal) {
+                                                     Principal principal) {
 
         UserDTO user = userService.getUserByUsername(principal.getName());
 
         CommentView comment = commentService.getComment(commentId);
 
-        if(user.getRoles().stream().anyMatch(r -> r.getRole().equals(UserRoleEnum.ADMIN)) || user.getUsername().equals(comment.getAuthorUsername())) {
+        if (user.getRoles().stream().anyMatch(r -> r.getRole().equals(UserRoleEnum.ADMIN)) || user.getUsername().equals(comment.getAuthorUsername())) {
             CommentView deleted = commentService.deleteCommentById(commentId);
             return ResponseEntity.ok().build();
         }

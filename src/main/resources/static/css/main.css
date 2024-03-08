@@ -44,7 +44,6 @@ body, h1, h2, h3, p, ul {
 }
 
 
-
 .logo {
     color: #ffcf40;
     display: inline-block;
@@ -99,7 +98,7 @@ nav li {
 
 nav a {
     text-decoration: none;
-    color: rgba(255,255,255,0.65);
+    color: rgba(255, 255, 255, 0.65);
     font-weight: bold;
     padding: 10px 15px; /* Adjust padding as needed */
     border-radius: 5px;
@@ -178,7 +177,7 @@ button.th-disabled {
     cursor: pointer;
 }
 
-.button-primary{
+.button-primary {
     border: none;
     width: 100%;
     background-color: #ff6600;
@@ -328,7 +327,7 @@ button.th-disabled {
 .card-img-top-wrapper {
     object-fit: fill;
     height: 150px;
-    overflow:hidden;
+    overflow: hidden;
 }
 
 /* Custom CSS for Create Workout Button */
@@ -415,6 +414,7 @@ button.th-disabled {
     color: #fff;
     letter-spacing: 0.03rem;
 }
+
 .program-img {
     height: 400px;
     object-fit: cover;

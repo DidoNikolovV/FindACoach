@@ -37,7 +37,7 @@ public class CoachController {
     @GetMapping("/all")
     public String allCoaches(Principal principal, Model model) {
         ClientDTO clientByUsername = coachService.getClientByUsername(principal.getName());
-        if(clientByUsername.getCoach() != null) {
+        if (clientByUsername.getCoach() != null) {
             return "redirect:/coaches/coach/" + clientByUsername.getCoach().getId();
         }
         List<UserCoachView> allCoaches = coachService.getAllCoaches();
@@ -88,7 +88,7 @@ public class CoachController {
     }
 
     @PostMapping("/{coachId}/client/information")
-    public String clientDetails(@PathVariable("coachId") Long coachId,@ModelAttribute("clientDTO") @Valid ClientDetailsDTO clientDetailsDTO, Principal principal) {
+    public String clientDetails(@PathVariable("coachId") Long coachId, @ModelAttribute("clientDTO") @Valid ClientDetailsDTO clientDetailsDTO, Principal principal) {
         coachService.setClientDetails(principal.getName(), clientDetailsDTO);
 
         ClientDTO client = coachService.getClientByUsername(principal.getName());

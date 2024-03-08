@@ -3,54 +3,56 @@
 <head th:replace="~{fragments/head}">
 </head>
 <body>
-  <nav th:replace="~{fragments/navbar}"></nav>
-  <header>
+<nav th:replace="~{fragments/navbar}"></nav>
+<header>
     <div class="container">
-      <div class="card" style="background-color: #f8f9fa;">
-        <div class="card-body" style="margin-top: 9rem; padding-top: 1rem;">
-          <div class="row">
-            <div class="col-md-4">
-              <!-- Coach Image -->
-              <img th:src="${coach.imgUrl}" alt="Coach Picture" class="img-fluid rounded">
-            </div>
-            <div class="col-md-8">
-              <!-- Coach Details -->
-              <h5 class="card-title" th:text="'Username ' + ${coach.username}"></h5>
-              <h5 class="card-title" th:text="'Email: ' + ${coach.email}"></h5>
-              <p class="card-text">Specialty: Fitness Training</p>
-              <p class="card-text">Experience: 5 years</p>
-              <!-- Add more details about the coach as needed -->
+        <div class="card" style="background-color: #f8f9fa;">
+            <div class="card-body" style="margin-top: 9rem; padding-top: 1rem;">
+                <div class="row">
+                    <div class="col-md-4">
+                        <!-- Coach Image -->
+                        <img th:src="${coach.imgUrl}" alt="Coach Picture" class="img-fluid rounded">
+                    </div>
+                    <div class="col-md-8">
+                        <!-- Coach Details -->
+                        <h5 class="card-title" th:text="'Username ' + ${coach.username}"></h5>
+                        <h5 class="card-title" th:text="'Email: ' + ${coach.email}"></h5>
+                        <p class="card-text">Specialty: Fitness Training</p>
+                        <p class="card-text">Experience: 5 years</p>
+                        <!-- Add more details about the coach as needed -->
 
-              <h6 class="mt-3">Certificates:</h6>
-              <ul class="list-group">
-                <li class="list-group-item">Certificate 1</li>
-                <li class="list-group-item">Certificate 2</li>
-                <li class="list-group-item">Certificate 3</li>
-                <!-- Add more certificates as needed -->
-              </ul>
+                        <h6 class="mt-3">Certificates:</h6>
+                        <ul class="list-group">
+                            <li class="list-group-item">Certificate 1</li>
+                            <li class="list-group-item">Certificate 2</li>
+                            <li class="list-group-item">Certificate 3</li>
+                            <!-- Add more certificates as needed -->
+                        </ul>
 
-              <div class="mt-3">
-                <a class="btn btn-info text-white h6" href="/programs/all">View All Programs</a>
-                <a class="btn btn-info text-white h6" href="/mealplans/all">Meal Plans</a>
-              </div>
-            </div>
-          </div>
-          <form th:method="POST" th:action="@{/coaches/coach/{coachId}/schedule(coachId=${coach.id})}" th:object="${scheduledWorkoutDTO}">
-            <h2 class="my-4 text-center">Schedule Workout with Your Coach</h2>
-            <div class="form-group mt-4">
-              <label for="datetime">Choose Date:</label>
-              <input type="datetime-local" class="form-control" th:field="*{scheduledDateTime}" id="datetime" name="datetime" required>
-            </div>
-            <button type="submit" class="btn btn-success">Schedule Workout</button>
+                        <div class="mt-3">
+                            <a class="btn btn-info text-white h6" href="/programs/all">View All Programs</a>
+                            <a class="btn btn-info text-white h6" href="/mealplans/all">Meal Plans</a>
+                        </div>
+                    </div>
+                </div>
+                <form th:method="POST" th:action="@{/coaches/coach/{coachId}/schedule(coachId=${coach.id})}"
+                      th:object="${scheduledWorkoutDTO}">
+                    <h2 class="my-4 text-center">Schedule Workout with Your Coach</h2>
+                    <div class="form-group mt-4">
+                        <label for="datetime">Choose Date:</label>
+                        <input type="datetime-local" class="form-control" th:field="*{scheduledDateTime}" id="datetime"
+                               name="datetime" required>
+                    </div>
+                    <button type="submit" class="btn btn-success">Schedule Workout</button>
 
-          </form>
+                </form>
+            </div>
         </div>
-      </div>
     </div>
-  </header>
+</header>
 
 
-  <footer th:include="~{fragments/footer}" class="fixed-bottom py-0"></footer>
+<footer th:include="~{fragments/footer}" class="fixed-bottom py-0"></footer>
 
 </body>
 </html>

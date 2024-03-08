@@ -4,16 +4,16 @@
 <nav th:replace="~{fragments/navbar}"></nav>
 <body>
 
-  <div class="container mt-5 justify-content-center align-items-center">
+<div class="container mt-5 justify-content-center align-items-center">
     <input type="hidden" name="username" id="username" th:value="${#authentication.principal.username}">
     <input type="hidden" name="userTitle" id="userTitle" th:value="${userTitle}">
     <div id="calendar"></div>
-  </div>
+</div>
 
-  <footer th:include="~{fragments/footer}" class="fixed-bottom py-0"></footer>
+<footer th:include="~{fragments/footer}" class="fixed-bottom py-0"></footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-  <script th:src="@{/js/evo-calendar.min.js}"></script>
-  <script th:src="@{/js/scheduledWorkouts.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script th:src="@{/js/evo-calendar.min.js}"></script>
+<script th:src="@{/js/scheduledWorkouts.js}"></script>
 </body>
 </html>

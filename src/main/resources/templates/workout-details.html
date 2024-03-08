@@ -17,9 +17,11 @@
             <h5 class="card-title text-primary" th:text="*{name}"></h5>
             <div class="d-flex justify-content-center align-items-center mt-3">
                 <div th:if="${hasStarted}">
-                    <form th:method="POST" th:action="@{/workouts/complete/{programId}/{weekId}/{id}(programId=${program.id}, weekId=${week.id}, id=${workout.id})}">
+                    <form th:method="POST"
+                          th:action="@{/workouts/complete/{programId}/{weekId}/{id}(programId=${program.id}, weekId=${week.id}, id=${workout.id})}">
                         <div th:unless="${isCompleted}">
-                            <input type="submit" name="completeWorkout" id="completeWorkout" class="btn btn-primary" value="Complete Workout">
+                            <input type="submit" name="completeWorkout" id="completeWorkout" class="btn btn-primary"
+                                   value="Complete Workout">
                         </div>
                         <div th:if="${isCompleted}">
                             <button type="button" class="btn btn-success" disabled>Workout Completed</button>
@@ -27,8 +29,10 @@
                     </form>
                 </div>
                 <div th:unless="${hasStarted}">
-                    <form th:method="POST" th:action="@{/workouts/start/{programId}/{weekId}/{id}(programId=${program.id}, weekId=${week.id}, id=${workout.id})}">
-                        <input type="submit" name="startWorkout" id="startWorkout" class="btn btn-success" value="Start Workout">
+                    <form th:method="POST"
+                          th:action="@{/workouts/start/{programId}/{weekId}/{id}(programId=${program.id}, weekId=${week.id}, id=${workout.id})}">
+                        <input type="submit" name="startWorkout" id="startWorkout" class="btn btn-success"
+                               value="Start Workout">
                     </form>
                 </div>
             </div>
@@ -38,7 +42,8 @@
                 <span id="likesCount" class="text-primary" th:text="${workout.likes}"></span>
             </div>
 
-            <form id="likesForm" method="POST" th:action="@{/workouts/like/{programId}/{weekId}/{id}(programId=${program.id}, weekId=${week.id}, id=${workout.id})}">
+            <form id="likesForm" method="POST"
+                  th:action="@{/workouts/like/{programId}/{weekId}/{id}(programId=${program.id}, weekId=${week.id}, id=${workout.id})}">
                 <button type="submit" class="btn btn-link">
                     <div th:if="${hasLiked}">
                         <i class="fa-solid fa-lg fa-thumbs-down text-primary"></i>
@@ -78,11 +83,13 @@
                             <span th:text="${exercise.reps}"></span>
                         </div>
                         <div>
-                            <iframe class="w-100" th:src="'https://www.youtube.com/embed/' + ${exercise.getExercise().getVideoUrl()}"
+                            <iframe class="w-100"
+                                    th:src="'https://www.youtube.com/embed/' + ${exercise.getExercise().getVideoUrl()}"
                                     height="100" frameborder="0" allowfullscreen></iframe>
                         </div>
                         <div th:if="*{hasStarted}">
-                            <form th:method="POST" th:action="@{/workouts/{programId}/{weekId}/{workoutId}/complete/{exerciseId}(programId=${program.id}, weekId=${week.id}, workoutId=${workout.id}, exerciseId=${exercise.getId()})}">
+                            <form th:method="POST"
+                                  th:action="@{/workouts/{programId}/{weekId}/{workoutId}/complete/{exerciseId}(programId=${program.id}, weekId=${week.id}, workoutId=${workout.id}, exerciseId=${exercise.getId()})}">
                                 <button type="submit" class="btn btn-link" th:if="${exercise.completed}">
                                     <i class="fa-solid fa-lg fa-circle-check text-success"></i>
                                 </button>
@@ -107,7 +114,8 @@
                 <div class="form-group">
                     <h4>Leave a comment</h4>
                     <label for="message">Message</label>
-                    <textarea name="message" id="message" cols="30" rows="5" class="form-control" style="background-color: white;"></textarea>
+                    <textarea name="message" id="message" cols="30" rows="5" class="form-control"
+                              style="background-color: white;"></textarea>
                 </div>
                 <div class="form-group">
                     <input type="submit" class="btn btn-primary" id="postComment" value="Post Comment"/>
@@ -123,29 +131,29 @@
 <footer th:replace="~{fragments/footer}"></footer>
 
 
-    <script th:src="@{/js/comments.js}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+<script th:src="@{/js/comments.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
 
-    <script>
-        $(document).ready(function() {
-            $('#datetimePickerInput').datetimepicker({
-                format: 'YYYY-MM-DD HH:mm:ss',
-                sideBySide: true,
-                icons: {
-                    time: 'far fa-clock',
-                    date: 'far fa-calendar-alt',
-                    up: 'fas fa-chevron-up',
-                    down: 'fas fa-chevron-down',
-                    previous: 'fas fa-chevron-left',
-                    next: 'fas fa-chevron-right',
-                    today: 'fas fa-calendar-check',
-                    clear: 'fas fa-trash',
-                    close: 'fas fa-times'
-                }
-            });
+<script>
+    $(document).ready(function () {
+        $('#datetimePickerInput').datetimepicker({
+            format: 'YYYY-MM-DD HH:mm:ss',
+            sideBySide: true,
+            icons: {
+                time: 'far fa-clock',
+                date: 'far fa-calendar-alt',
+                up: 'fas fa-chevron-up',
+                down: 'fas fa-chevron-down',
+                previous: 'fas fa-chevron-left',
+                next: 'fas fa-chevron-right',
+                today: 'fas fa-calendar-check',
+                clear: 'fas fa-trash',
+                close: 'fas fa-times'
+            }
         });
-    </script>
+    });
+</script>
 
 </body>
 </html>

@@ -47,7 +47,7 @@ public class ProgramController {
     public String loadAllPrograms(Model model, Principal principal) {
 
         UserDTO userByUsername = userService.getUserByUsername(principal.getName());
-        if(userByUsername.getTitle().equals(UserTitleEnum.CLIENT)) {
+        if (userByUsername.getTitle().equals(UserTitleEnum.CLIENT)) {
             ClientDTO clientDTO = clientService.getClientByUsername(userByUsername.getUsername());
             List<ProgramDTO> allPrograms = programService.loadAllProgramsByCoachId(clientDTO.getCoach().getId());
             model.addAttribute("allPrograms", allPrograms);
@@ -114,8 +114,6 @@ public class ProgramController {
     }
 
 
-
-
     @PostMapping("/workouts/start/{programId}/{weekId}/{workoutId}")
     public String workoutStart(@PathVariable("programId") Long programId, @PathVariable("weekId") Long weekId, @PathVariable("workoutId") Long workoutId, Principal principal) {
 
@@ -152,14 +150,14 @@ public class ProgramController {
         boolean hasLiked = false;
 
         for (ProgramWeekWorkoutDTO likedWorkout : loggedUser.getWorkoutsLiked()) {
-            if(likedWorkout.getId().equals(programWorkout.getId())) {
+            if (likedWorkout.getId().equals(programWorkout.getId())) {
                 hasLiked = true;
                 break;
             }
         }
 
 
-        if(hasLiked) {
+        if (hasLiked) {
             userService.dislike(loggedUser, programWorkout.getId());
         } else {
             userService.like(loggedUser, programWorkout.getId());

@@ -20,7 +20,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "coaches")
-public class CoachEntity extends BaseEntity{
+public class CoachEntity extends BaseEntity {
 
 
     @Column(unique = true)

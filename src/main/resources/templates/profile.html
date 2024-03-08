@@ -40,46 +40,51 @@
 <!--      </div>-->
 <!--    </div>-->
 <!--  </div>-->
-  <div class="container mt-5">
+<div class="container mt-5">
     <div class="card" style="background-color: #f8f9fa;">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-4">
-            <img th:src="${user.imgUrl}" class="card-img-top" alt="User Profile Picture">
-            <form th:object="${user}" th:action="@{/users/profile}" th:method="POST" enctype="multipart/form-data">
-              <div class="form-group">
-                <label for="imgUrl" class="text-white">Profile Picture</label>
-                <div class="custom-file d-flex align-items-center">
-                  <img src="/images/add-img.png" alt="Upload Image" class="img-fluid" style="max-width: 50px; height: auto; margin-right: 10px;">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-4">
+                    <img th:src="${user.imgUrl}" class="card-img-top" alt="User Profile Picture">
+                    <form th:object="${user}" th:action="@{/users/profile}" th:method="POST"
+                          enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="imgUrl" class="text-white">Profile Picture</label>
+                            <div class="custom-file d-flex align-items-center">
+                                <img src="/images/add-img.png" alt="Upload Image" class="img-fluid"
+                                     style="max-width: 50px; height: auto; margin-right: 10px;">
 
-                  <input type="file" class="custom-file-input" id="imgUrl" name="picture" th:field="*{imgUrl}" accept="image/*">
-                  <label class="custom-file-label" for="imgUrl">Choose file</label>
+                                <input type="file" class="custom-file-input" id="imgUrl" name="picture"
+                                       th:field="*{imgUrl}" accept="image/*">
+                                <label class="custom-file-label" for="imgUrl">Choose file</label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Upload Picture</button>
+                    </form>
                 </div>
-              </div>
-              <button type="submit" class="btn btn-primary">Upload Picture</button>
-            </form>
-          </div>
-          <div class="col-md-8">
-            <!-- Coach Details -->
-            <h5 class="card-title" th:text="'Username: ' + ${user.username}"></h5>
-            <h5 class="card-title" th:text="'Email: ' + ${user.email}"></h5>
-            <h5 class="card-title">Coach: TODO</h5>
+                <div class="col-md-8">
+                    <!-- Coach Details -->
+                    <h5 class="card-title" th:text="'Username: ' + ${user.username}"></h5>
+                    <h5 class="card-title" th:text="'Email: ' + ${user.email}"></h5>
+                    <h5 class="card-title">Coach: TODO</h5>
 
-            <h5>Upcoming Sessions: </h5>
-            <ul th:if="${upcomingSessions.size() > 0}" class="list-group">
-              <li th:each="upcomingSession : ${upcomingSessions}" class="list-group-item">
-                <span th:text="${upcomingSession.scheduledDateTime}"></span> <!-- Display other session details as needed -->
-              </li>
-            </ul>
-            <p th:unless="${upcomingSessions.size() > 0}">No upcoming sessions</p>
-            <a class="btn btn-info mt-2" th:href="@{/users/{username}/calendar(username=${user.username})}">Check Your Calendar To See More</a>
+                    <h5>Upcoming Sessions: </h5>
+                    <ul th:if="${upcomingSessions.size() > 0}" class="list-group">
+                        <li th:each="upcomingSession : ${upcomingSessions}" class="list-group-item">
+                            <span th:text="${upcomingSession.scheduledDateTime}"></span>
+                            <!-- Display other session details as needed -->
+                        </li>
+                    </ul>
+                    <p th:unless="${upcomingSessions.size() > 0}">No upcoming sessions</p>
+                    <a class="btn btn-info mt-2" th:href="@{/users/{username}/calendar(username=${user.username})}">Check
+                        Your Calendar To See More</a>
 
-          </div>
+                </div>
 
+            </div>
         </div>
-      </div>
     </div>
-  </div>
-    <footer th:include="~{fragments/footer}" class="fixed-bottom"></footer>
+</div>
+<footer th:include="~{fragments/footer}" class="fixed-bottom"></footer>
 </body>
 </html>

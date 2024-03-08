@@ -59,7 +59,6 @@ public class WorkoutEntity extends BaseEntity {
     private List<ExerciseEntity> exercises;
 
 
-
     @Column(nullable = false)
     private boolean isCompleted = false;
 

@@ -11,7 +11,7 @@ import java.util.List;
 public interface WorkoutExerciseRepository extends JpaRepository<WorkoutExerciseEntity, Long> {
 
 
-//    @Query("SELECT we FROM WorkoutExerciseEntity we WHERE we.workout.id = :workoutId")
+    //    @Query("SELECT we FROM WorkoutExerciseEntity we WHERE we.workout.id = :workoutId")
     List<WorkoutExerciseEntity> findByWorkoutId(Long workoutId);
 
     List<WorkoutExerciseEntity> findByExerciseId(Long exerciseId);
