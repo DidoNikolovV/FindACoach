@@ -136,13 +136,22 @@ public class ProgramService {
 
     public List<ProgramDTO> loadAllProgramsByCoachId(Long coachId) {
         List<ProgramEntity> programEntities = programRepository.findAllByCoachId(coachId).orElseThrow(() -> new ObjectNotFoundException("Programs with coachId " + coachId + " not found"));
-        List<ProgramDTO> programDTOS = programEntities.stream().map(programEntity -> modelMapper.map(programEntity, ProgramDTO.class)).toList();
-        return programDTOS;
+        return programEntities.stream().map(programEntity -> modelMapper.map(programEntity, ProgramDTO.class)).toList();
     }
 
     public List<ProgramWeekWorkoutDTO> getAllWorkoutsByProgramId(Long programId) {
         List<ProgramWeekWorkoutEntity> programWeekWorkoutEntities = programWeekWorkoutRepository.findAllByProgramId(programId).orElseThrow(() -> new ObjectNotFoundException("Program with id " + programId + " not found"));
-        List<ProgramWeekWorkoutDTO> programWeekWorkoutDTOs = programWeekWorkoutEntities.stream().map(programWeekWorkoutEntity -> modelMapper.map(programWeekWorkoutEntity, ProgramWeekWorkoutDTO.class)).toList();
-        return programWeekWorkoutDTOs;
+        return programWeekWorkoutEntities.stream().map(programWeekWorkoutEntity -> modelMapper.map(programWeekWorkoutEntity, ProgramWeekWorkoutDTO.class)).toList();
+    }
+
+    public void removeLike(ProgramWeekWorkoutEntity weekWorkout) {
+        Long oldLikes = weekWorkout.getLikes();
+        if (oldLikes - 1 < 0) {
+            weekWorkout.setLikes(0L);
+        } else {
+            weekWorkout.setLikes(oldLikes - 1);
+        }
+
+        programWeekWorkoutRepository.save(weekWorkout);
     }
 }
