@@ -10,6 +10,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
@@ -50,33 +51,29 @@ public class UserEntity extends BaseEntity {
     @Column(nullable = false)
     private String membership;
 
-    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "author", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<CommentEntity> comments;
 
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "program_workouts_started",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "workout_id"))
-    private List<ProgramWeekWorkoutEntity> workoutsStarted;
+    @ManyToOne
+    private WorkoutEntity workoutStarted;
 
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "program_workouts_liked",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "workout_id"))
-    private List<ProgramWeekWorkoutEntity> workoutsLiked;
+    private List<WorkoutEntity> workoutsLiked;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "program_workout_exercises_completed",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "exercise_id"))
     private List<ProgramWorkoutExerciseEntity> programExercisesCompleted;
 
-
+    @Column(name = "activated", nullable = false)
     private boolean activated = false;
 
     @Column(name = "activation_code")

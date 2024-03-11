@@ -12,6 +12,7 @@ import com.softuni.fitlaunch.model.entity.ProgramWeekEntity;
 import com.softuni.fitlaunch.model.entity.ProgramWeekWorkoutEntity;
 import com.softuni.fitlaunch.model.entity.ProgramWorkoutExerciseEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
+import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.repository.ClientRepository;
 import com.softuni.fitlaunch.repository.CoachRepository;
 import com.softuni.fitlaunch.repository.ProgramRepository;
@@ -32,6 +33,8 @@ public class ProgramService {
 
     private final ProgramWeekRepository programWeekRepository;
 
+    private final WorkoutService workoutService;
+
     private final ProgramWeekWorkoutRepository programWeekWorkoutRepository;
 
     private final UserRepository userRepository;
@@ -42,9 +45,10 @@ public class ProgramService {
     private final ModelMapper modelMapper;
 
 
-    public ProgramService(ProgramRepository programRepository, ProgramWeekRepository programWeekRepository, ProgramWeekWorkoutRepository programWeekWorkoutRepository, UserRepository userRepository, CoachRepository coachRepository, ClientRepository clientRepository, ModelMapper modelMapper) {
+    public ProgramService(ProgramRepository programRepository, ProgramWeekRepository programWeekRepository, WorkoutService workoutService, ProgramWeekWorkoutRepository programWeekWorkoutRepository, UserRepository userRepository, CoachRepository coachRepository, ClientRepository clientRepository, ModelMapper modelMapper) {
         this.programRepository = programRepository;
         this.programWeekRepository = programWeekRepository;
+        this.workoutService = workoutService;
         this.programWeekWorkoutRepository = programWeekWorkoutRepository;
         this.userRepository = userRepository;
         this.coachRepository = coachRepository;
@@ -62,8 +66,12 @@ public class ProgramService {
         return modelMapper.map(programWeekWorkoutEntity, ProgramWeekWorkoutDTO.class);
     }
 
-    public ProgramWeekWorkoutEntity getWeekWorkoutEntityById(Long id) {
-        return programWeekWorkoutRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Workout not found"));
+//    public ProgramWeekWorkoutEntity getWeekWorkoutEntityById(Long id) {
+//        return programWeekWorkoutRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Workout not found"));
+//    }
+
+    public WorkoutEntity getWorkoutEntityById(Long id) {
+        return workoutService.getWorkoutEntityById(id);
     }
 
     public List<ProgramWeekDTO> getAllWeeksByProgramId(Long programId, ClientDTO clientDTO) {
@@ -125,8 +133,6 @@ public class ProgramService {
 
         programWeekWorkout.setHasStarted(true);
         UserEntity user = userRepository.findByUsername(userDTO.getUsername()).orElseThrow(() -> new ObjectNotFoundException("User with " + userDTO.getUsername() + " doesn't exist"));
-        user.getWorkoutsStarted().add(programWeekWorkout);
-
         programWeekWorkoutRepository.save(programWeekWorkout);
         userRepository.save(user);
 
@@ -144,14 +150,14 @@ public class ProgramService {
         return programWeekWorkoutEntities.stream().map(programWeekWorkoutEntity -> modelMapper.map(programWeekWorkoutEntity, ProgramWeekWorkoutDTO.class)).toList();
     }
 
-    public void removeLike(ProgramWeekWorkoutEntity weekWorkout) {
-        Long oldLikes = weekWorkout.getLikes();
+    public void removeLike(WorkoutEntity weekWorkout) {
+        Long oldLikes = Long.valueOf(weekWorkout.getLikes());
         if (oldLikes - 1 < 0) {
-            weekWorkout.setLikes(0L);
+            weekWorkout.setLikes(0);
         } else {
-            weekWorkout.setLikes(oldLikes - 1);
+            weekWorkout.setLikes((int) (oldLikes - 1));
         }
 
-        programWeekWorkoutRepository.save(weekWorkout);
+//        programWeekWorkoutRepository.save(weekWorkout);
     }
 }

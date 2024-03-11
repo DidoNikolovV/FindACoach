@@ -4,9 +4,14 @@ package com.softuni.fitlaunch.model.entity;
 import jakarta.persistence.Entity;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.Instant;
 
+
+@Getter
+@Setter
 @Entity
 @Table(name = "user_activation_codes")
 public class UserActivationCodeEntity extends BaseEntity {
@@ -16,30 +21,5 @@ public class UserActivationCodeEntity extends BaseEntity {
     @ManyToOne
     private UserEntity user;
 
-    public String getActivationCode() {
-        return activationCode;
-    }
 
-    public UserActivationCodeEntity setActivationCode(String activationCode) {
-        this.activationCode = activationCode;
-        return this;
-    }
-
-    public Instant getCreated() {
-        return created;
-    }
-
-    public UserActivationCodeEntity setCreated(Instant created) {
-        this.created = created;
-        return this;
-    }
-
-    public UserEntity getUser() {
-        return user;
-    }
-
-    public UserActivationCodeEntity setUser(UserEntity user) {
-        this.user = user;
-        return this;
-    }
 }

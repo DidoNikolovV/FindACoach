@@ -167,16 +167,16 @@ public class ProgramController {
         return String.format("redirect:/workouts/%d/%d/%d", programId, weekId, workoutId);
     }
 
-    @PostMapping("/workouts/{programId}/{weekId}/{workoutId}/complete/{exerciseId}")
-    public String exerciseComplete(@PathVariable("programId") Long programId,
-                                   @PathVariable("weekId") Long weekId,
-                                   @PathVariable("workoutId") Long workoutId,
-                                   @PathVariable("exerciseId") Long exerciseId,
-                                   Principal principal) {
-        UserDTO loggedUser = userService.getUserByUsername(principal.getName());
-        userService.completeProgramWorkoutExercise(loggedUser, weekId, workoutId, exerciseId);
-
-        return String.format("redirect:/workouts/%d/%d/%d", programId, weekId, workoutId);
-    }
+//    @PostMapping("/workouts/{programId}/{weekId}/{workoutId}/complete/{exerciseId}")
+//    public String exerciseComplete(@PathVariable("programId") Long programId,
+//                                   @PathVariable("weekId") Long weekId,
+//                                   @PathVariable("workoutId") Long workoutId,
+//                                   @PathVariable("exerciseId") Long exerciseId,
+//                                   Principal principal) {
+//        UserDTO loggedUser = userService.getUserByUsername(principal.getName());
+//        userService.completeProgramWorkoutExercise(loggedUser, weekId, workoutId, exerciseId);
+//
+//        return String.format("redirect:/workouts/%d/%d/%d", programId, weekId, workoutId);
+//    }
 
 }

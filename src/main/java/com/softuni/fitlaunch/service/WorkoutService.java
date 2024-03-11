@@ -45,6 +45,10 @@ public class WorkoutService {
         return modelMapper.map(workoutEntity, WorkoutDTO.class);
     }
 
+    public WorkoutEntity getWorkoutEntityById(Long id) {
+        return workoutRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Workout with id " + id + " does not exist"));
+    }
+
     public Page<WorkoutDTO> getAllWorkouts(Pageable pageable) {
         return workoutRepository
                 .findAll(pageable)

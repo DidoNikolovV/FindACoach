@@ -8,11 +8,10 @@ import com.softuni.fitlaunch.model.dto.user.UserRegisterDTO;
 import com.softuni.fitlaunch.model.dto.user.UserRoleDTO;
 import com.softuni.fitlaunch.model.dto.view.UserProfileView;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
-import com.softuni.fitlaunch.model.entity.ProgramWeekWorkoutEntity;
-import com.softuni.fitlaunch.model.entity.ProgramWorkoutExerciseEntity;
 import com.softuni.fitlaunch.model.entity.UserActivationCodeEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.UserRoleEntity;
+import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.model.enums.UserTitleEnum;
 import com.softuni.fitlaunch.model.events.UserRegisteredEvent;
 import com.softuni.fitlaunch.repository.RoleRepository;
@@ -132,19 +131,12 @@ public class UserService {
 
     public void startProgramWorkout(String username, ProgramWeekWorkoutDTO programWeekWorkoutDTO) {
         UserEntity user = userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("User with " + username + " doesn't exist"));
-        ProgramWeekWorkoutEntity weekWorkoutEntity = programService.getWeekWorkoutEntityById(programWeekWorkoutDTO.getId());
-        user.getWorkoutsStarted().add(weekWorkoutEntity);
+        WorkoutEntity weekWorkoutEntity = programService.getWorkoutEntityById(programWeekWorkoutDTO.getId());
         userRepository.save(user);
     }
 
     public boolean isWorkoutStarted(String username, ProgramWeekWorkoutDTO programWeekWorkoutDTO) {
         UserEntity user = userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("User with " + username + " doesn't exist"));
-
-        for (ProgramWeekWorkoutEntity weekWorkoutEntity : user.getWorkoutsStarted()) {
-            if (weekWorkoutEntity.getId().equals(programWeekWorkoutDTO.getId())) {
-                return true;
-            }
-        }
 
         return false;
     }
@@ -169,8 +161,8 @@ public class UserService {
 
     public void like(UserDTO loggedUser, Long workoutId) {
         UserEntity userEntity = userRepository.findByUsername(loggedUser.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
-        ProgramWeekWorkoutEntity weekWorkout = programService.getWeekWorkoutEntityById(workoutId);
-        Long oldLikes = weekWorkout.getLikes();
+        WorkoutEntity weekWorkout = programService.getWorkoutEntityById(workoutId);
+        int oldLikes = weekWorkout.getLikes();
 
         userEntity.getWorkoutsLiked().add(weekWorkout);
         weekWorkout.setLikes(oldLikes + 1);
@@ -180,8 +172,7 @@ public class UserService {
 
     public void dislike(UserDTO loggedUser, Long workoutId) {
         UserEntity userEntity = userRepository.findByUsername(loggedUser.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
-        ProgramWeekWorkoutEntity weekWorkout = programService.getWeekWorkoutEntityById(workoutId);
-        ;
+        WorkoutEntity weekWorkout = programService.getWorkoutEntityById(workoutId);
         userEntity.getWorkoutsLiked().remove(weekWorkout);
 
         programService.removeLike(weekWorkout);
@@ -190,7 +181,7 @@ public class UserService {
 
     public boolean isWorkoutLiked(UserDTO loggedUser, ProgramWeekWorkoutDTO programWeekWorkoutDTO) {
         UserEntity user = userRepository.findByUsername(loggedUser.getUsername()).orElseThrow(() -> new ObjectNotFoundException("User with " + loggedUser.getUsername() + " doesn't exist"));
-        for (ProgramWeekWorkoutEntity likedWorkout : user.getWorkoutsLiked()) {
+        for (WorkoutEntity likedWorkout : user.getWorkoutsLiked()) {
             if (likedWorkout.getId().equals(programWeekWorkoutDTO.getId())) {
                 return true;
             }
@@ -275,18 +266,18 @@ public class UserService {
     }
 
 
-    public void completeProgramWorkoutExercise(UserDTO loggedUser, Long weekId, Long workoutId, Long exerciseId) {
-        UserEntity userEntity = userRepository.findByUsername(loggedUser.getUsername()).orElseThrow(() -> new ObjectNotFoundException("User not found"));
-        ProgramWeekWorkoutEntity programWeekWorkoutEntity = programService.getWeekWorkoutEntityById(workoutId);
-
-        for (ProgramWorkoutExerciseEntity exercise : programWeekWorkoutEntity.getExercises()) {
-            if (exercise.getId().equals(exerciseId)) {
-                userEntity.getProgramExercisesCompleted().add(exercise);
-                userRepository.save(userEntity);
-                return;
-            }
-        }
-    }
+//    public void completeProgramWorkoutExercise(UserDTO loggedUser, Long weekId, Long workoutId, Long exerciseId) {
+//        UserEntity userEntity = userRepository.findByUsername(loggedUser.getUsername()).orElseThrow(() -> new ObjectNotFoundException("User not found"));
+//        WorkoutEntity programWeekWorkoutEntity = programService.getWorkoutEntityById(workoutId);
+//
+//        for (ExerciseEntity exercise : programWeekWorkoutEntity.getExercises()) {
+//            if (exercise.getId().equals(exerciseId)) {
+//                userEntity.getProgramExercisesCompleted().add(exercise);
+//                userRepository.save(userEntity);
+//                return;
+//            }
+//        }
+//    }
 
 
     public UserProfileView uploadProfilePicture(String username, MultipartFile profilePicture) throws IOException {
