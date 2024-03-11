@@ -180,7 +180,8 @@ public class UserService {
 
     public void dislike(UserDTO loggedUser, Long workoutId) {
         UserEntity userEntity = userRepository.findByUsername(loggedUser.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
-        ProgramWeekWorkoutEntity weekWorkout = programService.getWeekWorkoutEntityById(workoutId);;
+        ProgramWeekWorkoutEntity weekWorkout = programService.getWeekWorkoutEntityById(workoutId);
+        ;
         userEntity.getWorkoutsLiked().remove(weekWorkout);
 
         programService.removeLike(weekWorkout);
@@ -217,7 +218,8 @@ public class UserService {
 
     @Transactional
     public List<WorkoutDTO> getCompletedWorkouts(String username) {
-        ClientDTO clientByUsername = clientService.getClientByUsername(username);;
+        ClientDTO clientByUsername = clientService.getClientByUsername(username);
+        ;
         return clientByUsername.getCompletedWorkouts().stream().map(workoutEntity -> modelMapper.map(workoutEntity, WorkoutDTO.class)).toList();
     }
 
@@ -295,7 +297,7 @@ public class UserService {
 
         userRepository.save(userEntity);
 
-        return  modelMapper.map(userEntity, UserProfileView.class);
+        return modelMapper.map(userEntity, UserProfileView.class);
     }
 
     public UserProfileView getUserProfileByUsername(String username) {

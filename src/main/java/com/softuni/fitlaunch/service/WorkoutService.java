@@ -2,20 +2,11 @@ package com.softuni.fitlaunch.service;
 
 
 import com.softuni.fitlaunch.model.dto.ExerciseDTO;
-import com.softuni.fitlaunch.model.dto.program.ProgramWeekWorkoutDTO;
-import com.softuni.fitlaunch.model.dto.program.ProgramWorkoutExerciseDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
-import com.softuni.fitlaunch.model.dto.workout.WorkoutDetailsDTO;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
-import com.softuni.fitlaunch.model.entity.WorkoutExerciseEntity;
 import com.softuni.fitlaunch.model.enums.LevelEnum;
-import com.softuni.fitlaunch.repository.ExerciseRepository;
-import com.softuni.fitlaunch.repository.ProgramWeekWorkoutRepository;
-import com.softuni.fitlaunch.repository.UserRepository;
-import com.softuni.fitlaunch.repository.WorkoutExerciseRepository;
 import com.softuni.fitlaunch.repository.WorkoutRepository;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
-import org.hibernate.ObjectDeletedException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
