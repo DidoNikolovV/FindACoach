@@ -15,7 +15,6 @@ import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.UserRoleEntity;
 import com.softuni.fitlaunch.model.enums.UserTitleEnum;
 import com.softuni.fitlaunch.model.events.UserRegisteredEvent;
-import com.softuni.fitlaunch.repository.ProgramWeekWorkoutRepository;
 import com.softuni.fitlaunch.repository.RoleRepository;
 import com.softuni.fitlaunch.repository.UserActivationCodeRepository;
 import com.softuni.fitlaunch.repository.UserRepository;

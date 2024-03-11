@@ -5,13 +5,7 @@ import com.softuni.fitlaunch.model.dto.ExerciseDTO;
 import com.softuni.fitlaunch.model.dto.program.ProgramWeekWorkoutDTO;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.workout.CreateWorkoutDTO;
-import com.softuni.fitlaunch.service.ClientService;
-import com.softuni.fitlaunch.service.ExerciseService;
-import com.softuni.fitlaunch.service.FileUpload;
-import com.softuni.fitlaunch.service.UserService;
-import com.softuni.fitlaunch.service.WorkoutExerciseService;
 import com.softuni.fitlaunch.service.WorkoutService;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,55 +16,36 @@ import java.util.List;
 @Controller
 public class WorkoutController {
 
-
     private final WorkoutService workoutService;
-    private final ExerciseService exerciseService;
-
-    private final UserService userService;
-
-    private final ClientService clientService;
 
 
-    private final WorkoutExerciseService workoutExerciseService;
-
-    private final ModelMapper modelMapper;
-
-    private final FileUpload fileUpload;
-
-
-    public WorkoutController(WorkoutService workoutService, ExerciseService exerciseService, UserService userService, ClientService clientService, WorkoutExerciseService workoutExerciseService, ModelMapper modelMapper, FileUpload fileUpload) {
+    public WorkoutController(WorkoutService workoutService) {
         this.workoutService = workoutService;
-        this.exerciseService = exerciseService;
-        this.userService = userService;
-        this.clientService = clientService;
-        this.workoutExerciseService = workoutExerciseService;
-        this.modelMapper = modelMapper;
-        this.fileUpload = fileUpload;
     }
 
-    @GetMapping("/workouts/add")
-    public String add(Model model) {
+//    @GetMapping("/workouts/add")
+//    public String add(Model model) {
+//
+//        if (!model.containsAttribute("createWorkoutDTO")) {
+//            model.addAttribute("createWorkoutDTO", new CreateWorkoutDTO());
+//        }
+//
+//        List<ExerciseDTO> allExercises = workoutService.getAllExercises();
+//
+//        model.addAttribute("exercises", allExercises);
+//
+//        return "workout-add";
+//    }
 
-        if (!model.containsAttribute("createWorkoutDTO")) {
-            model.addAttribute("createWorkoutDTO", new CreateWorkoutDTO());
-        }
-
-        List<ExerciseDTO> allExercises = workoutService.getAllExercises();
-
-        model.addAttribute("exercises", allExercises);
-
-        return "workout-add";
-    }
-
-    @GetMapping("/workouts/history")
-    public String workoutHistory(Model model, Principal principal) {
-        ClientDTO clientByUsername = clientService.getClientByUsername(principal.getName());
-        List<ProgramWeekWorkoutDTO> completedWorkouts = clientByUsername.getCompletedWorkouts();
-
-        model.addAttribute("completedWorkouts", completedWorkouts);
-
-        return "workouts-log";
-    }
+//    @GetMapping("/workouts/history")
+//    public String workoutHistory(Model model, Principal principal) {
+//        ClientDTO clientByUsername = clientService.getClientByUsername(principal.getName());
+//        List<ProgramWeekWorkoutDTO> completedWorkouts = clientByUsername.getCompletedWorkouts();
+//
+//        model.addAttribute("completedWorkouts", completedWorkouts);
+//
+//        return "workouts-log";
+//    }
 
 //    @PostMapping("/workouts/add")
 //    public String add(@ModelAttribute CreateWorkoutDTO createWorkoutDTO, Principal principal,

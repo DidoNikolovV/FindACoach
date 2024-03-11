@@ -36,6 +36,10 @@ spring:
     username: ${MAIL_USER:didaka934@gmail.com}
     password: ${MAIL_PASSWORD:lpwcojgqymewqdfk}
 
+app:
+  images:
+    path: /images
+
 logging:
   level:
     org.hibernate.SQL: DEBUG
