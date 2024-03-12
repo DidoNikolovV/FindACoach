@@ -5,9 +5,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -29,10 +29,9 @@ public class ExerciseEntity {
     private String videoUrl;
 
     @ManyToOne
-    @JoinColumn(name = "program_workout_id")
-    private ProgramWeekWorkoutEntity program_week_workout;
-
-    @ManyToOne
     private WorkoutEntity workout;
+
+    @NotNull
+    private boolean isCompleted;
 
 }

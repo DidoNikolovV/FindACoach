@@ -74,8 +74,8 @@ public class CommentService {
 
         CommentEntity comment = new CommentEntity();
         comment.setProgram(programEntity);
-        comment.setWeek(programWeekEntity);
-        comment.setWorkout(programWeekWorkoutEntity);
+//        comment.setWeek(programWeekEntity);
+//        comment.setWorkout(programWeekWorkoutEntity);
         comment.setAuthor(authorEntity);
         comment.setMessage(commentDTO.getMessage());
         commentRepository.save(comment);

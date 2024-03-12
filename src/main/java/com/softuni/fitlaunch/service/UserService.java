@@ -1,6 +1,7 @@
 package com.softuni.fitlaunch.service;
 
 
+import com.softuni.fitlaunch.mappers.UserMapper;
 import com.softuni.fitlaunch.model.dto.program.ProgramWeekWorkoutDTO;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
@@ -48,6 +49,8 @@ public class UserService {
 
     private final ModelMapper modelMapper;
 
+    private final UserMapper userMapper;
+
     private final ApplicationEventPublisher applicationEventPublisher;
 
     private final UserActivationCodeRepository userActivationCodeRepository;
@@ -55,7 +58,7 @@ public class UserService {
     private final FileUpload fileUpload;
 
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository, CoachService coachService, ClientService clientService, ProgramService programService, ModelMapper modelMapper, ApplicationEventPublisher applicationEventPublisher, UserActivationCodeRepository userActivationCodeRepository, FileUpload fileUpload) {
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository, CoachService coachService, ClientService clientService, ProgramService programService, ModelMapper modelMapper, UserMapper userMapper, ApplicationEventPublisher applicationEventPublisher, UserActivationCodeRepository userActivationCodeRepository, FileUpload fileUpload) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
@@ -63,6 +66,7 @@ public class UserService {
         this.clientService = clientService;
         this.programService = programService;
         this.modelMapper = modelMapper;
+        this.userMapper = userMapper;
         this.applicationEventPublisher = applicationEventPublisher;
         this.userActivationCodeRepository = userActivationCodeRepository;
         this.fileUpload = fileUpload;
@@ -84,27 +88,10 @@ public class UserService {
 
         UserRoleEntity role = roleRepository.findById(isFirst ? 1L : UserTitleEnum.valueOf(userRegisterDTO.getTitle()).ordinal()).orElse(null);
 
-
-        UserEntity user = new UserEntity();
-        user.setUsername(userRegisterDTO.getUsername());
-        user.setEmail(userRegisterDTO.getEmail());
-        user.setPassword(passwordEncoder.encode(userRegisterDTO.getPassword()));
+        UserEntity user = userMapper.mapToEntity(userRegisterDTO);
         user.setRoles(List.of(role));
-        user.setImgUrl("/images/profile-avatar.jpg");
-
-
-        if (userRegisterDTO.getTitle().equals((UserTitleEnum.CLIENT.name()))) {
-            user.setMembership("Free");
-        } else {
-            user.setMembership("Yearly");
-        }
         user.setTitle(UserTitleEnum.valueOf(userRegisterDTO.getTitle()));
 
-        if (isClient(user)) {
-            clientService.registerClient(user);
-        } else {
-            coachService.registerCoach(user);
-        }
         userRepository.save(user);
 
         applicationEventPublisher.publishEvent(new UserRegisteredEvent(
@@ -114,9 +101,6 @@ public class UserService {
         return true;
     }
 
-    private static boolean isClient(UserEntity user) {
-        return user.getTitle().equals(UserTitleEnum.CLIENT);
-    }
 
     public List<UserDTO> getAllUsers() {
         return userRepository.findAll().stream().map(userEntity -> modelMapper.map(userEntity, UserDTO.class)).toList();
@@ -129,23 +113,16 @@ public class UserService {
 
     }
 
-    public void startProgramWorkout(String username, ProgramWeekWorkoutDTO programWeekWorkoutDTO) {
-        UserEntity user = userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("User with " + username + " doesn't exist"));
-        WorkoutEntity weekWorkoutEntity = programService.getWorkoutEntityById(programWeekWorkoutDTO.getId());
+    public void startProgramWorkout(String username, Long programWorkoutId) {
+        UserEntity user = userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("User with " + username + " does not exist"));
         userRepository.save(user);
     }
 
     public boolean isWorkoutStarted(String username, ProgramWeekWorkoutDTO programWeekWorkoutDTO) {
         UserEntity user = userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("User with " + username + " doesn't exist"));
-
         return false;
     }
 
-    public void completeProgramWorkout(String username, ProgramWeekWorkoutDTO programWeekWorkoutDTO) {
-        ClientDTO clientByUsername = clientService.getClientByUsername(username);
-        ProgramWeekWorkoutDTO weekWorkoutById = programService.getWeekWorkoutById(programWeekWorkoutDTO.getId());
-        clientService.completedProgramWorkout(clientByUsername, weekWorkoutById);
-    }
 
     public boolean isWorkoutCompleted(String username, ProgramWeekWorkoutDTO programWeekWorkoutDTO) {
         ClientDTO clientDTO = clientService.getClientByUsername(username);
@@ -166,6 +143,20 @@ public class UserService {
 
         userEntity.getWorkoutsLiked().add(weekWorkout);
         weekWorkout.setLikes(oldLikes + 1);
+
+        boolean hasNotLiked = true;
+
+        for (WorkoutDTO likedWorkout : loggedUser.getWorkoutsLiked()) {
+            if (likedWorkout.getId().equals(workoutId)) {
+                hasNotLiked = false;
+                break;
+            }
+        }
+
+        if(hasNotLiked) {
+            userEntity.getWorkoutsLiked().add(weekWorkout);
+        }
+
 //        programWeekWorkoutRepository.save(workoutEntity);
         userRepository.save(userEntity);
     }
@@ -307,6 +298,4 @@ public class UserService {
 
         return false;
     }
-
-
 }

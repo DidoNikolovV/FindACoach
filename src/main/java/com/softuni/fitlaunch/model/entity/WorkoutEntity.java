@@ -68,4 +68,6 @@ public class WorkoutEntity extends BaseEntity {
     @Column(nullable = false)
     private boolean hasStarted = false;
 
+    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<CommentEntity> comments;
 }

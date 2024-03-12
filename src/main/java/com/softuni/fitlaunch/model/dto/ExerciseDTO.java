@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,6 +15,6 @@ public class ExerciseDTO {
     private String name;
     @Pattern(regexp = "https:www\\.youtube\\.com/watch\\?v=.*", message = "Invalid youtube url provided")
     private String videoUrl;
-    private List<WorkoutDTO> workouts;
+    private String workout;
     private boolean isCompleted;
 }

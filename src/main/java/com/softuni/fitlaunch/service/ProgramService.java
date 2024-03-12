@@ -90,18 +90,14 @@ public class ProgramService {
         }
 
 
-        List<ProgramWeekDTO> programWeeksDTO = programWeeks.stream().map(programWeekEntity -> modelMapper.map(programWeekEntity, ProgramWeekDTO.class)).toList();
+        return programWeeks.stream().map(programWeekEntity -> modelMapper.map(programWeekEntity, ProgramWeekDTO.class)).toList();
 
-        return programWeeksDTO;
     }
 
     public ProgramWeekDTO getProgramWeekById(Long weekId) {
         ProgramWeekEntity programWeekEntity = programWeekRepository.findById(weekId).orElseThrow(() -> new ObjectNotFoundException("Week with id " + weekId + " was not found"));
 
-        ProgramWeekDTO programWeekWorkoutDTO = modelMapper.map(programWeekEntity, ProgramWeekDTO.class);
-
-        return programWeekWorkoutDTO;
-
+        return modelMapper.map(programWeekEntity, ProgramWeekDTO.class);
     }
 
     public ProgramWeekWorkoutDTO getProgramWeekWorkoutById(Long id, UserDTO userDTO) {
@@ -117,9 +113,7 @@ public class ProgramService {
             }
         }
 
-        ProgramWeekWorkoutDTO programWeekWorkoutDTO = modelMapper.map(programWeekWorkoutEntity, ProgramWeekWorkoutDTO.class);
-
-        return programWeekWorkoutDTO;
+        return modelMapper.map(programWeekWorkoutEntity, ProgramWeekWorkoutDTO.class);
     }
 
     public ProgramDTO getById(Long programId) {

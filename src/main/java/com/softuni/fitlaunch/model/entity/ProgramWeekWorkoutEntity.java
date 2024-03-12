@@ -39,8 +39,8 @@ public class ProgramWeekWorkoutEntity extends BaseEntity {
     @Column(name = "is_completed")
     private boolean isCompleted;
 
-    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL)
-    private List<CommentEntity> comments;
+//    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL)
+//    private List<CommentEntity> comments;
 
     @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL)
     private List<ProgramWorkoutExerciseEntity> exercises;

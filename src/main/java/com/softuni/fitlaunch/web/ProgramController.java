@@ -66,11 +66,6 @@ public class ProgramController {
 
         ClientDTO clientDTO = clientService.getClientByUsername(principal.getName());
 
-//        List<ProgramWeekWorkoutDTO> allWorkoutsByProgramId = programService.getAllWorkoutsByProgramId(programId);
-//        for (ProgramWeekWorkoutDTO programWeekWorkoutDTO : allWorkoutsByProgramId) {
-//            programWeekWorkoutDTO.setCompleted(userService.hasCompletedWorkout(user, programWeekWorkoutDTO));
-//        }
-
         List<ProgramWeekDTO> allWeeksByProgramId = programService.getAllWeeksByProgramId(programId, clientDTO);
         List<ProgramWeekWorkoutDTO> allProgramWorkouts = programService.getAllWorkoutsByProgramId(programId);
 
@@ -116,11 +111,7 @@ public class ProgramController {
 
     @PostMapping("/workouts/start/{programId}/{weekId}/{workoutId}")
     public String workoutStart(@PathVariable("programId") Long programId, @PathVariable("weekId") Long weekId, @PathVariable("workoutId") Long workoutId, Principal principal) {
-
-        UserDTO loggedUser = userService.getUserByUsername(principal.getName());
-        ProgramWeekWorkoutDTO programWorkout = programService.getProgramWorkout(programId, weekId, workoutId, loggedUser);
-        userService.startProgramWorkout(principal.getName(), programWorkout);
-
+        userService.startProgramWorkout(principal.getName(), workoutId);
         return String.format("redirect:/workouts/%d/%d/%d", programId, weekId, workoutId);
     }
 
@@ -128,41 +119,16 @@ public class ProgramController {
     @PostMapping("/workouts/complete/{programId}/{weekId}/{workoutId}")
     public String workoutComplete(@PathVariable("programId") Long programId, @PathVariable("weekId") Long weekId, @PathVariable("workoutId") Long workoutId, Principal principal) {
 
-        UserDTO loggedUser = userService.getUserByUsername(principal.getName());
-        ClientDTO client = clientService.getClientByUsername(principal.getName());
-
-
-        ProgramWeekWorkoutDTO programWorkout = programService.getProgramWorkout(programId, weekId, workoutId, loggedUser);
-        clientService.completedProgramWorkout(client, programWorkout);
-
-
+        clientService.completedProgramWorkout(principal.getName(), programId);
         return String.format("redirect:/workouts/%d/%d/%d", programId, weekId, workoutId);
-
     }
 
     @PostMapping("/workouts/like/{programId}/{weekId}/{workoutId}")
-    public String details(@PathVariable("programId") Long programId, @PathVariable("weekId") Long weekId, @PathVariable("workoutId") Long workoutId,
+    public String like(@PathVariable("programId") Long programId, @PathVariable("weekId") Long weekId, @PathVariable("workoutId") Long workoutId,
                           Principal principal) {
 
         UserDTO loggedUser = userService.getUserByUsername(principal.getName());
-        ProgramWeekWorkoutDTO programWorkout = programService.getProgramWorkout(programId, weekId, workoutId, loggedUser);
-
-        boolean hasLiked = false;
-
-        for (ProgramWeekWorkoutDTO likedWorkout : loggedUser.getWorkoutsLiked()) {
-            if (likedWorkout.getId().equals(programWorkout.getId())) {
-                hasLiked = true;
-                break;
-            }
-        }
-
-
-        if (hasLiked) {
-            userService.dislike(loggedUser, programWorkout.getId());
-        } else {
-            userService.like(loggedUser, programWorkout.getId());
-        }
-
+        userService.like(loggedUser, workoutId);
 
         return String.format("redirect:/workouts/%d/%d/%d", programId, weekId, workoutId);
     }
