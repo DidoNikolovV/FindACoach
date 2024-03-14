@@ -16,12 +16,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "exercises")
-public class ExerciseEntity {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
+public class ExerciseEntity extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String name;
 

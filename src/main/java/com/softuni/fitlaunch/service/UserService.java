@@ -112,7 +112,10 @@ public class UserService {
     public UserDTO getUserByUsername(String username) {
         UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("User with " + username + " doesn't exist"));
         return modelMapper.map(userEntity, UserDTO.class);
+    }
 
+    public UserEntity getUserEntityByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("User with " + username + " doesn't exist"));
     }
 
     public void startProgramWorkout(String username, Long programWorkoutId) {

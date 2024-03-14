@@ -12,6 +12,7 @@ import com.softuni.fitlaunch.model.entity.ProgramWeekEntity;
 import com.softuni.fitlaunch.model.entity.ProgramWeekWorkoutEntity;
 import com.softuni.fitlaunch.model.entity.ProgramWorkoutExerciseEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
+import com.softuni.fitlaunch.model.entity.WeekEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.repository.CoachRepository;
 import com.softuni.fitlaunch.repository.ProgramRepository;
@@ -64,24 +65,9 @@ public class ProgramService {
         return workoutService.getWorkoutEntityById(id);
     }
 
-    public List<ProgramWeekDTO> getAllWeeksByProgramId(Long programId, ClientDTO clientDTO) {
-        List<ProgramWeekEntity> programWeeks = programWeekRepository.findAllByProgramId(programId).orElseThrow(() -> new ObjectNotFoundException("Program with id " + programId + " was not found"));
-        ClientEntity clientEntity = clientService.getClientEntityByUsername(clientDTO.getUsername());
-
-        List<ProgramWeekWorkoutEntity> workoutsCompleted = clientEntity.getCompletedWorkouts();
-
-
-        for (ProgramWeekEntity programWeek : programWeeks) {
-            for (ProgramWeekWorkoutEntity weekWorkout : programWeek.getWeekWorkouts()) {
-                if (workoutsCompleted.contains(weekWorkout)) {
-                    weekWorkout.setCompleted(true);
-                }
-            }
-        }
-
-
-        return programWeeks.stream().map(programWeekEntity -> modelMapper.map(programWeekEntity, ProgramWeekDTO.class)).toList();
-
+    public List<WeekEntity> getAllWeeksByProgramId(Long programId) {
+        ProgramEntity programEntity = programRepository.findById(programId).orElseThrow(() -> new ObjectNotFoundException("Program with id " + programId + " does not exist"));
+        return programEntity.getWeeks();
     }
 
     public ProgramWeekDTO getProgramWeekById(Long weekId) {

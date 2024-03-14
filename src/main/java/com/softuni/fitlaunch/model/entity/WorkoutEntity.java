@@ -70,4 +70,8 @@ public class WorkoutEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<CommentEntity> comments;
+
+    @ManyToOne
+    @JoinColumn(name = "program_id")
+    private ProgramEntity program;
 }

@@ -14,6 +14,7 @@ import com.softuni.fitlaunch.repository.ClientRepository;
 import com.softuni.fitlaunch.repository.CoachRepository;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -91,10 +92,7 @@ public class CoachService {
 
     public void setClientDetails(String username, ClientDetailsDTO clientDetailsDTO) {
         ClientEntity clientEntity = clientRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("Client not found"));
-        clientEntity.setWeight(clientDetailsDTO.getWeight());
-        clientEntity.setHeight(clientDetailsDTO.getHeight());
-        clientEntity.setTargetGoals(clientDetailsDTO.getTargetGoals());
-        clientEntity.setDietaryPreferences(clientDetailsDTO.getDietaryPreferences());
+        BeanUtils.copyProperties(clientDetailsDTO, clientEntity);
 
         clientRepository.save(clientEntity);
     }

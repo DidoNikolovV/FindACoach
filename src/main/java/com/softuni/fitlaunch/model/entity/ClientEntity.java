@@ -39,9 +39,8 @@ public class ClientEntity extends BaseEntity {
 
     private String targetGoals;
 
-    private String dietaryPreferences;
-
     @ManyToOne
+    @JoinColumn(name = "coach_id")
     private CoachEntity coach;
 
     @ManyToOne
@@ -54,18 +53,17 @@ public class ClientEntity extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "exercise_id"))
     private List<ProgramWorkoutExerciseEntity> programExercisesCompleted;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<ScheduledWorkoutEntity> scheduledWorkouts;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL)
     private List<ProgramEntity> completedPrograms;
-
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "program_workouts_completed",
             joinColumns = @JoinColumn(name = "client_id"),
             inverseJoinColumns = @JoinColumn(name = "workout_id"))
-    private List<ProgramWeekWorkoutEntity> completedWorkouts;
+    private List<WorkoutEntity> completedWorkouts;
 
 }

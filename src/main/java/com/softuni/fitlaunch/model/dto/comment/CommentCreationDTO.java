@@ -14,8 +14,6 @@ public class CommentCreationDTO {
 
     private Long programId;
 
-    private Long weekId;
-
     private Long workoutId;
 
     private String message;

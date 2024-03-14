@@ -63,8 +63,7 @@ public class UserController {
         UserProfileView userProfileView = userService.getUserProfileByUsername(principal.getName());
 
         ClientDTO clientByUsername = clientService.getClientByUsername(principal.getName());
-        List<ScheduledWorkoutView> upcomingSessions = scheduleWorkoutService.getAllClientScheduledWorkouts(clientByUsername);
-
+        List<ScheduledWorkoutView> upcomingSessions = scheduleWorkoutService.getAllScheduledWorkouts(clientByUsername.getUsername());
 
         model.addAttribute("user", userProfileView);
         model.addAttribute("client", clientByUsername);

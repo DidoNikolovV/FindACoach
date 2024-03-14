@@ -15,8 +15,6 @@ import java.util.List;
 @Getter
 @Setter
 public class ClientDTO {
-
-    private Long id;
     private String username;
 
     @Email
@@ -27,8 +25,6 @@ public class ClientDTO {
     private Double weight;
     private Double height;
     private String targetGoals;
-
-    private String dietaryPreferences;
 
     private CoachDTO coach;
 

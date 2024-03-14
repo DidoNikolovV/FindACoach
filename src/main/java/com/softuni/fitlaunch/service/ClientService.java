@@ -15,13 +15,10 @@ public class ClientService {
 
     private final ClientRepository clientRepository;
 
-    private final ProgramWeekWorkoutRepository programWeekWorkoutRepository;
-
     private final ModelMapper modelMapper;
 
-    public ClientService(ClientRepository clientRepository, ProgramWeekWorkoutRepository programWeekWorkoutRepository, ModelMapper modelMapper) {
+    public ClientService(ClientRepository clientRepository, ModelMapper modelMapper) {
         this.clientRepository = clientRepository;
-        this.programWeekWorkoutRepository = programWeekWorkoutRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -34,12 +31,12 @@ public class ClientService {
         return clientRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("Client with username " + username + " was not found"));
     }
 
-    public void completedProgramWorkout(String clientUsername, Long programId) {
-        ClientEntity clientEntity = clientRepository.findByUsername(clientUsername).orElseThrow(() -> new ObjectNotFoundException("Client with username " + clientUsername + " does not exist"));
-        ProgramWeekWorkoutEntity programWeekWorkoutEntity = programWeekWorkoutRepository.findById(programId).orElseThrow(() -> new ObjectNotFoundException("Workout with id " + programId + " does not exist"));
-
-        clientEntity.getCompletedWorkouts().add(programWeekWorkoutEntity);
-        programWeekWorkoutRepository.save(programWeekWorkoutEntity);
-        clientRepository.save(clientEntity);
-    }
+//    public void completedProgramWorkout(String clientUsername, Long programId) {
+//        ClientEntity clientEntity = clientRepository.findByUsername(clientUsername).orElseThrow(() -> new ObjectNotFoundException("Client with username " + clientUsername + " does not exist"));
+//        ProgramWeekWorkoutEntity programWeekWorkoutEntity = programWeekWorkoutRepository.findById(programId).orElseThrow(() -> new ObjectNotFoundException("Workout with id " + programId + " does not exist"));
+//
+//        clientEntity.getCompletedWorkouts().add(programWeekWorkoutEntity);
+//        programWeekWorkoutRepository.save(programWeekWorkoutEntity);
+//        clientRepository.save(clientEntity);
+//    }
 }

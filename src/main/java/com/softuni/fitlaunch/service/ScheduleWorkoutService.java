@@ -7,11 +7,12 @@ import com.softuni.fitlaunch.model.dto.view.ScheduledWorkoutView;
 import com.softuni.fitlaunch.model.entity.ClientEntity;
 import com.softuni.fitlaunch.model.entity.CoachEntity;
 import com.softuni.fitlaunch.model.entity.ScheduledWorkoutEntity;
+import com.softuni.fitlaunch.model.entity.UserEntity;
+import com.softuni.fitlaunch.model.enums.UserTitleEnum;
 import com.softuni.fitlaunch.repository.ClientRepository;
 import com.softuni.fitlaunch.repository.CoachRepository;
 import com.softuni.fitlaunch.repository.ScheduledWorkoutRepository;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,13 +26,14 @@ public class ScheduleWorkoutService {
 
     private final CoachRepository coachRepository;
     private final ClientRepository clientRepository;
-    private final ModelMapper modelMapper;
 
-    public ScheduleWorkoutService(ScheduledWorkoutRepository scheduledWorkoutRepository, CoachRepository coachRepository, ClientRepository clientRepository, ModelMapper modelMapper) {
+    private final UserService userService;
+
+    public ScheduleWorkoutService(ScheduledWorkoutRepository scheduledWorkoutRepository, CoachRepository coachRepository, ClientRepository clientRepository, UserService userService) {
         this.scheduledWorkoutRepository = scheduledWorkoutRepository;
         this.coachRepository = coachRepository;
         this.clientRepository = clientRepository;
-        this.modelMapper = modelMapper;
+        this.userService = userService;
     }
 
     public void scheduleWorkout(ClientDTO clientDTO, CoachDTO coachDTO, LocalDateTime scheduledTime) {
@@ -47,15 +49,19 @@ public class ScheduleWorkoutService {
 
     }
 
-    public List<ScheduledWorkoutView> getAllCoachScheduledWorkouts(CoachDTO coachDTO) {
-        List<ScheduledWorkoutEntity> allByCoachId = scheduledWorkoutRepository.findAllByCoachId(coachDTO.getId());
-        return allByCoachId.stream().map(scheduledWorkoutEntity -> new ScheduledWorkoutView(scheduledWorkoutEntity.getId(), scheduledWorkoutEntity.getClient().getUsername(), scheduledWorkoutEntity.getCoach().getUsername(), scheduledWorkoutEntity.getScheduledDateTime().toString())).toList();
+
+    public List<ScheduledWorkoutView> getAllScheduledWorkouts(String username) {
+        UserEntity userEntity = userService.getUserEntityByUsername(username);
+        List<ScheduledWorkoutEntity> allScheduledWorkouts;
+        if(userEntity.getTitle().equals(UserTitleEnum.CLIENT)) {
+            allScheduledWorkouts = scheduledWorkoutRepository.findAllByClientId(userEntity.getId());
+        } else {
+            allScheduledWorkouts = scheduledWorkoutRepository.findAllByCoachId(userEntity.getId());
+        }
+
+        return allScheduledWorkouts.stream().map(scheduledWorkoutEntity -> new ScheduledWorkoutView(scheduledWorkoutEntity.getId(), scheduledWorkoutEntity.getClient().getUsername(), scheduledWorkoutEntity.getCoach().getUsername(), scheduledWorkoutEntity.getScheduledDateTime().toString())).toList();
     }
 
-    public List<ScheduledWorkoutView> getAllClientScheduledWorkouts(ClientDTO clientDTO) {
-        List<ScheduledWorkoutEntity> allByClientId = scheduledWorkoutRepository.findAllByClientId(clientDTO.getId());
-        return allByClientId.stream().map(scheduledWorkoutEntity -> new ScheduledWorkoutView(scheduledWorkoutEntity.getId(), scheduledWorkoutEntity.getClient().getUsername(), scheduledWorkoutEntity.getCoach().getUsername(), scheduledWorkoutEntity.getScheduledDateTime().toString())).toList();
-    }
 
     @Transactional
     public void deleteScheduledWorkout(String username, Long eventId) {

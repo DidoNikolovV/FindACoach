@@ -6,11 +6,10 @@ import com.softuni.fitlaunch.model.dto.program.ProgramWeekDTO;
 import com.softuni.fitlaunch.model.dto.program.ProgramWeekWorkoutDTO;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
+import com.softuni.fitlaunch.model.entity.WeekEntity;
 import com.softuni.fitlaunch.model.enums.UserTitleEnum;
 import com.softuni.fitlaunch.service.ClientService;
-import com.softuni.fitlaunch.service.CoachService;
 import com.softuni.fitlaunch.service.ProgramService;
-import com.softuni.fitlaunch.service.ScheduleWorkoutService;
 import com.softuni.fitlaunch.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,17 +29,10 @@ public class ProgramController {
 
     private final ClientService clientService;
 
-    private final CoachService coachService;
-
-    private final ScheduleWorkoutService scheduleWorkoutService;
-
-
-    public ProgramController(ProgramService programService, UserService userService, ClientService clientService, CoachService coachService, ScheduleWorkoutService scheduleWorkoutService) {
+    public ProgramController(ProgramService programService, UserService userService, ClientService clientService) {
         this.programService = programService;
         this.userService = userService;
         this.clientService = clientService;
-        this.coachService = coachService;
-        this.scheduleWorkoutService = scheduleWorkoutService;
     }
 
     @GetMapping("/programs/all")
@@ -66,7 +58,7 @@ public class ProgramController {
 
         ClientDTO clientDTO = clientService.getClientByUsername(principal.getName());
 
-        List<ProgramWeekDTO> allWeeksByProgramId = programService.getAllWeeksByProgramId(programId, clientDTO);
+        List<WeekEntity> allWeeksByProgramId = programService.getAllWeeksByProgramId(programId);
         List<ProgramWeekWorkoutDTO> allProgramWorkouts = programService.getAllWorkoutsByProgramId(programId);
 
         model.addAttribute("program", programDTO);
@@ -116,12 +108,12 @@ public class ProgramController {
     }
 
 
-    @PostMapping("/workouts/complete/{programId}/{weekId}/{workoutId}")
-    public String workoutComplete(@PathVariable("programId") Long programId, @PathVariable("weekId") Long weekId, @PathVariable("workoutId") Long workoutId, Principal principal) {
-
-        clientService.completedProgramWorkout(principal.getName(), programId);
-        return String.format("redirect:/workouts/%d/%d/%d", programId, weekId, workoutId);
-    }
+//    @PostMapping("/workouts/complete/{programId}/{weekId}/{workoutId}")
+//    public String workoutComplete(@PathVariable("programId") Long programId, @PathVariable("weekId") Long weekId, @PathVariable("workoutId") Long workoutId, Principal principal) {
+//
+//        clientService.completedProgramWorkout(principal.getName(), programId);
+//        return String.format("redirect:/workouts/%d/%d/%d", programId, weekId, workoutId);
+//    }
 
     @PostMapping("/workouts/like/{programId}/{weekId}/{workoutId}")
     public String like(@PathVariable("programId") Long programId, @PathVariable("weekId") Long weekId, @PathVariable("workoutId") Long workoutId,
@@ -132,17 +124,5 @@ public class ProgramController {
 
         return String.format("redirect:/workouts/%d/%d/%d", programId, weekId, workoutId);
     }
-
-//    @PostMapping("/workouts/{programId}/{weekId}/{workoutId}/complete/{exerciseId}")
-//    public String exerciseComplete(@PathVariable("programId") Long programId,
-//                                   @PathVariable("weekId") Long weekId,
-//                                   @PathVariable("workoutId") Long workoutId,
-//                                   @PathVariable("exerciseId") Long exerciseId,
-//                                   Principal principal) {
-//        UserDTO loggedUser = userService.getUserByUsername(principal.getName());
-//        userService.completeProgramWorkoutExercise(loggedUser, weekId, workoutId, exerciseId);
-//
-//        return String.format("redirect:/workouts/%d/%d/%d", programId, weekId, workoutId);
-//    }
 
 }

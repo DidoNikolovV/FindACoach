@@ -45,7 +45,7 @@ public class CommentsRestController {
 
     @GetMapping("/{programId}/{weekId}/{workoutId}/comments")
     public ResponseEntity<List<CommentView>> getAllCommentsForWorkout(@PathVariable("programId") Long programId, @PathVariable("weekId") Long weekId, @PathVariable("workoutId") Long workoutId) {
-        return ResponseEntity.ok(commentService.getAllCommentsForWorkout(programId, weekId, workoutId));
+        return ResponseEntity.ok(commentService.getAllCommentsForWorkout(workoutId));
     }
 
     @GetMapping("/{workoutId}/comments")
@@ -65,7 +65,6 @@ public class CommentsRestController {
         CommentCreationDTO commentDTO = new CommentCreationDTO(
                 user.getUsername(),
                 programId,
-                weekId,
                 workoutId,
                 commentMessageDTO.getMessage()
         );
@@ -80,7 +79,7 @@ public class CommentsRestController {
 
 
     @DeleteMapping("/{programId}/{weekId}/{workoutId}/comments/{commentId}")
-    public ResponseEntity<CommentView> deleteComment(@PathVariable("programId") Long programId,
+    public ResponseEntity<Void> deleteComment(@PathVariable("programId") Long programId,
                                                      @PathVariable("weekId") Long weekId,
                                                      @PathVariable("workoutId") Long workoutId,
                                                      @PathVariable("commentId") Long commentId,
@@ -91,8 +90,7 @@ public class CommentsRestController {
         CommentView comment = commentService.getComment(commentId);
 
         if (user.getRoles().stream().anyMatch(r -> r.getRole().equals(UserRoleEnum.ADMIN)) || user.getUsername().equals(comment.getAuthorUsername())) {
-            CommentView deleted = commentService.deleteCommentById(commentId);
-            return ResponseEntity.ok().build();
+            commentService.deleteCommentById(commentId);
         }
 
         return ResponseEntity

@@ -24,6 +24,5 @@ public class ScheduledWorkoutEntity extends BaseEntity {
     @JoinColumn(name = "client_id")
     private ClientEntity client;
 
-
     private LocalDateTime scheduledDateTime;
 }

@@ -13,5 +13,4 @@ public interface ScheduledWorkoutRepository extends JpaRepository<ScheduledWorko
     List<ScheduledWorkoutEntity> findAllByCoachId(Long id);
 
     List<ScheduledWorkoutEntity> findAllByClientId(Long id);
-
 }

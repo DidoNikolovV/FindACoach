@@ -12,8 +12,7 @@ public class CommentMapper {
         CommentCreationDTO commentCreationDTO = new CommentCreationDTO();
         commentCreationDTO.setAuthorUsername(commentEntity.getAuthor().getUsername());
         commentCreationDTO.setProgramId(commentEntity.getProgram().getId());
-        commentCreationDTO.setWeekId(commentEntity.getWeek().getId());
-        commentCreationDTO.setWorkoutId(commentEntity.getWeek().getId());
+        commentCreationDTO.setWorkoutId(commentEntity.getWorkout().getId());
         commentCreationDTO.setMessage(commentEntity.getMessage());
 
         return commentCreationDTO;
