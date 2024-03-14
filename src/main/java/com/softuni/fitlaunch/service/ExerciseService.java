@@ -30,13 +30,4 @@ public class ExerciseService {
         return exerciseRepository.findAllByWorkoutId(workoutId).stream().map(exerciseEntity -> modelMapper.map(exerciseEntity, ExerciseDTO.class)).toList();
     }
 
-//    public void completeExercise(Long workoutId, Long exerciseId) {
-//        WorkoutDTO workout = workoutService.getWorkoutById(workoutId);
-//        for (ExerciseDTO exercise : workout.getExercises()) {
-//            if(Objects.equals(exercise.getId(), exerciseId)) {
-//                exercise.setCompleted(true);
-//                break;
-//            }
-//        }
-//    }
 }
