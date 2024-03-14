@@ -10,11 +10,8 @@ import com.softuni.fitlaunch.model.dto.view.UserCoachView;
 import com.softuni.fitlaunch.model.dto.workout.ScheduledWorkoutDTO;
 import com.softuni.fitlaunch.model.entity.ClientEntity;
 import com.softuni.fitlaunch.model.entity.CoachEntity;
-import com.softuni.fitlaunch.model.entity.UserEntity;
-import com.softuni.fitlaunch.model.enums.UserRoleEnum;
 import com.softuni.fitlaunch.repository.ClientRepository;
 import com.softuni.fitlaunch.repository.CoachRepository;
-import com.softuni.fitlaunch.repository.ProgramRepository;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -25,33 +22,15 @@ import java.util.Optional;
 
 @Service
 public class CoachService {
-
     private final CoachRepository coachRepository;
-
 
     private final ModelMapper modelMapper;
     private final ClientRepository clientRepository;
 
-    private final ProgramRepository programRepository;
-
-    public CoachService(CoachRepository coachRepository, ModelMapper modelMapper, ClientRepository clientRepository, ProgramRepository programRepository) {
+    public CoachService(CoachRepository coachRepository, ModelMapper modelMapper, ClientRepository clientRepository) {
         this.coachRepository = coachRepository;
         this.modelMapper = modelMapper;
         this.clientRepository = clientRepository;
-        this.programRepository = programRepository;
-    }
-
-    public CoachDTO registerCoach(UserEntity userEntity) {
-//        if(coachRepository.findByUsername(coachEntity.getUsername()).isPresent()) {
-//            throw new DuplicateObjectException("User with " + coachEntity.getUsername() + " already exists");
-//        };
-        CoachEntity coachEntity = modelMapper.map(userEntity, CoachEntity.class);
-        coachEntity.setRating(1.0);
-        coachEntity.setPrograms(programRepository.findAll());
-        coachEntity.setClients(new ArrayList<>());
-        coachEntity.setRole(UserRoleEnum.ADMIN);
-        CoachEntity newCoach = coachRepository.save(coachEntity);
-        return modelMapper.map(newCoach, CoachDTO.class);
     }
 
     public List<UserCoachView> getAllCoaches() {
@@ -66,7 +45,7 @@ public class CoachService {
         List<CertificateDTO> coachCertificatesDTO = coachEntity.getCertificates().stream().map(certificateEntity -> modelMapper.map(certificateEntity, CertificateDTO.class)).toList();
         List<ClientDTO> coachClients = coachEntity.getClients().stream().map(clientEntity -> modelMapper.map(clientEntity, ClientDTO.class)).toList();
         List<ScheduledWorkoutDTO> scheduledWorkoutsDTO = coachEntity.getScheduledWorkouts().stream().map(scheduledWorkoutEntity -> modelMapper.map(scheduledWorkoutEntity, ScheduledWorkoutDTO.class)).toList();
-        return new CoachDTO(coachEntity.getId(), coachEntity.getUsername(), coachEntity.getEmail(), coachEntity.getImgUrl(), coachEntity.getRating(), coachEntity.getDescription(), coachEntity.getRole(), coachCertificatesDTO, new ArrayList<>(), coachClients, scheduledWorkoutsDTO);
+        return new CoachDTO(coachEntity.getId(), coachEntity.getUsername(), coachEntity.getEmail(), coachEntity.getImgUrl(), coachEntity.getRating(), coachEntity.getDescription(), coachCertificatesDTO, new ArrayList<>(), coachClients, scheduledWorkoutsDTO);
     }
 
     public ClientDTO getClientByUsername(String username) {

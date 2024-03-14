@@ -7,8 +7,10 @@ import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.user.UserRegisterDTO;
 import com.softuni.fitlaunch.model.dto.user.UserRoleDTO;
+import com.softuni.fitlaunch.model.dto.view.UserCoachView;
 import com.softuni.fitlaunch.model.dto.view.UserProfileView;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
+import com.softuni.fitlaunch.model.entity.CoachEntity;
 import com.softuni.fitlaunch.model.entity.UserActivationCodeEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.UserRoleEntity;
@@ -297,5 +299,12 @@ public class UserService {
         }
 
         return false;
+    }
+
+    public List<UserCoachView> getAllCoaches() {
+        List<UserEntity> coachesEntity = userRepository.findAllByTitle(UserTitleEnum.COACH).orElse(new ArrayList<>());
+
+        return coachesEntity.stream().map(coachEntity -> new UserCoachView(coachEntity.getId(), coachEntity.getImgUrl(), coachEntity.getUsername(), coachEntity.getEmail(), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rhoncus enim at enim bibendum porta. Suspendisse id mollis neque, et sodales nisi. Ut eget pulvinar felis. Curabitur sed suscipit nibh, at scelerisque arcu. Cras pharetra sodales ultrices. Vestibulum aliquet elementum libero vel congue. Mauris ut quam ultrices odio posuere efficitur. Phasellus sagittis pellentesque laoreet.", 5.8)).toList();
+
     }
 }

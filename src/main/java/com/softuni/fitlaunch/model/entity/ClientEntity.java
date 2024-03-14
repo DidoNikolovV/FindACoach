@@ -33,9 +33,10 @@ public class ClientEntity extends BaseEntity {
     @Column(name = "img_url")
     private String imgUrl;
 
-
     private Double weight;
+
     private Double height;
+
     private String targetGoals;
 
     private String dietaryPreferences;
@@ -43,10 +44,20 @@ public class ClientEntity extends BaseEntity {
     @ManyToOne
     private CoachEntity coach;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @ManyToOne
+    private WorkoutEntity workoutStarted;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "program_workout_exercises_completed",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "exercise_id"))
+    private List<ProgramWorkoutExerciseEntity> programExercisesCompleted;
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ScheduledWorkoutEntity> scheduledWorkouts;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ProgramEntity> completedPrograms;
 
 

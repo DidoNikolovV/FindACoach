@@ -13,7 +13,6 @@ import com.softuni.fitlaunch.model.entity.ProgramWeekWorkoutEntity;
 import com.softuni.fitlaunch.model.entity.ProgramWorkoutExerciseEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
-import com.softuni.fitlaunch.repository.ClientRepository;
 import com.softuni.fitlaunch.repository.CoachRepository;
 import com.softuni.fitlaunch.repository.ProgramRepository;
 import com.softuni.fitlaunch.repository.ProgramWeekRepository;
@@ -40,19 +39,19 @@ public class ProgramService {
     private final UserRepository userRepository;
 
     private final CoachRepository coachRepository;
-    private final ClientRepository clientRepository;
+    private final ClientService clientService;
 
     private final ModelMapper modelMapper;
 
 
-    public ProgramService(ProgramRepository programRepository, ProgramWeekRepository programWeekRepository, WorkoutService workoutService, ProgramWeekWorkoutRepository programWeekWorkoutRepository, UserRepository userRepository, CoachRepository coachRepository, ClientRepository clientRepository, ModelMapper modelMapper) {
+    public ProgramService(ProgramRepository programRepository, ProgramWeekRepository programWeekRepository, WorkoutService workoutService, ProgramWeekWorkoutRepository programWeekWorkoutRepository, UserRepository userRepository, CoachRepository coachRepository, ClientService clientService, ModelMapper modelMapper) {
         this.programRepository = programRepository;
         this.programWeekRepository = programWeekRepository;
         this.workoutService = workoutService;
         this.programWeekWorkoutRepository = programWeekWorkoutRepository;
         this.userRepository = userRepository;
         this.coachRepository = coachRepository;
-        this.clientRepository = clientRepository;
+        this.clientService = clientService;
         this.modelMapper = modelMapper;
     }
 
@@ -61,22 +60,13 @@ public class ProgramService {
         return programRepository.findAll().stream().map(programEntity -> modelMapper.map(programEntity, ProgramDTO.class)).toList();
     }
 
-    public ProgramWeekWorkoutDTO getWeekWorkoutById(Long id) {
-        ProgramWeekWorkoutEntity programWeekWorkoutEntity = programWeekWorkoutRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Workout not found"));
-        return modelMapper.map(programWeekWorkoutEntity, ProgramWeekWorkoutDTO.class);
-    }
-
-//    public ProgramWeekWorkoutEntity getWeekWorkoutEntityById(Long id) {
-//        return programWeekWorkoutRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Workout not found"));
-//    }
-
     public WorkoutEntity getWorkoutEntityById(Long id) {
         return workoutService.getWorkoutEntityById(id);
     }
 
     public List<ProgramWeekDTO> getAllWeeksByProgramId(Long programId, ClientDTO clientDTO) {
         List<ProgramWeekEntity> programWeeks = programWeekRepository.findAllByProgramId(programId).orElseThrow(() -> new ObjectNotFoundException("Program with id " + programId + " was not found"));
-        ClientEntity clientEntity = clientRepository.findByUsername(clientDTO.getUsername()).orElseThrow(() -> new ObjectNotFoundException("Client with " + clientDTO.getUsername() + " was not found"));
+        ClientEntity clientEntity = clientService.getClientEntityByUsername(clientDTO.getUsername());
 
         List<ProgramWeekWorkoutEntity> workoutsCompleted = clientEntity.getCompletedWorkouts();
 
@@ -102,9 +92,9 @@ public class ProgramService {
 
     public ProgramWeekWorkoutDTO getProgramWeekWorkoutById(Long id, UserDTO userDTO) {
         ProgramWeekWorkoutEntity programWeekWorkoutEntity = programWeekWorkoutRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Workout not found"));
-        UserEntity userEntity = userRepository.findByUsername(userDTO.getUsername()).orElseThrow(() -> new ObjectNotFoundException("User with " + userDTO.getUsername() + " not found"));
+        ClientEntity clientEntity = clientService.getClientEntityByUsername(userDTO.getUsername());
 
-        List<ProgramWorkoutExerciseEntity> userProgramExercisesCompleted = userEntity.getProgramExercisesCompleted();
+        List<ProgramWorkoutExerciseEntity> userProgramExercisesCompleted = clientEntity.getProgramExercisesCompleted();
         List<ProgramWorkoutExerciseEntity> programExercises = programWeekWorkoutEntity.getExercises();
 
         for (ProgramWorkoutExerciseEntity programExercise : programExercises) {
@@ -151,7 +141,5 @@ public class ProgramService {
         } else {
             weekWorkout.setLikes((int) (oldLikes - 1));
         }
-
-//        programWeekWorkoutRepository.save(weekWorkout);
     }
 }

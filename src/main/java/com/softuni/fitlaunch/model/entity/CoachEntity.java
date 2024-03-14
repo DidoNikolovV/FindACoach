@@ -22,7 +22,6 @@ import java.util.List;
 @Table(name = "coaches")
 public class CoachEntity extends BaseEntity {
 
-
     @Column(unique = true)
     private String username;
 
@@ -35,12 +34,8 @@ public class CoachEntity extends BaseEntity {
     @Column(columnDefinition = "FLOAT DEFAULT 1.0")
     private Double rating;
 
-    @Enumerated(EnumType.STRING)
-    private UserRoleEnum role;
-
-    @Length(min = 20, max = 200)
+    @Length(max = 255)
     private String description;
-
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<CertificateEntity> certificates;
@@ -53,6 +48,5 @@ public class CoachEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "coach", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<ScheduledWorkoutEntity> scheduledWorkouts;
-
 
 }

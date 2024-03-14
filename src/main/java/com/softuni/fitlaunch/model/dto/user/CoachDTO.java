@@ -29,8 +29,6 @@ public class CoachDTO {
     private Double rating;
     private String description;
 
-    private UserRoleEnum role;
-
     private List<CertificateDTO> certificates;
 
     private List<ProgramDTO> programs;

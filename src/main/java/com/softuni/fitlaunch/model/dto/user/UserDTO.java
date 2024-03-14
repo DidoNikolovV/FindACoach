@@ -1,8 +1,6 @@
 package com.softuni.fitlaunch.model.dto.user;
 
 import com.softuni.fitlaunch.model.dto.comment.CommentCreationDTO;
-import com.softuni.fitlaunch.model.dto.program.ProgramWeekWorkoutDTO;
-import com.softuni.fitlaunch.model.dto.program.ProgramWorkoutExerciseDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.enums.UserTitleEnum;
 import lombok.AllArgsConstructor;
@@ -18,8 +16,6 @@ import java.util.List;
 @Getter
 @Setter
 public class UserDTO {
-
-    private Long id;
     private String username;
 
     private String email;
@@ -28,22 +24,14 @@ public class UserDTO {
 
     private String membership;
 
-
     private List<CommentCreationDTO> comments;
 
-
-    private String workoutStarted;
-
     private List<WorkoutDTO> workoutsLiked;
-
-
-    private List<ProgramWorkoutExerciseDTO> exercisesCompleted;
 
     private boolean activated = false;
 
     private String imgUrl;
 
     private UserTitleEnum title;
-
 
 }

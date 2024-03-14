@@ -1,7 +1,6 @@
 package com.softuni.fitlaunch.mappers;
 
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import com.softuni.fitlaunch.model.dto.comment.CommentCreationDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.user.UserRegisterDTO;
@@ -40,7 +39,6 @@ public class UserMapper {
         UserDTO userDTO = new UserDTO();
         List<CommentCreationDTO> comments = userEntity.getComments().stream().map(commentMapper::mapAsCreationDTO).toList();
         userDTO.setComments(comments);
-        userDTO.setWorkoutStarted(userEntity.getWorkoutStarted().getName());
         List<WorkoutDTO> workoutsLiked = userEntity.getWorkoutsLiked().stream().map(workoutMapper::mapToDTO).toList();
         userDTO.setWorkoutsLiked(workoutsLiked);
         BeanUtils.copyProperties(userEntity, userDTO);

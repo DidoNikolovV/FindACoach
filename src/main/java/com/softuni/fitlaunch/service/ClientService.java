@@ -30,6 +30,10 @@ public class ClientService {
         return modelMapper.map(clientEntity, ClientDTO.class);
     }
 
+    public ClientEntity getClientEntityByUsername(String username) {
+        return clientRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("Client with username " + username + " was not found"));
+    }
+
     public void completedProgramWorkout(String clientUsername, Long programId) {
         ClientEntity clientEntity = clientRepository.findByUsername(clientUsername).orElseThrow(() -> new ObjectNotFoundException("Client with username " + clientUsername + " does not exist"));
         ProgramWeekWorkoutEntity programWeekWorkoutEntity = programWeekWorkoutRepository.findById(programId).orElseThrow(() -> new ObjectNotFoundException("Workout with id " + programId + " does not exist"));

@@ -55,10 +55,6 @@ public class UserEntity extends BaseEntity {
     private List<CommentEntity> comments;
 
 
-    @ManyToOne
-    private WorkoutEntity workoutStarted;
-
-
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "program_workouts_liked",
@@ -66,12 +62,6 @@ public class UserEntity extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "workout_id"))
     private List<WorkoutEntity> workoutsLiked;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "program_workout_exercises_completed",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "exercise_id"))
-    private List<ProgramWorkoutExerciseEntity> programExercisesCompleted;
 
     @Column(name = "activated", nullable = false)
     private boolean activated = false;

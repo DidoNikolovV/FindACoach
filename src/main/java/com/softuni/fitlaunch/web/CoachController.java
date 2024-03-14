@@ -7,6 +7,7 @@ import com.softuni.fitlaunch.model.dto.user.CoachDTO;
 import com.softuni.fitlaunch.model.dto.view.UserCoachDetailsView;
 import com.softuni.fitlaunch.model.dto.view.UserCoachView;
 import com.softuni.fitlaunch.model.dto.workout.ScheduledWorkoutDTO;
+import com.softuni.fitlaunch.service.ClientService;
 import com.softuni.fitlaunch.service.CoachService;
 import com.softuni.fitlaunch.service.ScheduleWorkoutService;
 import jakarta.validation.Valid;
@@ -27,18 +28,22 @@ public class CoachController {
 
     private final CoachService coachService;
 
+    private final ClientService clientService;
+
+
     private final ScheduleWorkoutService scheduleWorkoutService;
 
-    public CoachController(CoachService coachService, ScheduleWorkoutService scheduleWorkoutService) {
+    public CoachController(CoachService coachService, ClientService clientService, ScheduleWorkoutService scheduleWorkoutService) {
         this.coachService = coachService;
+        this.clientService = clientService;
         this.scheduleWorkoutService = scheduleWorkoutService;
     }
 
     @GetMapping("/all")
     public String allCoaches(Principal principal, Model model) {
-        ClientDTO clientByUsername = coachService.getClientByUsername(principal.getName());
-        if (clientByUsername.getCoach() != null) {
-            return "redirect:/coaches/coach/" + clientByUsername.getCoach().getId();
+        ClientDTO client = clientService.getClientByUsername(principal.getName());
+        if (client.getCoach() != null) {
+            return "redirect:/coaches/coach/" + client.getCoach().getId();
         }
         List<UserCoachView> allCoaches = coachService.getAllCoaches();
 
