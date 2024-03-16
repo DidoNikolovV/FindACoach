@@ -1,6 +1,5 @@
 package com.softuni.fitlaunch.model.dto;
 
-import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
 import lombok.Data;

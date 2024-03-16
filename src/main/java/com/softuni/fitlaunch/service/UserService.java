@@ -7,10 +7,8 @@ import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.user.UserRegisterDTO;
 import com.softuni.fitlaunch.model.dto.user.UserRoleDTO;
-import com.softuni.fitlaunch.model.dto.view.UserCoachView;
 import com.softuni.fitlaunch.model.dto.view.UserProfileView;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
-import com.softuni.fitlaunch.model.entity.CoachEntity;
 import com.softuni.fitlaunch.model.entity.UserActivationCodeEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.UserRoleEntity;
@@ -24,7 +22,6 @@ import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,15 +36,12 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
 
-    private final CoachService coachService;
     private final ClientService clientService;
 
     private final ProgramService programService;
 
     private final RoleRepository roleRepository;
 
-
-    private final PasswordEncoder passwordEncoder;
 
     private final ModelMapper modelMapper;
 
@@ -60,11 +54,9 @@ public class UserService {
     private final FileUpload fileUpload;
 
 
-    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder, RoleRepository roleRepository, CoachService coachService, ClientService clientService, ProgramService programService, ModelMapper modelMapper, UserMapper userMapper, ApplicationEventPublisher applicationEventPublisher, UserActivationCodeRepository userActivationCodeRepository, FileUpload fileUpload) {
+    public UserService(UserRepository userRepository, RoleRepository roleRepository, ClientService clientService, ProgramService programService, ModelMapper modelMapper, UserMapper userMapper, ApplicationEventPublisher applicationEventPublisher, UserActivationCodeRepository userActivationCodeRepository, FileUpload fileUpload) {
         this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
         this.roleRepository = roleRepository;
-        this.coachService = coachService;
         this.clientService = clientService;
         this.programService = programService;
         this.modelMapper = modelMapper;
@@ -128,11 +120,11 @@ public class UserService {
     }
 
 
-    public boolean isWorkoutCompleted(String username, ProgramWeekWorkoutDTO programWeekWorkoutDTO) {
+    public boolean isWorkoutCompleted(String username, WorkoutDTO workoutDTO) {
         ClientDTO clientDTO = clientService.getClientByUsername(username);
 
         for (ProgramWeekWorkoutDTO weekWorkoutDTO : clientDTO.getCompletedWorkouts()) {
-            if (weekWorkoutDTO.getId().equals(programWeekWorkoutDTO.getId())) {
+            if (weekWorkoutDTO.getId().equals(workoutDTO.getId())) {
                 return true;
             }
         }
@@ -160,8 +152,6 @@ public class UserService {
         if(hasNotLiked) {
             userEntity.getWorkoutsLiked().add(weekWorkout);
         }
-
-//        programWeekWorkoutRepository.save(workoutEntity);
         userRepository.save(userEntity);
     }
 
@@ -174,10 +164,10 @@ public class UserService {
         userRepository.save(userEntity);
     }
 
-    public boolean isWorkoutLiked(UserDTO loggedUser, ProgramWeekWorkoutDTO programWeekWorkoutDTO) {
+    public boolean isWorkoutLiked(UserDTO loggedUser, WorkoutDTO workoutDTO) {
         UserEntity user = userRepository.findByUsername(loggedUser.getUsername()).orElseThrow(() -> new ObjectNotFoundException("User with " + loggedUser.getUsername() + " doesn't exist"));
         for (WorkoutEntity likedWorkout : user.getWorkoutsLiked()) {
-            if (likedWorkout.getId().equals(programWeekWorkoutDTO.getId())) {
+            if (likedWorkout.getId().equals(workoutDTO.getId())) {
                 return true;
             }
         }
@@ -260,21 +250,6 @@ public class UserService {
         userRepository.save(userEntity);
     }
 
-
-//    public void completeProgramWorkoutExercise(UserDTO loggedUser, Long weekId, Long workoutId, Long exerciseId) {
-//        UserEntity userEntity = userRepository.findByUsername(loggedUser.getUsername()).orElseThrow(() -> new ObjectNotFoundException("User not found"));
-//        WorkoutEntity programWeekWorkoutEntity = programService.getWorkoutEntityById(workoutId);
-//
-//        for (ExerciseEntity exercise : programWeekWorkoutEntity.getExercises()) {
-//            if (exercise.getId().equals(exerciseId)) {
-//                userEntity.getProgramExercisesCompleted().add(exercise);
-//                userRepository.save(userEntity);
-//                return;
-//            }
-//        }
-//    }
-
-
     public UserProfileView uploadProfilePicture(String username, MultipartFile profilePicture) throws IOException {
         String picture = fileUpload.uploadFile(profilePicture);
 
@@ -289,24 +264,5 @@ public class UserService {
     public UserProfileView getUserProfileByUsername(String username) {
         UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("User with " + username + " doesn't exist"));
         return modelMapper.map(userEntity, UserProfileView.class);
-    }
-
-    public boolean hasCompletedWorkout(ClientDTO clientDTO, ProgramWeekWorkoutDTO programWeekWorkoutDTO) {
-        ClientDTO clientByUsername = clientService.getClientByUsername(clientDTO.getUsername());
-
-        for (ProgramWeekWorkoutDTO completedWorkout : clientByUsername.getCompletedWorkouts()) {
-            if (completedWorkout.getId().equals(programWeekWorkoutDTO.getId())) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public List<UserCoachView> getAllCoaches() {
-        List<UserEntity> coachesEntity = userRepository.findAllByTitle(UserTitleEnum.COACH).orElse(new ArrayList<>());
-
-        return coachesEntity.stream().map(coachEntity -> new UserCoachView(coachEntity.getId(), coachEntity.getImgUrl(), coachEntity.getUsername(), coachEntity.getEmail(), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rhoncus enim at enim bibendum porta. Suspendisse id mollis neque, et sodales nisi. Ut eget pulvinar felis. Curabitur sed suscipit nibh, at scelerisque arcu. Cras pharetra sodales ultrices. Vestibulum aliquet elementum libero vel congue. Mauris ut quam ultrices odio posuere efficitur. Phasellus sagittis pellentesque laoreet.", 5.8)).toList();
-
     }
 }

@@ -1,7 +1,6 @@
 package com.softuni.fitlaunch.service;
 
 
-import com.softuni.fitlaunch.model.dto.ExerciseDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.model.enums.LevelEnum;
@@ -24,14 +23,13 @@ public class WorkoutService {
     private String BASE_IMAGES_PATH;
     private final WorkoutRepository workoutRepository;
 
-    private final ExerciseService exerciseService;
+
 
     private final ModelMapper modelMapper;
 
 
-    public WorkoutService(WorkoutRepository workoutRepository, ExerciseService exerciseService, ModelMapper modelMapper) {
+    public WorkoutService(WorkoutRepository workoutRepository, ModelMapper modelMapper) {
         this.workoutRepository = workoutRepository;
-        this.exerciseService = exerciseService;
         this.modelMapper = modelMapper;
     }
 
@@ -53,6 +51,14 @@ public class WorkoutService {
         return workoutRepository
                 .findAll(pageable)
                 .map(entity -> modelMapper.map(entity, WorkoutDTO.class));
+    }
+
+    public List<WorkoutDTO> loadAllByProgramId(Long programId) {
+        return workoutRepository
+                .findAllByProgramId(programId)
+                .stream()
+                .map(workout -> modelMapper.map(workout, WorkoutDTO.class))
+                .toList();
     }
 
     public List<LevelEnum> getAllLevels() {

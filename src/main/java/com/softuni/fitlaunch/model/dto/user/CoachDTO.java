@@ -3,7 +3,6 @@ package com.softuni.fitlaunch.model.dto.user;
 import com.softuni.fitlaunch.model.dto.CertificateDTO;
 import com.softuni.fitlaunch.model.dto.program.ProgramDTO;
 import com.softuni.fitlaunch.model.dto.workout.ScheduledWorkoutDTO;
-import com.softuni.fitlaunch.model.enums.UserRoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

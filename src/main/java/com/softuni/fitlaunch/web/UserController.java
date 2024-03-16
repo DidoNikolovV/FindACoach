@@ -10,7 +10,6 @@ import com.softuni.fitlaunch.model.entity.UserRoleEntity;
 import com.softuni.fitlaunch.model.enums.UserRoleEnum;
 import com.softuni.fitlaunch.service.BlackListService;
 import com.softuni.fitlaunch.service.ClientService;
-import com.softuni.fitlaunch.service.CoachService;
 import com.softuni.fitlaunch.service.ScheduleWorkoutService;
 import com.softuni.fitlaunch.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
