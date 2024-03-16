@@ -66,14 +66,7 @@ INSERT INTO programs (img_url, name, coach_id)
 VALUES ('/images/beginner-program.jpg', 'Beginner', 1),
        ('/images/intermediate-program.jpg', 'Intermediate', 1),
        ('/images/advanced-program.jpg', 'Advanced', 1);
---
--- -- Insert data into ProgramWeekEntity
--- INSERT INTO programs_weeks (id, program_id)
--- VALUES (1, 1),
---        (2, 1),
---        (3, 1),
---        (4, 1);
---
+
 --
 -- INSERT INTO programs_weeks_workouts (id, name, program_week_id, has_started, is_completed, level, description,
 --                                      program_id)
@@ -133,6 +126,12 @@ VALUES ('/images/beginner-program.jpg', 'Beginner', 1),
 --        ('Advanced Yoga Instructor', 'Yoga Certification Institute', '2021-05-15'),
 --        ('Professional Life Coach', 'Coaching Association', '2020-10-01');
 
+
+INSERT INTO workouts (date_completed, description, has_started, img_url, is_completed, level, likes, name, author_id, program_id)
+VALUES
+    ('', 'Full Body Workout: Squats, Deadlifts, Bench Press, Pull-ups, and Planks', 0, 'https://example.com/full_body_workout.jpg', 0, 'Intermediate', 25, 'Full Body Blast', 1, 1),
+    ('', 'Cardio HIIT: Jumping Jacks, Burpees, High Knees, Mountain Climbers, and Jump Rope', 0, 'https://example.com/cardio_hiit.jpg', 0, 'Advanced', 15, 'HIIT Cardio Burn', 1, 1),
+    ('', 'Yoga Flow: Sun Salutations, Warrior Poses, Downward Dog, and Child’s Pose', 0, 'https://example.com/yoga_flow.jpg', 0, 'Beginner', 30, 'Morning Yoga Flow', 1, 1);
 
 
 

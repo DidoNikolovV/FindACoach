@@ -1,6 +1,7 @@
 package com.softuni.fitlaunch.service;
 
 
+import com.softuni.fitlaunch.mappers.UserMapper;
 import com.softuni.fitlaunch.model.dto.CertificateDTO;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.ClientDetailsDTO;
@@ -10,6 +11,7 @@ import com.softuni.fitlaunch.model.dto.view.UserCoachView;
 import com.softuni.fitlaunch.model.dto.workout.ScheduledWorkoutDTO;
 import com.softuni.fitlaunch.model.entity.ClientEntity;
 import com.softuni.fitlaunch.model.entity.CoachEntity;
+import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.repository.ClientRepository;
 import com.softuni.fitlaunch.repository.CoachRepository;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
@@ -28,10 +30,13 @@ public class CoachService {
     private final ModelMapper modelMapper;
     private final ClientRepository clientRepository;
 
-    public CoachService(CoachRepository coachRepository, ModelMapper modelMapper, ClientRepository clientRepository) {
+    private  final UserMapper userMapper;
+
+    public CoachService(CoachRepository coachRepository, ModelMapper modelMapper, ClientRepository clientRepository, UserMapper userMapper) {
         this.coachRepository = coachRepository;
         this.modelMapper = modelMapper;
         this.clientRepository = clientRepository;
+        this.userMapper = userMapper;
     }
 
     public List<UserCoachView> getAllCoaches() {
@@ -97,4 +102,9 @@ public class CoachService {
         clientRepository.save(clientEntity);
     }
 
+    public void registerCoach(UserEntity user) {
+        CoachEntity coach = userMapper.mapUserToCoach(user);
+        coachRepository.save(coach);
+
+    }
 }

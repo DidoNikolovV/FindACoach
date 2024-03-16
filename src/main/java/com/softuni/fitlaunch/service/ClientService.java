@@ -1,7 +1,7 @@
 package com.softuni.fitlaunch.service;
 
 
-import com.softuni.fitlaunch.mappers.ClientMapper;
+import com.softuni.fitlaunch.mappers.UserMapper;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.entity.ClientEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
@@ -17,16 +17,16 @@ public class ClientService {
 
     private final ModelMapper modelMapper;
 
-    private final ClientMapper clientMapper;
+    private final UserMapper userMapper;
 
-    public ClientService(ClientRepository clientRepository, ModelMapper modelMapper, ClientMapper clientMapper) {
+    public ClientService(ClientRepository clientRepository, ModelMapper modelMapper, UserMapper userMapper) {
         this.clientRepository = clientRepository;
         this.modelMapper = modelMapper;
-        this.clientMapper = clientMapper;
+        this.userMapper = userMapper;
     }
 
     public void registerClient(UserEntity user) {
-        ClientEntity client = clientMapper.mapUserToClient(user);
+        ClientEntity client = userMapper.mapUserToClient(user);
         clientRepository.save(client);
     }
 

@@ -36,6 +36,8 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
 
+    private final CoachService coachService;
+
     private final ClientService clientService;
 
     private final ProgramService programService;
@@ -54,8 +56,9 @@ public class UserService {
     private final FileUpload fileUpload;
 
 
-    public UserService(UserRepository userRepository, RoleRepository roleRepository, ClientService clientService, ProgramService programService, ModelMapper modelMapper, UserMapper userMapper, ApplicationEventPublisher applicationEventPublisher, UserActivationCodeRepository userActivationCodeRepository, FileUpload fileUpload) {
+    public UserService(UserRepository userRepository, CoachService coachService, RoleRepository roleRepository, ClientService clientService, ProgramService programService, ModelMapper modelMapper, UserMapper userMapper, ApplicationEventPublisher applicationEventPublisher, UserActivationCodeRepository userActivationCodeRepository, FileUpload fileUpload) {
         this.userRepository = userRepository;
+        this.coachService = coachService;
         this.roleRepository = roleRepository;
         this.clientService = clientService;
         this.programService = programService;
@@ -90,6 +93,8 @@ public class UserService {
 
         if(user.getTitle().equals(UserTitleEnum.CLIENT))
             clientService.registerClient(user);
+        else if(user.getTitle().equals(UserTitleEnum.COACH))
+            coachService.registerCoach(user);
 
         applicationEventPublisher.publishEvent(new UserRegisteredEvent(
                 "UserService", userRegisterDTO.getEmail(), userRegisterDTO.getUsername()
