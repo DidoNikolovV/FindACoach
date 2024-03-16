@@ -83,7 +83,8 @@ public class UserService {
             return false;
         }
 
-        UserRoleEntity role = roleRepository.findById(isFirst ? 1L : UserTitleEnum.valueOf(userRegisterDTO.getTitle()).ordinal()).orElse(null);
+
+        UserRoleEntity role = roleRepository.findById(isFirst ? 1L : UserTitleEnum.valueOf(userRegisterDTO.getTitle()).ordinal() + 1).orElse(null);
 
         UserEntity user = userMapper.mapToEntity(userRegisterDTO);
         user.setRoles(List.of(role));
@@ -91,11 +92,12 @@ public class UserService {
 
         userRepository.save(user);
 
-        if(user.getTitle().equals(UserTitleEnum.CLIENT))
+        if(user.getTitle().equals(UserTitleEnum.CLIENT)) {
             clientService.registerClient(user);
-        else if(user.getTitle().equals(UserTitleEnum.COACH))
+        }
+        else if(user.getTitle().equals(UserTitleEnum.COACH)) {
             coachService.registerCoach(user);
-
+        }
         applicationEventPublisher.publishEvent(new UserRegisteredEvent(
                 "UserService", userRegisterDTO.getEmail(), userRegisterDTO.getUsername()
         ));
