@@ -3,6 +3,10 @@ package com.softuni.fitlaunch.web;
 
 import com.softuni.fitlaunch.service.WorkoutService;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.security.Principal;
 
 @Controller
 public class WorkoutController {
@@ -13,6 +17,12 @@ public class WorkoutController {
     public WorkoutController(WorkoutService workoutService) {
         this.workoutService = workoutService;
     }
+
+//    @PostMapping("/workouts/start/{programId}/{weekId}/{workoutId}")
+//    public String workoutStart(@PathVariable("programId") Long programId, @PathVariable("weekId") Long weekId, @PathVariable("workoutId") Long workoutId, Principal principal) {
+//        workoutService.startWorkout(programId, workoutId);
+//        return String.format("redirect:/workouts/%d/%d/%d", programId, weekId, workoutId);
+//    }
 
 //    @GetMapping("/workouts/add")
 //    public String add(Model model) {

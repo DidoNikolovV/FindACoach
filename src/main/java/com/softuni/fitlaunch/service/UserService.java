@@ -96,6 +96,9 @@ public class UserService {
 
         userRepository.save(user);
 
+        if(user.getTitle().equals(UserTitleEnum.CLIENT))
+            clientService.registerClient(user);
+
         applicationEventPublisher.publishEvent(new UserRegisteredEvent(
                 "UserService", userRegisterDTO.getEmail(), userRegisterDTO.getUsername()
         ));
@@ -118,12 +121,8 @@ public class UserService {
         return userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("User with " + username + " doesn't exist"));
     }
 
-    public void startProgramWorkout(String username, Long programWorkoutId) {
-        UserEntity user = userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("User with " + username + " does not exist"));
-        userRepository.save(user);
-    }
 
-    public boolean isWorkoutStarted(String username, ProgramWeekWorkoutDTO programWeekWorkoutDTO) {
+    public boolean isWorkoutStarted(String username) {
         UserEntity user = userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("User with " + username + " doesn't exist"));
         return false;
     }

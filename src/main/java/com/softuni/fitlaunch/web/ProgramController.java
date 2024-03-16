@@ -16,11 +16,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
 import java.util.List;
 
 @Controller
+@RequestMapping("/programs")
 public class ProgramController {
 
     private final ProgramService programService;
@@ -35,7 +37,7 @@ public class ProgramController {
         this.clientService = clientService;
     }
 
-    @GetMapping("/programs/all")
+    @GetMapping("/all")
     public String loadAllPrograms(Model model, Principal principal) {
 
         UserDTO userByUsername = userService.getUserByUsername(principal.getName());
@@ -52,7 +54,7 @@ public class ProgramController {
         return "programs";
     }
 
-    @GetMapping("/programs/{programId}")
+    @GetMapping("/{programId}")
     public String loadProgramById(@PathVariable("programId") Long programId, Model model, Principal principal) {
         ProgramDTO programDTO = programService.getById(programId);
 
@@ -84,7 +86,7 @@ public class ProgramController {
         ProgramWeekWorkoutDTO programWeekWorkoutById = programService.getProgramWeekWorkoutById(workoutId, loggedUser);
 
 
-        boolean hasStarted = userService.isWorkoutStarted(principal.getName(), programWeekWorkoutById);
+        boolean hasStarted = userService.isWorkoutStarted(principal.getName());
         boolean isCompleted = userService.isWorkoutCompleted(principal.getName(), programWeekWorkoutById);
         boolean hasLiked = userService.isWorkoutLiked(loggedUser, programWeekWorkoutById);
 
@@ -100,12 +102,6 @@ public class ProgramController {
         return "workout-details";
     }
 
-
-    @PostMapping("/workouts/start/{programId}/{weekId}/{workoutId}")
-    public String workoutStart(@PathVariable("programId") Long programId, @PathVariable("weekId") Long weekId, @PathVariable("workoutId") Long workoutId, Principal principal) {
-        userService.startProgramWorkout(principal.getName(), workoutId);
-        return String.format("redirect:/workouts/%d/%d/%d", programId, weekId, workoutId);
-    }
 
 
 //    @PostMapping("/workouts/complete/{programId}/{weekId}/{workoutId}")

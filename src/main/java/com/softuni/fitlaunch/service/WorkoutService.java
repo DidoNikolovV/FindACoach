@@ -58,8 +58,4 @@ public class WorkoutService {
     public List<LevelEnum> getAllLevels() {
         return Arrays.stream(LevelEnum.values()).collect(Collectors.toList());
     }
-
-    public List<ExerciseDTO> getAllExercises(Long workoutId) {
-        return exerciseService.getAllByWorkoutId(workoutId);
-    }
 }

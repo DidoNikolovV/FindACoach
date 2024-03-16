@@ -36,7 +36,6 @@ import java.util.List;
 public class UserController {
 
     private final UserService userService;
-    private final CoachService coachService;
 
     private final ClientService clientService;
 
@@ -45,9 +44,8 @@ public class UserController {
     private final ScheduleWorkoutService scheduleWorkoutService;
 
 
-    public UserController(UserService userService, CoachService coachService, ClientService clientService, BlackListService blackListService, ScheduleWorkoutService scheduleWorkoutService) {
+    public UserController(UserService userService, ClientService clientService, BlackListService blackListService, ScheduleWorkoutService scheduleWorkoutService) {
         this.userService = userService;
-        this.coachService = coachService;
         this.clientService = clientService;
         this.blackListService = blackListService;
         this.scheduleWorkoutService = scheduleWorkoutService;

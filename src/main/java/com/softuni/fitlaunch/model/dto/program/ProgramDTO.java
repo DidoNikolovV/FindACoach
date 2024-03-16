@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class ProgramDTO {
+
+    private Long id;
     private String imgUrl;
     private String name;
 }

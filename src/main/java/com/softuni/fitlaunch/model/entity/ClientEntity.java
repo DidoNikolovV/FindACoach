@@ -43,7 +43,7 @@ public class ClientEntity extends BaseEntity {
     @JoinColumn(name = "coach_id")
     private CoachEntity coach;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private WorkoutEntity workoutStarted;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)

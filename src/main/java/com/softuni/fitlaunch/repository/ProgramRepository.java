@@ -11,4 +11,5 @@ import java.util.Optional;
 @Repository
 public interface ProgramRepository extends JpaRepository<ProgramEntity, Long> {
     Optional<List<ProgramEntity>> findAllByCoachId(Long coachId);
+
 }

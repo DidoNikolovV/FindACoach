@@ -88,7 +88,7 @@ public class CoachController {
         CoachDTO coachById = coachService.getCoachById(coachId);
         model.addAttribute("coach", coachById);
         model.addAttribute("client", client);
-//        coachService.addClient(coachId, client);
+        coachService.addClient(coachId, client);
         return "client-information-form";
     }
 
