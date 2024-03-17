@@ -1,6 +1,6 @@
 package com.softuni.fitlaunch.model.dto.program;
 
-import com.softuni.fitlaunch.model.dto.ExerciseDTO;
+import com.softuni.fitlaunch.model.dto.WorkoutExerciseDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,7 @@ public class ProgramWorkoutExerciseDTO {
 
     private ProgramWeekWorkoutDTO workout;
 
-    private ExerciseDTO exercise;
+    private WorkoutExerciseDTO exercise;
 
     private int sets;
 

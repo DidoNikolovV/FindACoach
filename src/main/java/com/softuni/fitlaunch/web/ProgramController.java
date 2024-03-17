@@ -8,8 +8,10 @@ import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.entity.WeekEntity;
 import com.softuni.fitlaunch.model.enums.UserTitleEnum;
 import com.softuni.fitlaunch.service.ClientService;
+import com.softuni.fitlaunch.service.ExerciseService;
 import com.softuni.fitlaunch.service.ProgramService;
 import com.softuni.fitlaunch.service.UserService;
+import com.softuni.fitlaunch.service.WorkoutService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,10 +31,14 @@ public class ProgramController {
 
     private final ClientService clientService;
 
-    public ProgramController(ProgramService programService, UserService userService, ClientService clientService) {
+    private final ExerciseService exerciseService;
+
+
+    public ProgramController(ProgramService programService, UserService userService, ClientService clientService, ExerciseService exerciseService) {
         this.programService = programService;
         this.userService = userService;
         this.clientService = clientService;
+        this.exerciseService = exerciseService;
     }
 
     @GetMapping("/all")
@@ -69,5 +75,13 @@ public class ProgramController {
 
 
         return "program-details";
+    }
+
+    @GetMapping("/create")
+    public String loadProgramCreation(Model model, Principal principal) {
+
+        model.addAttribute("allExercises", exerciseService.loadAllExercises());
+
+        return "create-program";
     }
 }

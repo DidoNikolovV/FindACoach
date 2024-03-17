@@ -1,6 +1,5 @@
 package com.softuni.fitlaunch.model.dto.workout;
 
-import com.softuni.fitlaunch.model.dto.ExerciseDTO;
 import jakarta.validation.constraints.NotNull;
 
 
@@ -12,7 +11,7 @@ public class WorkoutExerciseDTO {
     @NotNull
     private WorkoutDTO workout;
     @NotNull
-    private ExerciseDTO exercise;
+    private com.softuni.fitlaunch.model.dto.WorkoutExerciseDTO exercise;
 
     @NotNull
     private int sets;
@@ -48,11 +47,11 @@ public class WorkoutExerciseDTO {
         return this;
     }
 
-    public ExerciseDTO getExercise() {
+    public com.softuni.fitlaunch.model.dto.WorkoutExerciseDTO getExercise() {
         return exercise;
     }
 
-    public WorkoutExerciseDTO setExercise(ExerciseDTO exercise) {
+    public WorkoutExerciseDTO setExercise(com.softuni.fitlaunch.model.dto.WorkoutExerciseDTO exercise) {
         this.exercise = exercise;
         return this;
     }

@@ -28,7 +28,7 @@ public class UserDTO {
 
     private List<WorkoutDTO> workoutsLiked;
 
-    private boolean activated = false;
+    private boolean isActivated;
 
     private String imgUrl;
 

@@ -56,7 +56,7 @@ public class WorkoutEntity extends BaseEntity {
     private List<UserEntity> usersLiked = new ArrayList<>();
 
     @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private List<ExerciseEntity> exercises;
+    private List<WorkoutExerciseEntity> exercises;
 
 
     @Column(nullable = false)

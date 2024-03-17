@@ -1,6 +1,6 @@
 package com.softuni.fitlaunch.model.dto.workout;
 
-import com.softuni.fitlaunch.model.dto.ExerciseDTO;
+import com.softuni.fitlaunch.model.dto.WorkoutExerciseDTO;
 import com.softuni.fitlaunch.model.dto.comment.CommentCreationDTO;
 import com.softuni.fitlaunch.model.dto.program.ProgramWeekDTO;
 import com.softuni.fitlaunch.model.enums.LevelEnum;
@@ -43,7 +43,7 @@ public class WorkoutDTO {
     private Integer likes = 0;
 
     @NotNull
-    private List<ExerciseDTO> exercises;
+    private List<WorkoutExerciseDTO> exercises;
 
 
     @NotNull

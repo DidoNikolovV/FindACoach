@@ -33,7 +33,6 @@
                     </div>
                 </div>
 
-                <!-- Add more days dynamically using JavaScript if needed -->
             </div>
 
         </div>
@@ -50,25 +49,12 @@
                             <label class="form-check-label" th:for="'exercise-' + ${exercise.id}">
                                 <span th:text="${exercise.name}"></span>
                             </label>
-
-                            <!--                <div class="form-group">-->
-                            <!--                  <label th:for="'sets-' + ${exerciseStat.index}">Sets</label>-->
-                            <!--                  <input type="number" class="form-control"-->
-                            <!--                         th:id="'sets-' + ${exerciseStat.index}" th:name="sets" th:value="${exercise.sets}" />-->
-                            <!--                </div>-->
-
-                            <!--                <div class="form-group">-->
-                            <!--                  <label th:for="'reps-' + ${exerciseStat.index}">Reps</label>-->
-                            <!--                  <input type="number" class="form-control"-->
-                            <!--                         th:id="'reps-' + ${exerciseStat.index}"  th:name="reps" th:value="${exercise.reps}"  />-->
-                            <!--                </div>-->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Submit Button -->
         <button type="submit" class="btn btn-primary">Create Program</button>
     </form>
 </div>

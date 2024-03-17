@@ -1,6 +1,6 @@
 package com.softuni.fitlaunch.mappers;
 
-import com.softuni.fitlaunch.model.dto.ExerciseDTO;
+import com.softuni.fitlaunch.model.dto.WorkoutExerciseDTO;
 import com.softuni.fitlaunch.model.dto.comment.CommentCreationDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
@@ -29,7 +29,7 @@ public class WorkoutMapper {
         List<CommentCreationDTO> comments = workoutEntity.getComments().stream().map(commentMapper::mapAsCreationDTO).toList();
         workoutDTO.setComments(comments);
         workoutDTO.setLikes(workoutEntity.getLikes());
-        List<ExerciseDTO> exercises = workoutEntity.getExercises().stream().map(exerciseMapper::mapAsDTO).toList();
+        List<WorkoutExerciseDTO> exercises = workoutEntity.getExercises().stream().map(exerciseMapper::mapAsDTO).toList();
         workoutDTO.setExercises(exercises);
         workoutDTO.setCompleted(workoutDTO.isCompleted());
         workoutDTO.setHasStarted(workoutEntity.isHasStarted());

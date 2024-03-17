@@ -126,6 +126,25 @@ VALUES ('/images/beginner-program.jpg', 'Beginner', 1),
 --        ('Advanced Yoga Instructor', 'Yoga Certification Institute', '2021-05-15'),
 --        ('Professional Life Coach', 'Coaching Association', '2020-10-01');
 
+INSERT INTO exercises (name, target_muscle_group, video_url)
+VALUES
+    ('Squats', 'Legs', 'https://www.youtube.com/watch?v=U3HcD0PnczY'),
+    ('Bench Press', 'Chest', 'https://www.youtube.com/watch?v=rT7DgCr-3pg'),
+    ('Deadlifts', 'Back', 'https://www.youtube.com/watch?v=op9kVnSso6Q'),
+    ('Pull-ups', 'Back', 'https://www.youtube.com/watch?v=JB2oyawG9KI'),
+    ('Push-ups', 'Chest', 'https://www.youtube.com/watch?v=IODxDxX7oi4'),
+    ('Leg Press', 'Legs', 'https://www.youtube.com/watch?v=IZxyjW7MPJQ'),
+    ('Dumbbell Rows', 'Back', 'https://www.youtube.com/watch?v=HJMHwJsAnxo'),
+    ('Dumbbell Shoulder Press', 'Shoulders', 'https://www.youtube.com/watch?v=eozdVDA78K0'),
+    ('Lunges', 'Legs', 'https://www.youtube.com/watch?v=QOVaHwm-Q6U'),
+    ('Barbell Curl', 'Biceps', 'https://www.youtube.com/watch?v=kwG2ipFRgfo'),
+    ('Tricep Dips', 'Triceps', 'https://www.youtube.com/watch?v=2z8JmcrW-As'),
+    ('Russian Twists', 'Core', 'https://www.youtube.com/watch?v=VcJq1tZJUI0'),
+    ('Calf Raises', 'Calves', 'https://www.youtube.com/watch?v=6uK8GAXKdAc'),
+    ('Plank', 'Core', 'https://www.youtube.com/watch?v=pSHjTRCQxIw'),
+    ('Bent Over Rows', 'Back', 'https://www.youtube.com/watch?v=JTObkwvNlvM');
+
+
 
 INSERT INTO workouts (date_completed, description, has_started, img_url, is_completed, level, likes, name, author_id, program_id)
 VALUES

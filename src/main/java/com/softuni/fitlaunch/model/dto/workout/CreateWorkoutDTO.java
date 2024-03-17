@@ -1,6 +1,6 @@
 package com.softuni.fitlaunch.model.dto.workout;
 
-import com.softuni.fitlaunch.model.dto.ExerciseDTO;
+import com.softuni.fitlaunch.model.dto.WorkoutExerciseDTO;
 import com.softuni.fitlaunch.model.enums.LevelEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -34,7 +34,7 @@ public class CreateWorkoutDTO {
     private MultipartFile imgUrl;
 
     @NotNull
-    private List<ExerciseDTO> exercises;
+    private List<WorkoutExerciseDTO> exercises;
 
     private List<Long> selectedExerciseIds;
 
