@@ -2,8 +2,6 @@ package com.softuni.fitlaunch.service;
 
 
 import com.softuni.fitlaunch.mappers.UserMapper;
-import com.softuni.fitlaunch.model.dto.program.ProgramWeekWorkoutDTO;
-import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.user.UserRegisterDTO;
 import com.softuni.fitlaunch.model.dto.user.UserRoleDTO;
@@ -21,17 +19,13 @@ import com.softuni.fitlaunch.repository.UserRepository;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -71,24 +65,17 @@ public class UserService {
     }
 
     public boolean register(UserRegisterDTO userRegisterDTO) {
+        if(passwordsDontMatch(userRegisterDTO.getPassword(), userRegisterDTO.getConfirmPassword()) || isUsernameTaken(userRegisterDTO.getUsername())) {
+            return false;
+        }
 
         boolean isFirst = userRepository.count() == 0;
-
-        if (!userRegisterDTO.getPassword().equals(userRegisterDTO.getConfirmPassword())) {
-            return false;
-        }
-
-        Optional<UserEntity> dbUser = userRepository.findByUsername(userRegisterDTO.getUsername());
-
-        if (dbUser.isPresent()) {
-            return false;
-        }
-
 
         UserRoleEntity role = roleRepository.findById(isFirst ? 1L : UserTitleEnum.valueOf(userRegisterDTO.getTitle()).ordinal() + 1).orElse(null);
 
         UserEntity user = userMapper.mapToEntity(userRegisterDTO);
-        user.setRoles(List.of(role));
+
+        user.getRoles().add(role);
         user.setTitle(UserTitleEnum.valueOf(userRegisterDTO.getTitle()));
 
         userRepository.save(user);
@@ -99,6 +86,7 @@ public class UserService {
         else if(user.getTitle().equals(UserTitleEnum.COACH)) {
             coachService.registerCoach(user);
         }
+
         applicationEventPublisher.publishEvent(new UserRegisteredEvent(
                 "UserService", userRegisterDTO.getEmail(), userRegisterDTO.getUsername()
         ));
@@ -106,14 +94,22 @@ public class UserService {
         return true;
     }
 
+    private boolean passwordsDontMatch(String password, String confirmPassword) {
+        return !password.equals(confirmPassword);
+    }
+
+    private boolean isUsernameTaken(String username) {
+        return userRepository.findByUsername(username).isPresent();
+    }
+
     public List<UserDTO> getAllUsers() {
-        return userRepository.findAll().stream().map(userEntity -> modelMapper.map(userEntity, UserDTO.class)).toList();
+        return userRepository.findAll().stream().map(userMapper::mapToDTO).toList();
     }
 
 
     public UserDTO getUserByUsername(String username) {
         UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("User with " + username + " doesn't exist"));
-        return modelMapper.map(userEntity, UserDTO.class);
+        return userMapper.mapToDTO(userEntity);
     }
 
     public UserEntity getUserEntityByUsername(String username) {
@@ -125,12 +121,9 @@ public class UserService {
         WorkoutEntity weekWorkout = programService.getWorkoutEntityById(workoutId);
         int oldLikes = weekWorkout.getLikes();
 
-        userEntity.getWorkoutsLiked().add(weekWorkout);
-        weekWorkout.setLikes(oldLikes + 1);
-
         boolean hasNotLiked = true;
 
-        for (WorkoutDTO likedWorkout : loggedUser.getWorkoutsLiked()) {
+        for (WorkoutEntity likedWorkout : userEntity.getWorkoutsLiked()) {
             if (likedWorkout.getId().equals(workoutId)) {
                 hasNotLiked = false;
                 break;
@@ -139,7 +132,9 @@ public class UserService {
 
         if(hasNotLiked) {
             userEntity.getWorkoutsLiked().add(weekWorkout);
+            weekWorkout.setLikes(oldLikes + 1);
         }
+
         userRepository.save(userEntity);
     }
 

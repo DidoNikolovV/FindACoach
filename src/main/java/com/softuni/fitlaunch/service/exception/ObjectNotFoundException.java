@@ -4,8 +4,8 @@ package com.softuni.fitlaunch.service.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(HttpStatus.NOT_FOUND)
-public class ObjectNotFoundException extends RuntimeException {
+
+public class ObjectNotFoundException extends MyCustomException {
     public ObjectNotFoundException(String message) {
         super(message);
     }
