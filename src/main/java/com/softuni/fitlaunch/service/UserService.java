@@ -121,23 +121,6 @@ public class UserService {
     }
 
 
-    public boolean isWorkoutStarted(String username) {
-        UserEntity user = userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("User with " + username + " doesn't exist"));
-        return false;
-    }
-
-
-    public boolean isWorkoutCompleted(String username, WorkoutDTO workoutDTO) {
-        ClientDTO clientDTO = clientService.getClientByUsername(username);
-
-        for (ProgramWeekWorkoutDTO weekWorkoutDTO : clientDTO.getCompletedWorkouts()) {
-            if (weekWorkoutDTO.getId().equals(workoutDTO.getId())) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 
     public void like(UserDTO loggedUser, Long workoutId) {
         UserEntity userEntity = userRepository.findByUsername(loggedUser.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));

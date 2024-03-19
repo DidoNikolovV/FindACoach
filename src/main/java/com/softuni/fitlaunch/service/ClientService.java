@@ -2,9 +2,12 @@ package com.softuni.fitlaunch.service;
 
 
 import com.softuni.fitlaunch.mappers.UserMapper;
+import com.softuni.fitlaunch.model.dto.program.ProgramWeekWorkoutDTO;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
+import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.entity.ClientEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
+import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.repository.ClientRepository;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -37,5 +40,23 @@ public class ClientService {
 
     public ClientEntity getClientEntityByUsername(String username) {
         return clientRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("Client with username " + username + " was not found"));
+    }
+
+    public boolean isWorkoutStarted(String username, Long workoutId) {
+        ClientEntity clientEntity = clientRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("Client with username " + username + " was not found"));
+        return clientEntity.getWorkoutStarted().isHasStarted();
+    }
+
+
+    public boolean isWorkoutCompleted(String username, Long workoutId) {
+        ClientEntity clientEntity = clientRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("Client with username " + username + " was not found"));
+
+        for (WorkoutEntity weekWorkoutDTO : clientEntity.getCompletedWorkouts()) {
+            if (weekWorkoutDTO.getId().equals(workoutId)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

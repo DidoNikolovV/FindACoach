@@ -5,6 +5,7 @@ import com.softuni.fitlaunch.model.dto.program.ProgramDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.enums.LevelEnum;
+import com.softuni.fitlaunch.service.ClientService;
 import com.softuni.fitlaunch.service.ProgramService;
 import com.softuni.fitlaunch.service.UserService;
 import com.softuni.fitlaunch.service.WorkoutService;
@@ -31,11 +32,14 @@ public class WorkoutController {
 
     private final UserService userService;
 
+    private final ClientService clientService;
 
-    public WorkoutController(WorkoutService workoutService, ProgramService programService, UserService userService) {
+
+    public WorkoutController(WorkoutService workoutService, ProgramService programService, UserService userService, ClientService clientService) {
         this.workoutService = workoutService;
         this.programService = programService;
         this.userService = userService;
+        this.clientService = clientService;
     }
 
     @GetMapping("/all")
@@ -68,8 +72,8 @@ public class WorkoutController {
 //        WorkoutDTO programWeekWorkoutById = programService.getProgramWeekWorkoutById(workoutId, loggedUser);
 
 
-        boolean hasStarted = userService.isWorkoutStarted(principal.getName());
-        boolean isCompleted = userService.isWorkoutCompleted(principal.getName(), workout);
+        boolean hasStarted = clientService.isWorkoutStarted(principal.getName(), workoutId);
+        boolean isCompleted = clientService.isWorkoutCompleted(principal.getName(), workoutId);
         boolean hasLiked = userService.isWorkoutLiked(loggedUser, workout);
 
         model.addAttribute("workout", workout);

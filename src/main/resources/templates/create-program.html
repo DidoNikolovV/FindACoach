@@ -3,60 +3,109 @@
 <head th:replace="~{fragments/head}"></head>
 <nav th:replace="~{fragments/navbar}"></nav>
 <body>
-<div class="container mt-5">
-    <h2 class="mb-4 text-center text-white">Create Program</h2>
+<div class="container">
+    <h1 class="text-center mt-4 mb-4">Create Program</h1>
 
-    <form>
-        <!-- Program Title -->
+    <form th:action="@{/saveProgram}" method="post">
         <div class="form-group">
-            <label for="programTitle" class="text-white">Program Title:</label>
-            <input type="text" class="form-control" id="programTitle" name="programTitle" required>
+            <label for="programName">Program Name:</label>
+            <input type="text" class="form-control" id="programName" name="programName" required>
         </div>
 
-        <!-- Number of Weeks -->
-        <div class="form-group">
-            <label for="weeks" class="text-white">Number of Weeks:</label>
-            <input type="number" class="form-control" id="weeks" name="weeks" min="1" required>
+        <div id="weeks-container">
+            <!-- Weeks will be dynamically added here -->
         </div>
 
-        <!-- Program Days -->
-        <div class="form-group">
-            <label class="text-white">Program Days:</label>
-            <div id="programDays">
-                <!-- Day 1 -->
-                <div class="form-row mb-3">
-                    <div class="col">
-                        <input type="text" class="form-control" placeholder="Day 1 Name" required>
-                    </div>
-                    <div class="col">
-                        <input type="text" class="form-control" placeholder="Targeted Muscle Groups" required>
-                    </div>
-                </div>
+        <button type="button" class="btn btn-primary" onclick="addWeek()">Add Week</button>
 
-            </div>
-
-        </div>
-
-        <div class="form-group">
-            <label class="text-white">Select Exercises:</label>
-            <div class="row">
-                <div th:each="exercise, exerciseStat: ${allExercises}" class="col-md-4 mb-3">
-                    <div class="card-exercise d-flex align-items-center justify-content-end">
-                        <div class="card-body">
-                            <input type="checkbox" class="form-check-input"
-                                   th:id="'exercise-' + ${exercise.id}" name="selectedExerciseIds"
-                                   th:value="${exercise.id}"/>
-                            <label class="form-check-label" th:for="'exercise-' + ${exercise.id}">
-                                <span th:text="${exercise.name}"></span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Create Program</button>
+        <button type="submit" class="btn btn-success">Save Program</button>
     </form>
 </div>
+
+<script th:inline="javascript" src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script th:inline="javascript" src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script th:inline="javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script th:inline="javascript">
+
+    var allExercises = [[${allExercises}]];
+
+    function addWeek() {
+        var weekIndex = document.querySelectorAll('.week').length;
+        var html = '<div class="week">';
+        html += '<h2>Week ' + (weekIndex + 1) + '</h2>';
+        html += '<div class="workouts-container"></div>';
+        html += '<button type="button" class="btn btn-secondary mb-3" onclick="addWorkout(this, ' + weekIndex + ')">Add Workout</button>';
+        html += '<input type="hidden" name="week_' + weekIndex + '_workouts" id="week_' + weekIndex + '_workouts" value=""/>';
+        html += '</div>';
+        $('#weeks-container').append(html);
+    }
+
+    function addWorkout(btn, weekIndex) {
+        var weekDiv = $(btn).closest('.week');
+        var workoutIndex = weekDiv.find('.workout').length;
+        var html = '<div class="workout">';
+        html += '<h3>Workout ' + (workoutIndex + 1) + '</h3>';
+        html += '<div class="exercise-form">';
+        html += '<button type="button" class="btn btn-primary mb-3" onclick="addExercise(this)">Add Exercise</button>';
+        html += '</div>';
+        html += '</div>';
+        weekDiv.find('.workouts-container').append(html);
+    }
+
+    function addExercise(btn, weekIndex, workoutIndex) {
+        var workoutDiv = $(btn).closest('.workout');
+        var exerciseForm = workoutDiv.find('.exercise-form');
+
+        var exerciseSelect = $('<select class="form-control" required></select>');
+        $.each(allExercises, function(index, exercise) {
+            exerciseSelect.append('<option value="' + exercise.id + '">' + exercise.name + '</option>');
+        });
+
+        var repsInput = $('<input type="number" class="form-control" min="1" required>');
+        var setsInput = $('<input type="number" class="form-control" min="1" required>');
+
+        var exerciseGroup = $('<div class="form-group"></div>');
+        exerciseGroup.append('<label for="exercise">Exercise:</label>');
+        exerciseGroup.append(exerciseSelect);
+
+        var repsGroup = $('<div class="form-group"></div>');
+        repsGroup.append('<label for="reps">Reps:</label>');
+        repsGroup.append(repsInput);
+
+        var setsGroup = $('<div class="form-group"></div>');
+        setsGroup.append('<label for="sets">Sets:</label>');
+        setsGroup.append(setsInput);
+
+        var exerciseDetails = $('<div class="exercise-details"></div>');
+        exerciseDetails.append(exerciseGroup);
+        exerciseDetails.append(repsGroup);
+        exerciseDetails.append(setsGroup);
+
+        exerciseForm.append(exerciseDetails);
+
+        // Reset input values
+        exerciseSelect.val('');
+        repsInput.val('');
+        setsInput.val('');
+    }
+
+    function saveProgram() {
+        var weeksCompleted = true;
+        $('.week').each(function(index) {
+            var workoutsCount = $(this).find('.workout').length;
+            if (workoutsCount === 0) {
+                weeksCompleted = false;
+                return false; // Exit the loop early
+            }
+        });
+
+        if (weeksCompleted) {
+            var form = document.getElementById('programForm');
+            form.submit();
+        } else {
+            alert('Please ensure each week has at least one workout.');
+        }
+    }
+</script>
 </body>
 </html>
