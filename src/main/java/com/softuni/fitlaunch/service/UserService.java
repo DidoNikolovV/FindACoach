@@ -21,6 +21,7 @@ import com.softuni.fitlaunch.repository.UserRepository;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -105,7 +106,6 @@ public class UserService {
         return true;
     }
 
-
     public List<UserDTO> getAllUsers() {
         return userRepository.findAll().stream().map(userEntity -> modelMapper.map(userEntity, UserDTO.class)).toList();
     }
@@ -119,8 +119,6 @@ public class UserService {
     public UserEntity getUserEntityByUsername(String username) {
         return userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("User with " + username + " doesn't exist"));
     }
-
-
 
     public void like(UserDTO loggedUser, Long workoutId) {
         UserEntity userEntity = userRepository.findByUsername(loggedUser.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
@@ -166,41 +164,17 @@ public class UserService {
     }
 
     public void changeUserRole(String username, UserRoleEntity role) {
-        Optional<UserEntity> optUser = userRepository.findByUsername(username);
+        UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User does not exist"));
 
-        if (optUser.isPresent()) {
-            UserEntity user = optUser.get();
-            if (user.getRoles() == null) {
-                user.setRoles(new ArrayList<>());
-            }
-
-
-            user.getRoles().clear();
-            user.getRoles().add(role);
-            userRepository.save(user);
-        }
+        userEntity.getRoles().clear();
+        userEntity.getRoles().add(role);
+        userRepository.save(userEntity);
     }
-
-
-    @Transactional
-    public List<WorkoutDTO> getCompletedWorkouts(String username) {
-        ClientDTO clientByUsername = clientService.getClientByUsername(username);
-        ;
-        return clientByUsername.getCompletedWorkouts().stream().map(workoutEntity -> modelMapper.map(workoutEntity, WorkoutDTO.class)).toList();
-    }
-
 
     public UserRoleDTO getUserRole(UserDTO userDTO) {
-        Optional<UserEntity> optUser =
-                userRepository.findByUsername(userDTO.getEmail());
+        UserEntity userEntity = userRepository.findByUsername(userDTO.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User does not exist"));
 
-        if (optUser.isEmpty()) {
-            throw new UsernameNotFoundException("User not found");
-        }
-
-        UserEntity user = optUser.get();
-
-        UserRoleEntity userRoleEntity = user.getRoles().get(0);
+        UserRoleEntity userRoleEntity = userEntity.getRoles().get(0);
 
         return new UserRoleDTO(
                 userRoleEntity.getId(),
@@ -213,20 +187,19 @@ public class UserService {
         UserActivationCodeEntity activationCodeEntity = userActivationCodeRepository.findByActivationCode(activationCode)
                 .orElseThrow(() -> new ObjectNotFoundException("Activation code not found"));
         UserEntity user = activationCodeEntity.getUser();
-        System.out.println();
 
-        if (!user.isActivated() && !isActivationCodeExpired(activationCodeEntity.getCreated())) {
-            user.setActivated(true);
-            user.setActivationCode(null);
-            user.setActivationCodeExpiration(null);
-
-            userRepository.save(user);
-            userActivationCodeRepository.delete(activationCodeEntity);
-
-            return true;
+        if (user.isActivated() && isActivationCodeExpired(activationCodeEntity.getCreated())) {
+            return false;
         }
 
-        return false;
+        user.setActivated(true);
+        user.setActivationCode(null);
+        user.setActivationCodeExpiration(null);
+
+        userRepository.save(user);
+        userActivationCodeRepository.delete(activationCodeEntity);
+
+        return true;
     }
 
     private boolean isActivationCodeExpired(Instant expirationDateTime) {

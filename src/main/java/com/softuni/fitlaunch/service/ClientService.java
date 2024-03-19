@@ -2,6 +2,7 @@ package com.softuni.fitlaunch.service;
 
 
 import com.softuni.fitlaunch.mappers.UserMapper;
+import com.softuni.fitlaunch.mappers.WorkoutMapper;
 import com.softuni.fitlaunch.model.dto.program.ProgramWeekWorkoutDTO;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
@@ -12,6 +13,9 @@ import com.softuni.fitlaunch.repository.ClientRepository;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class ClientService {
@@ -22,10 +26,13 @@ public class ClientService {
 
     private final UserMapper userMapper;
 
-    public ClientService(ClientRepository clientRepository, ModelMapper modelMapper, UserMapper userMapper) {
+    private final WorkoutMapper workoutMapper;
+
+    public ClientService(ClientRepository clientRepository, ModelMapper modelMapper, UserMapper userMapper, WorkoutMapper workoutMapper) {
         this.clientRepository = clientRepository;
         this.modelMapper = modelMapper;
         this.userMapper = userMapper;
+        this.workoutMapper = workoutMapper;
     }
 
     public void registerClient(UserEntity user) {
@@ -58,5 +65,12 @@ public class ClientService {
         }
 
         return false;
+    }
+
+    @Transactional
+    public List<WorkoutDTO> getCompletedWorkouts(String username) {
+        ClientEntity clientEntity = getClientEntityByUsername(username);
+
+        return clientEntity.getCompletedWorkouts().stream().map(workoutMapper::mapToDTO).toList();
     }
 }
