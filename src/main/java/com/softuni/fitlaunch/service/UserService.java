@@ -147,15 +147,11 @@ public class UserService {
         userRepository.save(userEntity);
     }
 
-    public boolean isWorkoutLiked(UserDTO loggedUser, WorkoutDTO workoutDTO) {
+    public boolean isWorkoutLiked(UserDTO loggedUser, Long workoutId) {
         UserEntity user = userRepository.findByUsername(loggedUser.getUsername()).orElseThrow(() -> new ObjectNotFoundException("User with " + loggedUser.getUsername() + " doesn't exist"));
-        for (WorkoutEntity likedWorkout : user.getWorkoutsLiked()) {
-            if (likedWorkout.getId().equals(workoutDTO.getId())) {
-                return true;
-            }
-        }
 
-        return false;
+        return user.getWorkoutsLiked().stream()
+                .anyMatch(likedWorkout -> likedWorkout.getId().equals(workoutId));
     }
 
     public void changeUserRole(String username, UserRoleEntity role) {

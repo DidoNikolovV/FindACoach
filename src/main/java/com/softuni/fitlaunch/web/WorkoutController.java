@@ -74,7 +74,7 @@ public class WorkoutController {
 
         boolean hasStarted = clientService.isWorkoutStarted(principal.getName(), workoutId);
         boolean isCompleted = clientService.isWorkoutCompleted(principal.getName(), workoutId);
-        boolean hasLiked = userService.isWorkoutLiked(loggedUser, workout);
+        boolean hasLiked = userService.isWorkoutLiked(loggedUser, workoutId);
 
         model.addAttribute("workout", workout);
         model.addAttribute("user", loggedUser);
