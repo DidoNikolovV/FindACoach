@@ -121,14 +121,7 @@ public class UserService {
         WorkoutEntity weekWorkout = programService.getWorkoutEntityById(workoutId);
         int oldLikes = weekWorkout.getLikes();
 
-        boolean hasNotLiked = true;
-
-        for (WorkoutEntity likedWorkout : userEntity.getWorkoutsLiked()) {
-            if (likedWorkout.getId().equals(workoutId)) {
-                hasNotLiked = false;
-                break;
-            }
-        }
+        boolean hasNotLiked = userEntity.getWorkoutsLiked().stream().anyMatch(likedWorkout -> likedWorkout.getId().equals(workoutId));
 
         if(hasNotLiked) {
             userEntity.getWorkoutsLiked().add(weekWorkout);
