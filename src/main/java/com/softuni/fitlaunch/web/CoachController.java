@@ -64,12 +64,12 @@ public class CoachController {
 
     @PostMapping("/coach/{coachId}/schedule")
     public String scheduleWorkout(@PathVariable("coachId") Long coachId, Principal principal, @Valid ScheduledWorkoutDTO scheduledWorkoutDTO) {
-        CoachDTO coachById = coachService.getCoachById(coachId);
-        ClientDTO clientByUsername = coachService.getClientByUsername(principal.getName());
+        CoachDTO coach = coachService.getCoachById(coachId);
+        ClientDTO client = clientService.getClientByUsername(principal.getName());
 
-        scheduleWorkoutService.scheduleWorkout(clientByUsername, coachById, scheduledWorkoutDTO.getScheduledDateTime());
+        scheduleWorkoutService.scheduleWorkout(client, coach, scheduledWorkoutDTO.getScheduledDateTime());
 
-        return String.format("redirect:/users/%s/calendar", clientByUsername.getUsername());
+        return String.format("redirect:/users/%s/calendar", client.getUsername());
     }
 
     @GetMapping("/{id}")
@@ -83,7 +83,7 @@ public class CoachController {
 
     @GetMapping("/{coachId}/client/information")
     public String coachDetails(@PathVariable("coachId") Long coachId, Principal principal, Model model) {
-        ClientDTO client = coachService.getClientByUsername(principal.getName());
+        ClientDTO client = clientService.getClientByUsername(principal.getName());
 
         CoachDTO coachById = coachService.getCoachById(coachId);
         model.addAttribute("coach", coachById);
@@ -97,19 +97,10 @@ public class CoachController {
     public String clientDetails(@PathVariable("coachId") Long coachId, @ModelAttribute("clientDTO") @Valid ClientDetailsDTO clientDetailsDTO, Principal principal) {
         coachService.setClientDetails(principal.getName(), clientDetailsDTO);
 
-        ClientDTO client = coachService.getClientByUsername(principal.getName());
+        ClientDTO client = clientService.getClientByUsername(principal.getName());
         coachService.addClient(coachId, client);
 
         return "redirect:/";
-    }
-
-    @GetMapping("/clients/all")
-    public String coachAllClients(Model model, Principal principal) {
-        CoachDTO coach = coachService.getCoachByUsername(principal.getName());
-
-        model.addAttribute("coach", coach);
-
-        return "clients";
     }
 
     @GetMapping("/clients/{clientId}")

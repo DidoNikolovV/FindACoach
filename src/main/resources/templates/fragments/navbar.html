@@ -25,7 +25,7 @@
                     <a class="nav-link text-white h6" href="/coaches/all">Coaches</a>
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('COACH')">
-                    <a class="nav-link text-white h6" href="/coaches/clients/all">Clients</a>
+                    <a class="nav-link text-white h6" th:href="@{/clients/{coach}/all(coach=${#authentication.principal.username})}">Clients</a>
                 </li>
                 <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
                     <a class="nav-link dropdown-toggle text-white h6" href="#" id="navbarDropdown" role="button"

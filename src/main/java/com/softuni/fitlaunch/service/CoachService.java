@@ -49,11 +49,6 @@ public class CoachService {
         return new CoachDTO(coachEntity.getId(), coachEntity.getUsername(), coachEntity.getEmail(), coachEntity.getImgUrl(), coachEntity.getRating(), coachEntity.getDescription(), coachCertificatesDTO, new ArrayList<>(), coachClients, scheduledWorkoutsDTO);
     }
 
-    public ClientDTO getClientByUsername(String username) {
-        ClientEntity clientEntity = clientRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("Client not found"));
-        return modelMapper.map(clientEntity, ClientDTO.class);
-    }
-
 
     public void addClient(Long coachId, ClientDTO client) {
         ClientEntity clientEntity = clientRepository.findByUsername(client.getUsername()).orElseThrow(() -> new ObjectNotFoundException("Client not found"));

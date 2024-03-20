@@ -2,6 +2,7 @@ package com.softuni.fitlaunch.service;
 
 
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
+import com.softuni.fitlaunch.model.dto.user.CoachDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.entity.ClientEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientService {
@@ -58,5 +60,9 @@ public class ClientService {
         ClientEntity clientEntity = getClientEntityByUsername(username);
 
         return clientEntity.getCompletedWorkouts().stream().map(workout -> modelMapper.map(workout, WorkoutDTO.class)).toList();
+    }
+
+    public List<ClientDTO> loadAllByCoach(CoachDTO coach) {
+        return clientRepository.findAllByCoachId(coach.getId()).stream().map(client -> modelMapper.map(client, ClientDTO.class)).collect(Collectors.toList());
     }
 }

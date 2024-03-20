@@ -15,11 +15,12 @@ import java.util.List;
 @Getter
 @Setter
 public class ClientDTO {
-    private String username;
 
+    private Long id;
+
+    private String username;
     @Email
     private String email;
-
     private String imgUrl;
 
     private Double weight;
