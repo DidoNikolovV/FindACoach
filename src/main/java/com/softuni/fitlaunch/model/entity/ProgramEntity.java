@@ -41,7 +41,6 @@ public class ProgramEntity extends BaseEntity {
     private List<ClientEntity> clients;
 
 
-
     @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WeekEntity> weeks;
 

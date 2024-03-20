@@ -6,8 +6,6 @@ import com.softuni.fitlaunch.model.dto.user.UserProfileDTO;
 import com.softuni.fitlaunch.model.dto.user.UserRegisterDTO;
 import com.softuni.fitlaunch.model.dto.view.ScheduledWorkoutView;
 import com.softuni.fitlaunch.model.dto.view.UserProfileView;
-import com.softuni.fitlaunch.model.entity.UserRoleEntity;
-import com.softuni.fitlaunch.model.enums.UserRoleEnum;
 import com.softuni.fitlaunch.service.BlackListService;
 import com.softuni.fitlaunch.service.ClientService;
 import com.softuni.fitlaunch.service.ScheduleWorkoutService;
@@ -140,31 +138,18 @@ public class UserController {
 
     @PostMapping("/all")
     public String allUsers(@RequestParam("username") String username, @RequestParam("role") String role) {
-        Long roleId = role.equals("ADMIN") ? 1L : 2L;
-
-        UserRoleEntity newRole = new UserRoleEntity()
-                .setId(roleId)
-                .setRole(UserRoleEnum.valueOf(role));
-        userService.changeUserRole(username, newRole);
+        userService.changeUserRole(username, role);
 
         return "redirect:/users/all";
     }
 
     @GetMapping("/{username}/calendar")
     public String myCalendar(@PathVariable("username") String username, Model model) {
-//        CoachDTO coachByUsername = coachService.getCoachByUsername(username);
-//        List<ScheduledWorkoutDTO> allCoachScheduledWorkouts = scheduleWorkoutService.getAllCoachScheduledWorkouts(coachByUsername);
-//
-//
-//        UserDTO userByUsername = userService.getUserByUsername(username);
-//
-//        model.addAttribute("scheduledWorkouts", allCoachScheduledWorkouts);
-//        model.addAttribute("user", userByUsername);
+
         UserDTO userByUsername = userService.getUserByUsername(username);
         model.addAttribute("userTitle", userByUsername.getTitle().name());
         return "my-calendar";
     }
-
 
     @PostMapping("/ban")
     @Secured("ROLE_ADMIN")
@@ -173,7 +158,6 @@ public class UserController {
 
         return "redirect:/users/all";
     }
-
 
     @GetMapping("/contact-us")
     public String contactUs() {
@@ -194,7 +178,6 @@ public class UserController {
         return "upgrade";
     }
 
-
     @GetMapping("/activate/{activationCode}")
     public String activateAccount(@PathVariable("activationCode") String activationCode, Model model) {
 
@@ -213,15 +196,4 @@ public class UserController {
         }
 
     }
-
-//    @GetMapping("/progress")
-//    public String progress(Principal principal, Model model) {
-//        UserDTO loggedUser = userService.getUserByUsername(principal.getName());
-//
-//        List<ProgramWeekWorkoutDTO> workoutsCompleted = loggedUser.getWorkoutsCompleted();
-//
-//        model.addAttribute("workoutsCompleted", workoutsCompleted);
-//        return "workout-history";
-//    }
-
 }

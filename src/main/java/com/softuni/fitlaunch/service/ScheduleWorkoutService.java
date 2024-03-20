@@ -24,22 +24,21 @@ public class ScheduleWorkoutService {
 
     private final ScheduledWorkoutRepository scheduledWorkoutRepository;
 
-    private final CoachRepository coachRepository;
-    private final ClientRepository clientRepository;
+    private final CoachService coachService;
+    private final ClientService clientService;
 
     private final UserService userService;
 
-    public ScheduleWorkoutService(ScheduledWorkoutRepository scheduledWorkoutRepository, CoachRepository coachRepository, ClientRepository clientRepository, UserService userService) {
+    public ScheduleWorkoutService(ScheduledWorkoutRepository scheduledWorkoutRepository, CoachService coachService, ClientService clientService, UserService userService) {
         this.scheduledWorkoutRepository = scheduledWorkoutRepository;
-        this.coachRepository = coachRepository;
-        this.clientRepository = clientRepository;
+        this.coachService = coachService;
+        this.clientService = clientService;
         this.userService = userService;
     }
 
     public void scheduleWorkout(ClientDTO clientDTO, CoachDTO coachDTO, LocalDateTime scheduledTime) {
-        ClientEntity clientEntity = clientRepository.findByUsername(clientDTO.getUsername()).orElseThrow(() -> new ObjectNotFoundException("Client with username " + clientDTO.getUsername() + " not found"));
-        CoachEntity coachEntity = coachRepository.findByUsername(coachDTO.getUsername()).orElseThrow(() -> new ObjectNotFoundException("Coach with username " + coachDTO.getUsername() + " not found"));
-
+        ClientEntity clientEntity = clientService.getClientEntityByUsername(clientDTO.getUsername());
+        CoachEntity coachEntity = coachService.getCoachEntityByUsername(coachDTO.getUsername());
         ScheduledWorkoutEntity scheduledWorkoutEntity = new ScheduledWorkoutEntity();
         scheduledWorkoutEntity.setClient(clientEntity);
         scheduledWorkoutEntity.setCoach(coachEntity);
@@ -64,21 +63,7 @@ public class ScheduleWorkoutService {
 
 
     @Transactional
-    public void deleteScheduledWorkout(String username, Long eventId) {
-        CoachEntity coachEntity = coachRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("Coach not found"));
-
-
-        ScheduledWorkoutEntity scheduledWorkoutEntity = coachEntity.getScheduledWorkouts()
-                .stream()
-                .filter(workout -> workout.getId().equals(eventId))
-                .findFirst()
-                .orElseThrow(() -> new ObjectNotFoundException("Scheduled workout not found"));
-
-        ClientEntity clientEntity = clientRepository.findByUsername(scheduledWorkoutEntity.getClient().getUsername()).orElseThrow(() -> new ObjectNotFoundException("Client with " + username + " not found"));
-        coachEntity.getScheduledWorkouts().remove(scheduledWorkoutEntity);
-        clientEntity.getScheduledWorkouts().remove(scheduledWorkoutEntity);
-        coachRepository.save(coachEntity);
-        clientRepository.save(clientEntity);
+    public void deleteScheduledWorkout(Long eventId) {
         scheduledWorkoutRepository.deleteById(eventId);
     }
 

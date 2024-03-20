@@ -88,6 +88,7 @@ public class CoachController {
         CoachDTO coachById = coachService.getCoachById(coachId);
         model.addAttribute("coach", coachById);
         model.addAttribute("client", client);
+
         coachService.addClient(coachId, client);
         return "client-information-form";
     }
@@ -98,6 +99,7 @@ public class CoachController {
 
         ClientDTO client = coachService.getClientByUsername(principal.getName());
         coachService.addClient(coachId, client);
+
         return "redirect:/";
     }
 

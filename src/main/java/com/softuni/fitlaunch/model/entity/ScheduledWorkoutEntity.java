@@ -1,6 +1,7 @@
 package com.softuni.fitlaunch.model.entity;
 
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -16,11 +17,11 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "scheduled_workouts")
 public class ScheduledWorkoutEntity extends BaseEntity {
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "coach_id")
     private CoachEntity coach;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "client_id")
     private ClientEntity client;
 

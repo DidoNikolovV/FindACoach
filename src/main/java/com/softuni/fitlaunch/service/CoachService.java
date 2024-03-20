@@ -101,4 +101,8 @@ public class CoachService {
         CoachEntity coach = modelMapper.map(user, CoachEntity.class);
         coachRepository.save(coach);
     }
+
+    public CoachEntity getCoachEntityByUsername(String username) {
+        return coachRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("Coach does not exist"));
+    }
 }

@@ -8,6 +8,7 @@ import com.softuni.fitlaunch.model.entity.UserActivationCodeEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.UserRoleEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
+import com.softuni.fitlaunch.model.enums.UserRoleEnum;
 import com.softuni.fitlaunch.model.enums.UserTitleEnum;
 import com.softuni.fitlaunch.model.events.UserRegisteredEvent;
 import com.softuni.fitlaunch.repository.RoleRepository;
@@ -69,6 +70,7 @@ public class UserService {
 
         user.getRoles().add(role);
         user.setTitle(UserTitleEnum.valueOf(userRegisterDTO.getTitle()));
+        user.setMembership("Monthly");
 
         userRepository.save(user);
 
@@ -139,23 +141,18 @@ public class UserService {
                 .anyMatch(likedWorkout -> likedWorkout.getId().equals(workoutId));
     }
 
-    public void changeUserRole(String username, UserRoleEntity role) {
+    public void changeUserRole(String username, String role) {
         UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User does not exist"));
 
+        Long roleId = role.equals("ADMIN") ? 1L : 2L;
+
+        UserRoleEntity newRole = new UserRoleEntity()
+                .setId(roleId)
+                .setRole(UserRoleEnum.valueOf(role));
+
         userEntity.getRoles().clear();
-        userEntity.getRoles().add(role);
+        userEntity.getRoles().add(newRole);
         userRepository.save(userEntity);
-    }
-
-    public UserRoleDTO getUserRole(UserDTO userDTO) {
-        UserEntity userEntity = userRepository.findByUsername(userDTO.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User does not exist"));
-
-        UserRoleEntity userRoleEntity = userEntity.getRoles().get(0);
-
-        return new UserRoleDTO(
-                userRoleEntity.getId(),
-                userRoleEntity.getRole()
-        );
     }
 
     public boolean activateUser(String activationCode) {

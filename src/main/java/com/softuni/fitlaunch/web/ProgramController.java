@@ -44,14 +44,12 @@ public class ProgramController {
     @GetMapping("/all")
     public String loadAllPrograms(Model model, Principal principal) {
 
-        UserDTO userByUsername = userService.getUserByUsername(principal.getName());
-        if (userByUsername.getTitle().equals(UserTitleEnum.CLIENT)) {
-            ClientDTO clientDTO = clientService.getClientByUsername(userByUsername.getUsername());
+        UserDTO loggedUser = userService.getUserByUsername(principal.getName());
+        if (loggedUser.getTitle().equals(UserTitleEnum.CLIENT)) {
+            ClientDTO clientDTO = clientService.getClientByUsername(loggedUser.getUsername());
             List<ProgramDTO> allPrograms = programService.loadAllProgramsByCoachId(clientDTO.getCoach().getId());
             model.addAttribute("allPrograms", allPrograms);
         }
-
-        UserDTO loggedUser = userService.getUserByUsername(principal.getName());
 
         model.addAttribute("membership", loggedUser.getMembership());
 
@@ -78,7 +76,7 @@ public class ProgramController {
     }
 
     @GetMapping("/create")
-    public String loadProgramCreation(Model model, Principal principal) {
+    public String loadProgramCreation(Model model) {
 
         model.addAttribute("allExercises", exerciseService.loadAllExercises());
 

@@ -36,7 +36,7 @@ public class ScheduledWorkoutsRestController {
 
     @DeleteMapping("/{username}/calendar/scheduledWorkouts/{eventId}")
     public ResponseEntity<List<ScheduledWorkoutView>> deleteScheduledWorkout(@PathVariable("username") String username, @PathVariable("eventId") Long eventId) throws ObjectNotFoundException {
-        scheduleWorkoutService.deleteScheduledWorkout(username, eventId);
-        return ResponseEntity.ok().build();
+        scheduleWorkoutService.deleteScheduledWorkout(eventId);
+        return ResponseEntity.noContent().build();
     }
 }
