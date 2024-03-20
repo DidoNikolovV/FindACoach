@@ -3,12 +3,10 @@ package com.softuni.fitlaunch.service;
 import com.softuni.fitlaunch.model.dto.comment.CommentCreationDTO;
 import com.softuni.fitlaunch.model.dto.view.CommentView;
 import com.softuni.fitlaunch.model.entity.CommentEntity;
-import com.softuni.fitlaunch.model.entity.ProgramEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.repository.CommentRepository;
-import com.softuni.fitlaunch.repository.ProgramRepository;
-import com.softuni.fitlaunch.repository.UserRepository;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,17 +16,14 @@ import java.util.stream.Collectors;
 public class CommentService {
     private final CommentRepository commentRepository;
 
+    private final UserService userService;
 
-    private final UserRepository userRepository;;
+    private final ModelMapper modelMapper;
 
-    private final ProgramRepository programRepository;
-
-
-
-    public CommentService(CommentRepository commentRepository, UserRepository userRepository, ProgramRepository programRepository) {
+    public CommentService(CommentRepository commentRepository, UserService userService, ModelMapper modelMapper) {
         this.commentRepository = commentRepository;
-        this.userRepository = userRepository;
-        this.programRepository = programRepository;
+        this.userService = userService;
+        this.modelMapper = modelMapper;
     }
 
     public List<CommentView> getAllCommentsForWorkout(Long workoutId) {
@@ -38,17 +33,12 @@ public class CommentService {
 
 
     public CommentView addComment(CommentCreationDTO commentDTO) {
-        UserEntity authorEntity = userRepository.findByUsername(commentDTO.getAuthorUsername()).get();
+        UserEntity author = userService.getUserEntityByUsername(commentDTO.getAuthorUsername());
+        CommentEntity comment = modelMapper.map(commentDTO, CommentEntity.class);
 
-        ProgramEntity programEntity = programRepository.findById(commentDTO.getProgramId()).orElseThrow(() -> new ObjectNotFoundException("Program with id " + commentDTO.getProgramId() + " was not found"));
+        comment = commentRepository.save(comment);
 
-        CommentEntity comment = new CommentEntity();
-        comment.setProgram(programEntity);
-        comment.setAuthor(authorEntity);
-        comment.setMessage(commentDTO.getMessage());
-        commentRepository.save(comment);
-
-        return new CommentView(comment.getId(), authorEntity.getUsername(), comment.getMessage());
+        return new CommentView(comment.getId(), author.getUsername(), comment.getMessage());
     }
 
     public CommentView getComment(Long commentId) {

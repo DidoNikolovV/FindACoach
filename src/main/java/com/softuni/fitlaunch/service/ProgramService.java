@@ -54,6 +54,10 @@ public class ProgramService {
         return modelMapper.map(programEntity, ProgramDTO.class);
     }
 
+    public ProgramEntity getProgramEntityById(Long programId) {
+        return programRepository.findById(programId).orElseThrow(() -> new ObjectNotFoundException("Program with id " + programId + " not found"));
+    }
+
 
     public List<WorkoutDTO> getAllWorkoutsByProgramId(Long programId) {
         return workoutService.loadAllByProgramId(programId);
