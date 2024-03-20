@@ -23,8 +23,6 @@ public class WorkoutService {
     private String BASE_IMAGES_PATH;
     private final WorkoutRepository workoutRepository;
 
-
-
     private final ModelMapper modelMapper;
 
 

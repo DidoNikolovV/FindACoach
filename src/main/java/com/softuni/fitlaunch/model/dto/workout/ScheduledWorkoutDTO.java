@@ -1,9 +1,6 @@
 package com.softuni.fitlaunch.model.dto.workout;
 
 
-import com.softuni.fitlaunch.model.dto.program.ProgramWeekWorkoutDTO;
-import com.softuni.fitlaunch.model.dto.user.ClientDTO;
-import com.softuni.fitlaunch.model.dto.user.CoachDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,14 +13,11 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class ScheduledWorkoutDTO {
-
     private Long id;
 
-    private ClientDTO client;
-    private CoachDTO coach;
+    private Long clientId;
 
-    private ProgramWeekWorkoutDTO programWeekWorkoutDTO;
+    private Long coachId;
 
     private LocalDateTime scheduledDateTime;
-
 }

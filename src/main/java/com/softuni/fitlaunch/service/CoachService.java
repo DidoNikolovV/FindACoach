@@ -1,7 +1,5 @@
 package com.softuni.fitlaunch.service;
 
-
-import com.softuni.fitlaunch.mappers.UserMapper;
 import com.softuni.fitlaunch.model.dto.CertificateDTO;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.ClientDetailsDTO;
@@ -30,13 +28,10 @@ public class CoachService {
     private final ModelMapper modelMapper;
     private final ClientRepository clientRepository;
 
-    private  final UserMapper userMapper;
-
-    public CoachService(CoachRepository coachRepository, ModelMapper modelMapper, ClientRepository clientRepository, UserMapper userMapper) {
+    public CoachService(CoachRepository coachRepository, ModelMapper modelMapper, ClientRepository clientRepository) {
         this.coachRepository = coachRepository;
         this.modelMapper = modelMapper;
         this.clientRepository = clientRepository;
-        this.userMapper = userMapper;
     }
 
     public List<UserCoachView> getAllCoaches() {
@@ -47,7 +42,7 @@ public class CoachService {
     }
 
     public CoachDTO getCoachById(Long id) {
-        CoachEntity coachEntity = coachRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Coach not found"));
+        CoachEntity coachEntity = coachRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Coach does not exist"));
         List<CertificateDTO> coachCertificatesDTO = coachEntity.getCertificates().stream().map(certificateEntity -> modelMapper.map(certificateEntity, CertificateDTO.class)).toList();
         List<ClientDTO> coachClients = coachEntity.getClients().stream().map(clientEntity -> modelMapper.map(clientEntity, ClientDTO.class)).toList();
         List<ScheduledWorkoutDTO> scheduledWorkoutsDTO = coachEntity.getScheduledWorkouts().stream().map(scheduledWorkoutEntity -> modelMapper.map(scheduledWorkoutEntity, ScheduledWorkoutDTO.class)).toList();
@@ -103,8 +98,7 @@ public class CoachService {
     }
 
     public void registerCoach(UserEntity user) {
-        CoachEntity coach = userMapper.mapUserToCoach(user);
+        CoachEntity coach = modelMapper.map(user, CoachEntity.class);
         coachRepository.save(coach);
-
     }
 }

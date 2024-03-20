@@ -1,12 +1,9 @@
 package com.softuni.fitlaunch.service;
 
-
-import com.softuni.fitlaunch.mappers.UserMapper;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.user.UserRegisterDTO;
 import com.softuni.fitlaunch.model.dto.user.UserRoleDTO;
 import com.softuni.fitlaunch.model.dto.view.UserProfileView;
-import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.entity.UserActivationCodeEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.UserRoleEntity;
@@ -38,11 +35,7 @@ public class UserService {
     private final ProgramService programService;
 
     private final RoleRepository roleRepository;
-
-
     private final ModelMapper modelMapper;
-
-    private final UserMapper userMapper;
 
     private final ApplicationEventPublisher applicationEventPublisher;
 
@@ -51,14 +44,13 @@ public class UserService {
     private final FileUpload fileUpload;
 
 
-    public UserService(UserRepository userRepository, CoachService coachService, RoleRepository roleRepository, ClientService clientService, ProgramService programService, ModelMapper modelMapper, UserMapper userMapper, ApplicationEventPublisher applicationEventPublisher, UserActivationCodeRepository userActivationCodeRepository, FileUpload fileUpload) {
+    public UserService(UserRepository userRepository, CoachService coachService, RoleRepository roleRepository, ClientService clientService, ProgramService programService, ModelMapper modelMapper, ApplicationEventPublisher applicationEventPublisher, UserActivationCodeRepository userActivationCodeRepository, FileUpload fileUpload) {
         this.userRepository = userRepository;
         this.coachService = coachService;
         this.roleRepository = roleRepository;
         this.clientService = clientService;
         this.programService = programService;
         this.modelMapper = modelMapper;
-        this.userMapper = userMapper;
         this.applicationEventPublisher = applicationEventPublisher;
         this.userActivationCodeRepository = userActivationCodeRepository;
         this.fileUpload = fileUpload;
@@ -73,7 +65,7 @@ public class UserService {
 
         UserRoleEntity role = roleRepository.findById(isFirst ? 1L : UserTitleEnum.valueOf(userRegisterDTO.getTitle()).ordinal() + 1).orElse(null);
 
-        UserEntity user = userMapper.mapToEntity(userRegisterDTO);
+        UserEntity user = modelMapper.map(userRegisterDTO, UserEntity.class);
 
         user.getRoles().add(role);
         user.setTitle(UserTitleEnum.valueOf(userRegisterDTO.getTitle()));
@@ -103,13 +95,13 @@ public class UserService {
     }
 
     public List<UserDTO> getAllUsers() {
-        return userRepository.findAll().stream().map(userMapper::mapToDTO).toList();
+        return userRepository.findAll().stream().map(user -> modelMapper.map(user, UserDTO.class)).toList();
     }
 
 
     public UserDTO getUserByUsername(String username) {
-        UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("User with " + username + " doesn't exist"));
-        return userMapper.mapToDTO(userEntity);
+        UserEntity user = userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("User with " + username + " doesn't exist"));
+        return modelMapper.map(user, UserDTO.class);
     }
 
     public UserEntity getUserEntityByUsername(String username) {

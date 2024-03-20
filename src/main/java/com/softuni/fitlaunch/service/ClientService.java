@@ -1,16 +1,13 @@
 package com.softuni.fitlaunch.service;
 
 
-import com.softuni.fitlaunch.mappers.ClientMapper;
-import com.softuni.fitlaunch.mappers.UserMapper;
-import com.softuni.fitlaunch.mappers.WorkoutMapper;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.entity.ClientEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
-import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.repository.ClientRepository;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,26 +18,22 @@ public class ClientService {
 
     private final ClientRepository clientRepository;
 
-    private final UserMapper userMapper;
-    private final ClientMapper clientMapper;
+    private final ModelMapper modelMapper;
 
-    private final WorkoutMapper workoutMapper;
 
-    public ClientService(ClientRepository clientRepository, UserMapper userMapper, ClientMapper clientMapper, WorkoutMapper workoutMapper) {
+    public ClientService(ClientRepository clientRepository, ModelMapper modelMapper) {
         this.clientRepository = clientRepository;
-        this.userMapper = userMapper;
-        this.clientMapper = clientMapper;
-        this.workoutMapper = workoutMapper;
+        this.modelMapper = modelMapper;
     }
 
     public void registerClient(UserEntity user) {
-        ClientEntity client = userMapper.mapUserToClient(user);
+        ClientEntity client = modelMapper.map(user, ClientEntity.class);
         clientRepository.save(client);
     }
 
     public ClientDTO getClientByUsername(String username) {
         ClientEntity clientEntity = clientRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("Client with username " + username + " was not found"));
-        return clientMapper.mapToDTO(clientEntity);
+        return modelMapper.map(clientEntity, ClientDTO.class);
     }
 
     public ClientEntity getClientEntityByUsername(String username) {
@@ -64,6 +57,6 @@ public class ClientService {
     public List<WorkoutDTO> getCompletedWorkouts(String username) {
         ClientEntity clientEntity = getClientEntityByUsername(username);
 
-        return clientEntity.getCompletedWorkouts().stream().map(workoutMapper::mapToDTO).toList();
+        return clientEntity.getCompletedWorkouts().stream().map(workout -> modelMapper.map(workout, WorkoutDTO.class)).toList();
     }
 }
