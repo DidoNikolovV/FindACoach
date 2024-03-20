@@ -17,5 +17,4 @@ public class CommentCreationDTO {
     private Long workoutId;
 
     private String message;
-
 }

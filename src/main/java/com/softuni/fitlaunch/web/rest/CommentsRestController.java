@@ -2,7 +2,6 @@ package com.softuni.fitlaunch.web.rest;
 
 
 import com.softuni.fitlaunch.model.dto.comment.CommentCreationDTO;
-import com.softuni.fitlaunch.model.dto.comment.CommentMessageDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.view.CommentView;
 import com.softuni.fitlaunch.model.enums.UserRoleEnum;
@@ -25,7 +24,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1/comments")
 public class CommentsRestController {
 
     private final CommentService commentService;
@@ -38,38 +37,28 @@ public class CommentsRestController {
     }
 
 
-    @GetMapping("/{workoutId}/comments/{commentId}")
+    @GetMapping("/{commentId}")
     public ResponseEntity<CommentView> getComment(@PathVariable("commentId") Long commentId) {
         return ResponseEntity.ok(commentService.getComment(commentId));
     }
 
-    @GetMapping("/{programId}/{weekId}/{workoutId}/comments")
+    @GetMapping("/{programId}/{weekId}/{workoutId}")
     public ResponseEntity<List<CommentView>> getAllCommentsForWorkout(@PathVariable("programId") Long programId, @PathVariable("weekId") Long weekId, @PathVariable("workoutId") Long workoutId) {
         return ResponseEntity.ok(commentService.getAllCommentsForWorkout(workoutId));
     }
 
-    @GetMapping("/{workoutId}/comments")
+    @GetMapping("/{workoutId}/all")
     public ResponseEntity<List<CommentView>> getCommentsByWorkoutId(@PathVariable("workoutId") Long workoutId) {
         return ResponseEntity.ok(commentService.getAllCommentsForWorkout(workoutId));
     }
 
-    @PostMapping(value = "/{programId}/{weekId}/{workoutId}/comments", consumes = "application/json", produces = "application/json")
+    @PostMapping(value = "/{programId}/{weekId}/{workoutId}/", consumes = "application/json", produces = "application/json")
     public ResponseEntity<CommentView> postComment(@PathVariable("programId") Long programId,
                                                    @PathVariable("weekId") Long weekId,
                                                    @PathVariable("workoutId") Long workoutId,
-                                                   @RequestBody CommentMessageDTO commentMessageDTO,
-                                                   Principal principal) {
+                                                   @RequestBody CommentCreationDTO commentCreationDTO) {
 
-        UserDTO user = userService.getUserByUsername(principal.getName());
-
-        CommentCreationDTO commentDTO = new CommentCreationDTO(
-                user.getUsername(),
-                programId,
-                workoutId,
-                commentMessageDTO.getMessage()
-        );
-
-        CommentView commentView = commentService.addComment(commentDTO);
+        CommentView commentView = commentService.addComment(commentCreationDTO);
 
 
         return ResponseEntity.created(
@@ -78,7 +67,7 @@ public class CommentsRestController {
     }
 
 
-    @DeleteMapping("/{programId}/{weekId}/{workoutId}/comments/{commentId}")
+    @DeleteMapping("/{programId}/{weekId}/{workoutId}/{commentId}")
     public ResponseEntity<Void> deleteComment(@PathVariable("programId") Long programId,
                                                      @PathVariable("weekId") Long weekId,
                                                      @PathVariable("workoutId") Long workoutId,

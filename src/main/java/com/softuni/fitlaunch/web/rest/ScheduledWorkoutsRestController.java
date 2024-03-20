@@ -17,24 +17,22 @@ import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/v1/schedule-workouts")
 public class ScheduledWorkoutsRestController {
 
     private final ScheduleWorkoutService scheduleWorkoutService;
-
 
     public ScheduledWorkoutsRestController(ScheduleWorkoutService scheduleWorkoutService) {
         this.scheduleWorkoutService = scheduleWorkoutService;
     }
 
-    @GetMapping("/{username}/calendar/scheduledWorkouts")
+    @GetMapping("/calendar/{username}")
     public ResponseEntity<List<ScheduledWorkoutView>> getAllScheduledWorkouts(@PathVariable("username") String username) {
         List<ScheduledWorkoutView> allScheduledWorkouts = scheduleWorkoutService.getAllScheduledWorkouts(username);
         return ResponseEntity.ok(allScheduledWorkouts);
     }
 
-
-    @DeleteMapping("/{username}/calendar/scheduledWorkouts/{eventId}")
+    @DeleteMapping("/calendar/{username}/{eventId}")
     public ResponseEntity<List<ScheduledWorkoutView>> deleteScheduledWorkout(@PathVariable("username") String username, @PathVariable("eventId") Long eventId) throws ObjectNotFoundException {
         scheduleWorkoutService.deleteScheduledWorkout(eventId);
         return ResponseEntity.noContent().build();

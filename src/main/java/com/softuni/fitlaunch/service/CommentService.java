@@ -41,6 +41,7 @@ public class CommentService {
         return new CommentView(comment.getId(), author.getUsername(), comment.getMessage());
     }
 
+
     public CommentView getComment(Long commentId) {
         CommentEntity commentEntity = commentRepository.findById(commentId).orElseThrow(() -> new ObjectNotFoundException("Comment with id " + commentId + " was not found"));
         return new CommentView(commentEntity.getId(), commentEntity.getAuthor().getUsername(), commentEntity.getMessage());

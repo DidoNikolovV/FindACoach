@@ -34,5 +34,4 @@ public class CommentEntity {
     @Column(nullable = false)
     private String message;
 
-
 }
