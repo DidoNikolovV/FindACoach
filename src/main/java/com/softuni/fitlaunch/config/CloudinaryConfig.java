@@ -1,6 +1,7 @@
 package com.softuni.fitlaunch.config;
 
 import com.cloudinary.Cloudinary;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -10,10 +11,14 @@ import java.util.Map;
 @Configuration
 public class CloudinaryConfig {
 
-    private final String CLOUD_NAME = "diffdysmk";
-    private final String API_KEY = "819549632415934";
-    private final String API_SECRET = "MlXIgJA3bqnfjVfD2bCzGKXlm00";
+    @Value("${app.cloudinary.api-secret}")
+    private String CLOUD_NAME;
 
+    @Value("${app.cloudinary.api-key}")
+    private String API_KEY;
+
+    @Value("${app.cloudinary.cloud-name}")
+    private String API_SECRET;
     @Bean
     public Cloudinary cloudinary() {
         Map<String, String> cfg = new HashMap<>();

@@ -39,6 +39,10 @@ spring:
 app:
   images:
     path: /images
+  cloudinary:
+        cloud-name: diffdysmk
+        api-key: 819549632415934
+        api-secret: MlXIgJA3bqnfjVfD2bCzGKXlm00
 
 logging:
   level:
