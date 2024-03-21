@@ -16,5 +16,6 @@ public class UserProfileView {
     private String username;
     private String email;
     private String membership;
+    private String title;
 
 }
