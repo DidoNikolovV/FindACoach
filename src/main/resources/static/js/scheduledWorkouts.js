@@ -8,17 +8,9 @@ const calendar = document.getElementById('calendar');
 const username = document.getElementById("username").value
 const userTitle = document.getElementById("userTitle").value
 
-// function scheduledWorkoutAsHTML(workout) {
-//     let scheduledWorkoutHTML = `<div id="${workout.id}">\n`
-//     scheduledWorkoutHTML += `<p>${workout.scheduledDateTime}</p>\n`
-//     scheduledWorkoutHTML += '</div>\n'
-//
-//     return scheduledWorkoutHTML;
-// }
-
 function updateCalendarEvents() {
     // Fetch scheduled workouts from the backend
-    fetch(`${url}/api/users/${username}/calendar/scheduledWorkouts`, {
+    fetch(`${url}/api/v1/schedule-workouts/calendar/${username}`, {
         headers: {
             "Accept": "application/json"
         }
@@ -69,7 +61,7 @@ function updateCalendarEvents() {
 }
 
 function deleteCalendarEvent(eventId) {
-    fetch(`${url}/api/users/${username}/calendar/scheduledWorkouts/${eventId}`, {
+    fetch(`${url}/api/v1/schedule-workouts/calendar/${username}/${eventId}`, {
         method: 'DELETE',
         headers: {
             'Accept': 'application/json',
@@ -84,7 +76,6 @@ function deleteCalendarEvent(eventId) {
         }
     }).catch(error => console.error('Error deleting event:', error));
 }
-
 
 updateCalendarEvents();
 

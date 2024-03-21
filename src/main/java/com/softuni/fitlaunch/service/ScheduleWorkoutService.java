@@ -53,9 +53,11 @@ public class ScheduleWorkoutService {
         UserEntity userEntity = userService.getUserEntityByUsername(username);
         List<ScheduledWorkoutEntity> allScheduledWorkouts;
         if(userEntity.getTitle().equals(UserTitleEnum.CLIENT)) {
-            allScheduledWorkouts = scheduledWorkoutRepository.findAllByClientId(userEntity.getId());
+            ClientEntity client = clientService.getClientEntityByUsername(username);
+            allScheduledWorkouts = scheduledWorkoutRepository.findAllByClientId(client.getId());
         } else {
-            allScheduledWorkouts = scheduledWorkoutRepository.findAllByCoachId(userEntity.getId());
+            CoachEntity coach = coachService.getCoachEntityByUsername(username);
+            allScheduledWorkouts = scheduledWorkoutRepository.findAllByCoachId(coach.getId());
         }
 
         return allScheduledWorkouts.stream().map(scheduledWorkoutEntity -> new ScheduledWorkoutView(scheduledWorkoutEntity.getId(), scheduledWorkoutEntity.getClient().getUsername(), scheduledWorkoutEntity.getCoach().getUsername(), scheduledWorkoutEntity.getScheduledDateTime().toString())).toList();
