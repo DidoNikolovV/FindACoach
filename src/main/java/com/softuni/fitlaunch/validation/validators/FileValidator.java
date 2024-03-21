@@ -8,6 +8,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.softuni.fitlaunch.commons.ErrorMessages.EXCEEDED_FILE_SIZE;
+import static com.softuni.fitlaunch.commons.ErrorMessages.FILE_MUST_BE_PROVIDED;
+import static com.softuni.fitlaunch.commons.ErrorMessages.INVALID_FILE_EXTENSION;
+
 public class FileValidator implements ConstraintValidator<FileAnnotation, MultipartFile> {
 
     private List<String> contentTypes;
@@ -37,15 +41,15 @@ public class FileValidator implements ConstraintValidator<FileAnnotation, Multip
 
     private String getErrorMsg(MultipartFile file) {
         if (file.isEmpty()) {
-            return "File must be provided";
+            return FILE_MUST_BE_PROVIDED;
         }
 
         if (file.getSize() > size) {
-            return "Exceeded file size. Max size: " + size;
+            return String.format(EXCEEDED_FILE_SIZE, size);
         }
 
         if (!contentTypes.contains(file.getContentType())) {
-            return "Invalid file extension. Supported files: " + String.join(", ", contentTypes);
+            return String.format(INVALID_FILE_EXTENSION, String.join(", ", contentTypes));
         }
 
         return "";

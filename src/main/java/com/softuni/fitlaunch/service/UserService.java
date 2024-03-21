@@ -25,6 +25,9 @@ import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
 
+import static com.softuni.fitlaunch.commons.ErrorMessages.ACTIVATION_CODE_NOT_FOUND;
+import static com.softuni.fitlaunch.commons.ErrorMessages.USER_WITH_USERNAME_X_DOES_NOT_EXIST;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -102,16 +105,17 @@ public class UserService {
 
 
     public UserDTO getUserByUsername(String username) {
-        UserEntity user = userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("User with " + username + " doesn't exist"));
+        UserEntity user = userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, username)));
         return modelMapper.map(user, UserDTO.class);
     }
 
     public UserEntity getUserEntityByUsername(String username) {
-        return userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("User with " + username + " doesn't exist"));
+        return userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, username)));
     }
 
     public void like(UserDTO loggedUser, Long workoutId) {
-        UserEntity userEntity = userRepository.findByUsername(loggedUser.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
+        UserEntity userEntity = userRepository.findByUsername(loggedUser.getUsername())
+                .orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, loggedUser.getUsername())));
         WorkoutEntity weekWorkout = programService.getWorkoutEntityById(workoutId);
         int oldLikes = weekWorkout.getLikes();
 
@@ -126,7 +130,8 @@ public class UserService {
     }
 
     public void dislike(UserDTO loggedUser, Long workoutId) {
-        UserEntity userEntity = userRepository.findByUsername(loggedUser.getUsername()).orElseThrow(() -> new RuntimeException("User not found"));
+        UserEntity userEntity = userRepository.findByUsername(loggedUser.getUsername())
+                .orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, loggedUser.getUsername())));
         WorkoutEntity weekWorkout = programService.getWorkoutEntityById(workoutId);
         userEntity.getWorkoutsLiked().remove(weekWorkout);
 
@@ -135,16 +140,18 @@ public class UserService {
     }
 
     public boolean isWorkoutLiked(UserDTO loggedUser, Long workoutId) {
-        UserEntity user = userRepository.findByUsername(loggedUser.getUsername()).orElseThrow(() -> new ObjectNotFoundException("User with " + loggedUser.getUsername() + " doesn't exist"));
+        UserEntity user = userRepository.findByUsername(loggedUser.getUsername())
+                .orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, loggedUser.getUsername())));
 
         return user.getWorkoutsLiked().stream()
                 .anyMatch(likedWorkout -> likedWorkout.getId().equals(workoutId));
     }
 
     public void changeUserRole(String username, String role) {
-        UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("User does not exist"));
+        UserEntity userEntity = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, username)));
 
-        Long roleId = role.equals("ADMIN") ? 1L : 2L;
+        Long roleId = role.equals(UserRoleEnum.ADMIN.name()) ? 1L : 2L;
 
         UserRoleEntity newRole = new UserRoleEntity()
                 .setId(roleId)
@@ -158,7 +165,7 @@ public class UserService {
     public boolean activateUser(String activationCode) {
 
         UserActivationCodeEntity activationCodeEntity = userActivationCodeRepository.findByActivationCode(activationCode)
-                .orElseThrow(() -> new ObjectNotFoundException("Activation code not found"));
+                .orElseThrow(() -> new ObjectNotFoundException(ACTIVATION_CODE_NOT_FOUND));
         UserEntity user = activationCodeEntity.getUser();
 
         if (user.isActivated() && isActivationCodeExpired(activationCodeEntity.getCreated())) {
@@ -181,7 +188,8 @@ public class UserService {
 
 
     public void changeMembership(UserDTO loggedUser, String membership) {
-        UserEntity userEntity = userRepository.findByUsername(loggedUser.getUsername()).orElseThrow(() -> new UsernameNotFoundException("User with username " + loggedUser.getUsername() + " was not found"));
+        UserEntity userEntity = userRepository.findByUsername(loggedUser.getUsername())
+                .orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, loggedUser.getUsername())));
         userEntity.setMembership(membership);
         userRepository.save(userEntity);
     }
@@ -189,7 +197,8 @@ public class UserService {
     public UserProfileView uploadProfilePicture(String username, MultipartFile profilePicture) throws IOException {
         String picture = fileUpload.uploadFile(profilePicture);
 
-        UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("User not found"));
+        UserEntity userEntity = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, username)));
         userEntity.setImgUrl(picture);
 
         userRepository.save(userEntity);
@@ -198,7 +207,8 @@ public class UserService {
     }
 
     public UserProfileView getUserProfileByUsername(String username) {
-        UserEntity userEntity = userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("User with " + username + " doesn't exist"));
+        UserEntity userEntity = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, username)));
         return modelMapper.map(userEntity, UserProfileView.class);
     }
 }
