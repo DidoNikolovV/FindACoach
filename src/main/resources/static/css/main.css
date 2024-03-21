@@ -43,6 +43,10 @@ body, h1, h2, h3, p, ul {
     transform: translate(-50%, -50%);
 }
 
+.cmt {
+    margin-top: 10rem;
+}
+
 
 .logo {
     color: #ffcf40;
