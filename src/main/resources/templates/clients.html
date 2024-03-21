@@ -23,7 +23,7 @@
             <td>1</td>
             <td th:text="${client.username}">Client 1</td>
             <td th:text="${client.email}">client1@example.com</td>
-            <td><a th:href="@{/coaches/clients/{clientId}(clientId=${client.id})}" class="btn btn-info">Check Details</a></td>
+            <td><a th:href="@{/clients/{clientName}/details(clientName=${client.username})}" class="btn btn-info">Check Details</a></td>
         </tr>
         </tbody>
     </table>
