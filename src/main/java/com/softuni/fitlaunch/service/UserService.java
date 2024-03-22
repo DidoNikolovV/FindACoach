@@ -26,6 +26,7 @@ import java.time.Instant;
 import java.util.List;
 
 import static com.softuni.fitlaunch.commons.ErrorMessages.ACTIVATION_CODE_NOT_FOUND;
+import static com.softuni.fitlaunch.commons.ErrorMessages.USER_WITH_EMAIL_X_DOES_NOT_EXIST;
 import static com.softuni.fitlaunch.commons.ErrorMessages.USER_WITH_USERNAME_X_DOES_NOT_EXIST;
 
 @Service
@@ -210,5 +211,9 @@ public class UserService {
         UserEntity userEntity = userRepository.findByUsername(username)
                 .orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, username)));
         return modelMapper.map(userEntity, UserProfileView.class);
+    }
+
+    public UserEntity getUserEntityByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_EMAIL_X_DOES_NOT_EXIST, email)));
     }
 }

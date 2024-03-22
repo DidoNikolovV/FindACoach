@@ -4,8 +4,6 @@ package com.softuni.fitlaunch.service;
 import com.softuni.fitlaunch.model.entity.UserActivationCodeEntity;
 import com.softuni.fitlaunch.model.events.UserRegisteredEvent;
 import com.softuni.fitlaunch.repository.UserActivationCodeRepository;
-import com.softuni.fitlaunch.repository.UserRepository;
-import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -25,13 +23,14 @@ public class UserActivationService {
 
     private final EmailService emailService;
 
-    private final UserRepository userRepository;
     private final UserActivationCodeRepository userActivationCodeRepository;
 
-    public UserActivationService(EmailService emailService, UserRepository userRepository, UserActivationCodeRepository userActivationCodeRepository) {
+    private final UserService userService;
+
+    public UserActivationService(EmailService emailService, UserActivationCodeRepository userActivationCodeRepository, UserService userService) {
         this.emailService = emailService;
-        this.userRepository = userRepository;
         this.userActivationCodeRepository = userActivationCodeRepository;
+        this.userService = userService;
     }
 
     @EventListener(UserRegisteredEvent.class)
@@ -44,14 +43,13 @@ public class UserActivationService {
         System.out.println("NOT YET");
     }
 
-    public String createActivationCode(String userEmail) {
-
+    public String createActivationCode(String email) {
         String activationCode = generateActivationCode();
 
         UserActivationCodeEntity userActivationCodeEntity = new UserActivationCodeEntity();
         userActivationCodeEntity.setActivationCode(activationCode);
         userActivationCodeEntity.setCreated(Instant.now());
-        userActivationCodeEntity.setUser(userRepository.findByEmail(userEmail).orElseThrow(() -> new ObjectNotFoundException("User not found")));
+        userActivationCodeEntity.setUser(userService.getUserEntityByEmail(email));
 
         userActivationCodeRepository.save(userActivationCodeEntity);
 
