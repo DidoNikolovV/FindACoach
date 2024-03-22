@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @NoArgsConstructor
@@ -12,10 +13,9 @@ import lombok.Setter;
 @Setter
 public class UserProfileView {
 
-    private String imgUrl;
+    private MultipartFile imgUrl;
     private String username;
     private String email;
-    private String membership;
     private String title;
 
 }

@@ -2,7 +2,6 @@ package com.softuni.fitlaunch.service;
 
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.user.UserRegisterDTO;
-import com.softuni.fitlaunch.model.dto.user.UserRoleDTO;
 import com.softuni.fitlaunch.model.dto.view.UserProfileView;
 import com.softuni.fitlaunch.model.entity.UserActivationCodeEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
@@ -17,11 +16,9 @@ import com.softuni.fitlaunch.repository.UserRepository;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.time.Instant;
 import java.util.List;
 
@@ -74,7 +71,6 @@ public class UserService {
 
         user.getRoles().add(role);
         user.setTitle(UserTitleEnum.valueOf(userRegisterDTO.getTitle()));
-        user.setMembership("Monthly");
 
         userRepository.save(user);
 
@@ -191,7 +187,6 @@ public class UserService {
     public void changeMembership(UserDTO loggedUser, String membership) {
         UserEntity userEntity = userRepository.findByUsername(loggedUser.getUsername())
                 .orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, loggedUser.getUsername())));
-        userEntity.setMembership(membership);
         userRepository.save(userEntity);
     }
 

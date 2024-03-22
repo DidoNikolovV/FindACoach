@@ -54,8 +54,6 @@ public class ProgramController {
             model.addAttribute("allPrograms", allPrograms);
         }
 
-        model.addAttribute("membership", loggedUser.getMembership());
-
         return "programs";
     }
 

@@ -47,9 +47,6 @@ public class UserEntity extends BaseEntity {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private String membership;
-
     @OneToMany(mappedBy = "author", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<CommentEntity> comments;
 

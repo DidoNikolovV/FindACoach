@@ -22,8 +22,6 @@ public class UserDTO {
 
     private List<UserRoleDTO> roles;
 
-    private String membership;
-
     private List<CommentCreationDTO> comments;
 
     private List<WorkoutDTO> workoutsLiked;

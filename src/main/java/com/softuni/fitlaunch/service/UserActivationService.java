@@ -16,10 +16,11 @@ import java.util.Random;
 @Service
 public class UserActivationService {
 
-    @Value("${app.activation-code-symbols}")
+    @Value("${app.activation-code.symbols}")
     private String ACTIVATION_CODE_SYMBOLS;
 
-    private final int ACTIVATION_CODE_LENGTH = ACTIVATION_CODE_SYMBOLS.length();
+    @Value("${app.activation-code.length}")
+    private int ACTIVATION_CODE_LENGTH;
 
     private final EmailService emailService;
 

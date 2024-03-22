@@ -1,7 +1,6 @@
 package com.softuni.fitlaunch.web;
 
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
-import com.softuni.fitlaunch.model.dto.user.UserProfileDTO;
 import com.softuni.fitlaunch.model.dto.user.UserRegisterDTO;
 import com.softuni.fitlaunch.model.dto.view.ScheduledWorkoutView;
 import com.softuni.fitlaunch.model.dto.view.UserProfileView;
@@ -64,11 +63,11 @@ public class UserController {
     }
 
     @PostMapping("/profile")
-    public String userProfile(Principal principal, Model model, UserProfileDTO userProfileDTO) {
+    public String userProfile(Principal principal, Model model, UserProfileView userProfileView) {
 
-        UserProfileView userProfileView = userService.uploadProfilePicture(principal.getName(), userProfileDTO.getImgUrl());
+        UserProfileView profileView = userService.uploadProfilePicture(principal.getName(), userProfileView.getImgUrl());
 
-        model.addAttribute("user", userProfileView);
+        model.addAttribute("user", profileView);
 
         return "redirect:/users/profile";
     }

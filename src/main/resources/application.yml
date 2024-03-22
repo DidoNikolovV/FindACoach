@@ -19,7 +19,7 @@ spring:
     hiddenmethod:
       filter:
         enabled: true
-  thymeleaf: # Thymeleaf
+  thymeleaf:
     cache: false
     mode: HTML
     encoding: UTF-8
@@ -37,7 +37,9 @@ spring:
     password: ${MAIL_PASSWORD:lpwcojgqymewqdfk}
 
 app:
-  activation-code-symbols: abcdefghijklmnopqrstuvwxyzABCDEFGJKLMNPRSTUVWXYZ0123456789
+  activation-code:
+      symbols: abcdefghijklmnopqrstuvwxyzABCDEFGJKLMNPRSTUVWXYZ0123456789
+      length: 20
   images:
     path: /images
   cloudinary:
