@@ -9,6 +9,7 @@ import com.softuni.fitlaunch.service.ClientService;
 import com.softuni.fitlaunch.service.ProgramService;
 import com.softuni.fitlaunch.service.UserService;
 import com.softuni.fitlaunch.service.WorkoutService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -22,6 +23,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.security.Principal;
 import java.util.List;
 
+
+@Slf4j
 @Controller
 @RequestMapping("/workouts")
 public class WorkoutController {

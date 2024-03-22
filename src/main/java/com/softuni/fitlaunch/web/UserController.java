@@ -1,17 +1,16 @@
 package com.softuni.fitlaunch.web;
 
-import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.user.UserProfileDTO;
 import com.softuni.fitlaunch.model.dto.user.UserRegisterDTO;
 import com.softuni.fitlaunch.model.dto.view.ScheduledWorkoutView;
 import com.softuni.fitlaunch.model.dto.view.UserProfileView;
 import com.softuni.fitlaunch.service.BlackListService;
-import com.softuni.fitlaunch.service.ClientService;
 import com.softuni.fitlaunch.service.ScheduleWorkoutService;
 import com.softuni.fitlaunch.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,26 +23,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
+
+@Slf4j
 @Controller
 @RequestMapping("/users")
 public class UserController {
 
     private final UserService userService;
 
-    private final ClientService clientService;
-
     private final BlackListService blackListService;
 
     private final ScheduleWorkoutService scheduleWorkoutService;
 
 
-    public UserController(UserService userService, ClientService clientService, BlackListService blackListService, ScheduleWorkoutService scheduleWorkoutService) {
+    public UserController(UserService userService, BlackListService blackListService, ScheduleWorkoutService scheduleWorkoutService) {
         this.userService = userService;
-        this.clientService = clientService;
         this.blackListService = blackListService;
         this.scheduleWorkoutService = scheduleWorkoutService;
     }
@@ -67,7 +64,7 @@ public class UserController {
     }
 
     @PostMapping("/profile")
-    public String userProfile(Principal principal, Model model, UserProfileDTO userProfileDTO) throws IOException {
+    public String userProfile(Principal principal, Model model, UserProfileDTO userProfileDTO) {
 
         UserProfileView userProfileView = userService.uploadProfilePicture(principal.getName(), userProfileDTO.getImgUrl());
 
@@ -180,7 +177,7 @@ public class UserController {
     @GetMapping("/activate/{activationCode}")
     public String activateAccount(@PathVariable("activationCode") String activationCode, Model model) {
 
-        System.out.println("Received activation code: " + activationCode);
+        log.info("Received activation code: " + activationCode);
 
         if (activationCode == null || activationCode.isEmpty()) {
             model.addAttribute("activationError", "Invalid activation code");
@@ -188,11 +185,7 @@ public class UserController {
         }
 
         boolean activationSuccess = userService.activateUser(activationCode);
-        if (activationSuccess) {
-            return "email/activation-success";
-        } else {
-            return "email/activation-failed";
-        }
 
+        return activationSuccess ? "email/activation-success" : "email/activation-failed";
     }
 }

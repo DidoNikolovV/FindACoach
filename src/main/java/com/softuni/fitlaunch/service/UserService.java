@@ -195,7 +195,7 @@ public class UserService {
         userRepository.save(userEntity);
     }
 
-    public UserProfileView uploadProfilePicture(String username, MultipartFile profilePicture) throws IOException {
+    public UserProfileView uploadProfilePicture(String username, MultipartFile profilePicture) {
         String picture = fileUpload.uploadFile(profilePicture);
 
         UserEntity userEntity = userRepository.findByUsername(username)
