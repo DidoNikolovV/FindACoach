@@ -41,7 +41,7 @@ public class UserActivationService {
     }
 
     public void cleanUpObsoleteActivationLinks() {
-        System.out.println("NOT YET");
+        userActivationCodeRepository.deleteAll();
     }
 
     public String createActivationCode(String email) {

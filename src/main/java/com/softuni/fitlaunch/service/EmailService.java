@@ -20,23 +20,23 @@ public class EmailService {
 
     private final TemplateEngine templateEngine;
     private final JavaMailSender javaMailSender;
-    private final String fitlaunch;
+
+    @Value("${spring.mail.fitlaunch}")
+    private String fitlaunch;
 
     private final ModelMapper modelMapper;
 
     public EmailService(
             TemplateEngine templateEngine,
             JavaMailSender javaMailSender,
-            @Value("${spring.mail.fitlaunch}") String fitlaunch, ModelMapper modelMapper) {
+            ModelMapper modelMapper) {
         this.templateEngine = templateEngine;
         this.javaMailSender = javaMailSender;
-        this.fitlaunch = fitlaunch;
         this.modelMapper = modelMapper;
     }
 
     public void sendRegistrationEmail(String userEmail, String username, String activationCode) {
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-
 
         MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
 
