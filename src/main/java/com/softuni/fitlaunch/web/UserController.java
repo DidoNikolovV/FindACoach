@@ -76,20 +76,13 @@ public class UserController {
     @PostMapping("/login-error")
     public String onFailure(@ModelAttribute("username") String username,
                             Model model) {
-
         UserDTO user = userService.getUserByUsername(username);
 
-        if (user != null) {
-            if (user.isActivated()) {
-                model.addAttribute("username", username);
-                model.addAttribute("bad_credentials", "true");
-            } else {
-                model.addAttribute("user_not_active", "true");
-
-            }
-        } else {
+        if (user.isActivated()) {
             model.addAttribute("username", username);
             model.addAttribute("bad_credentials", "true");
+        } else {
+            model.addAttribute("user_not_active", "true");
         }
 
         return "login";
@@ -141,9 +134,9 @@ public class UserController {
 
     @GetMapping("/{username}/calendar")
     public String myCalendar(@PathVariable("username") String username, Model model) {
-
         UserDTO userByUsername = userService.getUserByUsername(username);
         model.addAttribute("userTitle", userByUsername.getTitle().name());
+
         return "my-calendar";
     }
 
@@ -176,7 +169,6 @@ public class UserController {
 
     @GetMapping("/activate/{activationCode}")
     public String activateAccount(@PathVariable("activationCode") String activationCode, Model model) {
-
         log.info("Received activation code: " + activationCode);
 
         if (activationCode == null || activationCode.isEmpty()) {
