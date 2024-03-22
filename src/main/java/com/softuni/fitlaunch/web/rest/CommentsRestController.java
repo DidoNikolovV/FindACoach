@@ -24,7 +24,6 @@ import java.util.List;
 
 
 @Slf4j
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/v1/comments")
 public class CommentsRestController {

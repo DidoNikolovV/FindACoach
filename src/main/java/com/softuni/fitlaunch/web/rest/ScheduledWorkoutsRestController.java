@@ -17,7 +17,6 @@ import java.util.List;
 
 
 @Slf4j
-@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/v1/schedule-workouts")
 public class ScheduledWorkoutsRestController {

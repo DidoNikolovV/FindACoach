@@ -14,7 +14,7 @@ public class ActivationLinkCleanupScheduler {
         this.userActivationService = userActivationService;
     }
 
-    @Scheduled(fixedRate = 10_000, initialDelay = 10_000)
+    @Scheduled(fixedRate = 24 * 60 * 60 * 1000) // 24 hours in milliseconds
     public void cleanUp() {
         userActivationService.cleanUpObsoleteActivationLinks();
     }
