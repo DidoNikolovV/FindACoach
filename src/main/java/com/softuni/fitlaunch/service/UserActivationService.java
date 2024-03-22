@@ -2,11 +2,11 @@ package com.softuni.fitlaunch.service;
 
 
 import com.softuni.fitlaunch.model.entity.UserActivationCodeEntity;
-import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.events.UserRegisteredEvent;
 import com.softuni.fitlaunch.repository.UserActivationCodeRepository;
 import com.softuni.fitlaunch.repository.UserRepository;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +18,10 @@ import java.util.Random;
 @Service
 public class UserActivationService {
 
-    private static final String ACTIVATION_CODE_SYMBOLS = "abcdefghijklmnopqrstuvwxyzABCDEFGJKLMNPRSTUVWXYZ0123456789";
+    @Value("${app.activation-code-symbols}")
+    private String ACTIVATION_CODE_SYMBOLS;
 
-    private static final int ACTIVATION_CODE_LENGTH = 20;
+    private final int ACTIVATION_CODE_LENGTH = ACTIVATION_CODE_SYMBOLS.length();
 
     private final EmailService emailService;
 
@@ -36,8 +37,6 @@ public class UserActivationService {
     @EventListener(UserRegisteredEvent.class)
     public void userRegistered(UserRegisteredEvent userRegisteredEvent) {
         String activationCode = createActivationCode(userRegisteredEvent.getUserEmail());
-        UserEntity user = userRepository.findByEmail(userRegisteredEvent.getUserEmail()).orElseThrow(() -> new ObjectNotFoundException("User not found"));
-
         emailService.sendRegistrationEmail(userRegisteredEvent.getUserEmail(), userRegisteredEvent.getUsernames(), activationCode);
     }
 
@@ -56,11 +55,10 @@ public class UserActivationService {
 
         userActivationCodeRepository.save(userActivationCodeEntity);
 
-
         return activationCode;
     }
 
-    private static String generateActivationCode() {
+    private String generateActivationCode() {
         StringBuilder activationCode = new StringBuilder();
         Random random = new SecureRandom();
 
