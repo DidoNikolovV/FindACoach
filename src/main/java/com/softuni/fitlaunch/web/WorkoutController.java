@@ -1,11 +1,14 @@
 package com.softuni.fitlaunch.web;
 
 
+import com.softuni.fitlaunch.model.dto.ExerciseDTO;
 import com.softuni.fitlaunch.model.dto.program.ProgramDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
+import com.softuni.fitlaunch.model.dto.workout.WorkoutCreationDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.enums.LevelEnum;
 import com.softuni.fitlaunch.service.ClientService;
+import com.softuni.fitlaunch.service.ExerciseService;
 import com.softuni.fitlaunch.service.ProgramService;
 import com.softuni.fitlaunch.service.UserService;
 import com.softuni.fitlaunch.service.WorkoutService;
@@ -33,14 +36,17 @@ public class WorkoutController {
 
     private final ProgramService programService;
 
+    private final ExerciseService exerciseService;
+
     private final UserService userService;
 
     private final ClientService clientService;
 
 
-    public WorkoutController(WorkoutService workoutService, ProgramService programService, UserService userService, ClientService clientService) {
+    public WorkoutController(WorkoutService workoutService, ProgramService programService, ExerciseService exerciseService, UserService userService, ClientService clientService) {
         this.workoutService = workoutService;
         this.programService = programService;
+        this.exerciseService = exerciseService;
         this.userService = userService;
         this.clientService = clientService;
     }
@@ -95,5 +101,16 @@ public class WorkoutController {
         userService.like(loggedUser, workoutId);
 
         return String.format("redirect:/workouts/%d/%d/%d", programId, weekId, workoutId);
+    }
+
+    @GetMapping("/create")
+    public String createWorkout(Model model) {
+
+        List<ExerciseDTO> exercises = exerciseService.loadAllExercises();
+
+        model.addAttribute("exercises", exercises);
+        model.addAttribute("workoutCreationDTO", new WorkoutCreationDTO());
+
+        return "workout-add";
     }
 }

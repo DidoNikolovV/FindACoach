@@ -1,7 +1,9 @@
 package com.softuni.fitlaunch.service;
 
+import com.softuni.fitlaunch.model.dto.ExerciseDTO;
 import com.softuni.fitlaunch.model.entity.ExerciseEntity;
 import com.softuni.fitlaunch.repository.ExerciseRepository;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,11 +13,14 @@ public class ExerciseService {
 
     private final ExerciseRepository exerciseRepository;
 
-    public ExerciseService(ExerciseRepository exerciseRepository) {
+    private final ModelMapper modelMapper;
+
+    public ExerciseService(ExerciseRepository exerciseRepository, ModelMapper modelMapper) {
         this.exerciseRepository = exerciseRepository;
+        this.modelMapper = modelMapper;
     }
 
-    public List<ExerciseEntity> loadAllExercises() {
-        return exerciseRepository.findAll();
+    public List<ExerciseDTO> loadAllExercises() {
+        return exerciseRepository.findAll().stream().map(exercise -> modelMapper.map(exercise, ExerciseDTO.class)).toList();
     }
 }

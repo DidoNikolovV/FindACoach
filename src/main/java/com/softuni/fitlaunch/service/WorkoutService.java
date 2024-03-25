@@ -1,6 +1,7 @@
 package com.softuni.fitlaunch.service;
 
 
+import com.softuni.fitlaunch.model.dto.workout.WorkoutCreationDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.model.enums.LevelEnum;
@@ -43,6 +44,11 @@ public class WorkoutService {
 
     public WorkoutEntity getWorkoutEntityById(Long id) {
         return workoutRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Workout with id " + id + " does not exist"));
+    }
+
+    public WorkoutCreationDTO getWorkoutCreation(Long id) {
+        WorkoutEntity workout = workoutRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Workout with id " + id + " does not exist"));
+        return modelMapper.map(workout, WorkoutCreationDTO.class);
     }
 
     public Page<WorkoutDTO> getAllWorkouts(Pageable pageable) {

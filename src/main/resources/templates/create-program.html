@@ -3,109 +3,84 @@
 <head th:replace="~{fragments/head}"></head>
 <nav th:replace="~{fragments/navbar}"></nav>
 <body>
-<div class="container">
-    <h1 class="text-center mt-4 mb-4">Create Program</h1>
+<div class="container my-5">
+    <h1 class="mb-4">Create Program</h1>
 
-    <form th:action="@{/saveProgram}" method="post">
+    <!-- Add Workout Form -->
+    <form th:action="@{/programs}" method="post">
+        <!-- Workout Name -->
+        <div class="form-group">
+            <label for="workoutName">Workout Name:</label>
+            <input type="text" class="form-control" id="workoutName" name="workoutName" required>
+        </div>
+
+        <!-- Add Exercises to Workout -->
+        <div class="form-group">
+            <label for="exercises">Add Exercises:</label>
+            <textarea class="form-control" id="exercises" name="exercises" rows="3" placeholder="Exercise 1, Exercise 2, Exercise 3"></textarea>
+        </div>
+
+        <!-- Add to Week -->
+        <div class="form-group">
+            <label for="week">Add to Week:</label>
+            <select class="form-control" id="week" name="week">
+                <option value="1">Week 1</option>
+                <option value="2">Week 2</option>
+                <!-- Add more weeks as needed -->
+            </select>
+        </div>
+
+        <!-- Add to Program -->
+        <div class="form-group">
+            <label for="program">Add to Program:</label>
+            <select class="form-control" id="program" name="program">
+                <option value="1">Program 1</option>
+                <option value="2">Program 2</option>
+                <!-- Add more programs as needed -->
+            </select>
+        </div>
+
+        <!-- Add Week button -->
+        <button type="submit" class="btn btn-primary">Add Workout to Program</button>
+    </form>
+
+    <!-- Add Week Form -->
+    <form th:action="@{/weeks}" method="post" class="mt-4">
+        <!-- Week Name -->
+        <div class="form-group">
+            <label for="weekName">Week Name:</label>
+            <input type="text" class="form-control" id="weekName" name="weekName" required>
+        </div>
+
+        <!-- Add to Program -->
+        <div class="form-group">
+            <label for="program">Add to Program:</label>
+            <select class="form-control" id="program" name="program">
+                <option value="1">Program 1</option>
+                <option value="2">Program 2</option>
+                <!-- Add more programs as needed -->
+            </select>
+        </div>
+
+        <!-- Add Week button -->
+        <button type="submit" class="btn btn-primary">Add Week to Program</button>
+    </form>
+
+    <!-- Add Program Form -->
+    <form th:action="@{/programs}" method="post" class="mt-4">
+        <!-- Program Name -->
         <div class="form-group">
             <label for="programName">Program Name:</label>
             <input type="text" class="form-control" id="programName" name="programName" required>
         </div>
 
-        <div id="weeks-container">
-            <!-- Weeks will be dynamically added here -->
-        </div>
-
-        <button type="button" class="btn btn-primary" onclick="addWeek()">Add Week</button>
-
-        <button type="submit" class="btn btn-success">Save Program</button>
+        <!-- Add Program button -->
+        <button type="submit" class="btn btn-primary">Create Program</button>
     </form>
 </div>
 
 <script th:inline="javascript" src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script th:inline="javascript" src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
 <script th:inline="javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script th:inline="javascript">
-
-    var allExercises = [[${allExercises}]];
-
-    function addWeek() {
-        var weekIndex = document.querySelectorAll('.week').length;
-        var html = '<div class="week">';
-        html += '<h2>Week ' + (weekIndex + 1) + '</h2>';
-        html += '<div class="workouts-container"></div>';
-        html += '<button type="button" class="btn btn-secondary mb-3" onclick="addWorkout(this, ' + weekIndex + ')">Add Workout</button>';
-        html += '<input type="hidden" name="week_' + weekIndex + '_workouts" id="week_' + weekIndex + '_workouts" value=""/>';
-        html += '</div>';
-        $('#weeks-container').append(html);
-    }
-
-    function addWorkout(btn, weekIndex) {
-        var weekDiv = $(btn).closest('.week');
-        var workoutIndex = weekDiv.find('.workout').length;
-        var html = '<div class="workout">';
-        html += '<h3>Workout ' + (workoutIndex + 1) + '</h3>';
-        html += '<div class="exercise-form">';
-        html += '<button type="button" class="btn btn-primary mb-3" onclick="addExercise(this)">Add Exercise</button>';
-        html += '</div>';
-        html += '</div>';
-        weekDiv.find('.workouts-container').append(html);
-    }
-
-    function addExercise(btn, weekIndex, workoutIndex) {
-        var workoutDiv = $(btn).closest('.workout');
-        var exerciseForm = workoutDiv.find('.exercise-form');
-
-        var exerciseSelect = $('<select class="form-control" required></select>');
-        $.each(allExercises, function(index, exercise) {
-            exerciseSelect.append('<option value="' + exercise.id + '">' + exercise.name + '</option>');
-        });
-
-        var repsInput = $('<input type="number" class="form-control" min="1" required>');
-        var setsInput = $('<input type="number" class="form-control" min="1" required>');
-
-        var exerciseGroup = $('<div class="form-group"></div>');
-        exerciseGroup.append('<label for="exercise">Exercise:</label>');
-        exerciseGroup.append(exerciseSelect);
-
-        var repsGroup = $('<div class="form-group"></div>');
-        repsGroup.append('<label for="reps">Reps:</label>');
-        repsGroup.append(repsInput);
-
-        var setsGroup = $('<div class="form-group"></div>');
-        setsGroup.append('<label for="sets">Sets:</label>');
-        setsGroup.append(setsInput);
-
-        var exerciseDetails = $('<div class="exercise-details"></div>');
-        exerciseDetails.append(exerciseGroup);
-        exerciseDetails.append(repsGroup);
-        exerciseDetails.append(setsGroup);
-
-        exerciseForm.append(exerciseDetails);
-
-        // Reset input values
-        exerciseSelect.val('');
-        repsInput.val('');
-        setsInput.val('');
-    }
-
-    function saveProgram() {
-        var weeksCompleted = true;
-        $('.week').each(function(index) {
-            var workoutsCount = $(this).find('.workout').length;
-            if (workoutsCount === 0) {
-                weeksCompleted = false;
-                return false; // Exit the loop early
-            }
-        });
-
-        if (weeksCompleted) {
-            var form = document.getElementById('programForm');
-            form.submit();
-        } else {
-            alert('Please ensure each week has at least one workout.');
-        }
-    }
-</script>
 </body>
 </html>

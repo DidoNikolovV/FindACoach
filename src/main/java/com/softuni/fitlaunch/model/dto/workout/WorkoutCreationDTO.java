@@ -16,7 +16,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class CreateWorkoutDTO {
+public class WorkoutCreationDTO {
+
+    private Long id;
 
     @NotBlank(message = "Name should not be null nor empty")
     @Length(max = 255, message = "Name cannot be more than 255 characters long")
