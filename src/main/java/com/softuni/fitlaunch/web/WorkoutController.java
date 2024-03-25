@@ -1,7 +1,7 @@
 package com.softuni.fitlaunch.web;
 
 
-import com.softuni.fitlaunch.model.dto.ExerciseDTO;
+import com.softuni.fitlaunch.model.dto.WorkoutExerciseDTO;
 import com.softuni.fitlaunch.model.dto.program.ProgramDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutCreationDTO;
@@ -106,7 +106,7 @@ public class WorkoutController {
     @GetMapping("/create")
     public String createWorkout(Model model) {
 
-        List<ExerciseDTO> exercises = exerciseService.loadAllExercises();
+        List<WorkoutExerciseDTO> exercises = exerciseService.loadAllExercises();
 
         model.addAttribute("exercises", exercises);
         model.addAttribute("workoutCreationDTO", new WorkoutCreationDTO());

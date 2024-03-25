@@ -2,6 +2,7 @@ package com.softuni.fitlaunch.model.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
@@ -21,12 +22,20 @@ public class WorkoutExerciseEntity extends BaseEntity {
     private String videoUrl;
 
     @ManyToOne
+    @JoinColumn(name = "workout_id")
     private WorkoutEntity workout;
+
+    @ManyToOne
+    @JoinColumn(name = "exercise_id")
+    private ExerciseEntity exercise;;
 
     @NotNull
     private boolean isCompleted;
 
+    @Column(nullable = false)
     private int sets;
+
+    @Column(nullable = false)
     private int reps;
 
 }

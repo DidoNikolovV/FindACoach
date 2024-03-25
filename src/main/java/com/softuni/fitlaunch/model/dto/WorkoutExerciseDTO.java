@@ -16,4 +16,6 @@ public class WorkoutExerciseDTO {
     private String videoUrl;
     private String workout;
     private boolean isCompleted;
+    private int sets;
+    private int reps;
 }

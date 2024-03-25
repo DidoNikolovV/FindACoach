@@ -1,6 +1,7 @@
 package com.softuni.fitlaunch.service;
 
 import com.softuni.fitlaunch.model.dto.ExerciseDTO;
+import com.softuni.fitlaunch.model.dto.WorkoutExerciseDTO;
 import com.softuni.fitlaunch.model.entity.ExerciseEntity;
 import com.softuni.fitlaunch.repository.ExerciseRepository;
 import org.modelmapper.ModelMapper;
@@ -20,7 +21,9 @@ public class ExerciseService {
         this.modelMapper = modelMapper;
     }
 
-    public List<ExerciseDTO> loadAllExercises() {
-        return exerciseRepository.findAll().stream().map(exercise -> modelMapper.map(exercise, ExerciseDTO.class)).toList();
+    public List<WorkoutExerciseDTO> loadAllExercises() {
+        return exerciseRepository.findAll().stream().map(exercise -> modelMapper.map(exercise, WorkoutExerciseDTO.class)).toList();
     }
+
+
 }
