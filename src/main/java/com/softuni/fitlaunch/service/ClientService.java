@@ -42,6 +42,7 @@ public class ClientService {
         return clientRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("Client with username " + username + " was not found"));
     }
 
+
     public boolean isWorkoutStarted(String username, Long workoutId) {
         ClientEntity clientEntity = getClientEntityByUsername(username);
         return clientEntity.getWorkoutsStarted().stream().anyMatch(workout -> workout.getId().equals(workoutId));

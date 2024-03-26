@@ -2,7 +2,6 @@ package com.softuni.fitlaunch.service;
 
 import com.softuni.fitlaunch.model.dto.CertificateDTO;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
-import com.softuni.fitlaunch.model.dto.user.ClientDetailsDTO;
 import com.softuni.fitlaunch.model.dto.user.CoachDTO;
 import com.softuni.fitlaunch.model.dto.view.UserCoachDetailsView;
 import com.softuni.fitlaunch.model.dto.view.UserCoachView;
@@ -10,19 +9,15 @@ import com.softuni.fitlaunch.model.dto.workout.ScheduledWorkoutDTO;
 import com.softuni.fitlaunch.model.entity.ClientEntity;
 import com.softuni.fitlaunch.model.entity.CoachEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
-import com.softuni.fitlaunch.repository.ClientRepository;
 import com.softuni.fitlaunch.repository.CoachRepository;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.softuni.fitlaunch.commons.ErrorMessages.CLIENT_WAS_NOT_FOUND;
-import static com.softuni.fitlaunch.commons.ErrorMessages.CLIENT_X_DOES_NOT_EXIST;
 import static com.softuni.fitlaunch.commons.ErrorMessages.COACH_DOES_NOT_EXIST;
 
 @Service
@@ -30,12 +25,12 @@ public class CoachService {
     private final CoachRepository coachRepository;
 
     private final ModelMapper modelMapper;
-    private final ClientRepository clientRepository;
+    private final ClientService clientService;
 
-    public CoachService(CoachRepository coachRepository, ModelMapper modelMapper, ClientRepository clientRepository) {
+    public CoachService(CoachRepository coachRepository, ModelMapper modelMapper, ClientService clientService) {
         this.coachRepository = coachRepository;
         this.modelMapper = modelMapper;
-        this.clientRepository = clientRepository;
+        this.clientService = clientService;
     }
 
     public List<UserCoachView> getAllCoaches() {
@@ -55,15 +50,13 @@ public class CoachService {
 
 
     public void addClient(Long coachId, ClientDTO client) {
-        ClientEntity clientEntity = clientRepository.findByUsername(client.getUsername())
-                .orElseThrow(() -> new ObjectNotFoundException(String.format(CLIENT_X_DOES_NOT_EXIST, client.getUsername())));
+        ClientEntity clientEntity = clientService.getClientEntityByUsername(client.getUsername());
         CoachEntity coachEntity = coachRepository.findById(coachId).orElseThrow(() -> new ObjectNotFoundException(COACH_DOES_NOT_EXIST));
 
         coachEntity.getClients().add(clientEntity);
         clientEntity.setCoach(coachEntity);
 
         coachRepository.save(coachEntity);
-        clientRepository.save(clientEntity);
     }
 
 
@@ -84,16 +77,16 @@ public class CoachService {
         ClientEntity client = coachEntity.getClients().stream().filter(c -> c.getId().equals(clientId)).findFirst()
                 .orElseThrow(() -> new ObjectNotFoundException(CLIENT_WAS_NOT_FOUND));
 
-        ClientEntity clientEntity = clientRepository.findByUsername(client.getUsername()).get();
+        ClientEntity clientEntity = clientService.getClientEntityByUsername(client.getUsername());
             return modelMapper.map(clientEntity, ClientDTO.class);
     }
 
-    public void setClientDetails(String username, ClientDetailsDTO clientDetailsDTO) {
-        ClientEntity clientEntity = clientRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException(CLIENT_WAS_NOT_FOUND));
-        BeanUtils.copyProperties(clientDetailsDTO, clientEntity);
-
-        clientRepository.save(clientEntity);
-    }
+//    public void setClientDetails(String username, ClientDetailsDTO clientDetailsDTO) {
+//        ClientEntity clientEntity = clientRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException(CLIENT_WAS_NOT_FOUND));
+//        BeanUtils.copyProperties(clientDetailsDTO, clientEntity);
+//
+//        clientRepository.save(clientEntity);
+//    }
 
     public void registerCoach(UserEntity user) {
         CoachEntity coach = modelMapper.map(user, CoachEntity.class);
