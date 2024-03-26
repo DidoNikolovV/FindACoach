@@ -21,6 +21,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
 
 import static com.softuni.fitlaunch.commons.ErrorMessages.ACTIVATION_CODE_NOT_FOUND;
 import static com.softuni.fitlaunch.commons.ErrorMessages.USER_WITH_EMAIL_X_DOES_NOT_EXIST;
@@ -110,20 +111,20 @@ public class UserService {
         return userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, username)));
     }
 
-    public void like(UserDTO loggedUser, Long workoutId) {
-        UserEntity userEntity = userRepository.findByUsername(loggedUser.getUsername())
-                .orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, loggedUser.getUsername())));
-        WorkoutEntity weekWorkout = programService.getWorkoutEntityById(workoutId);
-        int oldLikes = weekWorkout.getLikes();
+    public void like(Long workoutId, String username) {
+        UserEntity user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, username)));
 
-        boolean hasNotLiked = userEntity.getWorkoutsLiked().stream().anyMatch(likedWorkout -> likedWorkout.getId().equals(workoutId));
+        boolean hasLiked = user.getWorkoutsLiked().stream().anyMatch(workoutEntity -> Objects.equals(workoutEntity.getId(), workoutId));
 
-        if(hasNotLiked) {
-            userEntity.getWorkoutsLiked().add(weekWorkout);
-            weekWorkout.setLikes(oldLikes + 1);
+        if(!hasLiked) {
+            WorkoutEntity workout = programService.getWorkoutEntityById(workoutId);
+            user.getWorkoutsLiked().add(workout);
+            int oldLikes = workout.getLikes();
+            workout.setLikes(oldLikes + 1);
         }
 
-        userRepository.save(userEntity);
+        userRepository.save(user);
     }
 
     public void dislike(UserDTO loggedUser, Long workoutId) {
@@ -136,9 +137,9 @@ public class UserService {
         userRepository.save(userEntity);
     }
 
-    public boolean isWorkoutLiked(UserDTO loggedUser, Long workoutId) {
-        UserEntity user = userRepository.findByUsername(loggedUser.getUsername())
-                .orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, loggedUser.getUsername())));
+    public boolean isWorkoutLiked(Long workoutId, String username) {
+        UserEntity user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, username)));
 
         return user.getWorkoutsLiked().stream()
                 .anyMatch(likedWorkout -> likedWorkout.getId().equals(workoutId));

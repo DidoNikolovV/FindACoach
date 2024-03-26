@@ -15,6 +15,7 @@ import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -43,27 +44,27 @@ public class ClientEntity extends BaseEntity {
     @JoinColumn(name = "coach_id")
     private CoachEntity coach;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private WorkoutEntity workoutStarted;
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    private List<WorkoutEntity> workoutsStarted = new ArrayList<>();
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "program_workout_exercises_completed",
             joinColumns = @JoinColumn(name = "client_id"),
             inverseJoinColumns = @JoinColumn(name = "exercise_id"))
-    private List<ExerciseEntity> programExercisesCompleted;
+    private List<ExerciseEntity> programExercisesCompleted = new ArrayList<>();
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
-    private List<ScheduledWorkoutEntity> scheduledWorkouts;
+    private List<ScheduledWorkoutEntity> scheduledWorkouts = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL)
-    private List<ProgramEntity> completedPrograms;
+    private List<ProgramEntity> completedPrograms = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "program_workouts_completed",
             joinColumns = @JoinColumn(name = "client_id"),
             inverseJoinColumns = @JoinColumn(name = "workout_id"))
-    private List<WorkoutEntity> completedWorkouts;
+    private List<WorkoutEntity> completedWorkouts = new ArrayList<>();
 
 }

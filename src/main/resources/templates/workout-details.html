@@ -1,15 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head th:replace="~{fragments/head}">
     <!-- Add Bootstrap CSS -->
 </head>
-
 <body>
-
 <nav th:replace="~{fragments/navbar}"></nav>
-
-<div class="container my-2">
+<section class="container my-2">
     <h2 class="text-center text-white mb-4">Workout Details</h2>
 
     <div th:object="${workoutDetailsDTO}" class="card d-flex">
@@ -42,8 +38,8 @@
                 <span id="likesCount" class="text-primary" th:text="*{likes}"></span>
             </div>
 
-            <form id="likesForm" method="POST">
-<!--                  th:action="@{/workouts/like/{programId}/{weekId}/{id}(programId=${program.id}, weekId=${week.id}, id=${workout.id})}">-->
+            <form id="likesForm" method="POST"
+                  th:action="@{/workouts/like/{workoutId}(workoutId=${workoutDetailsDTO.id})}">
                 <button type="submit" class="btn btn-link">
                     <div th:if="${hasLiked}">
                         <i class="fa-solid fa-lg fa-thumbs-down text-primary"></i>
@@ -68,8 +64,8 @@
 
     </div>
 
-    <div class="card mt-4">
-        <div class="card-body bg-dark primary">
+    <section class="card mt-4">
+        <div class="bg-dark primary container-xl">
             <h5 class="card-title primary">Exercises</h5>
             <ul class="list-group list-group-flush">
                 <li th:each="exercise: ${workoutDetailsDTO.exercises}" class="list-group-item bg-dark">
@@ -102,7 +98,7 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </section>
 
 <!--    <input type="hidden" name="programId" id="programId" th:value="${program.id}">-->
 <!--    <input type="hidden" name="weekId" id="weekId" th:value="${week.id}">-->
@@ -126,7 +122,7 @@
             <span id="commentCtnr"></span>
         </div>
     </div>
-</div>
+</section>
 
 <footer th:replace="~{fragments/footer}"></footer>
 

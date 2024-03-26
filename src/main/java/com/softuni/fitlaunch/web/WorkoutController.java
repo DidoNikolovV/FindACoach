@@ -69,40 +69,31 @@ public class WorkoutController {
         return "workouts";
     }
 
-    @GetMapping("/{programId}/{weekId}/{workoutId}")
-    public String programWorkoutDetails(@PathVariable("programId") Long programId,
-                                        @PathVariable("weekId") Long weekId,
-                                        @PathVariable("workoutId") Long workoutId,
-                                        Model model,
-                                        Principal principal) {
+//    @GetMapping("/")
+//    public String workoutDetails(@PathVariable("workoutId") Long workoutId, Model model, Principal principal) {
+//
+//        UserDTO loggedUser = userService.getUserByUsername(principal.getName());
+//        WorkoutDTO workout = workoutService.getWorkoutById(workoutId);
+//
+//        boolean hasStarted = clientService.isWorkoutStarted(principal.getName(), workoutId);
+//        boolean isCompleted = clientService.isWorkoutCompleted(principal.getName(), workoutId);
+//        boolean hasLiked = userService.isWorkoutLiked(workoutId, principal.getName());
+//
+//        model.addAttribute("workout", workout);
+//        model.addAttribute("user", loggedUser);
+//        model.addAttribute("hasStarted", hasStarted);
+//        model.addAttribute("isCompleted", isCompleted);
+//        model.addAttribute("hasLiked", hasLiked);
+//
+//
+//        return "workout-details";
+//    }
 
-        UserDTO loggedUser = userService.getUserByUsername(principal.getName());
-        WorkoutDTO workout = workoutService.getWorkoutById(workoutId);
-        ProgramDTO program = programService.getById(programId);
+    @PostMapping("/like/{workoutId}")
+    public String like(@PathVariable("workoutId") Long workoutId, Principal principal) {
+        userService.like(workoutId, principal.getName());
 
-        boolean hasStarted = clientService.isWorkoutStarted(principal.getName(), workoutId);
-        boolean isCompleted = clientService.isWorkoutCompleted(principal.getName(), workoutId);
-        boolean hasLiked = userService.isWorkoutLiked(loggedUser, workoutId);
-
-        model.addAttribute("workout", workout);
-        model.addAttribute("user", loggedUser);
-        model.addAttribute("program", program);
-        model.addAttribute("hasStarted", hasStarted);
-        model.addAttribute("isCompleted", isCompleted);
-        model.addAttribute("hasLiked", hasLiked);
-
-
-        return "workout-details";
-    }
-
-    @PostMapping("/like/{programId}/{weekId}/{workoutId}")
-    public String like(@PathVariable("programId") Long programId, @PathVariable("weekId") Long weekId, @PathVariable("workoutId") Long workoutId,
-                       Principal principal) {
-
-        UserDTO loggedUser = userService.getUserByUsername(principal.getName());
-        userService.like(loggedUser, workoutId);
-
-        return String.format("redirect:/workouts/%d/%d/%d", programId, weekId, workoutId);
+        return "redirect:/workouts/" + workoutId;
     }
 
     @GetMapping("/create")
@@ -125,9 +116,18 @@ public class WorkoutController {
     }
 
     @GetMapping("{workoutId}")
-    public String workoutDetails(@PathVariable("workoutId") Long workoutId, Model model) {
+    public String workoutDetails(@PathVariable("workoutId") Long workoutId, Model model, Principal principal) {
 
         WorkoutDetailsDTO workoutDetailsDTO = workoutService.getWorkoutDetailsById(workoutId);
+
+        boolean hasStarted = clientService.isWorkoutStarted(principal.getName(), workoutId);
+        boolean isCompleted = clientService.isWorkoutCompleted(principal.getName(), workoutId);
+        boolean hasLiked = userService.isWorkoutLiked(workoutId, principal.getName());
+
+        model.addAttribute("workout", workoutDetailsDTO);
+        model.addAttribute("hasStarted", hasStarted);
+        model.addAttribute("isCompleted", isCompleted);
+        model.addAttribute("hasLiked", hasLiked);
 
         model.addAttribute("workoutDetailsDTO", workoutDetailsDTO);
 

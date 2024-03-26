@@ -75,4 +75,8 @@ public class WorkoutEntity extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "program_id")
     private ProgramEntity program;
+
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private ClientEntity client;
 }

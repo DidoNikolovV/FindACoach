@@ -62,8 +62,8 @@ VALUES (1, 1),
 INSERT INTO coaches (description, email, img_url, rating, username)
 VALUES ('Random Desc', 'didaka@example.com', '/images/profile-avatar.jpg', 5.8, 'DidoNikolov');
 
-INSERT INTO clients (email, height, img_url, target_goals, username, weight, coach_id, workout_started_id)
-VALUES ('user@example.com', 170, '/images/profile-avatar.jpg', null,  'User', 70, 1, null);
+INSERT INTO clients (email, height, img_url, target_goals, username, weight, coach_id)
+VALUES ('user@example.com', 170, '/images/profile-avatar.jpg', null,  'User', 70, 1);
 
 --
 INSERT INTO programs (img_url, name, coach_id)
