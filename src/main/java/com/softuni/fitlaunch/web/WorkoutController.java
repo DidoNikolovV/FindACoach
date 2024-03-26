@@ -6,6 +6,7 @@ import com.softuni.fitlaunch.model.dto.program.ProgramDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutCreationDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
+import com.softuni.fitlaunch.model.dto.workout.WorkoutDetailsDTO;
 import com.softuni.fitlaunch.model.enums.LevelEnum;
 import com.softuni.fitlaunch.service.ClientService;
 import com.softuni.fitlaunch.service.ExerciseService;
@@ -19,6 +20,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -112,5 +114,23 @@ public class WorkoutController {
         model.addAttribute("workoutCreationDTO", new WorkoutCreationDTO());
 
         return "workout-add";
+    }
+
+    @PostMapping("/create")
+    public String createWorkout(@ModelAttribute("workoutCreationDTO") WorkoutCreationDTO workoutCreationDTO, Principal principal) {
+
+        WorkoutDTO workout = workoutService.createWorkout(workoutCreationDTO, principal.getName());
+
+        return "redirect:/workouts/" + workout.getId();
+    }
+
+    @GetMapping("{workoutId}")
+    public String workoutDetails(@PathVariable("workoutId") Long workoutId, Model model) {
+
+        WorkoutDetailsDTO workoutDetailsDTO = workoutService.getWorkoutDetailsById(workoutId);
+
+        model.addAttribute("workoutDetailsDTO", workoutDetailsDTO);
+
+        return "workout-details";
     }
 }

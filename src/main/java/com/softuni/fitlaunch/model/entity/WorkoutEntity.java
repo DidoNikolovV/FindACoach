@@ -28,7 +28,7 @@ import java.util.List;
 public class WorkoutEntity extends BaseEntity {
 
     @ManyToOne
-    private UserEntity author;
+    private CoachEntity author;
 
     @Column(nullable = false)
     private String imgUrl;
@@ -40,7 +40,7 @@ public class WorkoutEntity extends BaseEntity {
     @Column(nullable = false)
     private LevelEnum level;
 
-    @Column(nullable = false)
+    @Column
     private String description;
 
 
@@ -56,7 +56,7 @@ public class WorkoutEntity extends BaseEntity {
     private List<UserEntity> usersLiked = new ArrayList<>();
 
     @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
-    private List<WorkoutExerciseEntity> exercises;
+    private List<WorkoutExerciseEntity> exercises = new ArrayList<>();
 
 
     @Column(nullable = false)

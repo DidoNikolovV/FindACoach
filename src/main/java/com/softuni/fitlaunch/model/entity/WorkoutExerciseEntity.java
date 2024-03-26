@@ -1,5 +1,6 @@
 package com.softuni.fitlaunch.model.entity;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -15,7 +16,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "workout_exercises")
 public class WorkoutExerciseEntity extends BaseEntity {
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
     @Column(name = "video_url")
@@ -25,9 +26,6 @@ public class WorkoutExerciseEntity extends BaseEntity {
     @JoinColumn(name = "workout_id")
     private WorkoutEntity workout;
 
-    @ManyToOne
-    @JoinColumn(name = "exercise_id")
-    private ExerciseEntity exercise;;
 
     @NotNull
     private boolean isCompleted;

@@ -13,7 +13,7 @@
 </body>
 <div class="container my-5">
     <h2 class="text-center text-white my-2">Create Workout</h2>
-    <form th:object="${workoutCreationDTO}" th:action="@{/workouts/add}" th:method="post" enctype="multipart/form-data">
+    <form th:object="${workoutCreationDTO}" th:action="@{/workouts/create}" th:method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="name" class="text-white">Workout Name</label>
             <input type="text" class="form-control bg-light" id="name" th:field="*{name}">

@@ -59,9 +59,9 @@ public class ProgramService {
     }
 
 
-    public List<WorkoutDTO> getAllWorkoutsByProgramId(Long programId) {
-        return workoutService.loadAllByProgramId(programId);
-    }
+//    public List<WorkoutDTO> getAllWorkoutsByProgramId(Long programId) {
+//        return workoutService.loadAllByProgramId(programId);
+//    }
 
     public void removeLike(WorkoutEntity weekWorkout) {
         Long oldLikes = Long.valueOf(weekWorkout.getLikes());

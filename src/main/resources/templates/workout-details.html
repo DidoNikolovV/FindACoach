@@ -12,13 +12,13 @@
 <div class="container my-2">
     <h2 class="text-center text-white mb-4">Workout Details</h2>
 
-    <div th:object="${workout}" class="card d-flex">
+    <div th:object="${workoutDetailsDTO}" class="card d-flex">
         <div class="card-body bg-dark text-center flex-grow-1">
             <h5 class="card-title text-primary" th:text="*{name}"></h5>
             <div class="d-flex justify-content-center align-items-center mt-3">
                 <div th:if="${hasStarted}">
-                    <form th:method="POST"
-                          th:action="@{/workouts/complete/{programId}/{weekId}/{id}(programId=${program.id}, weekId=${week.id}, id=${workout.id})}">
+                    <form th:method="POST">
+<!--                          th:action="@{/workouts/complete/{programId}/{weekId}/{id}(programId=${program.id}, weekId=${week.id}, id=${workout.id})}">-->
                         <div th:unless="${isCompleted}">
                             <input type="submit" name="completeWorkout" id="completeWorkout" class="btn btn-primary"
                                    value="Complete Workout">
@@ -29,8 +29,8 @@
                     </form>
                 </div>
                 <div th:unless="${hasStarted}">
-                    <form th:method="POST"
-                          th:action="@{/workouts/start/{programId}/{weekId}/{id}(programId=${program.id}, weekId=${week.id}, id=${workout.id})}">
+                    <form th:method="POST">
+<!--                          th:action="@{/workouts/start/{programId}/{weekId}/{id}(programId=${program.id}, weekId=${week.id}, id=${workout.id})}">-->
                         <input type="submit" name="startWorkout" id="startWorkout" class="btn btn-success"
                                value="Start Workout">
                     </form>
@@ -42,8 +42,8 @@
                 <span id="likesCount" class="text-primary" th:text="${workout.likes}"></span>
             </div>
 
-            <form id="likesForm" method="POST"
-                  th:action="@{/workouts/like/{programId}/{weekId}/{id}(programId=${program.id}, weekId=${week.id}, id=${workout.id})}">
+            <form id="likesForm" method="POST">
+<!--                  th:action="@{/workouts/like/{programId}/{weekId}/{id}(programId=${program.id}, weekId=${week.id}, id=${workout.id})}">-->
                 <button type="submit" class="btn btn-link">
                     <div th:if="${hasLiked}">
                         <i class="fa-solid fa-lg fa-thumbs-down text-primary"></i>

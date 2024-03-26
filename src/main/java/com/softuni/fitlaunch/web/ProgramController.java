@@ -64,12 +64,12 @@ public class ProgramController {
         ClientDTO clientDTO = clientService.getClientByUsername(principal.getName());
 
         List<WeekEntity> allWeeksByProgramId = programService.getAllWeeksByProgramId(programId);
-        List<WorkoutDTO> allProgramWorkouts = programService.getAllWorkoutsByProgramId(programId);
+//        List<WorkoutDTO> allProgramWorkouts = programService.getAllWorkoutsByProgramId(programId);
 
         model.addAttribute("program", programDTO);
         model.addAttribute("allWeeks", allWeeksByProgramId);
         model.addAttribute("allWorkouts", allWeeksByProgramId);
-        model.addAttribute("allProgramWorkouts", allProgramWorkouts);
+//        model.addAttribute("allProgramWorkouts", allProgramWorkouts);
         model.addAttribute("user", clientDTO);
 
 

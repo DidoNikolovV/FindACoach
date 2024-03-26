@@ -35,9 +35,6 @@ public class WorkoutCreationDTO {
     @NotNull(message = "Image should not be null")
     private MultipartFile imgUrl;
 
-    @NotNull
-    private List<WorkoutExerciseDTO> exercises;
-
     private List<Long> selectedExerciseIds;
 
     private List<Integer> sets;
