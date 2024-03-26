@@ -44,9 +44,6 @@ public class ClientEntity extends BaseEntity {
     @JoinColumn(name = "coach_id")
     private CoachEntity coach;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
-    private List<WorkoutEntity> workoutsStarted = new ArrayList<>();
-
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "program_workout_exercises_completed",

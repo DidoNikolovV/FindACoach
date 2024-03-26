@@ -76,7 +76,10 @@ public class WorkoutEntity extends BaseEntity {
     @JoinColumn(name = "program_id")
     private ProgramEntity program;
 
-    @ManyToOne
-    @JoinColumn(name = "client_id")
-    private ClientEntity client;
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "workouts_started",
+            joinColumns = @JoinColumn(name = "workout_id"),
+            inverseJoinColumns = @JoinColumn(name = "client_id"))
+    private List<ClientEntity> clients;
 }

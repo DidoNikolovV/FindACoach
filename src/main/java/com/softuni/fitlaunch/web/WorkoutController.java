@@ -116,7 +116,7 @@ public class WorkoutController {
 
         WorkoutDetailsDTO workoutDetailsDTO = workoutService.getWorkoutDetailsById(workoutId);
 
-        boolean hasStarted = clientService.isWorkoutStarted(principal.getName(), workoutId);
+        boolean hasStarted = workoutService.isWorkoutStarted(workoutId, principal.getName());
         boolean isCompleted = clientService.isWorkoutCompleted(principal.getName(), workoutId);
         boolean hasLiked = userService.isWorkoutLiked(workoutId, principal.getName());
 

@@ -43,12 +43,6 @@ public class ClientService {
     }
 
 
-    public boolean isWorkoutStarted(String username, Long workoutId) {
-        ClientEntity clientEntity = getClientEntityByUsername(username);
-        return clientEntity.getWorkoutsStarted().stream().anyMatch(workout -> workout.getId().equals(workoutId));
-    }
-
-
     public boolean isWorkoutCompleted(String username, Long workoutId) {
         ClientEntity clientEntity = getClientEntityByUsername(username);
 

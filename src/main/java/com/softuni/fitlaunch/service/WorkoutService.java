@@ -99,14 +99,24 @@ public class WorkoutService {
     }
 
     public void startWorkout(Long workoutId, String username) {
-        WorkoutEntity workout = workoutRepository.findById(workoutId).orElseThrow(() -> new ObjectNotFoundException("Workout does not exist"));
-
+        WorkoutEntity workout = getWorkoutEntityById(workoutId);
         ClientEntity client = clientService.getClientEntityByUsername(username);
-        if(!workout.isHasStarted()) {
-            workout.setHasStarted(true);
-            client.getWorkoutsStarted().add(workout);
+
+        boolean hasStarted = isWorkoutStarted(workoutId, username);
+        if(!hasStarted) {
+            workout.getClients().add(client);
         }
 
         workoutRepository.save(workout);
     }
+
+    public boolean isWorkoutStarted(Long workoutId, String username) {
+        WorkoutEntity workout = getWorkoutEntityById(workoutId);
+        return workout.getClients().stream().anyMatch(clientEntity -> clientEntity.getUsername().equals(username));
+    }
+
+//    public boolean isWorkoutCompleted(Long workoutId, String username) {
+//        WorkoutEntity workout = getWorkoutEntityById(workoutId);
+//        return workout.getClients().stream().anyMatch(clientEntity -> clientEntity.getUsername().equals(username));
+//    }
 }

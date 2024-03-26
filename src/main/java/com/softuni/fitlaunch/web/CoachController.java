@@ -96,15 +96,15 @@ public class CoachController {
         return "client-information-form";
     }
 
-    @PostMapping("/{coachId}/client/information")
-    public String clientDetails(@PathVariable("coachId") Long coachId, @ModelAttribute("clientDTO") @Valid ClientDetailsDTO clientDetailsDTO, Principal principal) {
-        coachService.setClientDetails(principal.getName(), clientDetailsDTO);
-
-        ClientDTO client = clientService.getClientByUsername(principal.getName());
-        coachService.addClient(coachId, client);
-
-        return "redirect:/";
-    }
+//    @PostMapping("/{coachId}/client/information")
+//    public String clientDetails(@PathVariable("coachId") Long coachId, @ModelAttribute("clientDTO") @Valid ClientDetailsDTO clientDetailsDTO, Principal principal) {
+//        coachService.setClientDetails(principal.getName(), clientDetailsDTO);
+//
+//        ClientDTO client = clientService.getClientByUsername(principal.getName());
+//        coachService.addClient(coachId, client);
+//
+//        return "redirect:/";
+//    }
 
     @GetMapping("/clients/{clientId}")
     public String coachClientDetails(@PathVariable("clientId") Long id, Principal principal, Model model) {
