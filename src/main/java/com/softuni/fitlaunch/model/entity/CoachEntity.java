@@ -34,6 +34,9 @@ public class CoachEntity extends BaseEntity {
     @Length(max = 255)
     private String description;
 
+    @OneToMany
+    private List<WorkoutEntity> workouts;
+
     @OneToMany(cascade = CascadeType.ALL)
     private List<CertificateEntity> certificates;
 

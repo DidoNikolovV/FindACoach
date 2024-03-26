@@ -1,5 +1,6 @@
 package com.softuni.fitlaunch.model.dto.workout;
 
+import com.softuni.fitlaunch.model.dto.WorkoutExerciseDTO;
 import com.softuni.fitlaunch.model.dto.program.ProgramWorkoutExerciseDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import lombok.AllArgsConstructor;
@@ -26,7 +27,7 @@ public class WorkoutDetailsDTO {
 
     private String imgUrl;
 
-    private List<ProgramWorkoutExerciseDTO> exercises;
+    private List<WorkoutExerciseDTO> exercises;
 
     private Long likes;
 

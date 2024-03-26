@@ -46,17 +46,15 @@ public class WorkoutService {
 
     public WorkoutDTO createWorkout(WorkoutCreationDTO workoutCreationDTO, String authorUsername) {
         WorkoutEntity workout = modelMapper.map(workoutCreationDTO, WorkoutEntity.class);
-
-        List<WorkoutExerciseEntity> workoutExercises = workoutExerciseService.createWorkoutExercises(workoutCreationDTO, workout);
-
         CoachEntity author = coachService.getCoachEntityByUsername(authorUsername);
-
-        workout.setExercises(workoutExercises);
         workout.setAuthor(author);
+//        workout.setExercises(workoutExercises);
         workout = workoutRepository.save(workout);
+        workoutExerciseService.createWorkoutExercises(workoutCreationDTO, workout);
 
         return modelMapper.map(workout, WorkoutDTO.class);
     }
+
 
     public WorkoutDTO getWorkoutById(Long id) {
         WorkoutEntity workoutEntity = workoutRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Workout with id " + id + " does not exist"));
@@ -92,6 +90,7 @@ public class WorkoutService {
 
     public WorkoutDetailsDTO getWorkoutDetailsById(Long workoutId) {
         WorkoutEntity workout = workoutRepository.findById(workoutId).orElse(null);
-        return modelMapper.map(workout, WorkoutDetailsDTO.class);
+        WorkoutDetailsDTO map = modelMapper.map(workout, WorkoutDetailsDTO.class);
+        return map;
     }
 }

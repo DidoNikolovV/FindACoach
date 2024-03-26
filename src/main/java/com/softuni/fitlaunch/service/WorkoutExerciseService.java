@@ -33,7 +33,7 @@ public class WorkoutExerciseService {
                 .toList();
     }
 
-    public List<WorkoutExerciseEntity> createWorkoutExercises(WorkoutCreationDTO workoutCreationDTO, WorkoutEntity workout) {
+    public void createWorkoutExercises(WorkoutCreationDTO workoutCreationDTO, WorkoutEntity workout) {
         List<ExerciseEntity> exercises = workoutCreationDTO.getSelectedExerciseIds().stream().map(exerciseService::getById).toList();
         List<WorkoutExerciseEntity> workoutExercises = exercises.stream().map(exerciseEntity -> modelMapper.map(exerciseEntity, WorkoutExerciseEntity.class)).toList();
         for (WorkoutExerciseEntity workoutExercise : workoutExercises) {
@@ -44,8 +44,8 @@ public class WorkoutExerciseService {
             workoutExercise.setReps(exerciseReps);
         }
 
+        workoutExerciseRepository.saveAll(workoutExercises);
 
-        return workoutExercises;
     }
 
     public List<WorkoutExerciseDTO> getAllByWorkoutId(Long workoutId) {

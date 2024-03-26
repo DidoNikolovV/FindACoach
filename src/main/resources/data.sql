@@ -150,11 +150,11 @@ VALUES
 
 
 
-INSERT INTO workouts (date_completed, description, has_started, img_url, is_completed, level, likes, name, author_id, program_id)
+INSERT INTO workouts (date_completed, description, has_started, img_url, is_completed, level, likes, name, author_id)
 VALUES
-    ('', 'Full Body Workout: Squats, Deadlifts, Bench Press, Pull-ups, and Planks', 0, 'https://example.com/full_body_workout.jpg', 0, 'Intermediate', 25, 'Full Body Blast', 1, 1),
-    ('', 'Cardio HIIT: Jumping Jacks, Burpees, High Knees, Mountain Climbers, and Jump Rope', 0, 'https://example.com/cardio_hiit.jpg', 0, 'Advanced', 15, 'HIIT Cardio Burn', 1, 1),
-    ('', 'Yoga Flow: Sun Salutations, Warrior Poses, Downward Dog, and Child’s Pose', 0, 'https://example.com/yoga_flow.jpg', 0, 'Beginner', 30, 'Morning Yoga Flow', 1, 1);
+    ('', 'Full Body Workout: Squats, Deadlifts, Bench Press, Pull-ups, and Planks', 0, 'https://example.com/full_body_workout.jpg', 0, 'Intermediate', 25, 'Full Body Blast', 1),
+    ('', 'Cardio HIIT: Jumping Jacks, Burpees, High Knees, Mountain Climbers, and Jump Rope', 0, 'https://example.com/cardio_hiit.jpg', 0, 'Advanced', 15, 'HIIT Cardio Burn', 1),
+    ('', 'Yoga Flow: Sun Salutations, Warrior Poses, Downward Dog, and Child’s Pose', 0, 'https://example.com/yoga_flow.jpg', 0, 'Beginner', 30, 'Morning Yoga Flow', 1);
 
 
 

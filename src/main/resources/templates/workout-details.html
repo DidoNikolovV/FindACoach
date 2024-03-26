@@ -39,7 +39,7 @@
 
             <div class="mt-2">
                 <span class="font-weight-bold text-primary">Likes: </span>
-                <span id="likesCount" class="text-primary" th:text="${workout.likes}"></span>
+                <span id="likesCount" class="text-primary" th:text="*{likes}"></span>
             </div>
 
             <form id="likesForm" method="POST">
@@ -57,11 +57,11 @@
             <ul class="list-group list-group-flush mt-3 text-white align-items-center">
                 <li class="list-group-item bg-dark text-white">
                     <span class="font-weight-bold">Level:</span>
-                    <span th:text="${workout.level}">Beginner</span>
+                    <span th:text="*{level}">Beginner</span>
                 </li>
                 <li class="list-group-item bg-dark text-white">
                     <span class="font-weight-bold">Description:</span>
-                    <span th:text="${workout.description}">This is a great workout for...</span>
+                    <span th:text="*{description}">This is a great workout for...</span>
                 </li>
             </ul>
         </div>
@@ -72,10 +72,10 @@
         <div class="card-body bg-dark primary">
             <h5 class="card-title primary">Exercises</h5>
             <ul class="list-group list-group-flush">
-                <li th:each="exercise: ${workout.exercises}" class="list-group-item bg-dark">
+                <li th:each="exercise: ${workoutDetailsDTO.exercises}" class="list-group-item bg-dark">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="flex-grow-1">
-                            <h6 class="font-weight-bold" th:text="${exercise.getExercise().name}"></h6>
+                            <h6 class="font-weight-bold" th:text="${exercise.name}"></h6>
                             <span class="font-weight-bold">Sets:</span>
                             <span th:text="${exercise.sets}"></span>
                             <br>
@@ -84,12 +84,12 @@
                         </div>
                         <div>
                             <iframe class="w-100"
-                                    th:src="'https://www.youtube.com/embed/' + ${exercise.getExercise().getVideoUrl()}"
+                                    th:src="'https://www.youtube.com/embed/' + ${exercise.getVideoUrl()}"
                                     height="100" frameborder="0" allowfullscreen></iframe>
                         </div>
                         <div th:if="*{hasStarted}">
-                            <form th:method="POST"
-                                  th:action="@{/workouts/{programId}/{weekId}/{workoutId}/complete/{exerciseId}(programId=${program.id}, weekId=${week.id}, workoutId=${workout.id}, exerciseId=${exercise.getId()})}">
+                            <form th:method="POST">
+<!--                                  th:action="@{/workouts/{programId}/{weekId}/{workoutId}/complete/{exerciseId}(programId=${program.id}, weekId=${week.id}, workoutId=${workout.id}, exerciseId=${exercise.getId()})}">-->
                                 <button type="submit" class="btn btn-link" th:if="${exercise.completed}">
                                     <i class="fa-solid fa-lg fa-circle-check text-success"></i>
                                 </button>
@@ -104,9 +104,9 @@
         </div>
     </div>
 
-    <input type="hidden" name="programId" id="programId" th:value="${program.id}">
-    <input type="hidden" name="weekId" id="weekId" th:value="${week.id}">
-    <input type="hidden" name="workoutId" id="workoutId" th:value="${workout.id}">
+<!--    <input type="hidden" name="programId" id="programId" th:value="${program.id}">-->
+<!--    <input type="hidden" name="weekId" id="weekId" th:value="${week.id}">-->
+    <input type="hidden" name="workoutId" id="workoutId" th:value="${workoutDetailsDTO.id}">
     <div class="comments my-4 bg-dark text-white" th:if="${isCompleted}">
         <h1>Comments</h1>
         <div>

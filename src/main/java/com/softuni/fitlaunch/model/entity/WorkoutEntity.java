@@ -44,7 +44,7 @@ public class WorkoutEntity extends BaseEntity {
     private String description;
 
 
-    @Column(nullable = false)
+    @Column
     private Integer likes = 0;
 
 
@@ -55,8 +55,9 @@ public class WorkoutEntity extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<UserEntity> usersLiked = new ArrayList<>();
 
-    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "workout", cascade = CascadeType.MERGE, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<WorkoutExerciseEntity> exercises = new ArrayList<>();
+
 
 
     @Column(nullable = false)
@@ -68,7 +69,7 @@ public class WorkoutEntity extends BaseEntity {
     @Column(nullable = false)
     private boolean hasStarted = false;
 
-    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "workout", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<CommentEntity> comments;
 
     @ManyToOne
