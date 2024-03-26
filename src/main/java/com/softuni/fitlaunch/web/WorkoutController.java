@@ -96,6 +96,13 @@ public class WorkoutController {
         return "redirect:/workouts/" + workoutId;
     }
 
+    @PostMapping("/dislike/{workoutId}")
+    public String dislike(@PathVariable("workoutId") Long workoutId, Principal principal) {
+        userService.dislike(workoutId, principal.getName());
+
+        return "redirect:/workouts/" + workoutId;
+    }
+
     @GetMapping("/create")
     public String createWorkout(Model model) {
 

@@ -112,8 +112,7 @@ public class UserService {
     }
 
     public void like(Long workoutId, String username) {
-        UserEntity user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, username)));
+        UserEntity user = getUserEntityByUsername(username);
 
         boolean hasLiked = user.getWorkoutsLiked().stream().anyMatch(workoutEntity -> Objects.equals(workoutEntity.getId(), workoutId));
 
@@ -127,27 +126,30 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void dislike(UserDTO loggedUser, Long workoutId) {
-        UserEntity userEntity = userRepository.findByUsername(loggedUser.getUsername())
-                .orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, loggedUser.getUsername())));
-        WorkoutEntity weekWorkout = programService.getWorkoutEntityById(workoutId);
-        userEntity.getWorkoutsLiked().remove(weekWorkout);
+    public void dislike(Long workoutId, String username) {
+        UserEntity user = getUserEntityByUsername(username);
 
-        programService.removeLike(weekWorkout);
-        userRepository.save(userEntity);
+        boolean hasLiked = user.getWorkoutsLiked().stream().anyMatch(workoutEntity -> Objects.equals(workoutEntity.getId(), workoutId));
+
+        if(hasLiked) {
+            WorkoutEntity workout = programService.getWorkoutEntityById(workoutId);
+            user.getWorkoutsLiked().remove(workout);
+            int oldLikes = workout.getLikes();
+            workout.setLikes(oldLikes - 1);
+        }
+
+        userRepository.save(user);
     }
 
     public boolean isWorkoutLiked(Long workoutId, String username) {
-        UserEntity user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, username)));
+        UserEntity user = getUserEntityByUsername(username);
 
         return user.getWorkoutsLiked().stream()
                 .anyMatch(likedWorkout -> likedWorkout.getId().equals(workoutId));
     }
 
     public void changeUserRole(String username, String role) {
-        UserEntity userEntity = userRepository.findByUsername(username)
-                .orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, username)));
+        UserEntity userEntity = getUserEntityByUsername(username);
 
         Long roleId = role.equals(UserRoleEnum.ADMIN.name()) ? 1L : 2L;
 
@@ -194,8 +196,7 @@ public class UserService {
     public UserProfileView uploadProfilePicture(String username, MultipartFile profilePicture) {
         String picture = fileUpload.uploadFile(profilePicture);
 
-        UserEntity userEntity = userRepository.findByUsername(username)
-                .orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, username)));
+        UserEntity userEntity = getUserEntityByUsername(username);
         userEntity.setImgUrl(picture);
 
         userRepository.save(userEntity);
@@ -204,8 +205,7 @@ public class UserService {
     }
 
     public UserProfileView getUserProfileByUsername(String username) {
-        UserEntity userEntity = userRepository.findByUsername(username)
-                .orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, username)));
+        UserEntity userEntity = getUserEntityByUsername(username);
         return modelMapper.map(userEntity, UserProfileView.class);
     }
 

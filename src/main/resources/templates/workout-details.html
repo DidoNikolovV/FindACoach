@@ -38,17 +38,23 @@
                 <span id="likesCount" class="text-primary" th:text="*{likes}"></span>
             </div>
 
-            <form id="likesForm" method="POST"
-                  th:action="@{/workouts/like/{workoutId}(workoutId=${workoutDetailsDTO.id})}">
-                <button type="submit" class="btn btn-link">
-                    <div th:if="${hasLiked}">
+            <div th:if="${hasLiked}">
+                <form id="dislikeForm" method="POST"
+                      th:action="@{/workouts/dislike/{workoutId}(workoutId=${workoutDetailsDTO.id})}">
+                    <button type="submit" class="btn btn-link">
                         <i class="fa-solid fa-lg fa-thumbs-down text-primary"></i>
-                    </div>
-                    <div th:unless="${hasLiked}">
+                    </button>
+                </form>
+            </div>
+
+            <div th:unless="${hasLiked}">
+                <form id="likesForm" method="POST"
+                      th:action="@{/workouts/like/{workoutId}(workoutId=${workoutDetailsDTO.id})}">
+                    <button type="submit" class="btn btn-link">
                         <i class="fas fa-thumbs-up fa-lg text-primary" style="cursor: pointer"></i>
-                    </div>
-                </button>
-            </form>
+                    </button>
+                </form>
+            </div>
 
             <ul class="list-group list-group-flush mt-3 text-white align-items-center">
                 <li class="list-group-item bg-dark text-white">

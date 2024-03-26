@@ -48,7 +48,6 @@ public class WorkoutService {
         WorkoutEntity workout = modelMapper.map(workoutCreationDTO, WorkoutEntity.class);
         CoachEntity author = coachService.getCoachEntityByUsername(authorUsername);
         workout.setAuthor(author);
-//        workout.setExercises(workoutExercises);
         workout = workoutRepository.save(workout);
         workoutExerciseService.createWorkoutExercises(workoutCreationDTO, workout);
 
