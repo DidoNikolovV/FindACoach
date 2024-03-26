@@ -81,5 +81,12 @@ public class WorkoutEntity extends BaseEntity {
             name = "workouts_started",
             joinColumns = @JoinColumn(name = "workout_id"),
             inverseJoinColumns = @JoinColumn(name = "client_id"))
-    private List<ClientEntity> clients;
+    private List<ClientEntity> clientsStarted;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "workouts_completed",
+            joinColumns = @JoinColumn(name = "workout_id"),
+            inverseJoinColumns = @JoinColumn(name = "client_id"))
+    private List<ClientEntity> clientsCompleted;
 }

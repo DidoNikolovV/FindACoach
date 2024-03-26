@@ -111,13 +111,21 @@ public class WorkoutController {
         return "redirect:/workouts/" + workoutId;
     }
 
+    @PostMapping("/{workoutId}/complete")
+    public String completeWorkout(@PathVariable("workoutId") Long workoutId, Principal principal) {
+
+        workoutService.completedWorkout(workoutId, principal.getName());
+
+        return "redirect:/workouts/" + workoutId;
+    }
+
     @GetMapping("{workoutId}")
     public String workoutDetails(@PathVariable("workoutId") Long workoutId, Model model, Principal principal) {
 
         WorkoutDetailsDTO workoutDetailsDTO = workoutService.getWorkoutDetailsById(workoutId);
 
         boolean hasStarted = workoutService.isWorkoutStarted(workoutId, principal.getName());
-        boolean isCompleted = clientService.isWorkoutCompleted(principal.getName(), workoutId);
+        boolean isCompleted = workoutService.isWorkoutCompleted(workoutId, principal.getName());
         boolean hasLiked = userService.isWorkoutLiked(workoutId, principal.getName());
 
         model.addAttribute("workout", workoutDetailsDTO);

@@ -6,10 +6,7 @@ import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDetailsDTO;
 import com.softuni.fitlaunch.model.entity.ClientEntity;
 import com.softuni.fitlaunch.model.entity.CoachEntity;
-import com.softuni.fitlaunch.model.entity.ExerciseEntity;
-import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
-import com.softuni.fitlaunch.model.entity.WorkoutExerciseEntity;
 import com.softuni.fitlaunch.model.enums.LevelEnum;
 import com.softuni.fitlaunch.repository.WorkoutRepository;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
@@ -19,7 +16,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -102,9 +98,21 @@ public class WorkoutService {
         WorkoutEntity workout = getWorkoutEntityById(workoutId);
         ClientEntity client = clientService.getClientEntityByUsername(username);
 
-        boolean hasStarted = isWorkoutStarted(workoutId, username);
-        if(!hasStarted) {
-            workout.getClients().add(client);
+        boolean isStarted = isWorkoutStarted(workoutId, username);
+        if(!isStarted) {
+            workout.getClientsStarted().add(client);
+        }
+
+        workoutRepository.save(workout);
+    }
+
+    public void completedWorkout(Long workoutId, String username) {
+        WorkoutEntity workout = getWorkoutEntityById(workoutId);
+        ClientEntity client = clientService.getClientEntityByUsername(username);
+
+        boolean isCompleted = isWorkoutCompleted(workoutId, username);
+        if(!isCompleted) {
+            workout.getClientsCompleted().add(client);
         }
 
         workoutRepository.save(workout);
@@ -112,11 +120,13 @@ public class WorkoutService {
 
     public boolean isWorkoutStarted(Long workoutId, String username) {
         WorkoutEntity workout = getWorkoutEntityById(workoutId);
-        return workout.getClients().stream().anyMatch(clientEntity -> clientEntity.getUsername().equals(username));
+        return workout.getClientsStarted().stream().anyMatch(clientEntity -> clientEntity.getUsername().equals(username));
     }
 
-//    public boolean isWorkoutCompleted(Long workoutId, String username) {
-//        WorkoutEntity workout = getWorkoutEntityById(workoutId);
-//        return workout.getClients().stream().anyMatch(clientEntity -> clientEntity.getUsername().equals(username));
-//    }
+    public boolean isWorkoutCompleted(Long workoutId, String username) {
+        WorkoutEntity workout = getWorkoutEntityById(workoutId);
+        return workout.getClientsCompleted().stream().anyMatch(clientEntity -> clientEntity.getUsername().equals(username));
+    }
+
+
 }
