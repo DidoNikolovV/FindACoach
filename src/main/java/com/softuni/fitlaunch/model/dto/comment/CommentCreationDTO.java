@@ -9,10 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class CommentCreationDTO {
-
     private String authorUsername;
-
-    private Long programId;
 
     private Long workoutId;
 

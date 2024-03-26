@@ -28,8 +28,6 @@ public class CommentEntity {
     @ManyToOne
     private WorkoutEntity workout;
 
-    @ManyToOne
-    private ProgramEntity program;
 
     @Column(nullable = false)
     private String message;

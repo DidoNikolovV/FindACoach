@@ -38,32 +38,26 @@ public class CommentsRestController {
     }
 
 
-    @GetMapping("/{commentId}")
-    public ResponseEntity<CommentView> getComment(@PathVariable("commentId") Long commentId) {
+    @GetMapping("/{workoutId}/{commentId}")
+    public ResponseEntity<CommentView> getComment(@PathVariable("workoutId") Long workoutId, @PathVariable("commentId") Long commentId) {
         return ResponseEntity.ok(commentService.getComment(commentId));
     }
 
-    @GetMapping("/{programId}/{weekId}/{workoutId}")
-    public ResponseEntity<List<CommentView>> getAllCommentsForWorkout(@PathVariable("programId") Long programId, @PathVariable("weekId") Long weekId, @PathVariable("workoutId") Long workoutId) {
-        return ResponseEntity.ok(commentService.getAllCommentsForWorkout(workoutId));
-    }
 
     @GetMapping("/{workoutId}/all")
     public ResponseEntity<List<CommentView>> getCommentsByWorkoutId(@PathVariable("workoutId") Long workoutId) {
         return ResponseEntity.ok(commentService.getAllCommentsForWorkout(workoutId));
     }
 
-    @PostMapping(value = "/{programId}/{weekId}/{workoutId}/", consumes = "application/json", produces = "application/json")
-    public ResponseEntity<CommentView> postComment(@PathVariable("programId") Long programId,
-                                                   @PathVariable("weekId") Long weekId,
-                                                   @PathVariable("workoutId") Long workoutId,
-                                                   @RequestBody CommentCreationDTO commentCreationDTO) {
+    @PostMapping(value = "/{workoutId}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<CommentView> postComment(@PathVariable("workoutId") Long workoutId,
+                                                   @RequestBody CommentCreationDTO commentCreationDTO, Principal principal) {
 
-        CommentView commentView = commentService.addComment(commentCreationDTO);
+        CommentView commentView = commentService.addComment(commentCreationDTO, principal.getName());
 
 
         return ResponseEntity.created(
-                URI.create(String.format("/api/%d/%d/%d/comments/%d", programId, weekId, workoutId, commentView.getId()))
+                URI.create(String.format("/api/v1/comments/%d/%d", workoutId, commentView.getId()))
         ).body(commentView);
     }
 

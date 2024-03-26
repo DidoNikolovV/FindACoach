@@ -1,8 +1,6 @@
 const url = 'http://localhost:8080'
 
 const workoutId = document.getElementById('workoutId').value
-const weekId = document.getElementById('weekId').value
-const programId = document.getElementById('programId').value
 const commentForm = document.getElementById('commentForm')
 commentForm.addEventListener('submit', postComment)
 
@@ -18,7 +16,7 @@ async function postComment(e) {
 
     const messageValue = document.getElementById('message').value;
 
-    fetch(`${url}/api/${programId}/${weekId}/${workoutId}/comments`, {
+    fetch(`${url}/api/v1/comments/${workoutId}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -46,7 +44,7 @@ function commentAsHTML(comment) {
 }
 
 function deleteComment(commentId) {
-    fetch(`${url}/api/${programId}/${weekId}/${workoutId}/comments/${commentId}`, {
+    fetch(`${url}/api/v1/${programId}/${weekId}/${workoutId}/comments/${commentId}`, {
         method: 'DELETE',
         headers: {
             [csrfHeaderName]: csrfHeaderValue
@@ -58,7 +56,7 @@ function deleteComment(commentId) {
         })
 }
 
-fetch(`${url}/api/${programId}/${weekId}/${workoutId}/comments`, {
+fetch(`${url}/api/v1/comments/${workoutId}/all`, {
     headers: {
         "Accept": "application/json"
     }

@@ -112,7 +112,7 @@
     <div class="comments my-4 bg-dark text-white" th:if="${isCompleted}">
         <h1>Comments</h1>
         <div>
-            <form id="commentForm" method="POST" action="/">
+            <form id="commentForm" method="POST" th:action="@{/comments/{workoutId}(workoutId=${workout.id})}">
                 <div class="form-group">
                     <h4>Leave a comment</h4>
                     <label for="message">Message</label>

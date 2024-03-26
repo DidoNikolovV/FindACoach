@@ -32,10 +32,10 @@ public class CommentService {
     }
 
 
-    public CommentView addComment(CommentCreationDTO commentDTO) {
-        UserEntity author = userService.getUserEntityByUsername(commentDTO.getAuthorUsername());
+    public CommentView addComment(CommentCreationDTO commentDTO, String username) {
+        UserEntity author = userService.getUserEntityByUsername(username);
         CommentEntity comment = modelMapper.map(commentDTO, CommentEntity.class);
-
+        comment.setAuthor(author);
         comment = commentRepository.save(comment);
 
         return new CommentView(comment.getId(), author.getUsername(), comment.getMessage());
