@@ -43,13 +43,13 @@ public class ClientService {
     }
 
     public boolean isWorkoutStarted(String username, Long workoutId) {
-        ClientEntity clientEntity = clientRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("Client with username " + username + " was not found"));
+        ClientEntity clientEntity = getClientEntityByUsername(username);
         return clientEntity.getWorkoutsStarted().stream().anyMatch(workout -> workout.getId().equals(workoutId));
     }
 
 
     public boolean isWorkoutCompleted(String username, Long workoutId) {
-        ClientEntity clientEntity = clientRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException("Client with username " + username + " was not found"));
+        ClientEntity clientEntity = getClientEntityByUsername(username);
 
         return clientEntity.getCompletedWorkouts().stream()
                 .anyMatch(weekWorkoutDTO -> weekWorkoutDTO.getId().equals(workoutId));

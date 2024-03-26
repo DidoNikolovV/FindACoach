@@ -4,8 +4,10 @@ package com.softuni.fitlaunch.service;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutCreationDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDetailsDTO;
+import com.softuni.fitlaunch.model.entity.ClientEntity;
 import com.softuni.fitlaunch.model.entity.CoachEntity;
 import com.softuni.fitlaunch.model.entity.ExerciseEntity;
+import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutExerciseEntity;
 import com.softuni.fitlaunch.model.enums.LevelEnum;
@@ -29,17 +31,20 @@ public class WorkoutService {
     private String BASE_IMAGES_PATH;
     private final WorkoutRepository workoutRepository;
 
-
     private final WorkoutExerciseService workoutExerciseService;
+
+    private final ClientService clientService;
+
 
     private final CoachService coachService;
 
     private final ModelMapper modelMapper;
 
 
-    public WorkoutService(WorkoutRepository workoutRepository, WorkoutExerciseService workoutExerciseService, CoachService coachService, ModelMapper modelMapper) {
+    public WorkoutService(WorkoutRepository workoutRepository, WorkoutExerciseService workoutExerciseService, ClientService clientService, CoachService coachService, ModelMapper modelMapper) {
         this.workoutRepository = workoutRepository;
         this.workoutExerciseService = workoutExerciseService;
+        this.clientService = clientService;
         this.coachService = coachService;
         this.modelMapper = modelMapper;
     }
@@ -91,5 +96,17 @@ public class WorkoutService {
         WorkoutEntity workout = workoutRepository.findById(workoutId).orElse(null);
         WorkoutDetailsDTO map = modelMapper.map(workout, WorkoutDetailsDTO.class);
         return map;
+    }
+
+    public void startWorkout(Long workoutId, String username) {
+        WorkoutEntity workout = workoutRepository.findById(workoutId).orElseThrow(() -> new ObjectNotFoundException("Workout does not exist"));
+
+        ClientEntity client = clientService.getClientEntityByUsername(username);
+        if(!workout.isHasStarted()) {
+            workout.setHasStarted(true);
+            client.getWorkoutsStarted().add(workout);
+        }
+
+        workoutRepository.save(workout);
     }
 }

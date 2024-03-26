@@ -69,25 +69,6 @@ public class WorkoutController {
         return "workouts";
     }
 
-//    @GetMapping("/")
-//    public String workoutDetails(@PathVariable("workoutId") Long workoutId, Model model, Principal principal) {
-//
-//        UserDTO loggedUser = userService.getUserByUsername(principal.getName());
-//        WorkoutDTO workout = workoutService.getWorkoutById(workoutId);
-//
-//        boolean hasStarted = clientService.isWorkoutStarted(principal.getName(), workoutId);
-//        boolean isCompleted = clientService.isWorkoutCompleted(principal.getName(), workoutId);
-//        boolean hasLiked = userService.isWorkoutLiked(workoutId, principal.getName());
-//
-//        model.addAttribute("workout", workout);
-//        model.addAttribute("user", loggedUser);
-//        model.addAttribute("hasStarted", hasStarted);
-//        model.addAttribute("isCompleted", isCompleted);
-//        model.addAttribute("hasLiked", hasLiked);
-//
-//
-//        return "workout-details";
-//    }
 
     @PostMapping("/like/{workoutId}")
     public String like(@PathVariable("workoutId") Long workoutId, Principal principal) {
@@ -122,6 +103,14 @@ public class WorkoutController {
         return "redirect:/workouts/" + workout.getId();
     }
 
+    @PostMapping("/{workoutId}/start")
+    public String startWorkout(@PathVariable("workoutId") Long workoutId, Principal principal) {
+
+        workoutService.startWorkout(workoutId, principal.getName());
+
+        return "redirect:/workouts/" + workoutId;
+    }
+
     @GetMapping("{workoutId}")
     public String workoutDetails(@PathVariable("workoutId") Long workoutId, Model model, Principal principal) {
 
@@ -135,8 +124,6 @@ public class WorkoutController {
         model.addAttribute("hasStarted", hasStarted);
         model.addAttribute("isCompleted", isCompleted);
         model.addAttribute("hasLiked", hasLiked);
-
-        model.addAttribute("workoutDetailsDTO", workoutDetailsDTO);
 
         return "workout-details";
     }
