@@ -1,16 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
+<head th:replace="~{fragments/head}">
     <meta charset="UTF-8">
-    <title>Create Workout Program</title>
-    <!-- Bootstrap CSS -->
+    <title>Create Workout Program</title>>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa; /* Light gray */
+            color: #343a40; /* Dark gray */
+        }
+        .form-group label {
+            font-weight: bold;
+        }
+        .week-container {
+            border: 1px solid #dee2e6; /* Light gray border */
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 20px;
+            background-color: #f3f4f6; /* Lighter gray */
+        }
+        .day-container {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
 <nav th:include="~{fragments/navbar}"></nav>
-<div class="container">
-    <h1>Create Workout Program</h1>
-    <hr>
+<div class="container-fluid">
+    <h1 class="mb-4">Create Workout Program</h1>
 
     <!-- Program Details Form -->
     <form th:action="@{/programs/create}" method="post">
@@ -26,46 +43,31 @@
 
         <!-- Week Selection -->
         <h3>Weeks</h3>
-        <div class="form-row">
-            <!-- Add inputs for number of weeks -->
-            <div class="form-group col-md-2">
-                <input type="number" class="form-control" id="numberOfWeeks" name="numberOfWeeks" min="1" max="52" placeholder="Weeks" required>
-            </div>
+        <div class="form-group">
+            <input type="number" class="form-control" id="numberOfWeeks" name="numberOfWeeks" min="1" max="52" placeholder="Number of Weeks" required>
         </div>
 
         <!-- Days and Workouts Selection -->
         <h3>Days and Workouts</h3>
         <!-- Iterate over weeks -->
-        <div th:each="weekNumber : ${#numbers.sequence(1, 4)}">
+        <div th:each="weekNumber : ${#numbers.sequence(1, 4)}" class="week-container">
             <h4>Week <span th:text="${weekNumber}"></span></h4>
             <!-- Iterate over days within each week -->
-            <div class="form-row">
-                <div class="form-group col-md-2">
-                    <label for="numberOfDays">Number of Days:</label>
-                    <input type="number" class="form-control" id="numberOfDays" name="numberOfDays${weekNumber}" min="1" max="7" placeholder="Days" required>
-                </div>
-                <!-- Iterate over days -->
-                <div th:each="dayNumber : ${#numbers.sequence(1, 7)}">
-                    <div class="form-group col-md-4">
-                        <label for="workoutSelect">Day <span th:text="${dayNumber}"></span> - Workout:</label>
-                        <select class="form-control" id="workoutSelect" name="workout${weekNumber}_${dayNumber}">
-                            <!-- Populate workouts dynamically -->
-                            <option th:each="workout : ${allWorkouts}" th:value="${workout.id}" th:text="${workout.name}"></option>
-                        </select>
-                    </div>
+            <div th:each="dayNumber : ${#numbers.sequence(1, 7)}" class="day-container">
+                <div class="form-group">
+                    <label for="workoutSelect">Day <span th:text="${dayNumber}"></span> - Workout:</label>
+                    <select class="form-control" id="workoutSelect" name="workout${weekNumber}_${dayNumber}">
+                        <!-- Populate workouts dynamically -->
+                        <option th:each="workout : ${allWorkouts}" th:value="${workout.id}" th:text="${workout.name}"></option>
+                    </select>
                 </div>
             </div>
         </div>
 
         <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary">Save Program</button>
+        <button type="submit" class="btn btn-primary btn-block mt-4">Save Program</button>
     </form>
 </div>
-
-<!-- Bootstrap JS (optional, for certain components) -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+<footer th:replace="~{fragments/footer}"></footer>
 </body>
 </html>
