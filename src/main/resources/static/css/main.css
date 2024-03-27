@@ -432,16 +432,64 @@ button.th-disabled {
     border-radius: 10px;
 }
 
-footer {
-    background-color: #343a40;
-    color: #fff;
-    text-align: center;
-    font-size: 14px;
-    /*position: fixed;*/
-    left: 0;
-    bottom: 0;
-    width: 100%;
-    padding: 10px;
+/*footer {*/
+/*    background-color: #343a40;*/
+/*    color: #fff;*/
+/*    text-align: center;*/
+/*    font-size: 14px;*/
+/*    !*position: fixed;*!*/
+/*    left: 0;*/
+/*    bottom: 0;*/
+/*    width: 100%;*/
+/*    padding: 10px;*/
+/*}*/
+
+.footer {
+    background-color: #333; /* Background color */
+    color: #fff; /* Text color */
+    padding: 20px 0; /* Padding */
+    text-align: center; /* Center align text */
+}
+
+.footer a {
+    color: #fff; /* Link color */
+}
+
+.footer a:hover {
+    color: #ccc; /* Link color on hover */
+}
+
+.footer .container {
+    max-width: 1200px; /* Maximum width of content */
+}
+
+.footer .social-links {
+    margin-bottom: 20px; /* Margin bottom for social links */
+}
+
+.footer .social-links a {
+    display: inline-block; /* Display social links inline */
+    margin: 0 10px; /* Margin between social links */
+    color: #fff; /* Social link color */
+    text-decoration: none; /* Remove underline */
+    transition: color 0.3s ease; /* Smooth color transition on hover */
+}
+
+.footer .social-links a:hover {
+    color: #ccc; /* Social link color on hover */
+}
+
+.footer .bottom-text {
+    margin-top: 20px; /* Margin top for bottom text */
+    font-size: 14px; /* Font size */
+}
+
+.section-odd {
+    background-color: #f8f9fa; /* Light background color for odd sections */
+}
+
+.section-even {
+    background-color: #e9ecef; /* Lighter background color for even sections */
 }
 
 

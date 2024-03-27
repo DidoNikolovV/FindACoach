@@ -5,11 +5,11 @@
 </head>
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
-<section class="container my-2">
+<section class="container-fluid my-2 bg-light" style="margin: 0; padding: 0;">
     <h2 class="text-center text-white mb-4">Workout Details</h2>
 
-    <div th:object="${workout}" class="card d-flex">
-        <div class="card-body bg-dark text-center flex-grow-1">
+    <div th:object="${workout}" class="card">
+        <div class="card-body bg-dark text-center">
             <h5 class="card-title text-primary" th:text="*{name}"></h5>
             <div class="d-flex justify-content-center align-items-center mt-3">
                 <div th:if="${hasStarted}">
@@ -71,45 +71,48 @@
     </div>
 
     <section class="card mt-4">
-        <div class="bg-dark primary container-xl">
+        <div class="bg-dark primary container-fluid">
             <h5 class="card-title primary">Exercises</h5>
             <ul class="list-group list-group-flush">
-                <li th:each="exercise: ${workout.exercises}" class="list-group-item bg-dark">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="flex-grow-1">
-                            <h6 class="font-weight-bold" th:text="${exercise.name}"></h6>
-                            <span class="font-weight-bold">Sets:</span>
-                            <span th:text="${exercise.sets}"></span>
-                            <br>
-                            <span class="font-weight-bold">Reps:</span>
-                            <span th:text="${exercise.reps}"></span>
-                        </div>
-                        <div>
-                            <iframe class="w-100"
-                                    th:src="'https://www.youtube.com/embed/' + ${exercise.getVideoUrl()}"
-                                    height="100" frameborder="0" allowfullscreen></iframe>
-                        </div>
-                        <div th:if="*{hasStarted}">
-                            <form th:method="POST">
-<!--                                  th:action="@{/workouts/{programId}/{weekId}/{workoutId}/complete/{exerciseId}(programId=${program.id}, weekId=${week.id}, workoutId=${workout.id}, exerciseId=${exercise.getId()})}">-->
-                                <button type="submit" class="btn btn-link" th:if="${exercise.completed}">
-                                    <i class="fa-solid fa-lg fa-circle-check text-success"></i>
-                                </button>
-                                <button type="submit" class="btn btn-link" th:unless="${exercise.completed}">
-                                    <i class="fa-regular fa-lg fa-circle-check text-muted"></i>
-                                </button>
-                            </form>
-                        </div>
+                <div class="row">
+                    <div th:each="exercise: ${workout.exercises}" class="col-md-6">
+                        <li class="list-group-item bg-dark">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="flex-grow-1">
+                                    <h6 class="font-weight-bold" th:text="${exercise.name}"></h6>
+                                    <span class="font-weight-bold">Sets:</span>
+                                    <span th:text="${exercise.sets}"></span>
+                                    <br>
+                                    <span class="font-weight-bold">Reps:</span>
+                                    <span th:text="${exercise.reps}"></span>
+                                </div>
+                                <div>
+                                    <iframe class="w-100"
+                                            th:src="'https://www.youtube.com/embed/' + ${exercise.getVideoUrl()}"
+                                            height="100" frameborder="0" allowfullscreen></iframe>
+                                </div>
+                                <div th:if="*{hasStarted}">
+                                    <form th:method="POST">
+                                        <button type="submit" class="btn btn-link" th:if="${exercise.completed}">
+                                            <i class="fa-solid fa-lg fa-circle-check text-success"></i>
+                                        </button>
+                                        <button type="submit" class="btn btn-link" th:unless="${exercise.completed}">
+                                            <i class="fa-regular fa-lg fa-circle-check text-muted"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </li>
                     </div>
-                </li>
+                </div>
             </ul>
         </div>
     </section>
 
-<!--    <input type="hidden" name="programId" id="programId" th:value="${program.id}">-->
-<!--    <input type="hidden" name="weekId" id="weekId" th:value="${week.id}">-->
+    <!--    <input type="hidden" name="programId" id="programId" th:value="${program.id}">-->
+    <!--    <input type="hidden" name="weekId" id="weekId" th:value="${week.id}">-->
     <input type="hidden" name="workoutId" id="workoutId" th:value="${workout.id}">
-    <div class="comments my-4 bg-dark text-white" th:if="${isCompleted}">
+    <div class="comments my-4 bg-secondary text-white" th:if="${isCompleted}">
         <h1>Comments</h1>
         <div>
             <form id="commentForm" method="POST" th:action="@{/comments/{workoutId}(workoutId=${workout.id})}">
@@ -136,26 +139,5 @@
 <script th:src="@{/js/comments.js}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
-
-<script>
-    $(document).ready(function () {
-        $('#datetimePickerInput').datetimepicker({
-            format: 'YYYY-MM-DD HH:mm:ss',
-            sideBySide: true,
-            icons: {
-                time: 'far fa-clock',
-                date: 'far fa-calendar-alt',
-                up: 'fas fa-chevron-up',
-                down: 'fas fa-chevron-down',
-                previous: 'fas fa-chevron-left',
-                next: 'fas fa-chevron-right',
-                today: 'fas fa-calendar-check',
-                clear: 'fas fa-trash',
-                close: 'fas fa-times'
-            }
-        });
-    });
-</script>
-
 </body>
 </html>
