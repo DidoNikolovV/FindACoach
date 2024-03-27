@@ -76,6 +76,11 @@ public class WorkoutService {
                 .map(entity -> modelMapper.map(entity, WorkoutDTO.class));
     }
 
+    public List<WorkoutDTO> getAllWorkouts() {
+        return workoutRepository
+                .findAll().stream().map(entity -> modelMapper.map(entity, WorkoutDTO.class)).toList();
+    }
+
 //    public List<WorkoutDTO> loadAllByProgramId(Long programId) {
 //        return workoutRepository
 //                .findAllByProgramId(programId)

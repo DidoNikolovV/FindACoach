@@ -16,7 +16,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
@@ -36,12 +38,15 @@ public class ProgramController {
 
     private final ExerciseService exerciseService;
 
+    private final WorkoutService workoutService;
 
-    public ProgramController(ProgramService programService, UserService userService, ClientService clientService, ExerciseService exerciseService) {
+
+    public ProgramController(ProgramService programService, UserService userService, ClientService clientService, ExerciseService exerciseService, WorkoutService workoutService) {
         this.programService = programService;
         this.userService = userService;
         this.clientService = clientService;
         this.exerciseService = exerciseService;
+        this.workoutService = workoutService;
     }
 
     @GetMapping("/all")
@@ -64,12 +69,10 @@ public class ProgramController {
         ClientDTO clientDTO = clientService.getClientByUsername(principal.getName());
 
         List<WeekEntity> allWeeksByProgramId = programService.getAllWeeksByProgramId(programId);
-//        List<WorkoutDTO> allProgramWorkouts = programService.getAllWorkoutsByProgramId(programId);
 
         model.addAttribute("program", programDTO);
         model.addAttribute("allWeeks", allWeeksByProgramId);
         model.addAttribute("allWorkouts", allWeeksByProgramId);
-//        model.addAttribute("allProgramWorkouts", allProgramWorkouts);
         model.addAttribute("user", clientDTO);
 
 
@@ -79,8 +82,21 @@ public class ProgramController {
     @GetMapping("/create")
     public String loadProgramCreation(Model model) {
 
-        model.addAttribute("allExercises", exerciseService.loadAllExercises());
+        List<WorkoutDTO> allWorkouts = workoutService.getAllWorkouts();
+
+        model.addAttribute("allWorkouts", allWorkouts);
 
         return "create-program";
     }
+
+//    @PostMapping("/create")
+//    public String createProgram(@ModelAttribute("programCreationDTO") ProgramCreationDTO programCreationDTO, Principal principal) {
+//
+//
+//        programService.createProgram(programCreationDTO, principal.getName());
+//
+//        return "redirect:/programs/" + program.id;
+//
+//    }
+
 }

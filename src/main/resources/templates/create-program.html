@@ -1,86 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
-<head th:replace="~{fragments/head}"></head>
-<nav th:replace="~{fragments/navbar}"></nav>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Workout Program</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
 <body>
-<div class="container my-5">
-    <h1 class="mb-4">Create Program</h1>
+<nav th:include="~{fragments/navbar}"></nav>
+<div class="container">
+    <h1>Create Workout Program</h1>
+    <hr>
 
-    <!-- Add Workout Form -->
-    <form th:action="@{/programs}" method="post">
-        <!-- Workout Name -->
-        <div class="form-group">
-            <label for="workoutName">Workout Name:</label>
-            <input type="text" class="form-control" id="workoutName" name="workoutName" required>
-        </div>
-
-        <!-- Add Exercises to Workout -->
-        <div class="form-group">
-            <label for="exercises">Add Exercises:</label>
-            <textarea class="form-control" id="exercises" name="exercises" rows="3" placeholder="Exercise 1, Exercise 2, Exercise 3"></textarea>
-        </div>
-
-        <!-- Add to Week -->
-        <div class="form-group">
-            <label for="week">Add to Week:</label>
-            <select class="form-control" id="week" name="week">
-                <option value="1">Week 1</option>
-                <option value="2">Week 2</option>
-                <!-- Add more weeks as needed -->
-            </select>
-        </div>
-
-        <!-- Add to Program -->
-        <div class="form-group">
-            <label for="program">Add to Program:</label>
-            <select class="form-control" id="program" name="program">
-                <option value="1">Program 1</option>
-                <option value="2">Program 2</option>
-                <!-- Add more programs as needed -->
-            </select>
-        </div>
-
-        <!-- Add Week button -->
-        <button type="submit" class="btn btn-primary">Add Workout to Program</button>
-    </form>
-
-    <!-- Add Week Form -->
-    <form th:action="@{/weeks}" method="post" class="mt-4">
-        <!-- Week Name -->
-        <div class="form-group">
-            <label for="weekName">Week Name:</label>
-            <input type="text" class="form-control" id="weekName" name="weekName" required>
-        </div>
-
-        <!-- Add to Program -->
-        <div class="form-group">
-            <label for="program">Add to Program:</label>
-            <select class="form-control" id="program" name="program">
-                <option value="1">Program 1</option>
-                <option value="2">Program 2</option>
-                <!-- Add more programs as needed -->
-            </select>
-        </div>
-
-        <!-- Add Week button -->
-        <button type="submit" class="btn btn-primary">Add Week to Program</button>
-    </form>
-
-    <!-- Add Program Form -->
-    <form th:action="@{/programs}" method="post" class="mt-4">
-        <!-- Program Name -->
+    <!-- Program Details Form -->
+    <form th:action="@{/programs/create}" method="post">
+        <!-- Input fields for program details -->
         <div class="form-group">
             <label for="programName">Program Name:</label>
             <input type="text" class="form-control" id="programName" name="programName" required>
         </div>
+        <div class="form-group">
+            <label for="programDescription">Program Description:</label>
+            <textarea class="form-control" id="programDescription" name="programDescription" rows="3" required></textarea>
+        </div>
 
-        <!-- Add Program button -->
-        <button type="submit" class="btn btn-primary">Create Program</button>
+        <!-- Week Selection -->
+        <h3>Weeks</h3>
+        <div class="form-row">
+            <!-- Add inputs for number of weeks -->
+            <div class="form-group col-md-2">
+                <input type="number" class="form-control" id="numberOfWeeks" name="numberOfWeeks" min="1" max="52" placeholder="Weeks" required>
+            </div>
+        </div>
+
+        <!-- Days and Workouts Selection -->
+        <h3>Days and Workouts</h3>
+        <!-- Iterate over weeks -->
+        <div th:each="weekNumber : ${#numbers.sequence(1, 4)}">
+            <h4>Week <span th:text="${weekNumber}"></span></h4>
+            <!-- Iterate over days within each week -->
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <label for="numberOfDays">Number of Days:</label>
+                    <input type="number" class="form-control" id="numberOfDays" name="numberOfDays${weekNumber}" min="1" max="7" placeholder="Days" required>
+                </div>
+                <!-- Iterate over days -->
+                <div th:each="dayNumber : ${#numbers.sequence(1, 7)}">
+                    <div class="form-group col-md-4">
+                        <label for="workoutSelect">Day <span th:text="${dayNumber}"></span> - Workout:</label>
+                        <select class="form-control" id="workoutSelect" name="workout${weekNumber}_${dayNumber}">
+                            <!-- Populate workouts dynamically -->
+                            <option th:each="workout : ${allWorkouts}" th:value="${workout.id}" th:text="${workout.name}"></option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary">Save Program</button>
     </form>
 </div>
 
-<script th:inline="javascript" src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script th:inline="javascript" src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-<script th:inline="javascript" src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Bootstrap JS (optional, for certain components) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 </html>
