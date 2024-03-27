@@ -4,6 +4,7 @@ import com.softuni.fitlaunch.model.dto.comment.CommentCreationDTO;
 import com.softuni.fitlaunch.model.dto.view.CommentView;
 import com.softuni.fitlaunch.model.entity.CommentEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
+import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.repository.CommentRepository;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -18,11 +19,14 @@ public class CommentService {
 
     private final UserService userService;
 
+    private final WorkoutService workoutService;
+
     private final ModelMapper modelMapper;
 
-    public CommentService(CommentRepository commentRepository, UserService userService, ModelMapper modelMapper) {
+    public CommentService(CommentRepository commentRepository, UserService userService, WorkoutService workoutService, ModelMapper modelMapper) {
         this.commentRepository = commentRepository;
         this.userService = userService;
+        this.workoutService = workoutService;
         this.modelMapper = modelMapper;
     }
 
@@ -32,10 +36,12 @@ public class CommentService {
     }
 
 
-    public CommentView addComment(CommentCreationDTO commentDTO, String username) {
+    public CommentView addComment(CommentCreationDTO commentDTO, String username, Long workoutId) {
         UserEntity author = userService.getUserEntityByUsername(username);
+        WorkoutEntity workout = workoutService.getWorkoutEntityById(workoutId);
         CommentEntity comment = modelMapper.map(commentDTO, CommentEntity.class);
         comment.setAuthor(author);
+        comment.setWorkout(workout);
         comment = commentRepository.save(comment);
 
         return new CommentView(comment.getId(), author.getUsername(), comment.getMessage());

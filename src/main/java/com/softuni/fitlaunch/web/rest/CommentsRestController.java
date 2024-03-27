@@ -53,7 +53,7 @@ public class CommentsRestController {
     public ResponseEntity<CommentView> postComment(@PathVariable("workoutId") Long workoutId,
                                                    @RequestBody CommentCreationDTO commentCreationDTO, Principal principal) {
 
-        CommentView commentView = commentService.addComment(commentCreationDTO, principal.getName());
+        CommentView commentView = commentService.addComment(commentCreationDTO, principal.getName(), workoutId);
 
 
         return ResponseEntity.created(
