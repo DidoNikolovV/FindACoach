@@ -12,25 +12,15 @@
         .form-group label {
             font-weight: bold;
         }
-        .week-container {
-            border: 1px solid #dee2e6; /* Light gray border */
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 20px;
-            background-color: #f3f4f6; /* Lighter gray */
-        }
-        .day-container {
-            margin-bottom: 10px;
-        }
     </style>
 </head>
 <body>
 <nav th:include="~{fragments/navbar}"></nav>
-<div class="container-fluid">
-    <h1 class="mb-4">Create Workout Program</h1>
+<div class="container-fluid header hero-program-create" style="height: 100vh">
+    <h1 class="mb-4">Create Program</h1>
 
     <!-- Program Details Form -->
-    <form th:action="@{/programs/create}" method="post">
+    <form th:action="@{/programs/create}" method="post" class="col-md-6">
         <!-- Input fields for program details -->
         <div class="form-group">
             <label for="programName">Program Name:</label>
@@ -41,16 +31,14 @@
             <textarea class="form-control" id="programDescription" name="programDescription" rows="3" required></textarea>
         </div>
 
-        <!-- Week Selection -->
         <h3>Weeks</h3>
         <div class="form-group">
             <input type="number" class="form-control" id="numberOfWeeks" name="numberOfWeeks" min="1" max="52" placeholder="Number of Weeks" required>
         </div>
 
-        <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary mt-4">Next</button>
+        <button type="submit" class="btn btn-primary mt-4 col-md-12">Next</button>
     </form>
 </div>
-<footer th:replace="~{fragments/footer}" style=""></footer>
+<footer th:replace="~{fragments/footer}"></footer>
 </body>
 </html>

@@ -4,12 +4,6 @@ body, h1, h2, h3, p, ul {
     padding: 0;
 }
 
-/*body {*/
-/*    background-image: url(../images/background-image.jpg) center center no-repeat;*/
-/*    background-attachment: fixed;*/
-/*    background-size: cover;*/
-/*    background-color: #464646;*/
-/*}*/
 
 .hero {
     color: #ffcf40;
@@ -18,6 +12,18 @@ body, h1, h2, h3, p, ul {
     padding: 10px;
     font-family: Inter, sans-serif;
     font-size: 60px;
+    line-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-program-create {
+    color: #f3f3f3;
+    margin-bottom: 8px;
+    padding: 10px;
+    font-family: Inter, sans-serif;
     line-height: 100%;
     display: flex;
     flex-direction: column;
