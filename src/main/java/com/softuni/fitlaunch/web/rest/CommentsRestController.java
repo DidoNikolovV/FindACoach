@@ -62,20 +62,11 @@ public class CommentsRestController {
     }
 
 
-    @DeleteMapping("/{programId}/{weekId}/{workoutId}/{commentId}")
-    public ResponseEntity<Void> deleteComment(@PathVariable("programId") Long programId,
-                                                     @PathVariable("weekId") Long weekId,
-                                                     @PathVariable("workoutId") Long workoutId,
-                                                     @PathVariable("commentId") Long commentId,
+    @DeleteMapping("/{workoutId}/{commentId}")
+    public ResponseEntity<Void> deleteComment(@PathVariable("workoutId") Long workoutId, @PathVariable("commentId") Long commentId,
                                                      Principal principal) {
 
-        UserDTO user = userService.getUserByUsername(principal.getName());
-
-        CommentView comment = commentService.getComment(commentId);
-
-        if (user.getRoles().stream().anyMatch(r -> r.getRole().equals(UserRoleEnum.ADMIN)) || user.getUsername().equals(comment.getAuthorUsername())) {
-            commentService.deleteCommentById(commentId);
-        }
+        commentService.deleteCommentById(commentId, principal.getName());
 
         return ResponseEntity
                 .noContent()

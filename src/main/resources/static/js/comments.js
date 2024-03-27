@@ -44,7 +44,7 @@ function commentAsHTML(comment) {
 }
 
 function deleteComment(commentId) {
-    fetch(`${url}/api/v1/${programId}/${weekId}/${workoutId}/comments/${commentId}`, {
+    fetch(`${url}/api/v1/comments/${workoutId}/${commentId}`, {
         method: 'DELETE',
         headers: {
             [csrfHeaderName]: csrfHeaderValue
@@ -56,13 +56,17 @@ function deleteComment(commentId) {
         })
 }
 
-fetch(`${url}/api/v1/comments/${workoutId}/all`, {
-    headers: {
-        "Accept": "application/json"
-    }
-}).then(res => res.json())
-    .then(data => {
-        for (let comment of data) {
-            commentContainer.innerHTML += commentAsHTML(comment)
+function loadComments() {
+    fetch(`${url}/api/v1/comments/${workoutId}/all`, {
+        headers: {
+            "Accept": "application/json"
         }
-    })
+    }).then(res => res.json())
+        .then(data => {
+            for (let comment of data) {
+                commentContainer.innerHTML += commentAsHTML(comment)
+            }
+        })
+}
+
+loadComments();

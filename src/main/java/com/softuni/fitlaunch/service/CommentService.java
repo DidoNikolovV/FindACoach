@@ -1,10 +1,12 @@
 package com.softuni.fitlaunch.service;
 
 import com.softuni.fitlaunch.model.dto.comment.CommentCreationDTO;
+import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.view.CommentView;
 import com.softuni.fitlaunch.model.entity.CommentEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
+import com.softuni.fitlaunch.model.enums.UserRoleEnum;
 import com.softuni.fitlaunch.repository.CommentRepository;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -54,9 +56,15 @@ public class CommentService {
     }
 
 
-    public void deleteCommentById(Long id) {
+    public void deleteCommentById(Long id, String username) {
+        UserDTO user = userService.getUserByUsername(username);
+
         CommentEntity comment = commentRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Comment with id " + id + " was not found"));
-        commentRepository.delete(comment);
+
+        if (user.getRoles().stream().anyMatch(r -> r.getRole().equals(UserRoleEnum.ADMIN)) || user.getUsername().equals(comment.getAuthor().getUsername())) {
+            commentRepository.delete(comment);
+        }
+
     }
 
 }
