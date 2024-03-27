@@ -89,14 +89,25 @@ public class ProgramController {
         return "create-program";
     }
 
+    @GetMapping("/create/details")
+    public String loadProgramWorkoutCreation(Model model) {
+        List<WorkoutDTO> allWorkouts = workoutService.getAllWorkouts();
+
+        model.addAttribute("allWorkouts", allWorkouts);
+
+        return "program-add-workouts";
+    }
+
 //    @PostMapping("/create")
 //    public String createProgram(@ModelAttribute("programCreationDTO") ProgramCreationDTO programCreationDTO, Principal principal) {
+//        return "redirect:/programs/create/details";
+//    }
 //
+//    @PostMapping("/create/details")
+//    public String createProgram(@ModelAttribute("ProgramWorkoutsDTO") ProgramWorkoutsDTO programWorkoutsDTO) {
 //
-//        programService.createProgram(programCreationDTO, principal.getName());
 //
 //        return "redirect:/programs/" + program.id;
-//
 //    }
 
 }

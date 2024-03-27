@@ -154,7 +154,7 @@ public class UserController {
 
     @GetMapping("/upgrade")
     public String membershipPlans() {
-        return "upgrade";
+        return "program-add-workouts";
     }
 
     @PostMapping("/upgrade/{membership}")
@@ -163,7 +163,7 @@ public class UserController {
 
         userService.changeMembership(loggedUser, membership);
 
-        return "upgrade";
+        return "program-add-workouts";
     }
 
     @GetMapping("/activate/{activationCode}")

@@ -47,27 +47,10 @@
             <input type="number" class="form-control" id="numberOfWeeks" name="numberOfWeeks" min="1" max="52" placeholder="Number of Weeks" required>
         </div>
 
-        <!-- Days and Workouts Selection -->
-        <h3>Days and Workouts</h3>
-        <!-- Iterate over weeks -->
-        <div th:each="weekNumber : ${#numbers.sequence(1, 4)}" class="week-container">
-            <h4>Week <span th:text="${weekNumber}"></span></h4>
-            <!-- Iterate over days within each week -->
-            <div th:each="dayNumber : ${#numbers.sequence(1, 7)}" class="day-container">
-                <div class="form-group">
-                    <label for="workoutSelect">Day <span th:text="${dayNumber}"></span> - Workout:</label>
-                    <select class="form-control" id="workoutSelect" name="workout${weekNumber}_${dayNumber}">
-                        <!-- Populate workouts dynamically -->
-                        <option th:each="workout : ${allWorkouts}" th:value="${workout.id}" th:text="${workout.name}"></option>
-                    </select>
-                </div>
-            </div>
-        </div>
-
         <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary btn-block mt-4">Save Program</button>
+        <button type="submit" class="btn btn-primary mt-4">Next</button>
     </form>
 </div>
-<footer th:replace="~{fragments/footer}"></footer>
+<footer th:replace="~{fragments/footer}" style=""></footer>
 </body>
 </html>
