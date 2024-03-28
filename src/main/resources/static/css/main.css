@@ -31,6 +31,16 @@ body, h1, h2, h3, p, ul {
     align-items: center;
 }
 
+.hero-clients {
+    color: #f3f3f3;
+    padding-bottom: 14rem;
+    font-family: Inter, sans-serif;
+    line-height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
 /* Calendar Styles*/
 .hero-calendar {

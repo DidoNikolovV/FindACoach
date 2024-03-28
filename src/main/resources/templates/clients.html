@@ -2,34 +2,34 @@
 <html xmlns:th="http://www.thymeleaf.org"
       lang="en">
 <head th:replace="~{fragments/head}"></head>
-<header th:replace="~{fragments/navbar}"></header>
+
 
 <body>
-<header th:replace="~{fragments/navbar}"></header>
-<div class="container cmt text-white" style="min-height: calc(100vh - 56px);">
-    <h2 class="text-center text-dark mb-4">My Clients</h2>
-
-    <table class="table table-dark table-striped">
-        <thead>
-        <tr>
-            <th>#</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Data</th>
-        </tr>
-        </thead>
-        <tbody th:each="client: ${clients}">
-        <tr>
-            <td>1</td>
-            <td th:text="${client.username}">Client 1</td>
-            <td th:text="${client.email}">client1@example.com</td>
-            <td><a th:href="@{/clients/{clientName}/details(clientName=${client.username})}" class="btn btn-info">Check
-                Details</a></td>
-        </tr>
-        </tbody>
-    </table>
-</div>
->
+<nav th:replace="~{fragments/navbar}"></nav>
+<header class="header">
+    <div class="container hero-clients" style="height: 100vh">
+        <h2 class="text-center text-white mb-4">My Clients</h2>
+        <table class="table table-dark table-striped">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Data</th>
+            </tr>
+            </thead>
+            <tbody th:each="client: ${clients}">
+            <tr>
+                <td>1</td>
+                <td th:text="${client.username}">Client 1</td>
+                <td th:text="${client.email}">client1@example.com</td>
+                <td><a th:href="@{/clients/{clientName}/details(clientName=${client.username})}" class="btn btn-info">Check
+                    Details</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</header>
 
 <footer th:replace="~{fragments/footer}"></footer>
 
