@@ -3,8 +3,9 @@ version: '3.3'
 services:
   db:
     image: mysql:oracle
+    build: .
     ports:
-      - "3307:3006"
+      - "3306:3007"
     environment:
       - MYSQL_ALLOW_EMPTY_PASSWORD="yes"
       - MYSQL_DATABASE=fitlaunch
