@@ -4,10 +4,10 @@
 </head>
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
-<header>
-    <div class="container">
-        <div class="card bg-light">
-            <div class="card-body" style="margin-top: 9rem;">
+<header class="header">
+    <div class="container-fluid d-flex align-items-center justify-content-center"  style="height: 100vh">
+        <div class="card text-white col-md-8" style="background-color: #1a1a1a">
+            <div class="card-body">
                 <div class="row">
                     <div class="col-md-4">
                         <!-- Coach Image -->
@@ -23,9 +23,9 @@
 
                         <h6 class="mt-3">Certificates:</h6>
                         <ul class="list-group">
-                            <li class="list-group-item">Certificate 1</li>
-                            <li class="list-group-item">Certificate 2</li>
-                            <li class="list-group-item">Certificate 3</li>
+                            <li class="list-group-item" style="background-color: #fecf3f">Certificate 1</li>
+                            <li class="list-group-item" style="background-color: #fecf3f">Certificate 2</li>
+                            <li class="list-group-item" style="background-color: #fecf3f">Certificate 3</li>
                             <!-- Add more certificates as needed -->
                         </ul>
 
@@ -35,15 +35,15 @@
                         </div>
                     </div>
                 </div>
-                <form class="mt-4" th:method="POST" th:action="@{/coaches/coach/{coachId}/schedule(coachId=${coach.id})}"
+                <form class="mt-4 mt-auto" th:method="POST" th:action="@{/coaches/coach/{coachId}/schedule(coachId=${coach.id})}"
                       th:object="${scheduledWorkoutDTO}">
                     <h2 class="my-4 text-center">Schedule Workout with Your Coach</h2>
-                    <div class="form-group">
+                    <div class="form-group text-center">
                         <label for="datetime">Choose Date:</label>
-                        <input type="datetime-local" class="form-control" th:field="*{scheduledDateTime}" id="datetime"
+                        <input type="datetime-local" class="form-control m-auto" style="width: 50%" th:field="*{scheduledDateTime}" id="datetime"
                                name="datetime" required>
                     </div>
-                    <button type="submit" class="btn btn-success">Schedule Workout</button>
+                    <button type="submit" class="btn btn-success mt-auto">Schedule Workout</button>
                 </form>
             </div>
         </div>
@@ -52,7 +52,7 @@
 
 
 
-<footer th:include="~{fragments/footer}" class="fixed-bottom py-0"></footer>
+<footer th:include="~{fragments/footer}"></footer>
 
 </body>
 </html>

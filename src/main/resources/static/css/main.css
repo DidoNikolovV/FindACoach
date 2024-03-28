@@ -430,6 +430,11 @@ button.th-disabled {
     object-fit: cover;
 }
 
+.fitness-card {
+    background-color: #4CAF50;
+    color: #424242;
+}
+
 .comments {
     grid-column: 1/4;
     grid-row: 4;
@@ -437,18 +442,6 @@ button.th-disabled {
     padding: 20px;
     border-radius: 10px;
 }
-
-/*footer {*/
-/*    background-color: #343a40;*/
-/*    color: #fff;*/
-/*    text-align: center;*/
-/*    font-size: 14px;*/
-/*    !*position: fixed;*!*/
-/*    left: 0;*/
-/*    bottom: 0;*/
-/*    width: 100%;*/
-/*    padding: 10px;*/
-/*}*/
 
 .footer {
     background-color: #333; /* Background color */
