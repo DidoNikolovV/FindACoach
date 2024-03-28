@@ -19,21 +19,19 @@
 <div class="container-fluid header hero-program-create" style="height: 100vh">
     <h1 class="mb-4">Create Program</h1>
 
-    <!-- Program Details Form -->
-    <form th:action="@{/programs/create}" method="post" class="col-md-6">
-        <!-- Input fields for program details -->
+    <form th:action="@{/programs/create}" method="post" class="col-md-6" th:object="${programCreationDTO}">
         <div class="form-group">
             <label for="programName">Program Name:</label>
-            <input type="text" class="form-control" id="programName" name="programName" required>
+            <input type="text" class="form-control" id="programName" name="programName" required th:field="*{name}">
         </div>
         <div class="form-group">
             <label for="programDescription">Program Description:</label>
-            <textarea class="form-control" id="programDescription" name="programDescription" rows="3" required></textarea>
+            <textarea class="form-control" id="programDescription" name="programDescription" rows="3" required th:field="*{description}"></textarea>
         </div>
 
         <h3>Weeks</h3>
         <div class="form-group">
-            <input type="number" class="form-control" id="numberOfWeeks" name="numberOfWeeks" min="1" max="52" placeholder="Number of Weeks" required>
+            <input type="number" class="form-control" id="numberOfWeeks" name="numberOfWeeks" min="1" max="52" placeholder="Number of Weeks" required th:field="*{weeks}">
         </div>
 
         <button type="submit" class="btn btn-primary mt-4 col-md-12">Next</button>

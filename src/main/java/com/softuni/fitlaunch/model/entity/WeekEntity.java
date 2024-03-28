@@ -1,6 +1,7 @@
 package com.softuni.fitlaunch.model.entity;
 
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -17,10 +18,10 @@ import java.util.List;
 @Setter
 public class WeekEntity extends BaseEntity {
 
-    @OneToMany
-    private List<WorkoutEntity> workouts;
+    @OneToMany(mappedBy = "week", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<DayEntity> days;
 
     @ManyToOne
-    @JoinColumn(name = "week_id")
+    @JoinColumn(name = "program_id")
     private ProgramEntity program;
 }

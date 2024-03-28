@@ -1,9 +1,12 @@
 package com.softuni.fitlaunch.service;
 
 
+import com.softuni.fitlaunch.model.dto.program.ProgramCreationDTO;
 import com.softuni.fitlaunch.model.dto.program.ProgramDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
+import com.softuni.fitlaunch.model.entity.CoachEntity;
 import com.softuni.fitlaunch.model.entity.ProgramEntity;
+//import com.softuni.fitlaunch.model.entity.WeekEntity;
 import com.softuni.fitlaunch.model.entity.WeekEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.repository.ProgramRepository;
@@ -21,13 +24,16 @@ public class ProgramService {
 
     private final WorkoutService workoutService;
 
+    private final CoachService coachService;
+
 
     private final ModelMapper modelMapper;
 
 
-    public ProgramService(ProgramRepository programRepository, WorkoutService workoutService, ModelMapper modelMapper) {
+    public ProgramService(ProgramRepository programRepository, WorkoutService workoutService, CoachService coachService, ModelMapper modelMapper) {
         this.programRepository = programRepository;
         this.workoutService = workoutService;
+        this.coachService = coachService;
         this.modelMapper = modelMapper;
     }
 
@@ -72,4 +78,13 @@ public class ProgramService {
         }
     }
 
+    public void createProgram(ProgramCreationDTO programCreationDTO, String username) {
+        CoachEntity coach = coachService.getCoachEntityByUsername(username);
+        ProgramEntity program = modelMapper.map(programCreationDTO, ProgramEntity.class);
+
+        program.setCoach(coach);
+        program.setImgUrl("/images/intermediate-program.jpg");
+
+        programRepository.save(program);
+    }
 }

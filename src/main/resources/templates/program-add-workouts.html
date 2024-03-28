@@ -33,32 +33,32 @@
 <body>
 <nav th:include="~{fragments/navbar}"></nav>
 <div class="container">
-    <h1 class="mb-4">Workout Program Planner</h1>
-
-    <!-- Weeks and Workouts Selection -->
-    <div class="week-container">
-        <!-- Iterate over weeks -->
-        <div th:each="weekNumber : ${#numbers.sequence(1, 4)}">
-            <h4>Week <span th:text="${weekNumber}"></span></h4>
-            <!-- Iterate over days within each week -->
-            <div th:each="dayNumber : ${#numbers.sequence(1, 7)}" class="day-container">
-                <h5>Day <span th:text="${dayNumber}"></span></h5>
-                <!-- Add workout selection form for each day -->
-                <form th:action="@{/programs/create/details}" method="post">
-                    <input type="hidden" name="week" th:value="${weekNumber}">
-                    <input type="hidden" name="day" th:value="${dayNumber}">
-                    <div class="form-group">
-                        <label for="workoutSelect">Select Workout:</label>
-                        <select class="form-control" id="workoutSelect" name="workoutId">
-                            <!-- Populate workouts dynamically from the database -->
-                            <option th:each="workout : ${allWorkouts}" th:value="${workout.id}">
-                                <span th:text="${workout.name}"></span> - <span th:text="${workout.description}"></span>
-                            </option>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Add Workout</button>
-                </form>
-            </div>
+    <!-- Iterate over weeks -->
+    <div th:each="weekNumber : ${#numbers.sequence(1, 4)}" class="week-container">
+        <h4>Week <span th:text="${weekNumber}"></span></h4>
+        <!-- Iterate over days within each week -->
+        <div th:each="dayNumber : ${#numbers.sequence(1, 7)}" class="day-container">
+            <h5>Day <span th:text="${dayNumber}"></span></h5>
+            <!-- Add workout form for each day -->
+            <form th:action="@{/addWorkout}" method="post">
+                <input type="hidden" name="week" th:value="${weekNumber}">
+                <input type="hidden" name="day" th:value="${dayNumber}">
+                <div class="form-group">
+                    <select class="form-control" name="workoutId">
+                        <!-- Populate workouts dynamically from the database -->
+                        <option th:each="workout : ${allWorkouts}" th:value="${workout.id}">
+                            <span th:text="${workout.name}"></span> - <span th:text="${workout.description}"></span>
+                        </option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Add Workout</button>
+            </form>
+            <!-- Display added workouts for the day -->
+            <ul class="workout-list">
+                <li th:each="addedWorkout : ${allWorkouts}">
+                    <span th:text="${addedWorkout.name}"></span> - <span th:text="${addedWorkout.description}"></span>
+                </li>
+            </ul>
         </div>
     </div>
 </div>

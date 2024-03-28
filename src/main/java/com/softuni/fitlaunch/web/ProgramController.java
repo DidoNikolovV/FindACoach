@@ -1,9 +1,11 @@
 package com.softuni.fitlaunch.web;
 
 
+import com.softuni.fitlaunch.model.dto.program.ProgramCreationDTO;
 import com.softuni.fitlaunch.model.dto.program.ProgramDTO;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
+import com.softuni.fitlaunch.model.dto.user.UserRegisterDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.entity.WeekEntity;
 import com.softuni.fitlaunch.model.enums.UserTitleEnum;
@@ -80,7 +82,7 @@ public class ProgramController {
     }
 
     @GetMapping("/create")
-    public String loadProgramCreation(Model model) {
+    public String loadProgramCreation(@ModelAttribute("programCreationDTO") ProgramCreationDTO programCreationDTO, Model model) {
 
         List<WorkoutDTO> allWorkouts = workoutService.getAllWorkouts();
 
@@ -91,6 +93,7 @@ public class ProgramController {
 
     @GetMapping("/create/details")
     public String loadProgramWorkoutCreation(Model model) {
+
         List<WorkoutDTO> allWorkouts = workoutService.getAllWorkouts();
 
         model.addAttribute("allWorkouts", allWorkouts);
@@ -98,10 +101,13 @@ public class ProgramController {
         return "program-add-workouts";
     }
 
-//    @PostMapping("/create")
-//    public String createProgram(@ModelAttribute("programCreationDTO") ProgramCreationDTO programCreationDTO, Principal principal) {
-//        return "redirect:/programs/create/details";
-//    }
+    @PostMapping("/create")
+    public String createProgram(@ModelAttribute("programCreationDTO") ProgramCreationDTO programCreationDTO, Principal principal) {
+
+        programService.createProgram(programCreationDTO, principal.getName());
+
+        return "redirect:/programs/create/details";
+    }
 //
 //    @PostMapping("/create/details")
 //    public String createProgram(@ModelAttribute("ProgramWorkoutsDTO") ProgramWorkoutsDTO programWorkoutsDTO) {
