@@ -2,7 +2,6 @@ package com.softuni.fitlaunch.web;
 
 
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
-import com.softuni.fitlaunch.model.dto.user.ClientDetailsDTO;
 import com.softuni.fitlaunch.model.dto.user.CoachDTO;
 import com.softuni.fitlaunch.model.dto.view.UserCoachDetailsView;
 import com.softuni.fitlaunch.model.dto.view.UserCoachView;
@@ -15,7 +14,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

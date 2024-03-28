@@ -1,6 +1,5 @@
 package com.softuni.fitlaunch.model.dto.workout;
 
-import com.softuni.fitlaunch.model.dto.WorkoutExerciseDTO;
 import com.softuni.fitlaunch.model.enums.LevelEnum;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

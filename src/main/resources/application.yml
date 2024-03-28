@@ -38,14 +38,14 @@ spring:
 
 app:
   activation-code:
-      symbols: abcdefghijklmnopqrstuvwxyzABCDEFGJKLMNPRSTUVWXYZ0123456789
-      length: 20
+    symbols: abcdefghijklmnopqrstuvwxyzABCDEFGJKLMNPRSTUVWXYZ0123456789
+    length: 20
   images:
     path: /images
   cloudinary:
-        cloud-name: diffdysmk
-        api-key: 819549632415934
-        api-secret: MlXIgJA3bqnfjVfD2bCzGKXlm00
+    cloud-name: diffdysmk
+    api-key: 819549632415934
+    api-secret: MlXIgJA3bqnfjVfD2bCzGKXlm00
 
 
 logging:

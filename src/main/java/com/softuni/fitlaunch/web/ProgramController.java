@@ -5,7 +5,6 @@ import com.softuni.fitlaunch.model.dto.program.ProgramCreationDTO;
 import com.softuni.fitlaunch.model.dto.program.ProgramDTO;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
-import com.softuni.fitlaunch.model.dto.user.UserRegisterDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.entity.WeekEntity;
 import com.softuni.fitlaunch.model.enums.UserTitleEnum;

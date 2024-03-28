@@ -63,7 +63,7 @@ INSERT INTO coaches (description, email, img_url, rating, username)
 VALUES ('Random Desc', 'didaka@example.com', '/images/profile-avatar.jpg', 5.8, 'DidoNikolov');
 
 INSERT INTO clients (email, height, img_url, target_goals, username, weight, coach_id)
-VALUES ('user@example.com', 170, '/images/profile-avatar.jpg', null,  'User', 70, 1);
+VALUES ('user@example.com', 170, '/images/profile-avatar.jpg', null, 'User', 70, 1);
 
 --
 INSERT INTO programs (img_url, name, coach_id)
@@ -131,30 +131,31 @@ VALUES ('/images/beginner-program.jpg', 'Beginner', 1),
 --        ('Professional Life Coach', 'Coaching Association', '2020-10-01');
 
 INSERT INTO exercises (name, target_muscle_group, video_url)
-VALUES
-    ('Squats', 'Legs', 'https://www.youtube.com/watch?v=U3HcD0PnczY'),
-    ('Bench Press', 'Chest', 'https://www.youtube.com/watch?v=rT7DgCr-3pg'),
-    ('Deadlifts', 'Back', 'https://www.youtube.com/watch?v=op9kVnSso6Q'),
-    ('Pull-ups', 'Back', 'https://www.youtube.com/watch?v=JB2oyawG9KI'),
-    ('Push-ups', 'Chest', 'https://www.youtube.com/watch?v=IODxDxX7oi4'),
-    ('Leg Press', 'Legs', 'https://www.youtube.com/watch?v=IZxyjW7MPJQ'),
-    ('Dumbbell Rows', 'Back', 'https://www.youtube.com/watch?v=HJMHwJsAnxo'),
-    ('Dumbbell Shoulder Press', 'Shoulders', 'https://www.youtube.com/watch?v=eozdVDA78K0'),
-    ('Lunges', 'Legs', 'https://www.youtube.com/watch?v=QOVaHwm-Q6U'),
-    ('Barbell Curl', 'Biceps', 'https://www.youtube.com/watch?v=kwG2ipFRgfo'),
-    ('Tricep Dips', 'Triceps', 'https://www.youtube.com/watch?v=2z8JmcrW-As'),
-    ('Russian Twists', 'Core', 'https://www.youtube.com/watch?v=VcJq1tZJUI0'),
-    ('Calf Raises', 'Calves', 'https://www.youtube.com/watch?v=6uK8GAXKdAc'),
-    ('Plank', 'Core', 'https://www.youtube.com/watch?v=pSHjTRCQxIw'),
-    ('Bent Over Rows', 'Back', 'https://www.youtube.com/watch?v=JTObkwvNlvM');
+VALUES ('Squats', 'Legs', 'https://www.youtube.com/watch?v=U3HcD0PnczY'),
+       ('Bench Press', 'Chest', 'https://www.youtube.com/watch?v=rT7DgCr-3pg'),
+       ('Deadlifts', 'Back', 'https://www.youtube.com/watch?v=op9kVnSso6Q'),
+       ('Pull-ups', 'Back', 'https://www.youtube.com/watch?v=JB2oyawG9KI'),
+       ('Push-ups', 'Chest', 'https://www.youtube.com/watch?v=IODxDxX7oi4'),
+       ('Leg Press', 'Legs', 'https://www.youtube.com/watch?v=IZxyjW7MPJQ'),
+       ('Dumbbell Rows', 'Back', 'https://www.youtube.com/watch?v=HJMHwJsAnxo'),
+       ('Dumbbell Shoulder Press', 'Shoulders', 'https://www.youtube.com/watch?v=eozdVDA78K0'),
+       ('Lunges', 'Legs', 'https://www.youtube.com/watch?v=QOVaHwm-Q6U'),
+       ('Barbell Curl', 'Biceps', 'https://www.youtube.com/watch?v=kwG2ipFRgfo'),
+       ('Tricep Dips', 'Triceps', 'https://www.youtube.com/watch?v=2z8JmcrW-As'),
+       ('Russian Twists', 'Core', 'https://www.youtube.com/watch?v=VcJq1tZJUI0'),
+       ('Calf Raises', 'Calves', 'https://www.youtube.com/watch?v=6uK8GAXKdAc'),
+       ('Plank', 'Core', 'https://www.youtube.com/watch?v=pSHjTRCQxIw'),
+       ('Bent Over Rows', 'Back', 'https://www.youtube.com/watch?v=JTObkwvNlvM');
 
 
 
 INSERT INTO workouts (date_completed, description, has_started, img_url, is_completed, level, likes, name, author_id)
-VALUES
-    ('', 'Full Body Workout: Squats, Deadlifts, Bench Press, Pull-ups, and Planks', 0, 'https://example.com/full_body_workout.jpg', 0, 'Intermediate', 25, 'Full Body Blast', 1),
-    ('', 'Cardio HIIT: Jumping Jacks, Burpees, High Knees, Mountain Climbers, and Jump Rope', 0, 'https://example.com/cardio_hiit.jpg', 0, 'Advanced', 15, 'HIIT Cardio Burn', 1),
-    ('', 'Yoga Flow: Sun Salutations, Warrior Poses, Downward Dog, and Child’s Pose', 0, 'https://example.com/yoga_flow.jpg', 0, 'Beginner', 30, 'Morning Yoga Flow', 1);
+VALUES ('', 'Full Body Workout: Squats, Deadlifts, Bench Press, Pull-ups, and Planks', 0,
+        'https://example.com/full_body_workout.jpg', 0, 'Intermediate', 25, 'Full Body Blast', 1),
+       ('', 'Cardio HIIT: Jumping Jacks, Burpees, High Knees, Mountain Climbers, and Jump Rope', 0,
+        'https://example.com/cardio_hiit.jpg', 0, 'Advanced', 15, 'HIIT Cardio Burn', 1),
+       ('', 'Yoga Flow: Sun Salutations, Warrior Poses, Downward Dog, and Child’s Pose', 0,
+        'https://example.com/yoga_flow.jpg', 0, 'Beginner', 30, 'Morning Yoga Flow', 1);
 
 
 

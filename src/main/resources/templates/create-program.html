@@ -9,6 +9,7 @@
             background-color: #f8f9fa; /* Light gray */
             color: #343a40; /* Dark gray */
         }
+
         .form-group label {
             font-weight: bold;
         }
@@ -26,12 +27,14 @@
         </div>
         <div class="form-group">
             <label for="programDescription">Program Description:</label>
-            <textarea class="form-control" id="programDescription" name="programDescription" rows="3" required th:field="*{description}"></textarea>
+            <textarea class="form-control" id="programDescription" name="programDescription" rows="3" required
+                      th:field="*{description}"></textarea>
         </div>
 
         <h3>Weeks</h3>
         <div class="form-group">
-            <input type="number" class="form-control" id="numberOfWeeks" name="numberOfWeeks" min="1" max="52" placeholder="Number of Weeks" required th:field="*{weeks}">
+            <input type="number" class="form-control" id="numberOfWeeks" name="numberOfWeeks" min="1" max="52"
+                   placeholder="Number of Weeks" required th:field="*{weeks}">
         </div>
 
         <button type="submit" class="btn btn-primary mt-4 col-md-12">Next</button>

@@ -19,6 +19,7 @@ public class CloudinaryConfig {
 
     @Value("${app.cloudinary.cloud-name}")
     private String API_SECRET;
+
     @Bean
     public Cloudinary cloudinary() {
         Map<String, String> cfg = new HashMap<>();

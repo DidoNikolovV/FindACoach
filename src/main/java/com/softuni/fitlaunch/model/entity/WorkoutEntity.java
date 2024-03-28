@@ -59,7 +59,6 @@ public class WorkoutEntity extends BaseEntity {
     private List<WorkoutExerciseEntity> exercises = new ArrayList<>();
 
 
-
     @Column(nullable = false)
     private boolean isCompleted = false;
 

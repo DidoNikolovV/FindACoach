@@ -2,8 +2,6 @@ package com.softuni.fitlaunch.web;
 
 
 import com.softuni.fitlaunch.model.dto.WorkoutExerciseDTO;
-import com.softuni.fitlaunch.model.dto.program.ProgramDTO;
-import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutCreationDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDetailsDTO;

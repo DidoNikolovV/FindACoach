@@ -2,14 +2,11 @@ package com.softuni.fitlaunch.web.rest;
 
 
 import com.softuni.fitlaunch.model.dto.comment.CommentCreationDTO;
-import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.view.CommentView;
-import com.softuni.fitlaunch.model.enums.UserRoleEnum;
 import com.softuni.fitlaunch.service.CommentService;
 import com.softuni.fitlaunch.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -64,7 +61,7 @@ public class CommentsRestController {
 
     @DeleteMapping("/{workoutId}/{commentId}")
     public ResponseEntity<Void> deleteComment(@PathVariable("workoutId") Long workoutId, @PathVariable("commentId") Long commentId,
-                                                     Principal principal) {
+                                              Principal principal) {
 
         commentService.deleteCommentById(commentId, principal.getName());
 

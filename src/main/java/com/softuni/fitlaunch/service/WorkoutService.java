@@ -104,7 +104,7 @@ public class WorkoutService {
         ClientEntity client = clientService.getClientEntityByUsername(username);
 
         boolean isStarted = isWorkoutStarted(workoutId, username);
-        if(!isStarted) {
+        if (!isStarted) {
             workout.getClientsStarted().add(client);
         }
 
@@ -116,7 +116,7 @@ public class WorkoutService {
         ClientEntity client = clientService.getClientEntityByUsername(username);
 
         boolean isCompleted = isWorkoutCompleted(workoutId, username);
-        if(!isCompleted) {
+        if (!isCompleted) {
             workout.getClientsCompleted().add(client);
         }
 

@@ -60,7 +60,7 @@ public class UserService {
     }
 
     public boolean register(UserRegisterDTO userRegisterDTO) {
-        if(passwordsDontMatch(userRegisterDTO.getPassword(), userRegisterDTO.getConfirmPassword()) || isUsernameTaken(userRegisterDTO.getUsername())) {
+        if (passwordsDontMatch(userRegisterDTO.getPassword(), userRegisterDTO.getConfirmPassword()) || isUsernameTaken(userRegisterDTO.getUsername())) {
             return false;
         }
 
@@ -75,10 +75,9 @@ public class UserService {
 
         userRepository.save(user);
 
-        if(user.getTitle().equals(UserTitleEnum.CLIENT)) {
+        if (user.getTitle().equals(UserTitleEnum.CLIENT)) {
             clientService.registerClient(user);
-        }
-        else if(user.getTitle().equals(UserTitleEnum.COACH)) {
+        } else if (user.getTitle().equals(UserTitleEnum.COACH)) {
             coachService.registerCoach(user);
         }
 
@@ -116,7 +115,7 @@ public class UserService {
 
         boolean hasLiked = user.getWorkoutsLiked().stream().anyMatch(workoutEntity -> Objects.equals(workoutEntity.getId(), workoutId));
 
-        if(!hasLiked) {
+        if (!hasLiked) {
             WorkoutEntity workout = programService.getWorkoutEntityById(workoutId);
             user.getWorkoutsLiked().add(workout);
             int oldLikes = workout.getLikes();
@@ -131,7 +130,7 @@ public class UserService {
 
         boolean hasLiked = user.getWorkoutsLiked().stream().anyMatch(workoutEntity -> Objects.equals(workoutEntity.getId(), workoutId));
 
-        if(hasLiked) {
+        if (hasLiked) {
             WorkoutEntity workout = programService.getWorkoutEntityById(workoutId);
             user.getWorkoutsLiked().remove(workout);
             int oldLikes = workout.getLikes();
@@ -206,7 +205,7 @@ public class UserService {
 
     public UserProfileView getUserProfileByUsername(String username) {
         UserEntity userEntity = getUserEntityByUsername(username);
-       return modelMapper.map(userEntity, UserProfileView.class);
+        return modelMapper.map(userEntity, UserProfileView.class);
     }
 
     public UserEntity getUserEntityByEmail(String email) {

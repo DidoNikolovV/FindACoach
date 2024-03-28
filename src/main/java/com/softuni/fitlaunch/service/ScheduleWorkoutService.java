@@ -9,10 +9,7 @@ import com.softuni.fitlaunch.model.entity.CoachEntity;
 import com.softuni.fitlaunch.model.entity.ScheduledWorkoutEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.enums.UserTitleEnum;
-import com.softuni.fitlaunch.repository.ClientRepository;
-import com.softuni.fitlaunch.repository.CoachRepository;
 import com.softuni.fitlaunch.repository.ScheduledWorkoutRepository;
-import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -52,7 +49,7 @@ public class ScheduleWorkoutService {
     public List<ScheduledWorkoutView> getAllScheduledWorkouts(String username) {
         UserEntity userEntity = userService.getUserEntityByUsername(username);
         List<ScheduledWorkoutEntity> allScheduledWorkouts;
-        if(userEntity.getTitle().equals(UserTitleEnum.CLIENT)) {
+        if (userEntity.getTitle().equals(UserTitleEnum.CLIENT)) {
             ClientEntity client = clientService.getClientEntityByUsername(username);
             allScheduledWorkouts = scheduledWorkoutRepository.findAllByClientId(client.getId());
         } else {

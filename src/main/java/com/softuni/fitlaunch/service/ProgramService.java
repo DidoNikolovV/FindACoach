@@ -3,10 +3,8 @@ package com.softuni.fitlaunch.service;
 
 import com.softuni.fitlaunch.model.dto.program.ProgramCreationDTO;
 import com.softuni.fitlaunch.model.dto.program.ProgramDTO;
-import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.entity.CoachEntity;
 import com.softuni.fitlaunch.model.entity.ProgramEntity;
-//import com.softuni.fitlaunch.model.entity.WeekEntity;
 import com.softuni.fitlaunch.model.entity.WeekEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.repository.ProgramRepository;
@@ -43,7 +41,6 @@ public class ProgramService {
     }
 
 
-
     public WorkoutEntity getWorkoutEntityById(Long id) {
         return workoutService.getWorkoutEntityById(id);
     }
@@ -52,7 +49,6 @@ public class ProgramService {
         ProgramEntity programEntity = programRepository.findById(programId).orElseThrow(() -> new ObjectNotFoundException("Program with id " + programId + " does not exist"));
         return programEntity.getWeeks();
     }
-
 
 
     public ProgramDTO getById(Long programId) {

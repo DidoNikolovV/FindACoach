@@ -29,8 +29,9 @@
         </div>
         <div class="card-body">
             <p class="card-text"><strong>Last Completed Workout: </strong>
-                <span th:if="*{completedWorkouts.size() != 0}" th:text="*{completedWorkouts.get(completedWorkouts.size() - 1).name}"></span></p>
-                <span th:unless="*{completedWorkouts.size() != 0}" th:text="'No completed workouts yet'"></span></p>
+                <span th:if="*{completedWorkouts.size() != 0}"
+                      th:text="*{completedWorkouts.get(completedWorkouts.size() - 1).name}"></span></p>
+            <span th:unless="*{completedWorkouts.size() != 0}" th:text="'No completed workouts yet'"></span></p>
             <div class="d-flex align-items-center gap-1">
                 <!-- Progress Bar for Current Bodyweight and Goal -->
                 <span>Bodyweight</span> <i class="fas fa-star text-warning"></i>

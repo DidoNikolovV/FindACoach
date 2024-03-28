@@ -2,7 +2,6 @@ package com.softuni.fitlaunch.service;
 
 import com.softuni.fitlaunch.model.dto.CertificateDTO;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
-import com.softuni.fitlaunch.model.dto.user.ClientDetailsDTO;
 import com.softuni.fitlaunch.model.dto.user.CoachDTO;
 import com.softuni.fitlaunch.model.dto.view.UserCoachDetailsView;
 import com.softuni.fitlaunch.model.dto.view.UserCoachView;
@@ -10,19 +9,15 @@ import com.softuni.fitlaunch.model.dto.workout.ScheduledWorkoutDTO;
 import com.softuni.fitlaunch.model.entity.ClientEntity;
 import com.softuni.fitlaunch.model.entity.CoachEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
-import com.softuni.fitlaunch.repository.ClientRepository;
 import com.softuni.fitlaunch.repository.CoachRepository;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import static com.softuni.fitlaunch.commons.ErrorMessages.CLIENT_WAS_NOT_FOUND;
-import static com.softuni.fitlaunch.commons.ErrorMessages.CLIENT_X_DOES_NOT_EXIST;
 import static com.softuni.fitlaunch.commons.ErrorMessages.COACH_DOES_NOT_EXIST;
 
 @Service
@@ -83,7 +78,7 @@ public class CoachService {
                 .orElseThrow(() -> new ObjectNotFoundException(CLIENT_WAS_NOT_FOUND));
 
         ClientEntity clientEntity = clientService.getClientEntityByUsername(client.getUsername());
-            return modelMapper.map(clientEntity, ClientDTO.class);
+        return modelMapper.map(clientEntity, ClientDTO.class);
     }
 
 //    public void setClientDetails(String username, ClientDetailsDTO clientDetailsDTO) {

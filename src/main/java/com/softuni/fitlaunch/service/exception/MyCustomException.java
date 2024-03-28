@@ -1,6 +1,6 @@
 package com.softuni.fitlaunch.service.exception;
 
-public class MyCustomException extends RuntimeException{
+public class MyCustomException extends RuntimeException {
 
     private String field;
     private String message;
