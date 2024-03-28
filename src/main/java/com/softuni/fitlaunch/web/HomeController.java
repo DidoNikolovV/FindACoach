@@ -12,4 +12,9 @@ public class HomeController {
         return "index";
     }
 
+    @GetMapping("/contact-us")
+    public String loadContactUs() {
+
+        return "contact-us";
+    }
 }

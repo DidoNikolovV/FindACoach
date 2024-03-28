@@ -7,7 +7,7 @@
 <header class="header">
     <div class="container-fluid d-flex align-items-center justify-content-center"  style="height: 100vh">
         <div class="card text-white col-md-8" style="background-color: #1a1a1a">
-            <div class="card-body">
+            <div class="card-body" style="margin-top: 9rem;">
                 <div class="row">
                     <div class="col-md-4">
                         <!-- Coach Image -->
@@ -40,10 +40,12 @@
                     <h2 class="my-4 text-center">Schedule Workout with Your Coach</h2>
                     <div class="form-group text-center">
                         <label for="datetime">Choose Date:</label>
-                        <input type="datetime-local" class="form-control m-auto" style="width: 50%" th:field="*{scheduledDateTime}" id="datetime"
-                               name="datetime" required>
+                        <input type="datetime-local" class="form-control m-auto" th:field="*{scheduledDateTime}" id="datetime"
+                               name="datetime" required style="width: 50%">
                     </div>
-                    <button type="submit" class="btn btn-success mt-auto">Schedule Workout</button>
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-success">Schedule Workout</button>
+                    </div>
                 </form>
             </div>
         </div>

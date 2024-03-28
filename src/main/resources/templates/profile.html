@@ -3,14 +3,16 @@
 <head th:replace="~{fragments/head}">
 
 </head>
-<nav th:replace="~{fragments/navbar}"></nav>
 <body>
+<nav th:replace="~{fragments/navbar}"></nav>
 <div class="container cmt">
     <div class="card" style="background-color: #f8f9fa;">
         <div class="card-body">
             <div class="row">
                 <div class="col-md-4">
-                    <img th:src="${user.imgUrl}" class="card-img-top" alt="User Profile Picture">
+                    <div class="col-md-4">
+                        <img th:src="${user.imgUrl}" alt="Coach Picture" class="img-fluid rounded">
+                    </div>
                     <form th:object="${user}" th:action="@{/users/profile}" th:method="POST"
                           enctype="multipart/form-data">
                         <div class="form-group">
@@ -50,6 +52,7 @@
         </div>
     </div>
 </div>
+
 <footer th:include="~{fragments/footer}" class="fixed-bottom"></footer>
 </body>
 </html>

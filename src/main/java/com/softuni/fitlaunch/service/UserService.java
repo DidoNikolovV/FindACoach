@@ -206,7 +206,7 @@ public class UserService {
 
     public UserProfileView getUserProfileByUsername(String username) {
         UserEntity userEntity = getUserEntityByUsername(username);
-        return modelMapper.map(userEntity, UserProfileView.class);
+       return modelMapper.map(userEntity, UserProfileView.class);
     }
 
     public UserEntity getUserEntityByEmail(String email) {
