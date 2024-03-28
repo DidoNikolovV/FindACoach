@@ -2,6 +2,7 @@ package com.softuni.fitlaunch.web;
 
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.user.UserRegisterDTO;
+import com.softuni.fitlaunch.model.dto.view.ProfilePictureUploadDTO;
 import com.softuni.fitlaunch.model.dto.view.ScheduledWorkoutView;
 import com.softuni.fitlaunch.model.dto.view.UserProfileView;
 import com.softuni.fitlaunch.service.BlackListService;
@@ -53,9 +54,9 @@ public class UserController {
     public String userProfile(Principal principal, Model model) {
         UserProfileView userProfileView = userService.getUserProfileByUsername(principal.getName());
 
-
         List<ScheduledWorkoutView> upcomingSessions = scheduleWorkoutService.getAllScheduledWorkouts(userProfileView.getUsername());
 
+        model.addAttribute("profilePictureDTO", new ProfilePictureUploadDTO());
         model.addAttribute("user", userProfileView);
         model.addAttribute("upcomingSessions", upcomingSessions);
 
@@ -63,9 +64,10 @@ public class UserController {
     }
 
     @PostMapping("/profile")
-    public String userProfile(Principal principal, Model model, UserProfileView userProfileView) {
+    public String userProfile(Principal principal, Model model, UserProfileView userProfileView,
+                              @ModelAttribute("profilePictureDTO") ProfilePictureUploadDTO picture) {
 
-        UserProfileView profileView = userService.uploadProfilePicture(principal.getName(), userProfileView.getImgUrl());
+        UserProfileView profileView = userService.uploadProfilePicture(principal.getName(), picture.getPicture());
 
         model.addAttribute("user", profileView);
 

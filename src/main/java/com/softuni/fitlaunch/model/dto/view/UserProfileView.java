@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Setter
 public class UserProfileView {
 
-    private MultipartFile imgUrl;
+    private String imgUrl;
     private String username;
     private String email;
     private String title;

@@ -7,7 +7,6 @@ public class UploadPictureWorkoutDTO {
 
     private long id;
 
-
     @FileAnnotation(contentTypes = {"image/png", "image/jpg"})
     private MultipartFile picture;
 
