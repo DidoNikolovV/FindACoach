@@ -1,39 +1,45 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head}">
-    <link rel="stylesheet" href="../static/css/test.css">
-</head>
+<head th:replace="~{fragments/head}"></head>
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
 <header class="header">
-    <h2>Add Workout</h2>
-    <div class="container d-flex text-white" style="height: 100vh">
-        <form action="#" th:action="@{/programs/create/{programId}(programId=${programId})}" method="post" th:object="${program}" class="m-auto">
-            <div th:each="week : ${program.weeks}">
-                <label for="workoutName">Workout Name:</label>
-                <select id="workoutName" name="workoutName" required>
-                    <option th:each="workout : ${allWorkouts}" th:value="${workout.id}" th:text="${workout.name}"></option>
-                </select>
-                <label for="weekNumber">Week: </label>
-                <select id="weekNumber" name="weekNumber" required>
-                    <option th:each="weekNumber : ${#numbers.sequence(1, weeks.size())}" th:value="${weekNumber}" th:text="${weekNumber}"></option>
-                </select>
-                <label for="dayOfWeek">Day of the Week:</label>
-                <select id="dayOfWeek" name="dayOfWeek" required>
-                    <option value="Monday">Monday</option>
-                    <option value="Tuesday">Tuesday</option>
-                    <option value="Wednesday">Wednesday</option>
-                    <option value="Thursday">Thursday</option>
-                    <option value="Friday">Friday</option>
-                    <option value="Saturday">Saturday</option>
-                    <option value="Sunday">Sunday</option>
-                </select>
-                <input type="submit" value="Save">
+    <div class="container d-flex align-items-center justify-content-center" style="height: 100vh">
+        <div class="card mx-auto" style="max-width: 500px;">
+            <div class="card-header text-center">
+                <h5>Add Workouts to Days</h5>
             </div>
-
-        </form>
+            <div class="card-body align-content-center" style="width: 25rem">
+                <form th:action="@{/saveWorkout}" method="post" th:object="${program}">
+                    <div class="form-group">
+                        <label for="weekSelect">Select Week:</label>
+                        <select class="form-control" id="weekSelect" name="week">
+                            <option th:each="week, weekStat : ${program.weeks}" th:value="${week.id}" th:text="${weekStat.index + 1}"></option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="daySelect">Select Day:</label>
+                        <select class="form-control" id="daySelect" name="day">
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                            <option value="Sunday">Sunday</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="workoutSelect">Select Workout:</label>
+                        <select class="form-control" id="workoutSelect" name="workout">
+                            <option th:each="workout : ${allWorkouts}" th:value="${workout.id}" th:text="${workout.name}"></option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary btn-block">Add Workout</button>
+                </form>
+            </div>
+        </div>
     </div>
-
 </header>
 
 <footer th:replace="~{fragments/footer}"></footer>
