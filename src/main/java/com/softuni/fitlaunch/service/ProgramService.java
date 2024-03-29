@@ -4,6 +4,7 @@ package com.softuni.fitlaunch.service;
 import com.softuni.fitlaunch.model.dto.program.ProgramCreationDTO;
 import com.softuni.fitlaunch.model.dto.program.ProgramDTO;
 import com.softuni.fitlaunch.model.entity.CoachEntity;
+import com.softuni.fitlaunch.model.entity.DayEntity;
 import com.softuni.fitlaunch.model.entity.ProgramEntity;
 import com.softuni.fitlaunch.model.entity.WeekEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
@@ -12,6 +13,7 @@ import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -24,14 +26,17 @@ public class ProgramService {
 
     private final CoachService coachService;
 
+    private final WeekService weekService;
+
 
     private final ModelMapper modelMapper;
 
 
-    public ProgramService(ProgramRepository programRepository, WorkoutService workoutService, CoachService coachService, ModelMapper modelMapper) {
+    public ProgramService(ProgramRepository programRepository, WorkoutService workoutService, CoachService coachService, WeekService weekService, ModelMapper modelMapper) {
         this.programRepository = programRepository;
         this.workoutService = workoutService;
         this.coachService = coachService;
+        this.weekService = weekService;
         this.modelMapper = modelMapper;
     }
 
@@ -56,6 +61,11 @@ public class ProgramService {
         return modelMapper.map(programEntity, ProgramDTO.class);
     }
 
+    public ProgramDTO getProgramById(Long programId) {
+        ProgramEntity program = programRepository.findById(programId).orElseThrow(() -> new ObjectNotFoundException("Program with id " + programId + " not found"));
+        return modelMapper.map(program, ProgramDTO.class);
+    }
+
     public ProgramEntity getProgramEntityById(Long programId) {
         return programRepository.findById(programId).orElseThrow(() -> new ObjectNotFoundException("Program with id " + programId + " not found"));
     }
@@ -74,13 +84,29 @@ public class ProgramService {
         }
     }
 
-    public void createProgram(ProgramCreationDTO programCreationDTO, String username) {
+    public ProgramEntity createProgram(ProgramCreationDTO programCreationDTO, String username) {
         CoachEntity coach = coachService.getCoachEntityByUsername(username);
         ProgramEntity program = modelMapper.map(programCreationDTO, ProgramEntity.class);
+        List<WeekEntity> weeks = new ArrayList<>();
+
+        for(int i = 0; i < programCreationDTO.getWeeks(); i++) {
+            weeks.add(new WeekEntity());
+        }
+
+        for (WeekEntity week : weeks) {
+            week.setProgram(program);
+            for(int i = 1; i <= 7; i++) {
+                DayEntity day = new DayEntity();
+                day.setWeek(week);
+                week.getDays().add(day);
+            }
+        }
 
         program.setCoach(coach);
         program.setImgUrl("/images/intermediate-program.jpg");
+        program.setWeeks(weeks);
+        program = programRepository.save(program);
 
-        programRepository.save(program);
+        return program;
     }
 }

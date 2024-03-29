@@ -1,6 +1,7 @@
 package com.softuni.fitlaunch.service;
 
 import com.softuni.fitlaunch.model.entity.UserEntity;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -10,6 +11,7 @@ import java.util.stream.Collectors;
 
 public class CustomUserDetails extends User {
 
+    @Getter
     private final Long id;
 
     private final boolean isActivated;
@@ -19,10 +21,6 @@ public class CustomUserDetails extends User {
         super(username, password, isActivated, true, true, true, authorities);
         this.id = id;
         this.isActivated = isActivated;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     @Override

@@ -50,13 +50,6 @@ public class ClientService {
                 .anyMatch(weekWorkoutDTO -> weekWorkoutDTO.getId().equals(workoutId));
     }
 
-    @Transactional
-    public List<WorkoutDTO> getCompletedWorkouts(String username) {
-        ClientEntity clientEntity = getClientEntityByUsername(username);
-
-        return clientEntity.getCompletedWorkouts().stream().map(workout -> modelMapper.map(workout, WorkoutDTO.class)).toList();
-    }
-
     public List<ClientDTO> loadAllByCoach(CoachDTO coach) {
         return clientRepository.findAllByCoachId(coach.getId()).stream().map(client -> modelMapper.map(client, ClientDTO.class)).collect(Collectors.toList());
     }

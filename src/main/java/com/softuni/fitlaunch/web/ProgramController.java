@@ -5,13 +5,16 @@ import com.softuni.fitlaunch.model.dto.program.ProgramCreationDTO;
 import com.softuni.fitlaunch.model.dto.program.ProgramDTO;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
+import com.softuni.fitlaunch.model.dto.week.WeekCreationDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
+import com.softuni.fitlaunch.model.entity.ProgramEntity;
 import com.softuni.fitlaunch.model.entity.WeekEntity;
 import com.softuni.fitlaunch.model.enums.UserTitleEnum;
 import com.softuni.fitlaunch.service.ClientService;
 import com.softuni.fitlaunch.service.ExerciseService;
 import com.softuni.fitlaunch.service.ProgramService;
 import com.softuni.fitlaunch.service.UserService;
+import com.softuni.fitlaunch.service.WeekService;
 import com.softuni.fitlaunch.service.WorkoutService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -39,14 +42,17 @@ public class ProgramController {
 
     private final ExerciseService exerciseService;
 
+    private final WeekService weekService;
+
     private final WorkoutService workoutService;
 
 
-    public ProgramController(ProgramService programService, UserService userService, ClientService clientService, ExerciseService exerciseService, WorkoutService workoutService) {
+    public ProgramController(ProgramService programService, UserService userService, ClientService clientService, ExerciseService exerciseService, WeekService weekService, WorkoutService workoutService) {
         this.programService = programService;
         this.userService = userService;
         this.clientService = clientService;
         this.exerciseService = exerciseService;
+        this.weekService = weekService;
         this.workoutService = workoutService;
     }
 
@@ -90,23 +96,35 @@ public class ProgramController {
         return "create-program";
     }
 
-    @GetMapping("/create/details")
-    public String loadProgramWorkoutCreation(Model model) {
+    @PostMapping("/create")
+    public String createProgram(@ModelAttribute("programCreationDTO") ProgramCreationDTO programCreationDTO, Principal principal) {
+        ProgramEntity program = programService.createProgram(programCreationDTO, principal.getName());
+
+        return "redirect:/programs/create/" + program.getId();
+    }
+
+    @GetMapping("/create/{programId}")
+    public String loadProgramWorkoutCreation(@PathVariable("programId") Long programId, Model model) {
 
         List<WorkoutDTO> allWorkouts = workoutService.getAllWorkouts();
+        ProgramDTO program = programService.getProgramById(programId);
+        List<WeekCreationDTO> weeks = program.getWeeks();
 
         model.addAttribute("allWorkouts", allWorkouts);
+        model.addAttribute("program", program);
+        model.addAttribute("weeks", weeks);
 
         return "program-add-workouts";
     }
 
-    @PostMapping("/create")
-    public String createProgram(@ModelAttribute("programCreationDTO") ProgramCreationDTO programCreationDTO, Principal principal) {
+    @PostMapping("/create/{programId}")
+    public String loadProgramWorkoutCreation(@PathVariable("programId") Long programId, @ModelAttribute("weekCreationDTO") WeekEntity weekCreationDTO) {
 
-        programService.createProgram(programCreationDTO, principal.getName());
-
-        return "redirect:/programs/create/details";
+        return "program-add-workouts";
     }
+
+
+
 //
 //    @PostMapping("/create/details")
 //    public String createProgram(@ModelAttribute("ProgramWorkoutsDTO") ProgramWorkoutsDTO programWorkoutsDTO) {

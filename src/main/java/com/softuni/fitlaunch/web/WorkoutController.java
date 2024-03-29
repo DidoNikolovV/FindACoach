@@ -34,21 +34,16 @@ public class WorkoutController {
 
     private final WorkoutService workoutService;
 
-    private final ProgramService programService;
-
     private final ExerciseService exerciseService;
 
     private final UserService userService;
 
-    private final ClientService clientService;
 
 
-    public WorkoutController(WorkoutService workoutService, ProgramService programService, ExerciseService exerciseService, UserService userService, ClientService clientService) {
+    public WorkoutController(WorkoutService workoutService, ExerciseService exerciseService, UserService userService) {
         this.workoutService = workoutService;
-        this.programService = programService;
         this.exerciseService = exerciseService;
         this.userService = userService;
-        this.clientService = clientService;
     }
 
     @GetMapping("/all")

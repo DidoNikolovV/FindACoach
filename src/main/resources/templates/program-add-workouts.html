@@ -1,59 +1,41 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Workout Program Planner</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <style>
-        .container {
-            background-color: #fff; /* White */
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Shadow */
-            padding: 20px;
-            margin-top: 20px;
-        }
-
-        .week-container {
-            border: 1px solid #dee2e6; /* Light gray border */
-            border-radius: 10px;
-            padding: 10px;
-            margin-bottom: 20px;
-            background-color: #f3f4f6; /* Lighter gray */
-        }
-
-        .day-container {
-            margin-bottom: 10px;
-        }
-    </style>
+<head th:replace="~{fragments/head}">
+    <link rel="stylesheet" href="../static/css/test.css">
 </head>
 <body>
-<nav th:include="~{fragments/navbar}"></nav>
-<div class="container">
-    <!-- Iterate over weeks -->
-    <div th:each="weekNumber : ${#numbers.sequence(1, 4)}" class="week-container">
-        <h4>Week <span th:text="${weekNumber}"></span></h4>
-        <!-- Iterate over days within each week -->
-        <div th:each="dayNumber : ${#numbers.sequence(1, 7)}" class="day-container">
-            <h5>Day <span th:text="${dayNumber}"></span></h5>
-            <!-- Add workout form for each day -->
-            <form th:action="@{/addWorkout}" method="post">
-                <input type="hidden" name="week" th:value="${weekNumber}">
-                <input type="hidden" name="day" th:value="${dayNumber}">
-                <div class="form-group">
-                    <select class="form-control" name="workoutId">
-                        <!-- Populate workouts dynamically from the database -->
-                        <option th:each="workout : ${allWorkouts}" th:value="${workout.id}">
-                            <span th:text="${workout.name}"></span> - <span th:text="${workout.description}"></span>
-                        </option>
-                    </select>
-                </div>
-            </form>
-        </div>
-        <button type="submit" class="btn btn-primary">Save Program</button>
+<nav th:replace="~{fragments/navbar}"></nav>
+<header class="header">
+    <h2>Add Workout</h2>
+    <div class="container d-flex text-white" style="height: 100vh">
+        <form action="#" th:action="@{/programs/create/{programId}(programId=${programId})}" method="post" th:object="${program}" class="m-auto">
+            <div th:each="week : ${program.weeks}">
+                <label for="workoutName">Workout Name:</label>
+                <select id="workoutName" name="workoutName" required>
+                    <option th:each="workout : ${allWorkouts}" th:value="${workout.id}" th:text="${workout.name}"></option>
+                </select>
+                <label for="weekNumber">Week: </label>
+                <select id="weekNumber" name="weekNumber" required>
+                    <option th:each="weekNumber : ${#numbers.sequence(1, weeks.size())}" th:value="${weekNumber}" th:text="${weekNumber}"></option>
+                </select>
+                <label for="dayOfWeek">Day of the Week:</label>
+                <select id="dayOfWeek" name="dayOfWeek" required>
+                    <option value="Monday">Monday</option>
+                    <option value="Tuesday">Tuesday</option>
+                    <option value="Wednesday">Wednesday</option>
+                    <option value="Thursday">Thursday</option>
+                    <option value="Friday">Friday</option>
+                    <option value="Saturday">Saturday</option>
+                    <option value="Sunday">Sunday</option>
+                </select>
+                <input type="submit" value="Save">
+            </div>
+
+        </form>
     </div>
-</div>
+
+</header>
+
 <footer th:replace="~{fragments/footer}"></footer>
 </body>
 </html>

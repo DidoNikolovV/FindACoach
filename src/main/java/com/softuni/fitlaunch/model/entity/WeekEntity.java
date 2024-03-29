@@ -10,6 +10,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,7 +20,7 @@ import java.util.List;
 public class WeekEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "week", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DayEntity> days;
+    private List<DayEntity> days = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "program_id")

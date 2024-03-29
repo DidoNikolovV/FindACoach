@@ -81,13 +81,6 @@ public class CoachService {
         return modelMapper.map(clientEntity, ClientDTO.class);
     }
 
-//    public void setClientDetails(String username, ClientDetailsDTO clientDetailsDTO) {
-//        ClientEntity clientEntity = clientRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException(CLIENT_WAS_NOT_FOUND));
-//        BeanUtils.copyProperties(clientDetailsDTO, clientEntity);
-//
-//        clientRepository.save(clientEntity);
-//    }
-
     public void registerCoach(UserEntity user) {
         CoachEntity coach = modelMapper.map(user, CoachEntity.class);
         coachRepository.save(coach);

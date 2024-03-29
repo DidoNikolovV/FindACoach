@@ -65,11 +65,6 @@ public class WorkoutService {
         return workoutRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Workout with id " + id + " does not exist"));
     }
 
-    public WorkoutCreationDTO getWorkoutCreation(Long id) {
-        WorkoutEntity workout = workoutRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Workout with id " + id + " does not exist"));
-        return modelMapper.map(workout, WorkoutCreationDTO.class);
-    }
-
     public Page<WorkoutDTO> getAllWorkouts(Pageable pageable) {
         return workoutRepository
                 .findAll(pageable)
@@ -80,14 +75,6 @@ public class WorkoutService {
         return workoutRepository
                 .findAll().stream().map(entity -> modelMapper.map(entity, WorkoutDTO.class)).toList();
     }
-
-//    public List<WorkoutDTO> loadAllByProgramId(Long programId) {
-//        return workoutRepository
-//                .findAllByProgramId(programId)
-//                .stream()
-//                .map(workout -> modelMapper.map(workout, WorkoutDTO.class))
-//                .toList();
-//    }
 
     public List<LevelEnum> getAllLevels() {
         return Arrays.stream(LevelEnum.values()).collect(Collectors.toList());
@@ -132,6 +119,4 @@ public class WorkoutService {
         WorkoutEntity workout = getWorkoutEntityById(workoutId);
         return workout.getClientsCompleted().stream().anyMatch(clientEntity -> clientEntity.getUsername().equals(username));
     }
-
-
 }
