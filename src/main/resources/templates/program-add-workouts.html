@@ -10,11 +10,11 @@
                 <h5>Add Workouts to Days</h5>
             </div>
             <div class="card-body align-content-center" style="width: 25rem">
-                <form th:action="@{/saveWorkout}" method="post" th:object="${program}">
+                <form th:action="@{/programs/create/{programId}(programId=${programId})}" method="post" th:object="${program}">
                     <div class="form-group">
                         <label for="weekSelect">Select Week:</label>
                         <select class="form-control" id="weekSelect" name="week">
-                            <option th:each="week, weekStat : ${program.weeks}" th:value="${week.id}" th:text="${weekStat.index + 1}"></option>
+                            <option th:each="week, weekStat : ${weeks}" th:value="${week.id}" th:text="${weekStat.index + 1}"></option>
                         </select>
                     </div>
                     <div class="form-group">

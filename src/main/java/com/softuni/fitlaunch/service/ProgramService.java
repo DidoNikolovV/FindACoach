@@ -8,6 +8,7 @@ import com.softuni.fitlaunch.model.entity.DayEntity;
 import com.softuni.fitlaunch.model.entity.ProgramEntity;
 import com.softuni.fitlaunch.model.entity.WeekEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
+import com.softuni.fitlaunch.model.enums.DaysEnum;
 import com.softuni.fitlaunch.repository.ProgramRepository;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -97,6 +98,8 @@ public class ProgramService {
             week.setProgram(program);
             for(int i = 1; i <= 7; i++) {
                 DayEntity day = new DayEntity();
+                DaysEnum dayEnum = DaysEnum.values()[i - 1];
+                day.setName(dayEnum.name());
                 day.setWeek(week);
                 week.getDays().add(day);
             }
