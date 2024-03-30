@@ -2,11 +2,14 @@ package com.softuni.fitlaunch.web;
 
 
 import com.softuni.fitlaunch.model.dto.MealCreationDTO;
+import com.softuni.fitlaunch.model.dto.MealDTO;
 import com.softuni.fitlaunch.service.MealService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
@@ -22,10 +25,26 @@ public class MealController {
     }
 
     @GetMapping("/create")
-    public String createMeal(Model model, Principal principal) {
+    public String createMeal(Model model) {
 
         model.addAttribute("meal", new MealCreationDTO());
 
         return "create-meal";
+    }
+
+    @PostMapping("/create")
+    public String createMeal(@ModelAttribute("mealCreationDTO") MealCreationDTO mealCreationDTO, Principal principal) {
+        MealDTO meal = mealService.createMeal(mealCreationDTO, principal.getName());
+
+        return "redirect:/meals/" + meal.getId();
+    }
+
+    @GetMapping("/{mealId}")
+    public String mealDetails(@PathVariable("mealId") Long mealId, Model model) {
+        MealDTO meal = mealService.getMealById(mealId);
+
+        model.addAttribute("meal", meal);
+
+        return "meal-details";
     }
 }

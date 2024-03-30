@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"></head>
+<body>
+<nav th:replace="~{fragments/navbar}"></nav>
+<header class="header">
+    <div class="container m-auto row justify-content-center align-items-center" style="height: 100vh" th:object="${meal}">
+        <div class="col-md-6">
+            <h2 class="text-center text-white">Meal Details</h2>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${meal.name}"></h5>
+                    <p class="card-text" th:text="${meal.description}"></p>
+                    <p class="card-text"><strong>Type:</strong> <span th:text="${meal.type}"></span></p>
+                    <!-- Add more details here as needed -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+</header>
+
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>
