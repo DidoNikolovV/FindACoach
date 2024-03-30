@@ -16,10 +16,11 @@
                         Calendar</a>
                 </li>
                 <li class="nav-item dropdown" sec:authorize="hasAnyRole('ADMIN', 'COACH', 'CLIENT')">
-                    <a class="nav-link dropdown-toggle text-white h6" href="">
+                    <a class="nav-link dropdown-toggle text-white h6" href="#"  role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Programs
                     </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <div class="dropdown-menu" >
                         <a class="dropdown-item" href="/programs/create" sec:authorize="hasAnyRole('ADMIN', 'COACH')">Create Program</a>
                         <a class="dropdown-item" href="/programs/all">All Programs</a>
                     </div>
