@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/meals")
@@ -46,5 +47,15 @@ public class MealController {
         model.addAttribute("meal", meal);
 
         return "meal-details";
+    }
+
+    @GetMapping("/all")
+    public String loadAllMeals(Model model, Principal principal) {
+
+        List<MealDTO> allMeals = mealService.getAllMeals(principal.getName());
+
+        model.addAttribute("allMeals", allMeals);
+
+        return "all-meals";
     }
 }

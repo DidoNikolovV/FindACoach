@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}">
+</head>
+<body>
+<nav th:replace="~{fragments/navbar}"></nav>
+<header class="header">
+    <div class="container mx-auto row justify-content-center align-items-center" style="height: 100vh">
+        <div class="col-md-10">
+            <h2 class="text-center text-white">All Meals</h2>
+            <table class="table text-white">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Type</th>
+                    <!-- Add more table headers as needed -->
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="meal : ${allMeals}">
+                    <td th:text="${meal.name}"></td>
+                    <td th:text="${meal.description}"></td>
+                    <td th:text="${meal.type}"></td>
+                    <!-- Add more table cells for additional meal details -->
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</header>
+
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>

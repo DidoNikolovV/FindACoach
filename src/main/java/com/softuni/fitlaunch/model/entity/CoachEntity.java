@@ -49,4 +49,7 @@ public class CoachEntity extends BaseEntity {
     @OneToMany(mappedBy = "coach", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<ScheduledWorkoutEntity> scheduledWorkouts;
 
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    private List<MealEntity> meals;
+
 }

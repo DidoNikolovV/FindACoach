@@ -3,11 +3,14 @@ package com.softuni.fitlaunch.service;
 
 import com.softuni.fitlaunch.model.dto.MealCreationDTO;
 import com.softuni.fitlaunch.model.dto.MealDTO;
+import com.softuni.fitlaunch.model.entity.CoachEntity;
 import com.softuni.fitlaunch.model.entity.MealEntity;
 import com.softuni.fitlaunch.repository.MealRepository;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class MealService {
@@ -16,13 +19,27 @@ public class MealService {
 
     private final ModelMapper modelMapper;
 
-    public MealService(MealRepository mealRepository, ModelMapper modelMapper) {
+    private final CoachService coachService;
+
+    public MealService(MealRepository mealRepository, ModelMapper modelMapper, CoachService coachService) {
         this.mealRepository = mealRepository;
         this.modelMapper = modelMapper;
+        this.coachService = coachService;
     }
 
-    public MealDTO createMeal(MealCreationDTO mealCreationDTO, String authorUsername) {
+    public List<MealDTO> getAllMeals(String username) {
+        CoachEntity author = coachService.getCoachEntityByUsername(username);
+
+        List<MealEntity> coachMeals = mealRepository.findAllByAuthorId(author.getId());
+
+        return coachMeals.stream().map(meal -> modelMapper.map(meal, MealDTO.class)).toList();
+    }
+
+    public MealDTO createMeal(MealCreationDTO mealCreationDTO, String username) {
         MealEntity newMeal = modelMapper.map(mealCreationDTO, MealEntity.class);
+        CoachEntity author = coachService.getCoachEntityByUsername(username);
+
+        newMeal.setAuthor(author);
 
         newMeal = mealRepository.save(newMeal);
 
