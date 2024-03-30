@@ -18,9 +18,12 @@
                 <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'COACH', 'CLIENT')">
                     <a class="nav-link text-white h6" href="/programs/all">Programs</a>
                 </li>
-                <!--                <li class="nav-item">-->
-                <!--                    <a class="nav-link text-white h6" href="/workouts/all">Workouts</a>-->
-                <!--                </li>-->
+                <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'COACH')">
+                    <a class="nav-link text-white h6" href="/meals/create">Create Meal</a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'COACH')">
+                    <a class="nav-link text-white h6" href="/programs/create">Create Program</a>
+                </li>
                 <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'CLIENT')">
                     <a class="nav-link text-white h6" href="/coaches/all">Coaches</a>
                 </li>
