@@ -5,6 +5,7 @@ import com.softuni.fitlaunch.model.dto.program.ProgramCreationDTO;
 import com.softuni.fitlaunch.model.dto.program.ProgramDTO;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
+import com.softuni.fitlaunch.model.dto.week.DayCreationDTO;
 import com.softuni.fitlaunch.model.dto.week.WeekCreationDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.entity.ProgramEntity;
@@ -109,6 +110,7 @@ public class ProgramController {
         List<WorkoutDTO> allWorkouts = workoutService.getAllWorkouts();
         ProgramDTO program = programService.getProgramById(programId);
         List<WeekCreationDTO> weeks = program.getWeeks();
+        List<DayCreationDTO> allDays = weekService.getAllDays();
 
         model.addAttribute("allWorkouts", allWorkouts);
         model.addAttribute("program", program);

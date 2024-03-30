@@ -9,5 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class DayCreationDTO {
+
+    private String name;
     private Long workoutId;
 }
