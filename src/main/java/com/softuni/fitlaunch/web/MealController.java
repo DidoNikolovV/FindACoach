@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
@@ -35,7 +36,7 @@ public class MealController {
 
     @PostMapping("/create")
     public String createMeal(@ModelAttribute("mealCreationDTO") MealCreationDTO mealCreationDTO, Principal principal) {
-        MealDTO meal = mealService.createMeal(mealCreationDTO, principal.getName());
+        MealDTO meal = mealService.createMeal(mealCreationDTO, principal.getName(), mealCreationDTO.getImage());
 
         return "redirect:/meals/" + meal.getId();
     }

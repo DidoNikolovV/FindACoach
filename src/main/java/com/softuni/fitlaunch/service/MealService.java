@@ -4,12 +4,15 @@ package com.softuni.fitlaunch.service;
 import com.softuni.fitlaunch.model.dto.meal.MealCreationDTO;
 import com.softuni.fitlaunch.model.dto.meal.MealDTO;
 import com.softuni.fitlaunch.model.entity.CoachEntity;
+import com.softuni.fitlaunch.model.entity.ImageEntity;
 import com.softuni.fitlaunch.model.entity.MealEntity;
 import com.softuni.fitlaunch.repository.MealRepository;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -38,14 +41,19 @@ public class MealService {
         return coachMeals.stream().map(meal -> modelMapper.map(meal, MealDTO.class)).toList();
     }
 
-    public MealDTO createMeal(MealCreationDTO mealCreationDTO, String username) {
+    public MealDTO createMeal(MealCreationDTO mealCreationDTO, String username, MultipartFile image) {
         MealEntity newMeal = modelMapper.map(mealCreationDTO, MealEntity.class);
         CoachEntity author = coachService.getCoachEntityByUsername(username);
 
-//        String image = fileUpload.uploadFile(mealCreationDTO.getImage());
+        String imageUrl = fileUpload.uploadFile(image);
+
+        ImageEntity newImage = new ImageEntity();
+        newImage.setMeal(newMeal);
+        newImage.setTitle(image.getOriginalFilename());
+        newImage.setUrl(imageUrl);
 
         newMeal.setAuthor(author);
-//        newMeal.setImage(image);
+        newMeal.setImage(Collections.singleton(newImage));
         newMeal = mealRepository.save(newMeal);
 
         return modelMapper.map(newMeal, MealDTO.class);
