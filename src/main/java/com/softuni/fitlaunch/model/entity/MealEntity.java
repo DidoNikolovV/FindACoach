@@ -1,6 +1,7 @@
 package com.softuni.fitlaunch.model.entity;
 
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -25,4 +26,7 @@ public class MealEntity extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "author_id")
     private CoachEntity author;
+
+    @Column
+    private String image;
 }

@@ -1,4 +1,4 @@
-package com.softuni.fitlaunch.model.dto;
+package com.softuni.fitlaunch.model.dto.meal;
 
 
 import lombok.AllArgsConstructor;
@@ -15,4 +15,5 @@ public class MealDTO {
     private String name;
     private String description;
     private String type;
+
 }

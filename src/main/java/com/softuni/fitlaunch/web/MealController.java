@@ -1,8 +1,8 @@
 package com.softuni.fitlaunch.web;
 
 
-import com.softuni.fitlaunch.model.dto.MealCreationDTO;
-import com.softuni.fitlaunch.model.dto.MealDTO;
+import com.softuni.fitlaunch.model.dto.meal.MealCreationDTO;
+import com.softuni.fitlaunch.model.dto.meal.MealDTO;
 import com.softuni.fitlaunch.service.MealService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

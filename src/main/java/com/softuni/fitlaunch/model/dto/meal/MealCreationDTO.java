@@ -1,10 +1,11 @@
-package com.softuni.fitlaunch.model.dto;
+package com.softuni.fitlaunch.model.dto.meal;
 
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -14,4 +15,6 @@ public class MealCreationDTO {
     private String name;
     private String description;
     private String type;
+
+    private MultipartFile image;
 }

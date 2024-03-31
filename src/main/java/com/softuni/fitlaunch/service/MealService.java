@@ -1,8 +1,8 @@
 package com.softuni.fitlaunch.service;
 
 
-import com.softuni.fitlaunch.model.dto.MealCreationDTO;
-import com.softuni.fitlaunch.model.dto.MealDTO;
+import com.softuni.fitlaunch.model.dto.meal.MealCreationDTO;
+import com.softuni.fitlaunch.model.dto.meal.MealDTO;
 import com.softuni.fitlaunch.model.entity.CoachEntity;
 import com.softuni.fitlaunch.model.entity.MealEntity;
 import com.softuni.fitlaunch.repository.MealRepository;
@@ -21,10 +21,13 @@ public class MealService {
 
     private final CoachService coachService;
 
-    public MealService(MealRepository mealRepository, ModelMapper modelMapper, CoachService coachService) {
+    private  final FileUpload fileUpload;
+
+    public MealService(MealRepository mealRepository, ModelMapper modelMapper, CoachService coachService, FileUpload fileUpload) {
         this.mealRepository = mealRepository;
         this.modelMapper = modelMapper;
         this.coachService = coachService;
+        this.fileUpload = fileUpload;
     }
 
     public List<MealDTO> getAllMeals(String username) {
@@ -39,12 +42,13 @@ public class MealService {
         MealEntity newMeal = modelMapper.map(mealCreationDTO, MealEntity.class);
         CoachEntity author = coachService.getCoachEntityByUsername(username);
 
-        newMeal.setAuthor(author);
+//        String image = fileUpload.uploadFile(mealCreationDTO.getImage());
 
+        newMeal.setAuthor(author);
+//        newMeal.setImage(image);
         newMeal = mealRepository.save(newMeal);
 
         return modelMapper.map(newMeal, MealDTO.class);
-
     }
 
     public MealDTO getMealById(Long mealId) {
