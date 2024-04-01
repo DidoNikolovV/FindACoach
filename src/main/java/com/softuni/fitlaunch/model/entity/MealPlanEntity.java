@@ -3,11 +3,15 @@ package com.softuni.fitlaunch.model.entity;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,6 +23,11 @@ public class MealPlanEntity extends BaseEntity {
     private String name;
     private String description;
 
-    @OneToMany(mappedBy = "mealPlan", cascade = CascadeType.ALL)
-    private List<MealEntity> meals;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @JoinTable(
+            name = "meal-plans_meals",
+            joinColumns = @JoinColumn(name = "meal_plan_id"),
+            inverseJoinColumns = @JoinColumn(name = "meal_id")
+    )
+    private List<MealEntity> meals = new ArrayList<>();
 }

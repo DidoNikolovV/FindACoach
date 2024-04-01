@@ -4,31 +4,44 @@
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
 <header class="header">
-    <div class="container d-flex justify-content-center align-items-center flex-column text-white" style="height: 100vh; width: 70%">
+    <div class="container d-flex justify-content-center align-items-center flex-column text-white"
+         style="height: 100vh; width: 70%">
         <h2>Create Meal Plan</h2>
-        <form th:action="@{/meal-plans/create}" method="post" th:object="${mealPlanCreationDTO}" class="w-100">
+        <form th:action="@{/meal-plans/create}" th:method="post" th:object="${mealPlanCreationDTO}" class="w-100">
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="Enter meal plan name" th:value="*{name}">
+                <input type="text" class="form-control" id="name" name="name" placeholder="Enter meal plan name"
+                       th:value="*{name}">
             </div>
             <div class="form-group">
                 <label for="description">Description:</label>
-                <textarea class="form-control" id="description" name="description" placeholder="Enter description" th:value="*{description}"></textarea>
+                <textarea class="form-control" id="description" name="description" placeholder="Enter description"
+                          th:value="*{description}"></textarea>
             </div>
             <div class="row">
                 <!-- Iterate over available meals -->
-                <div class="col-md-4" th:each="meal : ${meals}" th:value="*{meals}">
+                <div class="col-md-4" th:each="meal : ${meals}" th:value="${meals}">
                     <div class="card mb-4">
                         <div class="card-body">
-                            <h5 class="card-title" th:text="${meal.name}"></h5>
-                            <p class="card-text" th:text="${meal.description}"></p>
-                            <input type="checkbox" th:id="'meal_' + ${meal.id}" th:name="'meals'" th:value="${meal.id}">
-                            <label class="form-check-label" th:for="'meal_' + ${meal.id}">Select</label>
+<!--                            <h5 class="card-title" th:text="${meal.name}"></h5>-->
+<!--                            <p class="card-text" th:text="${meal.description}"></p>-->
+                            <input type="checkbox" class="form-check-input"
+                                   th:id="'meal-' + ${meal.id}" name="selectedMealIds"
+                                   th:value="${meal.id}"/>
+                            <label class="form-check-label" th:for="'meal-' + ${meal.id}">
+                                <span th:text="${meal.name}"></span>
+                            </label>
+                            <!--                            <h5 class="card-title" th:text="${meal.name}"></h5>-->
+                            <!--                            <p class="card-text" th:text="${meal.description}"></p>-->
+                            <!--                            <input type="checkbox" th:id="'meal_' + ${meal.id}" th:name="'meals'" th:value="${meal.id}">-->
+                            <!--                            <label class="form-check-label" th:for="'meal_' + ${meal.id}">Select</label>-->
                         </div>
                     </div>
                 </div>
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
         </form>
     </div>
 </header>

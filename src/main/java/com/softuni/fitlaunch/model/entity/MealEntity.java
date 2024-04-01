@@ -28,10 +28,6 @@ public class MealEntity extends BaseEntity {
     private String type;
 
     @ManyToOne
-    @JoinColumn(name = "meal_plan_id")
-    private MealPlanEntity mealPlan;
-
-    @ManyToOne
     @JoinColumn(name = "author_id")
     private CoachEntity author;
 

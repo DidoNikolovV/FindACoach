@@ -61,9 +61,13 @@ public class MealService {
         return modelMapper.map(newMeal, MealDTO.class);
     }
 
-    public MealDTO getMealById(Long mealId) {
-        MealEntity meal = mealRepository.findById(mealId).orElseThrow(() -> new ObjectNotFoundException("Meal with id " + mealId + " does not exist"));
+    public MealDTO getMealById(Long id) {
+        MealEntity meal = getMealEntityById(id);
         return modelMapper.map(meal, MealDTO.class);
+    }
+
+    public MealEntity getMealEntityById(Long id) {
+        return mealRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Meal with id " + id + " does not exist"));
     }
 
     private String findFirstImageUrl(Set<ImageEntity> images) {
