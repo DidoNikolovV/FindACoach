@@ -8,19 +8,23 @@
         <div class="card meal-plan-card shadow mb-4">
             <h2 class="card-header text-center" th:text="${mealPlan.name}">Meal Plan Name</h2>
             <div class="card-body">
-                <div class="row row-cols-1 row-cols-md-3 g-4">
-                    <div class="col" th:each="meal : ${mealPlan.meals}">
-                        <div class="card meal-card">
-                            <img class="card-img-top rounded-circle" th:src="${meal.imageUrl}" alt="Meal Image">
-                            <div class="card-body text-center">
-                                <h5 class="card-title mb-3" th:text="${meal.name}">Meal Name</h5>
-                                <p class="card-text"><strong>Description:</strong> <span th:text="${meal.description}"></span></p>
-                                <p class="card-text"><strong>Type:</strong> <span th:text="${meal.type}"></span></p>
-<!--                                <p class="card-text"><strong>Calories:</strong> <span th:text="${meal.calories}"></span></p>-->
-                                <a class="btn btn-primary stretched-link" th:href="@{'/meals/' + ${meal.id}}">View Details</a>
+                <div class="row">
+                    <div class="col-md-4">
+                        <h3 class="text-center mb-3">Breakfast</h3>
+                        <div class="card-group">
+                            <div class="card meal-card" th:each="meal : ${mealPlan.meals}">
+                                <img class="card-img-top rounded-circle" th:src="${meal.imageUrl}" alt="Meal Image">
+                                <div class="card-body text-center">
+                                    <h5 class="card-title mb-3" th:text="${meal.name}">Meal Name</h5>
+                                    <p class="card-text"><strong>Description:</strong> <span th:text="${meal.description}"></span></p>
+                                    <p class="card-text"><strong>Type:</strong> <span th:text="${meal.type}"></span></p>
+                                    <p class="card-text"><strong>Calories:</strong> <span th:text="${meal.calories}"></span></p>
+                                    <a class="btn btn-primary stretched-link" th:href="@{'/meals/' + ${meal.id}}">View Details</a>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <!-- Similar sections for lunch, snack, and dinner -->
                 </div>
             </div>
         </div>

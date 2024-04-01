@@ -16,5 +16,7 @@ public class MealCreationDTO {
     private String description;
     private String type;
 
+    private Double calories;
+
     private MultipartFile image;
 }

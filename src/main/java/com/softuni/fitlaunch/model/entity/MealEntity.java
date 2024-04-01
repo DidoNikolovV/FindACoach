@@ -23,9 +23,18 @@ import java.util.Set;
 @Setter
 public class MealEntity extends BaseEntity {
 
+
+    @Column
     private String name;
+
+    @Column
     private String description;
+
+    @Column
     private String type;
+
+    @Column
+    private Double calories;
 
     @ManyToOne
     @JoinColumn(name = "author_id")
