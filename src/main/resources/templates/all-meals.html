@@ -8,24 +8,17 @@
     <div class="container mx-auto row justify-content-center align-items-center" style="height: 100vh">
         <div class="col-md-10">
             <h2 class="text-center text-white">All Meals</h2>
-            <table class="table text-white">
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Type</th>
-                    <!-- Add more table headers as needed -->
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:each="meal : ${allMeals}">
-                    <td th:text="${meal.name}"></td>
-                    <td th:text="${meal.description}"></td>
-                    <td th:text="${meal.type}"></td>
-                    <!-- Add more table cells for additional meal details -->
-                </tr>
-                </tbody>
-            </table>
+            <div class="col-md-4">
+                <div class="card" style="width: 18rem;" th:each="meal : ${allMeals}" th:object="${meal}">
+                    <img class="card-img-top" th:src="*{imageUrl}" alt="Meal Image">
+                    <div class="card-body text-center">
+                        <h5 class="card-title">Name: <span th:text="*{name}"></span></h5>
+                        <p class="card-title"><span>Description:</span> <span th:text="*{description}"></span></p>
+                        <p class="card-title"><span>Type:</span> <span th:text="*{type}"></span></p>
+                        <p class="card-title"><span>Calories:</span> 350</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>
