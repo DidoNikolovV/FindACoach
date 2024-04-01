@@ -115,12 +115,13 @@ public class ProgramController {
         model.addAttribute("allWorkouts", allWorkouts);
         model.addAttribute("program", program);
         model.addAttribute("weeks", weeks);
+        model.addAttribute("weekCreationDTO", new WeekCreationDTO());
 
         return "program-add-workouts";
     }
 
     @PostMapping("/create/{programId}")
-    public String loadProgramWorkoutCreation(@PathVariable("programId") Long programId, @ModelAttribute("weekCreationDTO") WeekEntity weekCreationDTO) {
+    public String loadProgramWorkoutCreation(@PathVariable("programId") Long programId, @ModelAttribute("weekCreationDTO") WeekCreationDTO weekCreationDTO) {
 
         return "program-add-workouts";
     }
