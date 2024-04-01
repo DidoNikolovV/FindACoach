@@ -58,6 +58,16 @@ public class MealPlanController {
 
         model.addAttribute("mealPlan", mealPlan);
 
-        return "mealPlan-details";
+        return "meal-plan-details";
     }
+
+    @GetMapping("/all")
+    public String loadAllMealPlans(Model model, Principal principal) {
+        List<MealPlanDTO> mealPlans = mealPlanService.getAllMealPlans(principal.getName());
+
+        model.addAttribute("mealPlans", mealPlans);
+
+        return "all-meal-plans";
+    }
+
 }

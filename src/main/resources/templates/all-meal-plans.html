@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/head}">
+</head>
+<body>
+<header class="header">
+    <div class="container mx-auto row justify-content-center align-items-center" style="height: 100vh">
+        <div class="col-md-4">
+            <h2 class="text-center text-white">All Meal Plans</h2>
+                <div class="card" style="width: 18rem;" th:each="mealPlan : ${mealPlans}" th:object="${mealPlan}">
+                    <form th:action="@{/meal-plans/{id}(id=*{id})}">
+<!--                        <img class="card-img-top" th:src="*{imageUrl}" alt="Meal Image">-->
+                        <div class="card-body text-center">
+                            <h5 class="card-title">Name: <span th:text="*{name}"></span></h5>
+                            <p class="card-title"><span>Description:</span> <span th:text="*{description}"></span></p>
+<!--                            <p class="card-title"><span>Type:</span> <span th:text="*{type}"></span></p>-->
+<!--                            <p class="card-title"><span>Calories:</span> 350</p>-->
+                        </div>
+                        <div>
+                            <button type="submit" class="button-primary btn btn-info btn-lg">Details</button>
+                        </div>
+                    </form>
+                </div>
+        </div>
+    </div>
+</header>
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>

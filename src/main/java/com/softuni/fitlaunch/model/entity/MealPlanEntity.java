@@ -7,6 +7,7 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,4 +31,8 @@ public class MealPlanEntity extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "meal_id")
     )
     private List<MealEntity> meals = new ArrayList<>();
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "coach_id")
+    private CoachEntity coach;
 }

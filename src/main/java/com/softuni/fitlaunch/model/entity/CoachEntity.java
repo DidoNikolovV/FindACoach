@@ -52,4 +52,7 @@ public class CoachEntity extends BaseEntity {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<MealEntity> meals;
 
+    @OneToMany(mappedBy = "coach", cascade = CascadeType.ALL)
+    private List<MealPlanEntity> mealPlans;
+
 }
