@@ -34,7 +34,7 @@ public class FileUpload {
         cloudinary.uploader().upload(tmpFile, params);
         Files.delete(tmpFile.toPath());
 
-        return String.format("https://res.cloudinary.com/diffdysmk/image/upload/meals/" + imageId + "." + getFileExtension(Objects.requireNonNull(multipartFile.getOriginalFilename())));
+        return String.format("https://res.cloudinary.com/diffdysmk/image/upload/" + imageId + "." + getFileExtension(Objects.requireNonNull(multipartFile.getOriginalFilename())));
 
     }
 
