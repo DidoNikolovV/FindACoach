@@ -12,27 +12,24 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.awt.*;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class MealService {
 
     private final MealRepository mealRepository;
 
-    private final ModelMapper modelMapper;
-
     private final CoachService coachService;
 
-    private  final FileUpload fileUpload;
+    private final ImageService imageService;
 
-    public MealService(MealRepository mealRepository, ModelMapper modelMapper, CoachService coachService, FileUpload fileUpload) {
+    private final ModelMapper modelMapper;
+
+    public MealService(MealRepository mealRepository, ModelMapper modelMapper, CoachService coachService, ImageService imageService) {
         this.mealRepository = mealRepository;
         this.modelMapper = modelMapper;
         this.coachService = coachService;
-        this.fileUpload = fileUpload;
+        this.imageService = imageService;
     }
 
     public List<MealDTO> getAllMeals(String username) {
@@ -47,15 +44,12 @@ public class MealService {
         MealEntity newMeal = modelMapper.map(mealCreationDTO, MealEntity.class);
         CoachEntity author = coachService.getCoachEntityByUsername(username);
 
-        String imageUrl = fileUpload.uploadFile(image);
-
-        ImageEntity newImage = new ImageEntity();
+        ImageEntity newImage = imageService.createImage(image);
         newImage.setMeal(newMeal);
-        newImage.setTitle(image.getOriginalFilename());
-        newImage.setUrl(imageUrl);
 
         newMeal.setAuthor(author);
         newMeal.setImage(newImage);
+
         newMeal = mealRepository.save(newMeal);
 
         return modelMapper.map(newMeal, MealDTO.class);
@@ -68,9 +62,5 @@ public class MealService {
 
     public MealEntity getMealEntityById(Long id) {
         return mealRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Meal with id " + id + " does not exist"));
-    }
-
-    private String findFirstImageUrl(Set<ImageEntity> images) {
-        return images.stream().findAny().map(ImageEntity::getUrl).get();
     }
 }

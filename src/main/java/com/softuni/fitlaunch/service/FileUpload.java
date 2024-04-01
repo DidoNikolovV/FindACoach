@@ -16,9 +16,7 @@ import java.util.UUID;
 @Service
 @RequiredArgsConstructor
 public class FileUpload {
-
     private final Cloudinary cloudinary;
-
 
     @SneakyThrows
     public String uploadFile(MultipartFile multipartFile) {
