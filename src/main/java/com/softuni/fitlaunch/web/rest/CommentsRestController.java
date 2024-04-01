@@ -4,7 +4,6 @@ package com.softuni.fitlaunch.web.rest;
 import com.softuni.fitlaunch.model.dto.comment.CommentCreationDTO;
 import com.softuni.fitlaunch.model.dto.view.CommentView;
 import com.softuni.fitlaunch.service.CommentService;
-import com.softuni.fitlaunch.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,11 +26,9 @@ public class CommentsRestController {
 
     private final CommentService commentService;
 
-    private final UserService userService;
 
-    public CommentsRestController(CommentService commentService, UserService userService) {
+    public CommentsRestController(CommentService commentService) {
         this.commentService = commentService;
-        this.userService = userService;
     }
 
 

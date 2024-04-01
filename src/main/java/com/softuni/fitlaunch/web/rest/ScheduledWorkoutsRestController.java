@@ -3,7 +3,7 @@ package com.softuni.fitlaunch.web.rest;
 
 import com.softuni.fitlaunch.model.dto.view.ScheduledWorkoutView;
 import com.softuni.fitlaunch.service.ScheduleWorkoutService;
-import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
+import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -33,7 +33,7 @@ public class ScheduledWorkoutsRestController {
     }
 
     @DeleteMapping("/calendar/{username}/{eventId}")
-    public ResponseEntity<List<ScheduledWorkoutView>> deleteScheduledWorkout(@PathVariable("username") String username, @PathVariable("eventId") Long eventId) throws ObjectNotFoundException {
+    public ResponseEntity<List<ScheduledWorkoutView>> deleteScheduledWorkout(@PathVariable("username") String username, @PathVariable("eventId") Long eventId) throws ResourceNotFoundException {
         scheduleWorkoutService.deleteScheduledWorkout(eventId);
         return ResponseEntity.noContent().build();
     }

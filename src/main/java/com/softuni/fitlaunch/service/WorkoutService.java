@@ -9,7 +9,7 @@ import com.softuni.fitlaunch.model.entity.CoachEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.model.enums.LevelEnum;
 import com.softuni.fitlaunch.repository.WorkoutRepository;
-import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
+import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -57,12 +57,12 @@ public class WorkoutService {
 
 
     public WorkoutDTO getWorkoutById(Long id) {
-        WorkoutEntity workoutEntity = workoutRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Workout with id " + id + " does not exist"));
+        WorkoutEntity workoutEntity = workoutRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Workout with id " + id + " does not exist"));
         return modelMapper.map(workoutEntity, WorkoutDTO.class);
     }
 
     public WorkoutEntity getWorkoutEntityById(Long id) {
-        return workoutRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Workout with id " + id + " does not exist"));
+        return workoutRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Workout with id " + id + " does not exist"));
     }
 
     public Page<WorkoutDTO> getAllWorkouts(Pageable pageable) {

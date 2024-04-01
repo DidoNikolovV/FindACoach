@@ -1,7 +1,6 @@
 package com.softuni.fitlaunch.model.dto.program;
 
 import com.softuni.fitlaunch.model.dto.week.WeekCreationDTO;
-import com.softuni.fitlaunch.model.entity.WeekEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

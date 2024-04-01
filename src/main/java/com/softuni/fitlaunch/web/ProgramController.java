@@ -12,7 +12,6 @@ import com.softuni.fitlaunch.model.entity.ProgramEntity;
 import com.softuni.fitlaunch.model.entity.WeekEntity;
 import com.softuni.fitlaunch.model.enums.UserTitleEnum;
 import com.softuni.fitlaunch.service.ClientService;
-import com.softuni.fitlaunch.service.ExerciseService;
 import com.softuni.fitlaunch.service.ProgramService;
 import com.softuni.fitlaunch.service.UserService;
 import com.softuni.fitlaunch.service.WeekService;
@@ -41,18 +40,15 @@ public class ProgramController {
 
     private final ClientService clientService;
 
-    private final ExerciseService exerciseService;
-
     private final WeekService weekService;
 
     private final WorkoutService workoutService;
 
 
-    public ProgramController(ProgramService programService, UserService userService, ClientService clientService, ExerciseService exerciseService, WeekService weekService, WorkoutService workoutService) {
+    public ProgramController(ProgramService programService, UserService userService, ClientService clientService, WeekService weekService, WorkoutService workoutService) {
         this.programService = programService;
         this.userService = userService;
         this.clientService = clientService;
-        this.exerciseService = exerciseService;
         this.weekService = weekService;
         this.workoutService = workoutService;
     }
@@ -125,15 +121,4 @@ public class ProgramController {
 
         return "program-add-workouts";
     }
-
-
-
-//
-//    @PostMapping("/create/details")
-//    public String createProgram(@ModelAttribute("ProgramWorkoutsDTO") ProgramWorkoutsDTO programWorkoutsDTO) {
-//
-//
-//        return "redirect:/programs/" + program.id;
-//    }
-
 }

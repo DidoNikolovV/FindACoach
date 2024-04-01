@@ -96,13 +96,6 @@ nav .left {
     margin-right: auto;
 }
 
-/*nav {*/
-/*    background-color: #333;*/
-/*    color: #fff;*/
-/*    padding: 10px 0;*/
-/*    font-size: 14px;*/
-/*}*/
-
 nav ul {
     list-style: none;
     display: flex;
@@ -183,22 +176,11 @@ button.th-disabled {
     /* Add any other styling for the lock icon */
 }
 
-.plan-card.month:hover {
-    color: #101010;
-    background-color: #e2e6ea;
-    border-color: #dae0e5;
-    cursor: pointer;
-}
-
 .button-primary {
     border: none;
     width: 100%;
     background-color: #ff6600;
 }
-
-/*.btn:hover {*/
-/*    background-color: #ff9900;*/
-/*}*/
 
 .classes {
     padding: 40px;
@@ -321,11 +303,6 @@ button.th-disabled {
     flex-grow: 1;
 }
 
-.form-button {
-    width: 100%;
-    text-align: center;
-}
-
 .container, .container-fluid {
     padding-top: 20px;
 }
@@ -353,12 +330,6 @@ button.th-disabled {
     background-image: linear-gradient(to bottom right, rgba(220, 220, 220, 0.9), rgba(255, 255, 255, 0.9));
 }
 
-.label-custom {
-    text-align: left; /* Adjust alignment as needed */
-    margin-right: 10px; /* Adjust spacing as needed */
-    font-weight: bold;
-    color: #ffffff; /* Text color */
-}
 
 #selectedExercises {
     display: flex;
@@ -486,9 +457,6 @@ button.th-disabled {
 .section-even {
     background-color: #e9ecef; /* Lighter background color for even sections */
 }
-
-
-
 /* Profile Card */
 
 .profile-card:hover {

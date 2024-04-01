@@ -7,7 +7,7 @@ import com.softuni.fitlaunch.model.entity.CoachEntity;
 import com.softuni.fitlaunch.model.entity.ImageEntity;
 import com.softuni.fitlaunch.model.entity.MealEntity;
 import com.softuni.fitlaunch.repository.MealRepository;
-import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
+import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -61,6 +61,6 @@ public class MealService {
     }
 
     public MealEntity getMealEntityById(Long id) {
-        return mealRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Meal with id " + id + " does not exist"));
+        return mealRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Meal with id " + id + " does not exist"));
     }
 }

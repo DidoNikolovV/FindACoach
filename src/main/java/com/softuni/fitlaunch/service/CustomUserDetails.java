@@ -16,7 +16,6 @@ public class CustomUserDetails extends User {
 
     private final boolean isActivated;
 
-
     public CustomUserDetails(Long id, String username, String password, boolean isActivated, Collection<? extends GrantedAuthority> authorities) {
         super(username, password, isActivated, true, true, true, authorities);
         this.id = id;

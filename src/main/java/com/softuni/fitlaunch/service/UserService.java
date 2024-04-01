@@ -13,7 +13,7 @@ import com.softuni.fitlaunch.model.events.UserRegisteredEvent;
 import com.softuni.fitlaunch.repository.RoleRepository;
 import com.softuni.fitlaunch.repository.UserActivationCodeRepository;
 import com.softuni.fitlaunch.repository.UserRepository;
-import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
+import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
@@ -102,12 +102,12 @@ public class UserService {
 
 
     public UserDTO getUserByUsername(String username) {
-        UserEntity user = userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, username)));
+        UserEntity user = userRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, username)));
         return modelMapper.map(user, UserDTO.class);
     }
 
     public UserEntity getUserEntityByUsername(String username) {
-        return userRepository.findByUsername(username).orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, username)));
+        return userRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, username)));
     }
 
     public void like(Long workoutId, String username) {
@@ -164,7 +164,7 @@ public class UserService {
     public boolean activateUser(String activationCode) {
 
         UserActivationCodeEntity activationCodeEntity = userActivationCodeRepository.findByActivationCode(activationCode)
-                .orElseThrow(() -> new ObjectNotFoundException(ACTIVATION_CODE_NOT_FOUND));
+                .orElseThrow(() -> new ResourceNotFoundException(ACTIVATION_CODE_NOT_FOUND));
         UserEntity user = activationCodeEntity.getUser();
 
         if (user.isActivated() && isActivationCodeExpired(activationCodeEntity.getCreated())) {
@@ -188,7 +188,7 @@ public class UserService {
 
     public void changeMembership(UserDTO loggedUser, String membership) {
         UserEntity userEntity = userRepository.findByUsername(loggedUser.getUsername())
-                .orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, loggedUser.getUsername())));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, loggedUser.getUsername())));
         userRepository.save(userEntity);
     }
 
@@ -209,6 +209,6 @@ public class UserService {
     }
 
     public UserEntity getUserEntityByEmail(String email) {
-        return userRepository.findByEmail(email).orElseThrow(() -> new ObjectNotFoundException(String.format(USER_WITH_EMAIL_X_DOES_NOT_EXIST, email)));
+        return userRepository.findByEmail(email).orElseThrow(() -> new ResourceNotFoundException(String.format(USER_WITH_EMAIL_X_DOES_NOT_EXIST, email)));
     }
 }

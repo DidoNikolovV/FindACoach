@@ -7,7 +7,7 @@ import com.softuni.fitlaunch.model.entity.CoachEntity;
 import com.softuni.fitlaunch.model.entity.MealEntity;
 import com.softuni.fitlaunch.model.entity.MealPlanEntity;
 import com.softuni.fitlaunch.repository.MealPlanRepository;
-import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
+import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -45,7 +45,7 @@ public class MealPlanService {
     }
 
     public MealPlanDTO getMealPlanById(Long id) {
-        MealPlanEntity mealPlan = mealPlanRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Meal plan was not found"));
+        MealPlanEntity mealPlan = mealPlanRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Meal plan was not found"));
         return modelMapper.map(mealPlan, MealPlanDTO.class);
     }
 

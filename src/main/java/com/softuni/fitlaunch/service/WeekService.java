@@ -2,7 +2,6 @@ package com.softuni.fitlaunch.service;
 
 
 import com.softuni.fitlaunch.model.dto.week.DayCreationDTO;
-import com.softuni.fitlaunch.model.dto.week.WeekCreationDTO;
 import com.softuni.fitlaunch.model.entity.WeekEntity;
 import com.softuni.fitlaunch.repository.DayRepository;
 import com.softuni.fitlaunch.repository.WeekRepository;

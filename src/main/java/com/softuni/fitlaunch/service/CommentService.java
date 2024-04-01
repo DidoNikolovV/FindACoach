@@ -8,7 +8,7 @@ import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.model.enums.UserRoleEnum;
 import com.softuni.fitlaunch.repository.CommentRepository;
-import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
+import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +37,6 @@ public class CommentService {
         return comments.stream().map(commentEntity -> new CommentView(commentEntity.getId(), commentEntity.getAuthor().getUsername(), commentEntity.getMessage())).collect(Collectors.toList());
     }
 
-
     public CommentView addComment(CommentCreationDTO commentDTO, String username, Long workoutId) {
         UserEntity author = userService.getUserEntityByUsername(username);
         WorkoutEntity workout = workoutService.getWorkoutEntityById(workoutId);
@@ -49,22 +48,18 @@ public class CommentService {
         return new CommentView(comment.getId(), author.getUsername(), comment.getMessage());
     }
 
-
     public CommentView getComment(Long commentId) {
-        CommentEntity commentEntity = commentRepository.findById(commentId).orElseThrow(() -> new ObjectNotFoundException("Comment with id " + commentId + " was not found"));
+        CommentEntity commentEntity = commentRepository.findById(commentId).orElseThrow(() -> new ResourceNotFoundException("Comment with id " + commentId + " was not found"));
         return new CommentView(commentEntity.getId(), commentEntity.getAuthor().getUsername(), commentEntity.getMessage());
     }
-
 
     public void deleteCommentById(Long id, String username) {
         UserDTO user = userService.getUserByUsername(username);
 
-        CommentEntity comment = commentRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Comment with id " + id + " was not found"));
+        CommentEntity comment = commentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Comment with id " + id + " was not found"));
 
         if (user.getRoles().stream().anyMatch(r -> r.getRole().equals(UserRoleEnum.ADMIN)) || user.getUsername().equals(comment.getAuthor().getUsername())) {
             commentRepository.delete(comment);
         }
-
     }
-
 }

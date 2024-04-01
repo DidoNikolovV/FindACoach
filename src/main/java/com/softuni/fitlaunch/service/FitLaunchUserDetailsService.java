@@ -29,7 +29,6 @@ public class FitLaunchUserDetailsService implements UserDetailsService {
         return CustomUserDetails.create(userEntity);
     }
 
-
     private static GrantedAuthority map(UserRoleEntity userRoleEntity) {
         return new SimpleGrantedAuthority(
                 "ROLE_" + userRoleEntity.getRole().name()

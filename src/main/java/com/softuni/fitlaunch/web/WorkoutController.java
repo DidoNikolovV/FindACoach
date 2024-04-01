@@ -6,9 +6,7 @@ import com.softuni.fitlaunch.model.dto.workout.WorkoutCreationDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDetailsDTO;
 import com.softuni.fitlaunch.model.enums.LevelEnum;
-import com.softuni.fitlaunch.service.ClientService;
 import com.softuni.fitlaunch.service.ExerciseService;
-import com.softuni.fitlaunch.service.ProgramService;
 import com.softuni.fitlaunch.service.UserService;
 import com.softuni.fitlaunch.service.WorkoutService;
 import lombok.extern.slf4j.Slf4j;
@@ -38,8 +36,6 @@ public class WorkoutController {
 
     private final UserService userService;
 
-
-
     public WorkoutController(WorkoutService workoutService, ExerciseService exerciseService, UserService userService) {
         this.workoutService = workoutService;
         this.exerciseService = exerciseService;
@@ -61,7 +57,6 @@ public class WorkoutController {
 
         return "workouts";
     }
-
 
     @PostMapping("/like/{workoutId}")
     public String like(@PathVariable("workoutId") Long workoutId, Principal principal) {
