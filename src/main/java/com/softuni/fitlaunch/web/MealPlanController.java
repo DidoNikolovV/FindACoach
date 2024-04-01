@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -48,5 +49,15 @@ public class MealPlanController {
         MealPlanDTO mealPlan = mealPlanService.createMealPlan(mealPlanCreationDTO, principal.getName());
 
         return "redirect:/meal-plans/" + mealPlan.getId();
+    }
+
+    @GetMapping("/{mealPlanId}")
+    public String loadMealPlan(@PathVariable("mealPlanId") Long mealPlanId, Model model) {
+
+        MealPlanDTO mealPlan = mealPlanService.getMealPlanById(mealPlanId);
+
+        model.addAttribute("mealPlan", mealPlan);
+
+        return "mealPlan-details";
     }
 }
