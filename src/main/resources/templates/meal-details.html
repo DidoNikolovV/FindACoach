@@ -4,18 +4,18 @@
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
 <header class="header">
-    <div class="container m-auto row justify-content-center align-items-center" style="height: 100vh" th:object="${meal}">
-        <div class="col-md-6">
+    <div class="container mx-auto row justify-content-center align-items-center align-content-center" style="height: 100vh" th:object="${meal}">
+        <div class="col-md-4">
             <h2 class="text-center text-white">Meal Details</h2>
             <div class="col-md-4">
-                <div class="card meal-card">
+                <div class="card" style="width: 18rem;">
                     <img class="card-img-top" th:src="*{imageUrl}" alt="Meal Image">
-                    <div class="card-body">
+                    <div class="card-body text-center">
                         <h5 class="card-title" th:text="*{name}">Meal Name</h5>
-                        <p class="card-text" th:text="*{description}">Description of the meal goes here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut fermentum nunc at metus dictum, a tempus metus commodo.</p>
+                        <p class="card-text"><span>Description:</span> <span th:text="*{description}"></span></p>
                         <!-- Additional meal details -->
-                        <p class="card-text" th:text="*{type}">Type: Breakfast</p>
-                        <p class="card-text">Calories: 350</p>
+                        <p class="card-text"><span>Type:</span> <span th:text="*{type}"></span></p>
+                        <p class="card-text"><span>Calories:</span> 350</p>
                         <!-- Add more details as needed -->
                     </div>
                 </div>
