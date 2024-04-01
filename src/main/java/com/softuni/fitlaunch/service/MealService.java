@@ -12,8 +12,10 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.*;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class MealService {
@@ -53,7 +55,7 @@ public class MealService {
         newImage.setUrl(imageUrl);
 
         newMeal.setAuthor(author);
-        newMeal.setImage(Collections.singleton(newImage));
+        newMeal.setImage(newImage);
         newMeal = mealRepository.save(newMeal);
 
         return modelMapper.map(newMeal, MealDTO.class);
@@ -62,5 +64,9 @@ public class MealService {
     public MealDTO getMealById(Long mealId) {
         MealEntity meal = mealRepository.findById(mealId).orElseThrow(() -> new ObjectNotFoundException("Meal with id " + mealId + " does not exist"));
         return modelMapper.map(meal, MealDTO.class);
+    }
+
+    private String findFirstImageUrl(Set<ImageEntity> images) {
+        return images.stream().findAny().map(ImageEntity::getUrl).get();
     }
 }
