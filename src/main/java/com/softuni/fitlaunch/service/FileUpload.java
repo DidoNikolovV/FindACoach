@@ -4,6 +4,7 @@ import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +18,10 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class FileUpload {
     private final Cloudinary cloudinary;
+
+
+    @Value("${app.images.upload-url}")
+    private String IMAGE_UPLOAD_URL;
 
     @SneakyThrows
     public String uploadFile(MultipartFile multipartFile) {
@@ -32,7 +37,7 @@ public class FileUpload {
         cloudinary.uploader().upload(tmpFile, params);
         Files.delete(tmpFile.toPath());
 
-        return String.format("https://res.cloudinary.com/diffdysmk/image/upload/" + imageId + "." + getFileExtension(Objects.requireNonNull(multipartFile.getOriginalFilename())));
+        return String.format(IMAGE_UPLOAD_URL + imageId + "." + getFileExtension(Objects.requireNonNull(multipartFile.getOriginalFilename())));
 
     }
 

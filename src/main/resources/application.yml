@@ -41,6 +41,7 @@ app:
     symbols: abcdefghijklmnopqrstuvwxyzABCDEFGJKLMNPRSTUVWXYZ0123456789
     length: 20
   images:
+    upload-url: "https://res.cloudinary.com/diffdysmk/image/upload/"
     path: /images
   cloudinary:
     cloud-name: diffdysmk
