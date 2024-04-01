@@ -6,7 +6,6 @@ import com.softuni.fitlaunch.model.dto.mealPlan.MealPlanDTO;
 import com.softuni.fitlaunch.model.entity.MealEntity;
 import com.softuni.fitlaunch.model.entity.MealPlanEntity;
 import com.softuni.fitlaunch.repository.MealPlanRepository;
-import com.softuni.fitlaunch.repository.MealRepository;
 import com.softuni.fitlaunch.service.exception.ObjectNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
