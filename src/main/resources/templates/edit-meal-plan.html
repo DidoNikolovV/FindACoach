@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/head}">
+</head>
+<body>
+<nav th:replace="~{fragments/navbar}"></nav>
+<header class="header">
+    <div class="container mx-auto d-flex flex-column justify-content-center align-items-center mt-5" style="height: 100vh;">
+        <h1 class="text-center mb-4 text-light">Edit Meal Plan</h1>
+            <form action="/update-meal-plan" th:method="post" th:object="${mealPlan}" style="width: 100%">
+                <div class="mb-3">
+                    <label for="name" class="form-label"></label>
+                    <input type="text" class="form-control" id="name" name="name" th:value="${mealPlan.name}">
+                </div>
+                    <div class="row ml-1">
+                        <div th:each="meal : ${meals}" th:object="${meal}">
+                            <div class="card bg-light mr-2" style="width: 18rem;">
+                                <img class="card-img-top card-img" th:src="${meal.imageUrl}" style="height: 10rem">
+                                <div class="card-body">
+                                    <h5 class="card-title" th:text="${meal.name}">Card title</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted" th:text="${meal.calories}">Card subtitle</h6>
+                                    <p class="card-text" th:text="${meal.description}">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                                    <button type="submit" class="btn btn-success">Add</button>
+                                    <button type="submit" class="btn btn-info">Details</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                <div class="text-center mt-5">
+                    <button type="submit" class="btn btn-success w-25">Update</button>
+                </div>
+            </form>
+    </div>
+</header>
+<footer th:replace="~{fragments/footer}"></footer>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+</script>
+</body>
+</html>

@@ -70,4 +70,15 @@ public class MealPlanController {
         return "all-meal-plans";
     }
 
+    @GetMapping("/{mealPlanId}/edit")
+    public String loadAllMealPlans(@PathVariable("mealPlanId") Long mealPlanId, Model model, Principal principal) {
+        MealPlanDTO mealPlan = mealPlanService.getMealPlanById(mealPlanId);
+        List<MealDTO> meals = mealService.getAllMeals(principal.getName());
+
+        model.addAttribute("mealPlan", mealPlan);
+        model.addAttribute("meals", meals);
+
+        return "edit-meal-plan";
+    }
+
 }

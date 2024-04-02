@@ -7,9 +7,9 @@
     <div class="container mx-auto d-flex justify-content-center align-items-center" th:object="${mealPlan}"
          style="height: 100vh">
         <div class="card meal-plan-card shadow mb-4">
-            <button class="btn btn-sm btn-outline-info edit-button" type="button" data-toggle="modal" data-target="#editMealPlanModal" style="font-size: 1.2rem">
+            <a th:href="@{/meal-plans/{id}/edit(id=*{id})}" class="btn btn-sm btn-outline-info edit-button" type="button" style="font-size: 1.2rem">
                 Edit
-            </button>
+            </a>
             <h2 class="card-header text-center" th:text="${mealPlan.name}">Meal Plan Name</h2>
             <div class="card-body">
                 <div class="row">
