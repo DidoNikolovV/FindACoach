@@ -4,39 +4,24 @@
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
 <header class="header">
-    <div class="container mx-auto d-flex justify-content-center align-items-center" th:object="${mealPlan}"
-         style="height: 100vh">
-        <div class="card meal-plan-card shadow mb-4">
-            <a th:href="@{/meal-plans/{id}/edit(id=*{id})}" class="btn btn-sm btn-outline-info edit-button" type="button" style="font-size: 1.2rem">
-                Edit
-            </a>
-            <h2 class="card-header text-center" th:text="${mealPlan.name}">Meal Plan Name</h2>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="card-group">
-                            <div class="card meal-card" th:each="meal : ${mealPlan.meals}">
-                                <div>
-                                    <h3 class="text-center mb-3" th:text="${meal.type}">Breakfast</h3>
-                                </div>
-                                <img class="card-img-top rounded-circle" th:src="${meal.imageUrl}" alt="Meal Image">
-                                <div class="card-body text-center">
-                                    <h5 class="card-title mb-3" th:text="${meal.name}">Meal Name</h5>
-                                    <p class="card-text"><strong>Description:</strong> <span
-                                            th:text="${meal.description}"></span></p>
-                                    <p class="card-text"><strong>Type:</strong> <span th:text="${meal.type}"></span></p>
-                                    <p class="card-text"><strong>Calories:</strong> <span
-                                            th:text="${meal.calories}"></span></p>
-                                    <a class="btn btn-primary stretched-link" th:href="@{'/meals/' + ${meal.id}}">View
-                                        Details</a>
-                                </div>
-                            </div>
-                        </div>
+    <div class="container d-flex flex-column justify-content-center align-items-center align-content-center" style="height: 100vh">
+        <h2 class="text-light">Meal Plan Details</h2>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title" th:text="${mealPlan.name}"></h5>
+                        <p class="card-text" th:text="${mealPlan.description}"></p>
+                        <hr>
+                        <h6 class="card-subtitle mb-2 text-muted">Meals</h6>
+                        <ul class="list-group">
+                            <li class="list-group-item d-flex justify-content-between align-items-center" th:each="meal : ${mealPlan.meals}">
+                                <span th:text="${meal.name}"></span>
+                                <a th:href="@{/meals/{mealId}(mealId=${meal.id})}">Details</a>
+                            </li>
+                        </ul>
                     </div>
-                    <!-- Similar sections for lunch, snack, and dinner -->
                 </div>
             </div>
-        </div>
     </div>
 </header>
 
