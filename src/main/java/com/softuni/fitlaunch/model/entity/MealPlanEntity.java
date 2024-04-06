@@ -8,12 +8,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "meal_plans")
@@ -35,4 +38,7 @@ public class MealPlanEntity extends BaseEntity {
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "coach_id")
     private CoachEntity coach;
+
+    @OneToMany(mappedBy = "mealPlan", cascade = CascadeType.ALL)
+    private Set<MealPlanWeekEntity> mealPlanWeeks = new HashSet<>();
 }

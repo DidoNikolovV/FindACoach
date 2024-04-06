@@ -4,37 +4,73 @@
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
 <header class="header">
-    <div class="container d-flex justify-content-center align-items-center flex-column text-white"
-         style="height: 100vh; width: 70%">
+    <div class="container d-flex flex-column justify-content-center align-items-center text-light" style="height: 100vh">
         <h2>Create Meal Plan</h2>
-        <form th:action="@{/meal-plans/create}" th:method="post" th:object="${mealPlanCreationDTO}" class="w-100">
+        <!-- Meal Plan Form -->
+        <form th:action="@{/meal-plans/create}" method="post" th:object="${mealPlanCreationDTO}">
+            <!-- Meal Plan Details -->
             <div class="form-group">
                 <label for="name">Name:</label>
-                <input type="text" class="form-control" id="name" name="name" placeholder="Enter meal plan name"
-                       th:value="*{name}">
+                <input type="text" class="form-control" id="name" name="name" th:field="*{name}"
+                       placeholder="Enter meal plan name">
             </div>
             <div class="form-group">
                 <label for="description">Description:</label>
-                <textarea class="form-control" id="description" name="description" placeholder="Enter description"
-                          th:value="*{description}"></textarea>
+                <textarea class="form-control" id="description" name="description" th:field="*{description}"
+                          placeholder="Enter description"></textarea>
             </div>
-            <div class="row">
-                <!-- Iterate over available meals -->
-                <div class="col-md-4" th:each="meal : ${meals}" th:value="${meals}">
-                    <div class="card mb-4">
-                        <div class="card-body">
-                            <input type="checkbox" class="form-check-input"
-                                   th:id="'meal-' + ${meal.id}" name="selectedMealIds"
-                                   th:value="${meal.id}"/>
-                            <label class="form-check-label" th:for="'meal-' + ${meal.id}">
-                                <span th:text="${meal.name}"></span>
-                            </label>
+
+            <!-- Week, Day, and Meal Selection -->
+            <div class="form-group">
+                <label for="weeks">Weeks:</label>
+                <input type="number" class="form-control" id="weeks" name="weeks" th:field="*{weeks}"
+                       placeholder="Enter number of weeks">
+            </div>
+            <div class="form-group">
+                <label>Meals:</label>
+                <div class="row">
+                    <!-- Display meals as cards -->
+                    <div class="col-md-4 mb-3" th:each="meal : ${meals}">
+                        <div class="custom-card">
+                            <div class="custom-card-header">
+                                <div class="meal-image">
+                                    <!-- Add meal image here -->
+                                    <img th:src="${meal.imageUrl}" alt="Meal Image">
+                                </div>
+                                <h5 class="card-title text-dark" th:text="${meal.name}"></h5>
+                                <!-- Checkbox for selecting meal -->
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="selectedMeals" id="mealCheck" th:value="${meal.id}">
+                                    <label class="form-check-label" for="mealCheck">Add to Meal Plan</label>
+                                </div>
+                            </div>
+                            <div class="custom-card-body">
+                                <div class="form-group">
+                                    <select class="form-control" name="partOfDay" id="partOfDay">
+                                        <option value="Breakfast">Breakfast</option>
+                                        <option value="Lunch">Lunch</option>
+                                        <option value="Dinner">Dinner</option>
+                                        <!-- Add more options as needed -->
+                                    </select>
+                                </div>
+                                <!-- Week selection -->
+                                <div class="form-group">
+                                    <input type="number" class="form-control" id="week" name="week" placeholder="Enter week number">
+                                </div>
+                                <!-- Day selection -->
+                                <div class="form-group">
+                                    <input type="number" class="form-control" id="day" name="day" placeholder="Enter day number">
+                                </div>
+                                <!-- Hidden input for meal ID -->
+                                <input type="hidden" name="mealId" th:value="${meal.id}">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary w-100">Create</button>
+
             </div>
         </form>
     </div>

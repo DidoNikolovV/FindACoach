@@ -39,4 +39,7 @@ public class MealEntity extends BaseEntity {
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private ImageEntity image;
 
+    @ManyToOne
+    @JoinColumn(name = "meal_id")
+    private MealPlanDayEntity day;
 }

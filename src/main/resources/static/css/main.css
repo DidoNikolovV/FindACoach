@@ -508,5 +508,68 @@ button.th-disabled {
 
 
 
+.custom-card {
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    margin-bottom: 20px;
+    overflow: hidden; /* Ensure the meal image does not overflow */
+}
+
+.custom-card:hover {
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.custom-card-header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.meal-image {
+    width: 100px; /* Adjust the width as needed */
+    height: 100px; /* Adjust the height as needed */
+    overflow: hidden;
+    margin-right: 15px;
+}
+
+.meal-image img {
+    width: 100%; /* Make the image fill the container */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Ensure the image covers the entire container */
+}
+
+.meal-details {
+    flex-grow: 1; /* Allow the meal details to take up remaining space */
+}
+
+.custom-card-body {
+    padding: 15px;
+}
+
+.form-group {
+    margin-bottom: 10px;
+}
+
+.form-check-label {
+    color: #212529;
+}
+
+.form-check-input:checked + .form-check-label::before {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.form-check-input:focus + .form-check-label::before {
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+
+
+
+
+
 
 
