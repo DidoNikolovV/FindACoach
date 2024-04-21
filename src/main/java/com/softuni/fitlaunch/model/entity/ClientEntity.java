@@ -57,11 +57,18 @@ public class ClientEntity extends BaseEntity {
     @OneToMany(cascade = CascadeType.ALL)
     private List<ProgramEntity> completedPrograms = new ArrayList<>();
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "program_workouts_started",
+            joinColumns = @JoinColumn(name = "client_id"),
+            inverseJoinColumns = @JoinColumn(name = "workout_id"))
+    private List<DayWorkoutsEntity> startedWorkouts = new ArrayList<>();
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "program_workouts_completed",
             joinColumns = @JoinColumn(name = "client_id"),
             inverseJoinColumns = @JoinColumn(name = "workout_id"))
-    private List<WorkoutEntity> completedWorkouts = new ArrayList<>();
+    private List<DayWorkoutsEntity> completedWorkouts = new ArrayList<>();
 
 }

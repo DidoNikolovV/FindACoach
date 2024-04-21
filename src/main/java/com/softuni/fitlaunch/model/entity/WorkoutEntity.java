@@ -43,10 +43,8 @@ public class WorkoutEntity extends BaseEntity {
     @Column
     private String description;
 
-
     @Column
     private Integer likes = 0;
-
 
     @ManyToMany
     @JoinTable(
@@ -58,37 +56,9 @@ public class WorkoutEntity extends BaseEntity {
     @OneToMany(mappedBy = "workout", cascade = CascadeType.MERGE, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<WorkoutExerciseEntity> exercises = new ArrayList<>();
 
-
-    @Column(nullable = false)
-    private boolean isCompleted = false;
-
     @Column
     private String dateCompleted;
 
-    @Column(nullable = false)
-    private boolean hasStarted = false;
-
     @OneToMany(mappedBy = "workout", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<CommentEntity> comments;
-
-    @ManyToMany
-    @JoinTable(
-            name = "workouts_days",
-            joinColumns = @JoinColumn(name = "workout_id"),
-            inverseJoinColumns = @JoinColumn(name = "day_id"))
-    private List<DayEntity> days;
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "workouts_started",
-            joinColumns = @JoinColumn(name = "workout_id"),
-            inverseJoinColumns = @JoinColumn(name = "client_id"))
-    private List<ClientEntity> clientsStarted;
-
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "workouts_completed",
-            joinColumns = @JoinColumn(name = "workout_id"),
-            inverseJoinColumns = @JoinColumn(name = "client_id"))
-    private List<ClientEntity> clientsCompleted;
 }

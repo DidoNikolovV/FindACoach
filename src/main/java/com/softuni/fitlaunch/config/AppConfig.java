@@ -1,22 +1,36 @@
 package com.softuni.fitlaunch.config;
 
+import org.hibernate.collection.spi.PersistentBag;
+import org.modelmapper.AbstractConverter;
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 public class AppConfig implements WebMvcConfigurer {
 
     @Bean
     public ModelMapper modelMapper() {
-//        ModelMapper modelMapper = new ModelMapper();
-//        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
-//        return modelMapper;
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+        modelMapper.addConverter(persistentBagToListConverter);
+        return modelMapper;
 
-        return new ModelMapper();
+//        return new ModelMapper();
     }
+
+    Converter<PersistentBag, List> persistentBagToListConverter = new AbstractConverter<PersistentBag, List>() {
+        protected List convert(PersistentBag source) {
+            return new ArrayList<>(source);
+        }
+    };
 
     @Bean
     public WebMvcConfigurer corsConfigurer() {

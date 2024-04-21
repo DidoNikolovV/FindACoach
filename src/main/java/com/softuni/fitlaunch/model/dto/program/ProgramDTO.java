@@ -1,6 +1,8 @@
 package com.softuni.fitlaunch.model.dto.program;
 
-import com.softuni.fitlaunch.model.dto.week.WeekCreationDTO;
+import com.softuni.fitlaunch.model.dto.user.ClientDTO;
+import com.softuni.fitlaunch.model.dto.user.CoachDTO;
+import com.softuni.fitlaunch.model.entity.ClientEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +18,7 @@ public class ProgramDTO {
     private Long id;
     private String imgUrl;
     private String name;
-    private List<WeekCreationDTO> weeks;
+    private List<ProgramWeekDTO> weeks;
 }
 
 

@@ -31,9 +31,4 @@ public class WorkoutDetailsDTO {
     private Long likes;
 
     private List<UserDTO> usersLiked;
-
-    private boolean hasStarted;
-
-    private boolean isCompleted;
-
 }

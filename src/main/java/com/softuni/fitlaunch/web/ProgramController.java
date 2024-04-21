@@ -6,18 +6,15 @@ import com.softuni.fitlaunch.model.dto.program.ProgramDTO;
 import com.softuni.fitlaunch.model.dto.program.ProgramWeekDTO;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
-import com.softuni.fitlaunch.model.dto.week.DayCreationDTO;
 import com.softuni.fitlaunch.model.dto.week.WeekCreationDTO;
-import com.softuni.fitlaunch.model.dto.week.WeekDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.entity.ProgramEntity;
-import com.softuni.fitlaunch.model.entity.WeekEntity;
+import com.softuni.fitlaunch.model.entity.ProgramWeekEntity;
 import com.softuni.fitlaunch.model.enums.DaysEnum;
 import com.softuni.fitlaunch.model.enums.UserTitleEnum;
 import com.softuni.fitlaunch.service.ClientService;
 import com.softuni.fitlaunch.service.ProgramService;
 import com.softuni.fitlaunch.service.UserService;
-import com.softuni.fitlaunch.service.WeekService;
 import com.softuni.fitlaunch.service.WorkoutService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -40,7 +37,6 @@ public class ProgramController {
 
     private final ProgramService programService;
 
-    private final WeekService weekService;
 
     private final UserService userService;
 
@@ -50,9 +46,8 @@ public class ProgramController {
     private final WorkoutService workoutService;
 
 
-    public ProgramController(ProgramService programService, WeekService weekService, UserService userService, ClientService clientService, WorkoutService workoutService) {
+    public ProgramController(ProgramService programService, UserService userService, ClientService clientService, WorkoutService workoutService) {
         this.programService = programService;
-        this.weekService = weekService;
         this.userService = userService;
         this.clientService = clientService;
         this.workoutService = workoutService;
@@ -77,7 +72,7 @@ public class ProgramController {
 
         ClientDTO clientDTO = clientService.getClientByUsername(principal.getName());
 
-        List<WeekEntity> allWeeksByProgramId = programService.getAllWeeksByProgramId(programId);
+        List<ProgramWeekEntity> allWeeksByProgramId = programService.getAllWeeksByProgramId(programId);
 
         model.addAttribute("program", programDTO);
         model.addAttribute("allWeeks", allWeeksByProgramId);
@@ -110,12 +105,12 @@ public class ProgramController {
 
         List<WorkoutDTO> allWorkouts = workoutService.getAllWorkouts();
         ProgramDTO program = programService.getProgramById(programId);
-        List<WeekCreationDTO> weeks = program.getWeeks();
+//        List<ProgramWeekDTO> weeks = program.getWeeks();
         List<DaysEnum> allDays = Arrays.stream(DaysEnum.values()).toList();
 
         model.addAttribute("allWorkouts", allWorkouts);
         model.addAttribute("program", program);
-        model.addAttribute("weeks", weeks);
+//        model.addAttribute("weeks", weeks);
         model.addAttribute("weekCreationDTO", new WeekCreationDTO());
         model.addAttribute("days", allDays);
 

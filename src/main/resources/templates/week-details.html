@@ -5,7 +5,8 @@
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
 <header class="header">
-    <div class="container mt-5 d-flex flex-column justify-content-center align-items-center" style="height: 100vh" th:object="${week}">
+    <div class="container mt-5 d-flex flex-column justify-content-center align-items-center" style="height: 100vh"
+         th:object="${week}">
         <h2 class="text-center mb-4 text-light">Workouts for Week <span th:text="*{number}"></span></h2>
         <table class="table">
             <thead class="thead-dark">
@@ -17,8 +18,13 @@
             <tbody>
             <tr th:each="day : *{days}" class="text-light">
                 <td th:text="${day.name}"></td>
-                <td th:if="${day.getWorkouts().size() > 0}" th:text="${day.workouts.get(0).name}"></td>
-                <td th:unless="${day.getWorkouts().size() > 0}" th:text="REST"></td>
+                <td th:if="${day.workout != null}">
+                    <a th:href="@{/workouts/{workoutId}/days/{dayName}(workoutId=${day.workout.id}, dayName=${day.name})}"
+                       class="btn btn-info">
+                        <span th:text="${day.workout.name}"></span>
+                    </a>
+                </td>
+                <td th:unless="${day.workout != null}" th:text="REST"></td>
             </tr>
             </tbody>
         </table>

@@ -91,26 +91,26 @@ public class WorkoutController {
         return "redirect:/workouts/" + workout.getId();
     }
 
-    @PostMapping("/{workoutId}/start")
-    public String startWorkout(@PathVariable("workoutId") Long workoutId, Principal principal) {
+    @PostMapping("/{workoutId}/weeks/{weekId}/days/{dayName}/start")
+    public String startWorkout(@PathVariable("workoutId") Long workoutId, @PathVariable("weekId") Long weekId, @PathVariable("dayName") String dayName, Principal principal) {
 
-        workoutService.startWorkout(workoutId, principal.getName());
-
-        return "redirect:/workouts/" + workoutId;
-    }
-
-    @PostMapping("/{workoutId}/complete")
-    public String completeWorkout(@PathVariable("workoutId") Long workoutId, Principal principal) {
-
-        workoutService.completedWorkout(workoutId, principal.getName());
+        workoutService.startWorkout(workoutId, principal.getName(), weekId, dayName);
 
         return "redirect:/workouts/" + workoutId;
     }
 
-    @GetMapping("{workoutId}")
-    public String workoutDetails(@PathVariable("workoutId") Long workoutId, Model model, Principal principal) {
+    @PostMapping("/{workoutId}/weeks/{weekId}/days/{dayName}/complete")
+    public String completeWorkout(@PathVariable("workoutId") Long workoutId, @PathVariable("weekId") Long weekId, @PathVariable("dayName") String  dayName, Principal principal) {
 
-        WorkoutDetailsDTO workoutDetailsDTO = workoutService.getWorkoutDetailsById(workoutId);
+        workoutService.completedWorkout(workoutId, principal.getName(), weekId, dayName);
+
+        return "redirect:/workouts/" + workoutId;
+    }
+
+    @GetMapping("{workoutId}/weeks/{weekId}/days/{dayName}")
+    public String workoutDetails(@PathVariable("workoutId") Long workoutId,  @PathVariable("weekId") Long weekId, @PathVariable("dayName") String dayName, Model model, Principal principal) {
+
+        WorkoutDetailsDTO workoutDetailsDTO = workoutService.getWorkoutDetailsById(workoutId, dayName);
 
         boolean hasStarted = workoutService.isWorkoutStarted(workoutId, principal.getName());
         boolean isCompleted = workoutService.isWorkoutCompleted(workoutId, principal.getName());

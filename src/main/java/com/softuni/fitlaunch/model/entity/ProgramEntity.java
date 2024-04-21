@@ -14,6 +14,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -38,10 +39,10 @@ public class ProgramEntity extends BaseEntity {
             name = "programs_clients",
             joinColumns = @JoinColumn(name = "program_id"),
             inverseJoinColumns = @JoinColumn(name = "client_id"))
-    private List<ClientEntity> clients;
+    private List<ClientEntity> clients = new ArrayList<>();
 
 
     @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<WeekEntity> weeks;
+    private List<ProgramWeekEntity> weeks = new ArrayList<>();
 
 }
