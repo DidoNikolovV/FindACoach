@@ -3,6 +3,7 @@ package com.softuni.fitlaunch.web;
 
 import com.softuni.fitlaunch.model.dto.meal.MealDTO;
 import com.softuni.fitlaunch.model.dto.mealPlan.MealPlanCreationDTO;
+import com.softuni.fitlaunch.model.dto.mealPlan.MealPlanCreationDetails;
 import com.softuni.fitlaunch.model.dto.mealPlan.MealPlanDTO;
 import com.softuni.fitlaunch.service.MealPlanService;
 import com.softuni.fitlaunch.service.MealService;
@@ -46,9 +47,22 @@ public class MealPlanController {
     @PostMapping("/create")
     public String createMealPlan(@ModelAttribute("mealPlanCreationDTO") MealPlanCreationDTO mealPlanCreationDTO, Principal principal) {
 
-        MealPlanDTO mealPlan = mealPlanService.createMealPlan(mealPlanCreationDTO, principal.getName());
+        MealPlanCreationDetails mealPlan = mealPlanService.createMealPlan(mealPlanCreationDTO, principal.getName());
 
-        return "redirect:/meal-plans/" + mealPlan.getId();
+        return String.format("redirect:/meal-plans/create/%d/details", mealPlan.getId());
+    }
+
+    @GetMapping("/create/{mealPlanId}/details")
+    public String createMealPlan(@PathVariable("mealPlanId") Long mealPlanId, Model model, Principal principal) {
+
+        List<MealDTO> meals = mealService.getAllMeals(principal.getName());
+        MealPlanCreationDetails mealPlan = mealPlanService.getMealPlanCreationById(mealPlanId);
+
+        model.addAttribute("meals", meals);
+        model.addAttribute("mealPlan", mealPlan);
+
+        return "meal-plan-creation-details";
+
     }
 
     @GetMapping("/{mealPlanId}")

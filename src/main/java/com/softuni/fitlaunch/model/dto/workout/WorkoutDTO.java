@@ -2,7 +2,7 @@ package com.softuni.fitlaunch.model.dto.workout;
 
 import com.softuni.fitlaunch.model.dto.WorkoutExerciseDTO;
 import com.softuni.fitlaunch.model.dto.comment.CommentCreationDTO;
-import com.softuni.fitlaunch.model.dto.program.ProgramWeekDTO;
+import com.softuni.fitlaunch.model.dto.week.DayDTO;
 import com.softuni.fitlaunch.model.enums.LevelEnum;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -56,6 +56,6 @@ public class WorkoutDTO {
     private boolean hasStarted = false;
 
     @NotNull
-    private ProgramWeekDTO programWeek;
+    private List<DayDTO> day;
 
 }

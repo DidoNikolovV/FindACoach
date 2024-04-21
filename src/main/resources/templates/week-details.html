@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}">
+</head>
+<body>
+<nav th:replace="~{fragments/navbar}"></nav>
+<header class="header">
+    <div class="container mt-5 d-flex flex-column justify-content-center align-items-center" style="height: 100vh" th:object="${week}">
+        <h2 class="text-center mb-4 text-light">Workouts for Week <span th:text="*{number}"></span></h2>
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th>Days</th>
+                <th>Workouts</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="day : *{days}" class="text-light">
+                <td th:text="${day.name}"></td>
+                <td th:if="${day.getWorkouts().size() > 0}" th:text="${day.workouts.get(0).name}"></td>
+                <td th:unless="${day.getWorkouts().size() > 0}" th:text="REST"></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</header>
+
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>

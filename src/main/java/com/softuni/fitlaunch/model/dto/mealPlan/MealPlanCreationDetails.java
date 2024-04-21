@@ -9,14 +9,13 @@ import lombok.Setter;
 
 import java.util.List;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Getter
 @Setter
-public class MealPlanCreationDTO {
-
+@NoArgsConstructor
+@AllArgsConstructor
+public class MealPlanCreationDetails {
+    private Long id;
     private String name;
     private String description;
-    private List<Long> selectedMealIds;
-    private Integer weeks;
+    private List<MealPlanWeekEntity> weeks;
 }

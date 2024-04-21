@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html><!-- HTML template for adding meals -->
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/head}">
+</head>
+<body>
+<nav th:replace="~{fragments/navbar}"></nav>
+<h1>Add Meals for Day</h1>
+<form action="/save-meals" method="POST">
+    <!-- Input fields for selecting meals -->
+    <label for="breakfast">Breakfast:</label>
+    <select id="breakfast" name="breakfast">
+        <!-- Populate options dynamically using Thymeleaf -->
+        <option th:each="meal : ${availableMeals}" th:value="${meal.id}" th:text="${meal.name}"></option>
+    </select><br><br>
+    <!-- Add input fields for lunch and dinner as needed -->
+    <!-- Hidden fields to store week and day indices -->
+    <input type="hidden" id="weekIndex" name="weekIndex" th:value="${weekIndex}">
+    <input type="hidden" id="dayIndex" name="dayIndex" th:value="${dayIndex}">
+    <!-- Submit button to save the selected meals -->
+    <button type="submit">Save Meals</button>
+</form>
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>

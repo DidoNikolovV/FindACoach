@@ -10,36 +10,36 @@
                 <h5>Add Workouts to Days</h5>
             </div>
             <div class="card-body align-content-center" style="width: 25rem">
-                <form th:action="@{/saveWorkout}" method="post" th:object="${program}">
+                <form th:action="@{/programs/create/{programId}(programId=${program.id})}" method="post" th:object="${weekCreationDTO}">
                     <div class="form-group">
                         <label for="weekSelect">Select Week:</label>
-                        <select class="form-control" id="weekSelect" name="week">
-                            <option th:each="week, weekStat : ${program.weeks}" th:value="${week.id}" th:text="${weekStat.index + 1}"></option>
+                        <select class="form-control" id="weekSelect" name="week" th:field="*{number}">
+                            <option th:each="week, weekStat : ${program.weeks}" th:value="${weekStat.index + 1}" th:text="${weekStat.index + 1}" ></option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="daySelect">Select Day:</label>
-                        <select class="form-control" id="daySelect" name="day">
-                            <option value="Monday">Monday</option>
-                            <option value="Tuesday">Tuesday</option>
-                            <option value="Wednesday">Wednesday</option>
-                            <option value="Thursday">Thursday</option>
-                            <option value="Friday">Friday</option>
-                            <option value="Saturday">Saturday</option>
-                            <option value="Sunday">Sunday</option>
-                        </select>
+
+                    <div class="form-group" >
+                        <label>Select Days:</label><br>
+                        <div th:each="day : ${days}" style="display: inline-block; margin-right: 10px;">
+                            <input type="checkbox" id="daySelect" name="days" th:value="${day.name}" th:field="*{days}">
+                            <label th:for="'daySelect' + ${day}" th:text="${day.name}"></label><br>
+                        </div>
                     </div>
                     <div class="form-group">
                         <label for="workoutSelect">Select Workout:</label>
-                        <select class="form-control" id="workoutSelect" name="workout">
+                        <select class="form-control" id="workoutSelect" name="workout" th:field="*{workoutId}">
                             <option th:each="workout : ${allWorkouts}" th:value="${workout.id}" th:text="${workout.name}"></option>
                         </select>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">Add Workout</button>
+                    <button type="submit" class="btn btn-primary btn-block">Add Workouts</button>
+                </form>
+                <form th:href="@{/programs/create/{programId}(programId=${program.id})}">
+                    <button type="submit" class="btn btn-success btn-block">Program Details</button>
                 </form>
             </div>
         </div>
     </div>
+
 </header>
 
 <footer th:replace="~{fragments/footer}"></footer>

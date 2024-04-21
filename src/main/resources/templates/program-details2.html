@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}">
+</head>
+<body>
+<nav th:replace="~{fragments/navbar}"></nav>
+<header class="header">
+    <div class="container mt-5 text-light d-flex flex-column justify-content-center align-items-center" style="height: 100vh">
+        <h2 class="text-center mb-4">Here you can explore and start training with this program</h2>
+        <div th:object="${program}" style="width: 50%">
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 th:text="*{name}" class="mb-3 text-center"></h3>
+                </div>
+            </div>
+            <div style="width: 100%">
+                <table class="table mt-4 text-white" style="width: 100%">
+                    <colgroup>
+                        <col style="width: 100%;"> <!-- Adjust the width here -->
+                    </colgroup>
+                    <thead class="thead-dark">
+                    <tr>
+                        <th>Weeks</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="week : *{weeks}">
+                        <td th:text="${week.number}"></td>
+                        <td class="btn btn-info">
+                            <a th:href="@{/programs/{programId}/weeks/{weekId}(programId=${program.id}, weekId=${week.number})}" class="text-white">Details</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>

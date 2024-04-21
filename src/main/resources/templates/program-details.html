@@ -20,9 +20,7 @@
                             <span th:text="${programWorkout.name}"></span>
                         </a>
                         <!-- Check if the specific workout for the week is completed -->
-
-                        <i th:if="${programWorkout.isCompleted()}"
-                           class="fa-solid fa-lg fa-circle-check text-success"></i>
+                        <i th:if="${programWorkout.completed}" class="fa-solid fa-lg fa-circle-check text-success"></i>
                     </div>
                     <form th:method="POST"
                           th:action="@{/programs/{programId}/complete/{weekId}(programId=${program.id}, weekId=${week.id})}">
@@ -42,13 +40,14 @@
     <div class="d-flex justify-content-center my-2">
         <div>
             <form method="POST" th:action="@{/programs/{programId}/completed(programId=${programId})}">
-                <button th:class="${user.completedWorkouts == allProgramWorkouts ? 'btn btn-success' : 'btn btn-success disabled'}">
+                <button th:class="${user.completedWorkouts.size() == allProgramWorkouts.size() ? 'btn btn-success' : 'btn btn-success disabled'}">
                     Completed Program
                 </button>
             </form>
         </div>
     </div>
 </div>
+
 
 <footer th:replace="~{fragments/footer}"></footer>
 </body>

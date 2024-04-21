@@ -1,18 +1,18 @@
-package com.softuni.fitlaunch.model.dto.program;
+package com.softuni.fitlaunch.model.dto.week;
 
-import com.softuni.fitlaunch.model.dto.week.DayDTO;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ProgramWeekDTO {
+public class WeekDTO {
+
     private int number;
+
     private List<DayDTO> days;
-    private ProgramDTO program;
 }

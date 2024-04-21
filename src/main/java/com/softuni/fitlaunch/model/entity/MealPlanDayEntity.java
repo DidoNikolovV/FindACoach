@@ -1,8 +1,11 @@
 package com.softuni.fitlaunch.model.entity;
 
 
+import com.softuni.fitlaunch.model.enums.DaysEnum;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
@@ -19,8 +22,10 @@ import java.util.Set;
 @Setter
 public class MealPlanDayEntity extends BaseEntity{
 
+    private String name;
+
     @ManyToOne
-    @JoinColumn(name = "day_id")
+    @JoinColumn(name = "week_id")
     private MealPlanWeekEntity week;
 
     @OneToMany(mappedBy = "day", cascade = CascadeType.ALL)

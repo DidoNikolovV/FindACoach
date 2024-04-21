@@ -71,9 +71,12 @@ public class WorkoutEntity extends BaseEntity {
     @OneToMany(mappedBy = "workout", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<CommentEntity> comments;
 
-    @ManyToOne
-    @JoinColumn(name = "program_id")
-    private ProgramEntity program;
+    @ManyToMany
+    @JoinTable(
+            name = "workouts_days",
+            joinColumns = @JoinColumn(name = "workout_id"),
+            inverseJoinColumns = @JoinColumn(name = "day_id"))
+    private List<DayEntity> days;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(

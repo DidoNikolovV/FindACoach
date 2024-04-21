@@ -40,5 +40,5 @@ public class MealPlanEntity extends BaseEntity {
     private CoachEntity coach;
 
     @OneToMany(mappedBy = "mealPlan", cascade = CascadeType.ALL)
-    private Set<MealPlanWeekEntity> mealPlanWeeks = new HashSet<>();
+    private Set<MealPlanWeekEntity> weeks = new HashSet<>();
 }

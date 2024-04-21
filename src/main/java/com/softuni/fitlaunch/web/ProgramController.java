@@ -3,13 +3,16 @@ package com.softuni.fitlaunch.web;
 
 import com.softuni.fitlaunch.model.dto.program.ProgramCreationDTO;
 import com.softuni.fitlaunch.model.dto.program.ProgramDTO;
+import com.softuni.fitlaunch.model.dto.program.ProgramWeekDTO;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.week.DayCreationDTO;
 import com.softuni.fitlaunch.model.dto.week.WeekCreationDTO;
+import com.softuni.fitlaunch.model.dto.week.WeekDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.entity.ProgramEntity;
 import com.softuni.fitlaunch.model.entity.WeekEntity;
+import com.softuni.fitlaunch.model.enums.DaysEnum;
 import com.softuni.fitlaunch.model.enums.UserTitleEnum;
 import com.softuni.fitlaunch.service.ClientService;
 import com.softuni.fitlaunch.service.ProgramService;
@@ -26,6 +29,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -36,20 +40,21 @@ public class ProgramController {
 
     private final ProgramService programService;
 
+    private final WeekService weekService;
+
     private final UserService userService;
 
     private final ClientService clientService;
 
-    private final WeekService weekService;
 
     private final WorkoutService workoutService;
 
 
-    public ProgramController(ProgramService programService, UserService userService, ClientService clientService, WeekService weekService, WorkoutService workoutService) {
+    public ProgramController(ProgramService programService, WeekService weekService, UserService userService, ClientService clientService, WorkoutService workoutService) {
         this.programService = programService;
+        this.weekService = weekService;
         this.userService = userService;
         this.clientService = clientService;
-        this.weekService = weekService;
         this.workoutService = workoutService;
     }
 
@@ -106,19 +111,40 @@ public class ProgramController {
         List<WorkoutDTO> allWorkouts = workoutService.getAllWorkouts();
         ProgramDTO program = programService.getProgramById(programId);
         List<WeekCreationDTO> weeks = program.getWeeks();
-        List<DayCreationDTO> allDays = weekService.getAllDays();
+        List<DaysEnum> allDays = Arrays.stream(DaysEnum.values()).toList();
 
         model.addAttribute("allWorkouts", allWorkouts);
         model.addAttribute("program", program);
         model.addAttribute("weeks", weeks);
         model.addAttribute("weekCreationDTO", new WeekCreationDTO());
+        model.addAttribute("days", allDays);
 
         return "program-add-workouts";
     }
 
     @PostMapping("/create/{programId}")
-    public String loadProgramWorkoutCreation(@PathVariable("programId") Long programId, @ModelAttribute("weekCreationDTO") WeekCreationDTO weekCreationDTO) {
+    public String loadProgramWorkoutCreation(@PathVariable("programId") Long programId,
+                                             @ModelAttribute("weekCreationDTO") WeekCreationDTO weekCreationDTO) {
 
-        return "program-add-workouts";
+        programService.addWeekWithWorkouts(weekCreationDTO);
+        return "redirect:/programs/create/" + programId;
+    }
+
+    @GetMapping("/details/{programId}")
+    public String loadProgram(@PathVariable("programId") Long programId, Model model) {
+        ProgramDTO program = programService.getProgramById(programId);
+        model.addAttribute("program", program);
+
+        return "program-details2";
+    }
+
+    @GetMapping("/{programId}/weeks/{weekId}")
+    public String loadWeek(@PathVariable("programId") Long programId, @PathVariable("weekId") int weekId, Model model) {
+        ProgramDTO program = programService.getProgramById(programId);
+        ProgramWeekDTO week = programService.getWeekById(weekId);
+        model.addAttribute("program", program);
+        model.addAttribute("week", week);
+
+        return "week-details";
     }
 }

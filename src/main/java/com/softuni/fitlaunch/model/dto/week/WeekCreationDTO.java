@@ -5,13 +5,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
 public class WeekCreationDTO {
-    private Long id;
+    private int number;
 
-    private List<DayCreationDTO> days;
+    private List<String> days;
+    private Long workoutId;
 }

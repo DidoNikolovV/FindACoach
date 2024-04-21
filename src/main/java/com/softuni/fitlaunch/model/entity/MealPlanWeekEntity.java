@@ -20,7 +20,7 @@ import java.util.Set;
 public class MealPlanWeekEntity extends BaseEntity {
 
     @ManyToOne
-    @JoinColumn(name = "week_id")
+    @JoinColumn(name = "meal_plan_id")
     private MealPlanEntity mealPlan;
 
     @OneToMany(mappedBy = "week", cascade = CascadeType.ALL)
