@@ -15,7 +15,7 @@
                 <div class="d-flex justify-content-center align-items-center mt-3">
                     <div th:if="${hasStarted}">
                         <form th:method="POST"
-                              th:action="@{/workouts/{workoutId}/weeks/{weekId}/days/{dayName}/complete(workoutId=${workout.id}, weekId=${weekId}, dayName=${dayName})}">
+                              th:action="@{/workouts/{workoutId}/days/{dayName}/complete(workoutId=${workout.id}, dayName=${dayName})}">
                             <div th:unless="${isCompleted}">
                                 <input type="submit" name="completeWorkout" id="completeWorkout" class="btn btn-primary"
                                        value="Complete Workout">
@@ -27,7 +27,7 @@
                     </div>
                     <div th:unless="${hasStarted}">
                         <form th:method="POST"
-                              th:action="@{/workouts/{workoutId}/weeks/{weekId}/days/{dayName}/start(workoutId=${workout.id}, weekId=${weekId}, dayName=${dayName})}">
+                              th:action="@{/workouts/{workoutId}/days/{dayName}/start(workoutId=${workout.id}, dayName=${dayName})}">
                             <input type="submit" name="startWorkout" id="startWorkout" class="btn btn-success"
                                    value="Start Workout">
                         </form>

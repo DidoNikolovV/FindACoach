@@ -35,8 +35,6 @@ public class UserService {
 
     private final ClientService clientService;
 
-    private final ProgramService programService;
-
     private final RoleRepository roleRepository;
     private final ModelMapper modelMapper;
 
@@ -47,12 +45,11 @@ public class UserService {
     private final FileUpload fileUpload;
 
 
-    public UserService(UserRepository userRepository, CoachService coachService, RoleRepository roleRepository, ClientService clientService, ProgramService programService, ModelMapper modelMapper, ApplicationEventPublisher applicationEventPublisher, UserActivationCodeRepository userActivationCodeRepository, FileUpload fileUpload) {
+    public UserService(UserRepository userRepository, CoachService coachService, RoleRepository roleRepository, ClientService clientService, ModelMapper modelMapper, ApplicationEventPublisher applicationEventPublisher, UserActivationCodeRepository userActivationCodeRepository, FileUpload fileUpload) {
         this.userRepository = userRepository;
         this.coachService = coachService;
         this.roleRepository = roleRepository;
         this.clientService = clientService;
-        this.programService = programService;
         this.modelMapper = modelMapper;
         this.applicationEventPublisher = applicationEventPublisher;
         this.userActivationCodeRepository = userActivationCodeRepository;
@@ -108,36 +105,6 @@ public class UserService {
 
     public UserEntity getUserEntityByUsername(String username) {
         return userRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, username)));
-    }
-
-    public void like(Long workoutId, String username) {
-        UserEntity user = getUserEntityByUsername(username);
-
-        boolean hasLiked = user.getWorkoutsLiked().stream().anyMatch(workoutEntity -> Objects.equals(workoutEntity.getId(), workoutId));
-
-        if (!hasLiked) {
-            WorkoutEntity workout = programService.getWorkoutEntityById(workoutId);
-            user.getWorkoutsLiked().add(workout);
-            int oldLikes = workout.getLikes();
-            workout.setLikes(oldLikes + 1);
-        }
-
-        userRepository.save(user);
-    }
-
-    public void dislike(Long workoutId, String username) {
-        UserEntity user = getUserEntityByUsername(username);
-
-        boolean hasLiked = user.getWorkoutsLiked().stream().anyMatch(workoutEntity -> Objects.equals(workoutEntity.getId(), workoutId));
-
-        if (hasLiked) {
-            WorkoutEntity workout = programService.getWorkoutEntityById(workoutId);
-            user.getWorkoutsLiked().remove(workout);
-            int oldLikes = workout.getLikes();
-            workout.setLikes(oldLikes - 1);
-        }
-
-        userRepository.save(user);
     }
 
     public boolean isWorkoutLiked(Long workoutId, String username) {

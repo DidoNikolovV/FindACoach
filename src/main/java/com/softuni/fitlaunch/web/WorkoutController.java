@@ -60,14 +60,14 @@ public class WorkoutController {
 
     @PostMapping("/like/{workoutId}")
     public String like(@PathVariable("workoutId") Long workoutId, Principal principal) {
-        userService.like(workoutId, principal.getName());
+        workoutService.like(workoutId, principal.getName());
 
         return "redirect:/workouts/" + workoutId;
     }
 
     @PostMapping("/dislike/{workoutId}")
     public String dislike(@PathVariable("workoutId") Long workoutId, Principal principal) {
-        userService.dislike(workoutId, principal.getName());
+        workoutService.dislike(workoutId, principal.getName());
 
         return "redirect:/workouts/" + workoutId;
     }
@@ -91,29 +91,31 @@ public class WorkoutController {
         return "redirect:/workouts/" + workout.getId();
     }
 
-    @PostMapping("/{workoutId}/weeks/{weekId}/days/{dayName}/start")
-    public String startWorkout(@PathVariable("workoutId") Long workoutId, @PathVariable("weekId") Long weekId, @PathVariable("dayName") String dayName, Principal principal) {
+    @PostMapping("/{workoutId}/days/{dayName}/start")
+    public String startWorkout(@PathVariable("workoutId") Long workoutId, @PathVariable("dayName") String dayName, Principal principal) {
 
-        workoutService.startWorkout(workoutId, principal.getName(), weekId, dayName);
+        workoutService.startWorkout(workoutId, principal.getName(), dayName);
 
-        return "redirect:/workouts/" + workoutId;
+        return String.format("redirect:/workouts/%d/days/%s", workoutId, dayName);
     }
 
-    @PostMapping("/{workoutId}/weeks/{weekId}/days/{dayName}/complete")
-    public String completeWorkout(@PathVariable("workoutId") Long workoutId, @PathVariable("weekId") Long weekId, @PathVariable("dayName") String  dayName, Principal principal) {
+    @PostMapping("/{workoutId}/days/{dayName}/complete")
+    public String completeWorkout(@PathVariable("workoutId") Long workoutId, @PathVariable("dayName") String  dayName, Principal principal) {
 
-        workoutService.completedWorkout(workoutId, principal.getName(), weekId, dayName);
+        workoutService.completedWorkout(workoutId, principal.getName(), dayName);
 
-        return "redirect:/workouts/" + workoutId;
+        return String.format("redirect:/workouts/%d/days/%s", workoutId, dayName);
     }
 
-    @GetMapping("{workoutId}/weeks/{weekId}/days/{dayName}")
-    public String workoutDetails(@PathVariable("workoutId") Long workoutId,  @PathVariable("weekId") Long weekId, @PathVariable("dayName") String dayName, Model model, Principal principal) {
+    @GetMapping("{workoutId}/days/{dayName}")
+    public String workoutDetails(@PathVariable("workoutId") Long workoutId, @PathVariable("dayName") String dayName, Model model, Principal principal) {
 
         WorkoutDetailsDTO workoutDetailsDTO = workoutService.getWorkoutDetailsById(workoutId, dayName);
 
-        boolean hasStarted = workoutService.isWorkoutStarted(workoutId, principal.getName());
+        boolean hasStarted = workoutService.isWorkoutStarted(workoutId, principal.getName(), dayName);
+//        boolean hasStarted = false;
         boolean isCompleted = workoutService.isWorkoutCompleted(workoutId, principal.getName());
+//        boolean isCompleted = false;
         boolean hasLiked = userService.isWorkoutLiked(workoutId, principal.getName());
 
         model.addAttribute("workout", workoutDetailsDTO);

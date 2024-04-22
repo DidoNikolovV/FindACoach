@@ -24,32 +24,26 @@ public class ProgramService {
 
     private final ProgramRepository programRepository;
 
-    private final WorkoutService workoutService;
 
     private final CoachService coachService;
 
     private final ModelMapper modelMapper;
 
-
     private final WeekService weekService;
 
+    private final WorkoutService workoutService;
 
-    public ProgramService(ProgramRepository programRepository, WorkoutService workoutService, CoachService coachService, ModelMapper modelMapper, WeekService weekService) {
+    public ProgramService(ProgramRepository programRepository, CoachService coachService, ModelMapper modelMapper, WeekService weekService, WorkoutService workoutService) {
         this.programRepository = programRepository;
-        this.workoutService = workoutService;
         this.coachService = coachService;
         this.modelMapper = modelMapper;
         this.weekService = weekService;
+        this.workoutService = workoutService;
     }
 
     public List<ProgramDTO> loadAllProgramsByCoachId(Long coachId) {
         List<ProgramEntity> programEntities = programRepository.findAllByCoachId(coachId).orElseThrow(() -> new ResourceNotFoundException("Programs with coachId " + coachId + " not found"));
         return programEntities.stream().map(programEntity -> modelMapper.map(programEntity, ProgramDTO.class)).toList();
-    }
-
-
-    public WorkoutEntity getWorkoutEntityById(Long id) {
-        return workoutService.getWorkoutEntityById(id);
     }
 
     public List<ProgramWeekEntity> getAllWeeksByProgramId(Long programId) {
@@ -112,6 +106,14 @@ public class ProgramService {
         return program;
     }
 
+
+
+    public ProgramWeekDTO getWeekById(int weekId) {
+        ProgramWeekEntity week = weekService.getWeekByNumber(weekId);
+        ProgramWeekDTO programWeek = modelMapper.map(week, ProgramWeekDTO.class);
+        return programWeek;
+    }
+
     public void addWeekWithWorkouts(WeekCreationDTO weekCreationDTO) {
         WorkoutEntity workoutToBeAdded = workoutService.getWorkoutEntityById(weekCreationDTO.getWorkoutId());
         ProgramWeekEntity week = weekService.getWeekByNumber(weekCreationDTO.getNumber());
@@ -126,12 +128,6 @@ public class ProgramService {
         }
 
         weekService.updateDaysForWeek(week, daysToBeUpdated);
-    }
-
-    public ProgramWeekDTO getWeekById(int weekId) {
-        ProgramWeekEntity week = weekService.getWeekByNumber(weekId);
-        ProgramWeekDTO programWeek = modelMapper.map(week, ProgramWeekDTO.class);
-        return programWeek;
     }
 
 //    public List<WeekEntity> getWeeksWithoutInformation(Long programId) {

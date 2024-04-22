@@ -46,7 +46,7 @@ public class WorkoutEntity extends BaseEntity {
     @Column
     private Integer likes = 0;
 
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
     @JoinTable(
             name = "workouts_likes",
             joinColumns = @JoinColumn(name = "workout_id"),
