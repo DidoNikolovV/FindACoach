@@ -1,14 +1,11 @@
 package com.softuni.fitlaunch.service;
 
 
-import com.softuni.fitlaunch.model.dto.week.WeekCreationDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutCreationDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDetailsDTO;
-import com.softuni.fitlaunch.model.entity.ClientEntity;
 import com.softuni.fitlaunch.model.entity.CoachEntity;
 import com.softuni.fitlaunch.model.entity.DayWorkoutsEntity;
-import com.softuni.fitlaunch.model.entity.ProgramWeekEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.model.enums.LevelEnum;
@@ -21,10 +18,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -81,7 +78,10 @@ public class WorkoutService {
     }
 
     public DayWorkoutsEntity getDayWorkout(Long workoutId, String dayName) {
-        return dayWorkoutsRepository.findByWorkoutIdAndAndName(workoutId, dayName).orElseThrow(() -> new ResourceNotFoundException("Workout not does not exist"));
+        Optional<DayWorkoutsEntity> byWorkoutIdAndName = dayWorkoutsRepository.findByNameAndWorkoutId(dayName, workoutId);
+        DayWorkoutsEntity dayWorkoutsEntity = byWorkoutIdAndName.get();
+        return dayWorkoutsEntity;
+//        return dayWorkoutsRepository.findByWorkoutIdAndName(workoutId, dayName).orElseThrow(() -> new ResourceNotFoundException("Workout not does not exist"));
     }
 
     public Page<WorkoutDTO> getAllWorkouts(Pageable pageable) {
@@ -107,43 +107,41 @@ public class WorkoutService {
     }
 
     public void startWorkout(Long workoutId, String username, String dayName) {
-        WorkoutEntity workout = getWorkoutEntityById(workoutId);
         UserEntity user = userService.getUserEntityByUsername(username);
 
         DayWorkoutsEntity dayWorkout = getDayWorkout(workoutId, dayName);
 
-        boolean isStarted = isWorkoutStarted(dayWorkout.getId(), username, dayName);
+        boolean isStarted = isWorkoutStarted(workoutId, dayName, username);
         if (!isStarted) {
-            dayWorkout.getUsers().add(user);
-//            user.getStartedWorkouts().add(dayWorkout);
+            user.getStartedWorkouts().add(dayWorkout);
+            dayWorkout.setStarted(true);
         }
 
-        dayWorkoutsRepository.save(dayWorkout);
+        userService.saveUser(user);
     }
 
     public void completedWorkout(Long workoutId, String username, String dayName) {
-        WorkoutEntity workout = getWorkoutEntityById(workoutId);
         UserEntity user = userService.getUserEntityByUsername(username);
 
         DayWorkoutsEntity dayWorkout = getDayWorkout(workoutId, dayName);
 
-        boolean isCompleted = isWorkoutCompleted(dayWorkout.getId(), username);
+        boolean isCompleted = isWorkoutCompleted(workoutId, dayName, username);
         if (!isCompleted) {
             user.getCompletedWorkouts().add(dayWorkout);
+            dayWorkout.setCompleted(true);
         }
 
-        dayWorkoutsRepository.save(dayWorkout);
+        userService.saveUser(user);
     }
 
-    public boolean isWorkoutStarted(Long workoutId, String username, String dayName) {
-        DayWorkoutsEntity dayWorkoutsEntity = dayWorkoutsRepository.findByWorkoutIdAndAndName(workoutId, dayName).orElseThrow(() -> new ResourceNotFoundException("Workout does not exist"));
+    public boolean isWorkoutStarted(Long workoutId, String dayName, String username) {
+        DayWorkoutsEntity dayWorkoutsEntity = getDayWorkout(workoutId, dayName);
         UserEntity user = userService.getUserEntityByUsername(username);
-        List<DayWorkoutsEntity> startedWorkouts = user.getStartedWorkouts();
         return user.getStartedWorkouts().stream().anyMatch(workout -> workout.getId().equals(dayWorkoutsEntity.getId()));
     }
 
-    public boolean isWorkoutCompleted(Long workoutId, String username) {
-        DayWorkoutsEntity dayWorkoutsEntity = dayWorkoutsRepository.findById(workoutId).orElseThrow(() -> new ResourceNotFoundException("Workout does not exist"));
+    public boolean isWorkoutCompleted(Long workoutId, String dayName, String username) {
+        DayWorkoutsEntity dayWorkoutsEntity = getDayWorkout(workoutId, dayName);
         UserEntity user = userService.getUserEntityByUsername(username);
         return user.getCompletedWorkouts().stream().anyMatch(workout -> workout.getId().equals(dayWorkoutsEntity.getId()));
     }
@@ -159,7 +157,7 @@ public class WorkoutService {
             user.getWorkoutsLiked().add(workout);
             int oldLikes = workout.getLikes();
             workout.setLikes(oldLikes + 1);
-            workoutRepository.save(workout);
+            userService.saveUser(user);
         }
 
     }
@@ -174,7 +172,7 @@ public class WorkoutService {
             user.getWorkoutsLiked().remove(workout);
             int oldLikes = workout.getLikes();
             workout.setLikes(oldLikes - 1);
-            workoutRepository.save(workout);
+            userService.saveUser(user);
         }
 
     }

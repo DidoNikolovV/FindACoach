@@ -38,7 +38,7 @@ public class DayWorkoutsEntity extends BaseEntity{
     @JoinColumn(name = "week_id")
     private ProgramWeekEntity week;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
     @JoinTable(
             name = "program_workouts_started",
             joinColumns = @JoinColumn(name = "workout_id"),

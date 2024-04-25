@@ -107,6 +107,10 @@ public class UserService {
         return userRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, username)));
     }
 
+    public void saveUser(UserEntity user) {
+        userRepository.save(user);
+    }
+
     public boolean isWorkoutLiked(Long workoutId, String username) {
         UserEntity user = getUserEntityByUsername(username);
 

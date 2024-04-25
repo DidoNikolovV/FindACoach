@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface DayWorkoutsRepository extends JpaRepository<DayWorkoutsEntity, Long> {
-    Optional<DayWorkoutsEntity> findByWorkoutIdAndAndName(Long workoutId, String dayName);
+    Optional<DayWorkoutsEntity> findByNameAndWorkoutId(String name, Long workoutId);
 }

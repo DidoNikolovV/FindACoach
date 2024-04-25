@@ -112,10 +112,8 @@ public class WorkoutController {
 
         WorkoutDetailsDTO workoutDetailsDTO = workoutService.getWorkoutDetailsById(workoutId, dayName);
 
-        boolean hasStarted = workoutService.isWorkoutStarted(workoutId, principal.getName(), dayName);
-//        boolean hasStarted = false;
-        boolean isCompleted = workoutService.isWorkoutCompleted(workoutId, principal.getName());
-//        boolean isCompleted = false;
+        boolean hasStarted = workoutService.isWorkoutStarted(workoutId, dayName, principal.getName());
+        boolean isCompleted = workoutService.isWorkoutCompleted(workoutId, dayName, principal.getName());
         boolean hasLiked = userService.isWorkoutLiked(workoutId, principal.getName());
 
         model.addAttribute("workout", workoutDetailsDTO);
