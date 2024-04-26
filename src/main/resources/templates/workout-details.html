@@ -40,8 +40,8 @@
                 </div>
 
                 <div th:if="${hasLiked}">
-                    <form id="dislikeForm" method="POST"
-                          th:action="@{/workouts/dislike/{workoutId}(workoutId=${workout.id})}">
+                    <form id="dislikeForm" th:method="POST"
+                          th:action="@{/workouts/{workoutId}/days/{dayName}/dislike(workoutId=${workout.id}, dayName=${dayName})}">
                         <button type="submit" class="btn btn-link">
                             <i class="fa-solid fa-lg fa-thumbs-down text-primary"></i>
                         </button>
@@ -49,8 +49,8 @@
                 </div>
 
                 <div th:unless="${hasLiked}">
-                    <form id="likesForm" method="POST"
-                          th:action="@{/workouts/like/{workoutId}(workoutId=${workout.id})}">
+                    <form id="likesForm" th:method="POST"
+                          th:action="@{/workouts/{workoutId}/days/{dayName}/like(workoutId=${workout.id}, dayName=${dayName})}">
                         <button type="submit" class="btn btn-link">
                             <i class="fas fa-thumbs-up fa-lg text-primary" style="cursor: pointer"></i>
                         </button>

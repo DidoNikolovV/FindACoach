@@ -58,18 +58,18 @@ public class WorkoutController {
         return "workouts";
     }
 
-    @PostMapping("/like/{workoutId}")
-    public String like(@PathVariable("workoutId") Long workoutId, Principal principal) {
+    @PostMapping("/{workoutId}/days/{dayName}/like")
+    public String like(@PathVariable("workoutId") Long workoutId, @PathVariable("dayName") String dayName, Principal principal) {
         workoutService.like(workoutId, principal.getName());
 
-        return "redirect:/workouts/" + workoutId;
+        return String.format("redirect:/workouts/%d/days/%s", workoutId, dayName);
     }
 
-    @PostMapping("/dislike/{workoutId}")
-    public String dislike(@PathVariable("workoutId") Long workoutId, Principal principal) {
+    @PostMapping("/{workoutId}/days/{dayName}/dislike")
+    public String dislike(@PathVariable("workoutId") Long workoutId, @PathVariable("dayName") String dayName, Principal principal) {
         workoutService.dislike(workoutId, principal.getName());
 
-        return "redirect:/workouts/" + workoutId;
+        return String.format("redirect:/workouts/%d/days/%s", workoutId, dayName);
     }
 
     @GetMapping("/create")
