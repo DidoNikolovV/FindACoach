@@ -4,6 +4,9 @@ package com.softuni.fitlaunch.service;
 import com.softuni.fitlaunch.model.dto.program.ProgramCreationDTO;
 import com.softuni.fitlaunch.model.dto.program.ProgramDTO;
 import com.softuni.fitlaunch.model.dto.program.ProgramWeekDTO;
+import com.softuni.fitlaunch.model.dto.user.ClientDTO;
+import com.softuni.fitlaunch.model.dto.user.CoachDTO;
+import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.week.WeekCreationDTO;
 import com.softuni.fitlaunch.model.entity.CoachEntity;
 import com.softuni.fitlaunch.model.entity.DayWorkoutsEntity;
@@ -11,6 +14,7 @@ import com.softuni.fitlaunch.model.entity.ProgramEntity;
 import com.softuni.fitlaunch.model.entity.ProgramWeekEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.model.enums.DaysEnum;
+import com.softuni.fitlaunch.model.enums.UserTitleEnum;
 import com.softuni.fitlaunch.repository.ProgramRepository;
 import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -33,16 +37,33 @@ public class ProgramService {
 
     private final WorkoutService workoutService;
 
-    public ProgramService(ProgramRepository programRepository, CoachService coachService, ModelMapper modelMapper, WeekService weekService, WorkoutService workoutService) {
+    private final UserService userService;
+
+    private final ClientService clientService;
+
+
+    public ProgramService(ProgramRepository programRepository, CoachService coachService, ModelMapper modelMapper, WeekService weekService, WorkoutService workoutService, UserService userService, ClientService clientService) {
         this.programRepository = programRepository;
         this.coachService = coachService;
         this.modelMapper = modelMapper;
         this.weekService = weekService;
         this.workoutService = workoutService;
+        this.userService = userService;
+        this.clientService = clientService;
     }
 
-    public List<ProgramDTO> loadAllProgramsByCoachId(Long coachId) {
-        List<ProgramEntity> programEntities = programRepository.findAllByCoachId(coachId).orElseThrow(() -> new ResourceNotFoundException("Programs with coachId " + coachId + " not found"));
+    public List<ProgramDTO> loadAllPrograms(String username) {
+        UserDTO loggedUser = userService.getUserByUsername(username);
+        List<ProgramEntity> programEntities = new ArrayList<>();
+        if (loggedUser.getTitle().equals(UserTitleEnum.CLIENT)) {
+            ClientDTO clientDTO = clientService.getClientByUsername(loggedUser.getUsername());
+            CoachDTO coach = coachService.getCoachById(clientDTO.getCoach().getId());
+            programEntities = programRepository.findAllByCoachId(coach.getId()).orElseThrow(() -> new ResourceNotFoundException("Programs with coachId " + coach.getId() + " not found"));
+        } else {
+            CoachEntity coach = coachService.getCoachEntityByUsername(username);
+            programEntities = coach.getPrograms();
+        }
+
         return programEntities.stream().map(programEntity -> modelMapper.map(programEntity, ProgramDTO.class)).toList();
     }
 

@@ -55,13 +55,9 @@ public class ProgramController {
 
     @GetMapping("/all")
     public String loadAllPrograms(Model model, Principal principal) {
+        List<ProgramDTO> allPrograms = programService.loadAllPrograms(principal.getName());
 
-        UserDTO loggedUser = userService.getUserByUsername(principal.getName());
-        if (loggedUser.getTitle().equals(UserTitleEnum.CLIENT)) {
-            ClientDTO clientDTO = clientService.getClientByUsername(loggedUser.getUsername());
-            List<ProgramDTO> allPrograms = programService.loadAllProgramsByCoachId(clientDTO.getCoach().getId());
-            model.addAttribute("allPrograms", allPrograms);
-        }
+        model.addAttribute("allPrograms", allPrograms);
 
         return "programs";
     }
