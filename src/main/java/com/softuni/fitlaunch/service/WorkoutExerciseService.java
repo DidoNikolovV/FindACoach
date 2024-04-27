@@ -7,6 +7,7 @@ import com.softuni.fitlaunch.model.entity.ExerciseEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutExerciseEntity;
 import com.softuni.fitlaunch.repository.WorkoutExerciseRepository;
+import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -52,4 +53,9 @@ public class WorkoutExerciseService {
         return workoutExerciseRepository.findAllByWorkoutId(workoutId).stream().map(exerciseEntity -> modelMapper.map(exerciseEntity, WorkoutExerciseDTO.class)).toList();
     }
 
+    public void completeExercise(Long exerciseId, Long workoutId) {
+        WorkoutExerciseEntity exerciseToBeCompleted = workoutExerciseRepository.findByIdAndWorkoutId(exerciseId, workoutId).orElseThrow(() -> new ResourceNotFoundException("Exercise does not exist"));
+        exerciseToBeCompleted.setCompleted(true);
+        workoutExerciseRepository.save(exerciseToBeCompleted);
+    }
 }

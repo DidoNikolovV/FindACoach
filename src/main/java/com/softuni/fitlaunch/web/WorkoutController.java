@@ -72,6 +72,14 @@ public class WorkoutController {
         return String.format("redirect:/workouts/%d/days/%s", workoutId, dayName);
     }
 
+    @PostMapping("/{workoutId}/days/{dayName}/exercise/{exerciseId}/complete")
+    public String dislike(@PathVariable("workoutId") Long workoutId, @PathVariable("dayName") String dayName,
+                          @PathVariable("exerciseId") Long exerciseId, Principal principal) {
+
+        workoutService.completeExercise(workoutId, dayName, exerciseId);
+        return String.format("redirect:/workouts/%d/days/%s", workoutId, dayName);
+    }
+
     @GetMapping("/create")
     public String createWorkout(Model model) {
 

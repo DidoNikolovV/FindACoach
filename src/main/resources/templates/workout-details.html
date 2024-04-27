@@ -93,7 +93,7 @@
                                                 height="100" frameborder="0" allowfullscreen></iframe>
                                     </div>
                                     <div th:if="*{hasStarted}">
-                                        <form th:method="POST">
+                                        <form th:method="POST" th:action="@{/workouts/{workoutId}/days/{dayName}/exercise/{exerciseId}/complete(workoutId=${workout.id}, dayName=${dayName}, exerciseId=${exercise.id})}">
                                             <button type="submit" class="btn btn-link" th:if="${exercise.completed}">
                                                 <i class="fa-solid fa-lg fa-circle-check text-success"></i>
                                             </button>

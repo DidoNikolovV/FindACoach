@@ -8,6 +8,7 @@ import com.softuni.fitlaunch.model.entity.CoachEntity;
 import com.softuni.fitlaunch.model.entity.DayWorkoutsEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
+import com.softuni.fitlaunch.model.entity.WorkoutExerciseEntity;
 import com.softuni.fitlaunch.model.enums.LevelEnum;
 import com.softuni.fitlaunch.repository.DayWorkoutsRepository;
 import com.softuni.fitlaunch.repository.WorkoutRepository;
@@ -175,5 +176,9 @@ public class WorkoutService {
             userService.saveUser(user);
         }
 
+    }
+
+    public void completeExercise(Long workoutId, String dayName, Long exerciseId) {
+       workoutExerciseService.completeExercise(exerciseId, workoutId);
     }
 }

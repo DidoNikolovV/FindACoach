@@ -37,22 +37,22 @@ public class CoachEntity extends BaseEntity {
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<WorkoutEntity> workouts;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<CertificateEntity> certificates;
 
-    @OneToMany(mappedBy = "coach", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "coach", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ProgramEntity> programs;
 
-    @OneToMany(mappedBy = "coach", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "coach", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<ClientEntity> clients;
 
     @OneToMany(mappedBy = "coach", cascade = CascadeType.REMOVE, fetch = FetchType.EAGER)
     private List<ScheduledWorkoutEntity> scheduledWorkouts;
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<MealEntity> meals;
 
-    @OneToMany(mappedBy = "coach", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "coach", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<MealPlanEntity> mealPlans;
 
 }

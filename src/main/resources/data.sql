@@ -48,16 +48,6 @@ VALUES (1, 1),
 --     (4, 1),
 --     (4, 4);
 
--- INSERT INTO workout_exercises (reps, sets, exercise_id, workout_id, is_completed)
--- VALUES
---     (12, 3, 1, 1, 0),
---     (10, 4, 2, 1, 0),
---     (15, 3, 3, 2, 0),
---     (8, 5, 1, 2, 0),
---     (10, 3, 2, 3, 0),
---     (12, 4, 3, 3, 0),
---     (12, 4, 3, 3, 0);
-
 
 INSERT INTO coaches (description, email, img_url, rating, username)
 VALUES ('Random Desc', 'didaka@example.com', '/images/profile-avatar.jpg', 5.8, 'DidoNikolov');
@@ -178,13 +168,27 @@ VALUES ('Squats', 'Legs', 'https://www.youtube.com/watch?v=U3HcD0PnczY'),
 
 
 
-INSERT INTO workouts (date_completed, description, img_url, level, likes, name, author_id)
+INSERT INTO workouts (date_completed, description, img_url, level, likes, name, coach_id)
 VALUES ('', 'Full Body Workout: Squats, Deadlifts, Bench Press, Pull-ups, and Planks',
         'https://example.com/full_body_workout.jpg', 'Intermediate', 25, 'Full Body Blast', 1),
        ('', 'Cardio HIIT: Jumping Jacks, Burpees, High Knees, Mountain Climbers, and Jump Rope',
         'https://example.com/cardio_hiit.jpg', 'Advanced', 15, 'HIIT Cardio Burn', 1),
        ('', 'Yoga Flow: Sun Salutations, Warrior Poses, Downward Dog, and Child’s Pose',
         'https://example.com/yoga_flow.jpg', 'Beginner', 30, 'Morning Yoga Flow', 1);
+
+
+INSERT INTO workout_exercises (reps, sets, name, workout_id, is_completed)
+VALUES
+    (8, 3, 'Squats', 1, 0),
+    (12, 3, 'Bench Press', 1, 0),
+    (10, 3,'Deadlifts', 1, 0),
+    (12, 4, 'Pull-ups', 2, 0),
+    (15, 3, 'Pull-ups', 2, 0),
+    (8, 5, 'Push-ups', 2, 0),
+    (10, 4, 'Leg Press', 3, 0),
+    (12, 3, 'Tricep Dips', 3, 0),
+    (15, 4, 'Bent Over Rows', 3, 0);
+
 
 
 
