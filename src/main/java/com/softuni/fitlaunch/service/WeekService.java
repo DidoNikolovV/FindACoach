@@ -35,8 +35,8 @@ public class WeekService {
         return allByProgramId.stream().filter(weekEntity -> weekEntity.getId().equals(id)).toList().get(0);
     }
 
-    public ProgramWeekEntity getWeekByNumber(int number) {
-        return  weekRepository.findByNumber(number).orElseThrow(() -> new ResourceNotFoundException("Week number " + number + " does not exist"));
+    public ProgramWeekEntity getWeekByNumber(int number, Long programId) {
+        return  weekRepository.findByNumberAndProgramId(number, programId).orElseThrow(() -> new ResourceNotFoundException("Week number " + number + " does not exist"));
     }
 
     public void addAll(List<ProgramWeekEntity> weeks) {

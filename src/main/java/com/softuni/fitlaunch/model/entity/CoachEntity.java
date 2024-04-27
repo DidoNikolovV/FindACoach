@@ -34,7 +34,7 @@ public class CoachEntity extends BaseEntity {
     @Length(max = 255)
     private String description;
 
-    @OneToMany
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<WorkoutEntity> workouts;
 
     @OneToMany(cascade = CascadeType.ALL)

@@ -28,6 +28,7 @@ import java.util.List;
 public class WorkoutEntity extends BaseEntity {
 
     @ManyToOne
+    @JoinColumn(name = "coach_id")
     private CoachEntity author;
 
     @Column(nullable = false)
@@ -45,13 +46,6 @@ public class WorkoutEntity extends BaseEntity {
 
     @Column
     private Integer likes = 0;
-
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.DETACH, CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinTable(
-            name = "workouts_likes",
-            joinColumns = @JoinColumn(name = "workout_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<UserEntity> usersLiked = new ArrayList<>();
 
     @OneToMany(mappedBy = "workout", cascade = CascadeType.MERGE, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<WorkoutExerciseEntity> exercises = new ArrayList<>();

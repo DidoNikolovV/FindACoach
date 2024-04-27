@@ -108,15 +108,15 @@ public class ProgramService {
 
 
 
-    public ProgramWeekDTO getWeekById(int weekId) {
-        ProgramWeekEntity week = weekService.getWeekByNumber(weekId);
+    public ProgramWeekDTO getWeekById(int weekId, Long programId) {
+        ProgramWeekEntity week = weekService.getWeekByNumber(weekId, programId);
         ProgramWeekDTO programWeek = modelMapper.map(week, ProgramWeekDTO.class);
         return programWeek;
     }
 
-    public void addWeekWithWorkouts(WeekCreationDTO weekCreationDTO) {
+    public void addWeekWithWorkouts(WeekCreationDTO weekCreationDTO, Long programId) {
         WorkoutEntity workoutToBeAdded = workoutService.getWorkoutEntityById(weekCreationDTO.getWorkoutId());
-        ProgramWeekEntity week = weekService.getWeekByNumber(weekCreationDTO.getNumber());
+        ProgramWeekEntity week = weekService.getWeekByNumber(weekCreationDTO.getNumber(), programId);
         List<DayWorkoutsEntity> daysToBeUpdated = new ArrayList<>();
 
         for (String day : weekCreationDTO.getDays()) {

@@ -121,7 +121,7 @@ public class ProgramController {
     public String loadProgramWorkoutCreation(@PathVariable("programId") Long programId,
                                              @ModelAttribute("weekCreationDTO") WeekCreationDTO weekCreationDTO) {
 
-        programService.addWeekWithWorkouts(weekCreationDTO);
+        programService.addWeekWithWorkouts(weekCreationDTO, programId);
         return "redirect:/programs/create/" + programId;
     }
 
@@ -136,7 +136,7 @@ public class ProgramController {
     @GetMapping("/{programId}/weeks/{weekId}")
     public String loadWeek(@PathVariable("programId") Long programId, @PathVariable("weekId") int weekId, Model model) {
         ProgramDTO program = programService.getProgramById(programId);
-        ProgramWeekDTO week = programService.getWeekById(weekId);
+        ProgramWeekDTO week = programService.getWeekById(weekId, programId);
         model.addAttribute("program", program);
         model.addAttribute("week", week);
 
