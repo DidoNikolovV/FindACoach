@@ -45,7 +45,7 @@ public class WorkoutController {
     @GetMapping("/all")
     public String all(Model model,
                       @PageableDefault(
-                              size = 3,
+                              size = 6,
                               sort = "id"
                       ) Pageable pageable) {
 
@@ -89,6 +89,16 @@ public class WorkoutController {
         WorkoutDTO workout = workoutService.createWorkout(workoutCreationDTO, principal.getName());
 
         return "redirect:/workouts/" + workout.getId();
+    }
+
+    @GetMapping("/{workoutId}")
+    public String loadWorkoutDetails(@PathVariable("workoutId") Long workoutId, Model model) {
+
+        WorkoutDTO workout = workoutService.getWorkoutById(workoutId);
+
+        model.addAttribute("workout", workout);
+
+        return "workout";
     }
 
     @PostMapping("/{workoutId}/days/{dayName}/start")

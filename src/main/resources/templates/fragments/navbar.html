@@ -23,6 +23,7 @@
                     <div class="dropdown-menu" >
                         <a class="dropdown-item" href="/programs/create" sec:authorize="hasAnyRole('ADMIN', 'COACH')">Create Program</a>
                         <a class="dropdown-item" href="/programs/all">All Programs</a>
+                        <a class="dropdown-item" href="/workouts/create">Create Workout</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown" sec:authorize="hasAnyRole('ADMIN', 'COACH')">

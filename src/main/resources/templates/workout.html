@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}">
+</head>
+<body>
+<nav th:replace="~{fragments/navbar}"></nav>
+<header class="header">
+    <section class="container mt-5" style="height: 100vh">
+        <h2 class="text-center text-white mb-4">Workout Details</h2>
+
+        <div th:object="${workout}" class="card">
+            <div class="card-body bg-dark text-center">
+                <h5 class="card-title text-primary" th:text="*{name}"></h5>
+
+                <ul class="list-group list-group-flush mt-3 text-white align-items-center">
+                    <li class="list-group-item bg-dark text-white">
+                        <span class="font-weight-bold">Level:</span>
+                        <span th:text="*{level}">Beginner</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <section class="card mt-4">
+            <div class="bg-dark primary container-fluid">
+                <h5 class="card-title primary">Exercises</h5>
+                <ul class="list-group list-group-flush">
+                    <div class="row">
+                        <div th:each="exercise: ${workout.exercises}" class="col-md-6">
+                            <li class="list-group-item bg-dark">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="flex-grow-1">
+                                        <h6 class="font-weight-bold" th:text="${exercise.name}"></h6>
+                                        <span class="font-weight-bold">Sets:</span>
+                                        <span th:text="${exercise.sets}"></span>
+                                        <br>
+                                        <span class="font-weight-bold">Reps:</span>
+                                        <span th:text="${exercise.reps}"></span>
+                                    </div>
+                                    <div>
+                                        <iframe class="w-100"
+                                                th:src="'https://www.youtube.com/embed/' + ${exercise.getVideoUrl()}"
+                                                height="100" frameborder="0" allowfullscreen></iframe>
+                                    </div>
+                                </div>
+                            </li>
+                        </div>
+                    </div>
+                </ul>
+            </div>
+        </section>
+
+        <input type="hidden" name="workoutId" id="workoutId" th:value="${workout.id}">
+    </section>
+</header>
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>
