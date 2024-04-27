@@ -19,6 +19,7 @@ public class ClientService {
     private final ClientRepository clientRepository;
 
     private final ModelMapper modelMapper;
+
     public ClientService(ClientRepository clientRepository, ModelMapper modelMapper) {
         this.clientRepository = clientRepository;
         this.modelMapper = modelMapper;

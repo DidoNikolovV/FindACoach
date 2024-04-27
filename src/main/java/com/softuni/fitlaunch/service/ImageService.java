@@ -8,7 +8,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Service
 public class ImageService {
 
-    private  final FileUpload fileUpload;
+    private final FileUpload fileUpload;
 
     public ImageService(FileUpload fileUpload) {
         this.fileUpload = fileUpload;

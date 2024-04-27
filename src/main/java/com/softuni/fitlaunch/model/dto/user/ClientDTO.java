@@ -1,6 +1,5 @@
 package com.softuni.fitlaunch.model.dto.user;
 
-import com.softuni.fitlaunch.model.dto.program.ProgramWeekWorkoutDTO;
 import com.softuni.fitlaunch.model.dto.week.DayWorkoutsDTO;
 import jakarta.validation.constraints.Email;
 import lombok.AllArgsConstructor;

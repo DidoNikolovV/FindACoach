@@ -36,7 +36,7 @@ public class WeekService {
     }
 
     public ProgramWeekEntity getWeekByNumber(int number, Long programId) {
-        return  weekRepository.findByNumberAndProgramId(number, programId).orElseThrow(() -> new ResourceNotFoundException("Week number " + number + " does not exist"));
+        return weekRepository.findByNumberAndProgramId(number, programId).orElseThrow(() -> new ResourceNotFoundException("Week number " + number + " does not exist"));
     }
 
     public void addAll(List<ProgramWeekEntity> weeks) {

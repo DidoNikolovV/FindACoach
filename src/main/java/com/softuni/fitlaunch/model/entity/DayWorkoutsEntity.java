@@ -19,7 +19,7 @@ import java.util.List;
 @Table(name = "days_workouts")
 @Getter
 @Setter
-public class DayWorkoutsEntity extends BaseEntity{
+public class DayWorkoutsEntity extends BaseEntity {
 
     @Column(name = "name")
     private String name;

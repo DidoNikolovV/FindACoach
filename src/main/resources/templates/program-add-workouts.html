@@ -10,15 +10,17 @@
                 <h5>Add Workouts to Days</h5>
             </div>
             <div class="card-body align-content-center" style="width: 25rem">
-                <form th:action="@{/programs/create/{programId}(programId=${program.id})}" method="post" th:object="${weekCreationDTO}">
+                <form th:action="@{/programs/create/{programId}(programId=${program.id})}" method="post"
+                      th:object="${weekCreationDTO}">
                     <div class="form-group">
                         <label for="weekSelect">Select Week:</label>
                         <select class="form-control" id="weekSelect" name="week" th:field="*{number}">
-                            <option th:each="week, weekStat : ${program.weeks}" th:value="${weekStat.index + 1}" th:text="${weekStat.index + 1}" ></option>
+                            <option th:each="week, weekStat : ${program.weeks}" th:value="${weekStat.index + 1}"
+                                    th:text="${weekStat.index + 1}"></option>
                         </select>
                     </div>
 
-                    <div class="form-group" >
+                    <div class="form-group">
                         <label>Select Days:</label><br>
                         <div th:each="day : ${days}" style="display: inline-block; margin-right: 10px;">
                             <input type="checkbox" id="daySelect" name="days" th:value="${day.name}" th:field="*{days}">
@@ -28,7 +30,8 @@
                     <div class="form-group">
                         <label for="workoutSelect">Select Workout:</label>
                         <select class="form-control" id="workoutSelect" name="workout" th:field="*{workoutId}">
-                            <option th:each="workout : ${allWorkouts}" th:value="${workout.id}" th:text="${workout.name}"></option>
+                            <option th:each="workout : ${allWorkouts}" th:value="${workout.id}"
+                                    th:text="${workout.name}"></option>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-primary btn-block">Add Workouts</button>

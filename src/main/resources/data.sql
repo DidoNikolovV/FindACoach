@@ -73,22 +73,31 @@ VALUES ('/images/beginner-program.jpg', 'Beginner', 1),
 
 -- Inserting image URLs into the images table
 INSERT INTO images (title, url)
-VALUES
-    ('Grilled Chicken Salad', 'https://res.cloudinary.com/your-cloud-name/image/upload/grilled_chicken_salad.jpg'),
-    ('Spaghetti Bolognese', 'https://res.cloudinary.com/your-cloud-name/image/upload/spaghetti_bolognese.jpg'),
-    ('Grilled Salmon with Steamed Vegetables', 'https://res.cloudinary.com/your-cloud-name/image/upload/grilled_salmon.jpg'),
-    ('Vegetable Stir-Fry', 'https://res.cloudinary.com/your-cloud-name/image/upload/vegetable_stir_fry.jpg'),
-    ('Margherita Pizza', 'https://res.cloudinary.com/your-cloud-name/image/upload/margherita_pizza.jpg');
+VALUES ('Grilled Chicken Salad', 'https://res.cloudinary.com/your-cloud-name/image/upload/grilled_chicken_salad.jpg'),
+       ('Spaghetti Bolognese', 'https://res.cloudinary.com/your-cloud-name/image/upload/spaghetti_bolognese.jpg'),
+       ('Grilled Salmon with Steamed Vegetables',
+        'https://res.cloudinary.com/your-cloud-name/image/upload/grilled_salmon.jpg'),
+       ('Vegetable Stir-Fry', 'https://res.cloudinary.com/your-cloud-name/image/upload/vegetable_stir_fry.jpg'),
+       ('Margherita Pizza', 'https://res.cloudinary.com/your-cloud-name/image/upload/margherita_pizza.jpg');
 
 
 -- Inserting meals into the meals table
 INSERT INTO meals (calories, description, name, type, author_id, image_id)
-VALUES
-    (350, 'Fresh grilled chicken breast served on a bed of mixed greens with cherry tomatoes, cucumbers, and a light vinaigrette dressing.', 'Grilled Chicken Salad', 'Salad', 1, 1),
-    (450, 'Classic Italian dish featuring al dente spaghetti noodles topped with a rich and savory Bolognese sauce made with ground beef, tomatoes, onions, and garlic.', 'Spaghetti Bolognese', 'Pasta', 1, 2),
-    (300, 'Grilled salmon fillet seasoned with herbs and served with a side of steamed vegetables, including carrots, broccoli, and snap peas.', 'Grilled Salmon with Steamed Vegetables', 'Seafood', 1, 3),
-    (250, 'Fresh assortment of colorful vegetables stir-fried to perfection in a light soy sauce, served over a bed of fluffy rice.', 'Vegetable Stir-Fry', 'Vegetarian', 1, 4),
-    (400, 'Traditional Italian pizza topped with ripe tomatoes, fresh mozzarella cheese, basil leaves, and a drizzle of olive oil on a thin crust.', 'Margherita Pizza', 'Pizza', 1,  5);
+VALUES (350,
+        'Fresh grilled chicken breast served on a bed of mixed greens with cherry tomatoes, cucumbers, and a light vinaigrette dressing.',
+        'Grilled Chicken Salad', 'Salad', 1, 1),
+       (450,
+        'Classic Italian dish featuring al dente spaghetti noodles topped with a rich and savory Bolognese sauce made with ground beef, tomatoes, onions, and garlic.',
+        'Spaghetti Bolognese', 'Pasta', 1, 2),
+       (300,
+        'Grilled salmon fillet seasoned with herbs and served with a side of steamed vegetables, including carrots, broccoli, and snap peas.',
+        'Grilled Salmon with Steamed Vegetables', 'Seafood', 1, 3),
+       (250,
+        'Fresh assortment of colorful vegetables stir-fried to perfection in a light soy sauce, served over a bed of fluffy rice.',
+        'Vegetable Stir-Fry', 'Vegetarian', 1, 4),
+       (400,
+        'Traditional Italian pizza topped with ripe tomatoes, fresh mozzarella cheese, basil leaves, and a drizzle of olive oil on a thin crust.',
+        'Margherita Pizza', 'Pizza', 1, 5);
 
 
 --
@@ -171,7 +180,7 @@ VALUES ('Squats', 'Legs', 'https://www.youtube.com/watch?v=U3HcD0PnczY'),
 
 INSERT INTO workouts (date_completed, description, img_url, level, likes, name, author_id)
 VALUES ('', 'Full Body Workout: Squats, Deadlifts, Bench Press, Pull-ups, and Planks',
-        'https://example.com/full_body_workout.jpg',  'Intermediate', 25, 'Full Body Blast', 1),
+        'https://example.com/full_body_workout.jpg', 'Intermediate', 25, 'Full Body Blast', 1),
        ('', 'Cardio HIIT: Jumping Jacks, Burpees, High Knees, Mountain Climbers, and Jump Rope',
         'https://example.com/cardio_hiit.jpg', 'Advanced', 15, 'HIIT Cardio Burn', 1),
        ('', 'Yoga Flow: Sun Salutations, Warrior Poses, Downward Dog, and Child’s Pose',

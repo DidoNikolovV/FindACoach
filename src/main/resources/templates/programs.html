@@ -9,7 +9,7 @@
         <div class="row" id="programsContainer">
             <div th:each="program : ${allPrograms}" th:object="${program}" class="col mb-4">
                 <div class="card border-0">
-                    <a th:href="@{/programs/{id}(id=*{id})}" type="submit"
+                    <a th:href="@{/programs/details/{id}(id=*{id})}" type="submit"
                        th:class="${membership == 'Free' ? 'th-disabled-overlay' : 'card-link p-0 card-hover'}">
                         <img th:src="*{imgUrl}" class="card-img-top program-img" alt="Workout Image">
                         <div th:class="${membership == 'Free' ? 'card-img-overlay th-disabled-overlay' : 'card-img-overlay'}">

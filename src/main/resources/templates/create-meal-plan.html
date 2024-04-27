@@ -4,7 +4,8 @@
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
 <header class="header">
-    <div class="container d-flex flex-column justify-content-center align-items-center text-light" style="height: 100vh">
+    <div class="container d-flex flex-column justify-content-center align-items-center text-light"
+         style="height: 100vh">
         <h2>Create Meal Plan</h2>
         <!-- Meal Plan Form -->
         <form th:action="@{/meal-plans/create}" th:method="post" th:object="${mealPlanCreationDTO}">

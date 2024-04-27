@@ -14,15 +14,18 @@
                         <div class="card" style="width: 100%;">
                             <form th:action="@{/meals/{id}(id=*{id})}">
                                 <div class="img-container" style="height: 150px; overflow: hidden;">
-                                    <img class="card-img-top img-fluid" th:src="*{imageUrl}" alt="Meal Image" style="object-fit: cover; width: 100%; height: 100%;">
+                                    <img class="card-img-top img-fluid" th:src="*{imageUrl}" alt="Meal Image"
+                                         style="object-fit: cover; width: 100%; height: 100%;">
                                 </div>
                                 <div class="card-body text-center">
                                     <h5 class="card-title">Name: <span th:text="*{name}"></span></h5>
-                                    <p class="card-title"><span>Description:</span> <span th:text="*{description}"></span></p>
+                                    <p class="card-title"><span>Description:</span> <span
+                                            th:text="*{description}"></span></p>
                                     <p class="card-title"><span>Type:</span> <span th:text="*{type}"></span></p>
                                     <p class="card-title"><span>Calories:</span> 350</p>
                                     <div class="text-center">
-                                        <button type="submit" class="button-primary btn btn-info btn-lg">Details</button>
+                                        <button type="submit" class="button-primary btn btn-info btn-lg">Details
+                                        </button>
                                     </div>
                                 </div>
                             </form>

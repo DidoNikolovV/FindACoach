@@ -1,7 +1,6 @@
 package com.softuni.fitlaunch.model.dto.mealPlan;
 
 
-import com.softuni.fitlaunch.model.entity.MealPlanWeekEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

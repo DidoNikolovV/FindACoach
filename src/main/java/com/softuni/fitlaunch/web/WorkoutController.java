@@ -110,7 +110,7 @@ public class WorkoutController {
     }
 
     @PostMapping("/{workoutId}/days/{dayName}/complete")
-    public String completeWorkout(@PathVariable("workoutId") Long workoutId, @PathVariable("dayName") String  dayName, Principal principal) {
+    public String completeWorkout(@PathVariable("workoutId") Long workoutId, @PathVariable("dayName") String dayName, Principal principal) {
 
         workoutService.completedWorkout(workoutId, principal.getName(), dayName);
 

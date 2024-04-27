@@ -25,6 +25,7 @@ public class CoachService {
     private final CoachRepository coachRepository;
     private final ModelMapper modelMapper;
     private final ClientService clientService;
+
     public CoachService(CoachRepository coachRepository, ModelMapper modelMapper, ClientService clientService) {
         this.coachRepository = coachRepository;
         this.modelMapper = modelMapper;

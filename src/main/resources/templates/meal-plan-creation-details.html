@@ -4,35 +4,41 @@
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
 <!-- Main content -->
-<div class="container-fluid d-flex  justify-content-center align-items-center" th:object="${mealPlan}" style="height: 100vh;">
-        <div class="col-md-9">
-            <!-- Iterate over each week -->
-            <div class="accordion" id="weekAccordion" th:each="week, weekIndex : *{weeks}">
-                <div class="card">
-                    <div class="card-header" th:id="'week' + ${weekIndex.index} + 'Heading'">
-                        <h2 class="mb-0">
-                            <button class="btn btn-link" type="button" data-toggle="collapse" th:data-target="'#week' + ${weekIndex.index} + 'Collapse'" aria-expanded="true" th:aria-controls="'week' + ${weekIndex.index} + 'Collapse'">
-                                <span th:text="'Week ' + (${weekIndex.index + 1})"></span>
-                            </button>
-                        </h2>
-                    </div>
-                        <div th:id="'week' + ${weekIndex.index} + 'Collapse'" class="collapse" th:classappend="${weekIndex.index == 0} ? 'show' : ''" th:aria-labelledby="'week' + ${weekIndex.index} + 'Heading'">
-                            <div class="card-body">
-                                <!-- Iterate over each day of the week -->
-                                <div class="row" th:each="day, dayIndex : ${week.weekDays}">
-                                    <div class="col-md-8">
-                                        <h4 th:text="${day.name}"></h4>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <!-- Add meals button (small size) -->
-                                        <a th:href="@{/meal-plans/create/{id}/weeks/{weekId}/days/{dayId}(id=${mealPlan.id}, weekId=${week.id}, dayId=${day.id})}" class="btn btn-sm btn-primary add-meals-btn">Add Meals</a>
-                                    </div>
-                                </div>
+<div class="container-fluid d-flex  justify-content-center align-items-center" th:object="${mealPlan}"
+     style="height: 100vh;">
+    <div class="col-md-9">
+        <!-- Iterate over each week -->
+        <div class="accordion" id="weekAccordion" th:each="week, weekIndex : *{weeks}">
+            <div class="card">
+                <div class="card-header" th:id="'week' + ${weekIndex.index} + 'Heading'">
+                    <h2 class="mb-0">
+                        <button class="btn btn-link" type="button" data-toggle="collapse"
+                                th:data-target="'#week' + ${weekIndex.index} + 'Collapse'" aria-expanded="true"
+                                th:aria-controls="'week' + ${weekIndex.index} + 'Collapse'">
+                            <span th:text="'Week ' + (${weekIndex.index + 1})"></span>
+                        </button>
+                    </h2>
+                </div>
+                <div th:id="'week' + ${weekIndex.index} + 'Collapse'" class="collapse"
+                     th:classappend="${weekIndex.index == 0} ? 'show' : ''"
+                     th:aria-labelledby="'week' + ${weekIndex.index} + 'Heading'">
+                    <div class="card-body">
+                        <!-- Iterate over each day of the week -->
+                        <div class="row" th:each="day, dayIndex : ${week.weekDays}">
+                            <div class="col-md-8">
+                                <h4 th:text="${day.name}"></h4>
+                            </div>
+                            <div class="col-md-4">
+                                <!-- Add meals button (small size) -->
+                                <a th:href="@{/meal-plans/create/{id}/weeks/{weekId}/days/{dayId}(id=${mealPlan.id}, weekId=${week.id}, dayId=${day.id})}"
+                                   class="btn btn-sm btn-primary add-meals-btn">Add Meals</a>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
+    </div>
 </div>
 
 <footer th:replace="~{fragments/footer}"></footer>

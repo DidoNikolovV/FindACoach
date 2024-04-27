@@ -5,7 +5,6 @@ import com.softuni.fitlaunch.model.dto.mealPlan.MealPlanCreationDTO;
 import com.softuni.fitlaunch.model.dto.mealPlan.MealPlanCreationDetails;
 import com.softuni.fitlaunch.model.dto.mealPlan.MealPlanDTO;
 import com.softuni.fitlaunch.model.entity.CoachEntity;
-import com.softuni.fitlaunch.model.entity.MealEntity;
 import com.softuni.fitlaunch.model.entity.MealPlanDayEntity;
 import com.softuni.fitlaunch.model.entity.MealPlanEntity;
 import com.softuni.fitlaunch.model.entity.MealPlanWeekEntity;
@@ -15,7 +14,6 @@ import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -58,7 +56,7 @@ public class MealPlanService {
         for (int i = 0; i < numberOfWeeks; i++) {
             MealPlanWeekEntity week = createWeek();
             week.setMealPlan(mealPlan);
-            for (int j = 1; j <= 7 ; j++) {
+            for (int j = 1; j <= 7; j++) {
                 MealPlanDayEntity day = createDay();
                 String dayName = DaysEnum.values()[j - 1].name();
                 day.setName(dayName);

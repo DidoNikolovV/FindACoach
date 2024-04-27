@@ -102,7 +102,7 @@ public class ProgramService {
         ProgramEntity program = modelMapper.map(programCreationDTO, ProgramEntity.class);
         List<ProgramWeekEntity> weeks = new ArrayList<>();
 
-        for(int i = 0; i < programCreationDTO.getWeeks(); i++) {
+        for (int i = 0; i < programCreationDTO.getWeeks(); i++) {
             ProgramWeekEntity newWeek = new ProgramWeekEntity();
             newWeek.setNumber(i + 1);
             weeks.add(newWeek);
@@ -110,7 +110,7 @@ public class ProgramService {
 
         for (ProgramWeekEntity week : weeks) {
             week.setProgram(program);
-            for(int i = 1; i <= 7; i++) {
+            for (int i = 1; i <= 7; i++) {
                 DayWorkoutsEntity day = new DayWorkoutsEntity();
                 DaysEnum dayEnum = DaysEnum.values()[i - 1];
                 day.setName(dayEnum.name());
@@ -126,7 +126,6 @@ public class ProgramService {
 
         return program;
     }
-
 
 
     public ProgramWeekDTO getWeekById(int weekId, Long programId) {

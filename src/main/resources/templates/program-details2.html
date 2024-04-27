@@ -5,7 +5,8 @@
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
 <header class="header">
-    <div class="container mt-5 text-light d-flex flex-column justify-content-center align-items-center" style="height: 100vh">
+    <div class="container mt-5 text-light d-flex flex-column justify-content-center align-items-center"
+         style="height: 100vh">
         <h2 class="text-center mb-4">Here you can explore and start training with this program</h2>
         <div th:object="${program}" style="width: 50%">
             <div class="row">
@@ -28,7 +29,8 @@
                     <tr th:each="week : *{weeks}">
                         <td th:text="${week.number}"></td>
                         <td class="btn btn-info">
-                            <a th:href="@{/programs/{programId}/weeks/{weekId}(programId=${program.id}, weekId=${week.number})}" class="text-white">Details</a>
+                            <a th:href="@{/programs/{programId}/weeks/{weekId}(programId=${program.id}, weekId=${week.number})}"
+                               class="text-white">Details</a>
                         </td>
                     </tr>
                     </tbody>

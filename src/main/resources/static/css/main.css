@@ -462,11 +462,13 @@ button.th-disabled {
 .section-even {
     background-color: #e9ecef; /* Lighter background color for even sections */
 }
+
 /* Profile Card */
 
 .profile-card:hover {
     transform: translateY(-5px);
 }
+
 .profile-img {
     width: 100px;
     height: 100px;
@@ -476,25 +478,30 @@ button.th-disabled {
     border: 3px solid #fff;
     box-shadow: 0 0 0 5px #f0f0f0;
 }
+
 .profile-img img {
     width: 100%;
     height: auto;
 }
+
 .profile-name {
     font-size: 20px;
     font-weight: bold;
     color: #333;
     margin-bottom: 10px;
 }
+
 .profile-job {
     font-size: 16px;
     color: #777;
     margin-bottom: 20px;
 }
+
 .profile-social {
     display: flex;
     justify-content: center;
 }
+
 .profile-social a {
     display: inline-block;
     margin: 0 10px;
@@ -502,10 +509,10 @@ button.th-disabled {
     font-size: 24px;
     transition: color 0.3s;
 }
+
 .profile-social a:hover {
     color: #55acee;
 }
-
 
 
 .custom-card {
