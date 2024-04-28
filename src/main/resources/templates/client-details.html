@@ -8,8 +8,8 @@
 
 <header class="header" th:object="${client}" style="height: 100vh">
     <div class="container">
-        <h2 class="my-4 text-center text-white" th:text="*{username} + ' Data'">Client Details</h2>
-        <div class="row">
+        <h2 class="text-center text-white" style="margin-top: 7rem;" th:text="*{username} + ' Data'">Client Details</h2>
+        <div class="row mt-4">
             <div class="col">
                 <div class="card" style="height: 100%">
                     <div class="card-header">
@@ -17,57 +17,11 @@
                     </div>
                     <div class="card-body">
                         <p><strong>Target Weight:</strong> <span class="card-text" th:text="*{weight} + ' kg'"></span></p>
-                        <!-- Add any additional information about the weight goal -->
                         <p><strong>Goal Description:</strong>
-<!--                        <p><strong>Deadline:</strong> <span class="card-text" th:text="*{goalDeadline}"></span></p>-->
-<!--                        <span class="card-text" th:text="*{goalDescription}"></span></p>-->
                     </div>
                 </div>
             </div>
 
-            <div class="col">
-                <div class="card" style="height: 100%">
-                    <div class="card-header">
-                        Progress Tracking
-                    </div>
-                    <div class="card-body">
-                        <p class="card-text"><strong>Last Completed Workout: </strong>
-                            <span th:if="*{completedWorkouts.size() != 0}"
-                                  th:text="*{completedWorkouts.get(completedWorkouts.size() - 1).name}"></span></p>
-                        <span th:unless="*{completedWorkouts.size() != 0}"
-                              th:text="'No completed workouts yet'"></span></p>
-                        <div class="d-flex align-items-center gap-1">
-                            <!-- Progress Bar for Current Bodyweight and Goal -->
-                            <span>Bodyweight</span> <i class="fas fa-star text-warning"></i>
-                            <div class="progress ms-3" style="height: 10px; width: 100%;">
-                                <div class="progress-bar bg-warning" style="width: 80%;" role="progressbar"
-                                     aria-valuenow="80"
-                                     aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-
-                        <!-- Second Progress Bar for Fitness Goal 1 -->
-                        <div class="d-flex align-items-center gap-1 mt-3">
-                            <span>Strength Development</span> <i class="fas fa-star text-info"></i>
-                            <div class="progress ms-3" style="height: 10px; width: 100%;">
-                                <div class="progress-bar bg-info" style="width: 60%;" role="progressbar"
-                                     aria-valuenow="60"
-                                     aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-
-                        <!-- Third Progress Bar for Fitness Goal 2 -->
-                        <div class="d-flex align-items-center gap-1 mt-3">
-                            <span>Endurance Improvement</span> <i class="fas fa-star text-success"></i>
-                            <div class="progress ms-3" style="height: 10px; width: 100%;">
-                                <div class="progress-bar bg-success" style="width: 75%;" role="progressbar"
-                                     aria-valuenow="75"
-                                     aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <div class="col">
                 <div class="card" style="height: 100%">
                     <div class="card-header">
