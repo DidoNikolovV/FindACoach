@@ -3,14 +3,16 @@ package com.softuni.fitlaunch.service;
 
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.CoachDTO;
-import com.softuni.fitlaunch.model.dto.week.DayWorkoutsDTO;
+import com.softuni.fitlaunch.model.dto.user.DailyWeightDTO;
 import com.softuni.fitlaunch.model.entity.ClientEntity;
+import com.softuni.fitlaunch.model.entity.DailyWeightEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.repository.ClientRepository;
 import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -45,9 +47,13 @@ public class ClientService {
         return clientRepository.findAllByCoachId(coach.getId()).stream().map(client -> modelMapper.map(client, ClientDTO.class)).collect(Collectors.toList());
     }
 
-    public void saveWeightInput(String clientName, Double weight) {
+    public void saveWeightInput(String clientName, DailyWeightDTO dailyWeightDTO) {
         ClientEntity clientEntity = getClientEntityByUsername(clientName);
-        clientEntity.setWeight(weight);
+        DailyWeightEntity dailWeightEntity = new DailyWeightEntity();
+        dailWeightEntity.setWeight(dailyWeightDTO.getWeight());
+        dailWeightEntity.setDateTime(LocalDateTime.now());
+        dailWeightEntity.setClient(clientEntity);
+        clientEntity.getWeight().add(dailWeightEntity);
         clientRepository.save(clientEntity);
     }
 }

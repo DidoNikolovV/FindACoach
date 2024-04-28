@@ -6,8 +6,8 @@
 <nav th:replace="~{fragments/navbar}"></nav>
 <body>
 
-<header class="header">
-    <div class="container" th:object="${client}" style="height: 100vh">
+<header class="header" th:object="${client}" style="height: 100vh">
+    <div class="container">
         <h2 class="my-4 text-center text-white" th:text="*{username} + ' Data'">Client Details</h2>
         <div class="row">
             <div class="col">
@@ -140,10 +140,10 @@
                     <div class="card-body">
                         <h5 class="card-title">Weight Records</h5>
                         <ul class="list-group">
-                            <li class="list-group-item">2024-04-25: 70 kg</li>
-                            <li class="list-group-item">2024-04-26: 71 kg</li>
-                            <li class="list-group-item">2024-04-27: 69 kg</li>
-                            <li class="list-group-item" th:text="${client.getWeight()}"></li>
+                            <li class="list-group-item" th:each="weight : ${client.weight}" th:text="${weight.dateTime} + ': ' + ${weight.getWeight()}">2024-04-25: 70 kg</li>
+<!--                            <li class="list-group-item">2024-04-26: 71 kg</li>-->
+<!--                            <li class="list-group-item">2024-04-27: 69 kg</li>-->
+<!--                            <li class="list-group-item"></li>-->
                             <!-- Add more weight records dynamically from backend -->
                         </ul>
                     </div>

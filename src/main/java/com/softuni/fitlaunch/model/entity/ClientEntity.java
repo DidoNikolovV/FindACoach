@@ -34,7 +34,8 @@ public class ClientEntity extends BaseEntity {
     @Column(name = "img_url")
     private String imgUrl;
 
-    private Double weight;
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    private List<DailyWeightEntity> weight;
 
     private Double height;
 

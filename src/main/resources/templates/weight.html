@@ -4,7 +4,7 @@
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
 <header class="header">
-    <div class="container d-flex flex-column align-items-center" style="height: 100vh;" th:object="${client}">
+    <div class="container d-flex flex-column align-items-center" style="height: 100vh;" th:object="${dailWeightDTO}">
         <div style="margin-top: 15rem;">
             <h2>Weight Tracker</h2>
             <form th:action="@{/clients/weight/{clientName}(clientName=${client.username})}" method="post">

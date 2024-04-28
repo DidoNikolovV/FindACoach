@@ -23,7 +23,7 @@ public class ClientDTO {
     private String email;
     private String imgUrl;
 
-    private Double weight;
+    private List<DailyWeightDTO> weight;
     private Double height;
     private String targetGoals;
 
