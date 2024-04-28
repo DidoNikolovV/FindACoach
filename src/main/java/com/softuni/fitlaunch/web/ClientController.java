@@ -4,7 +4,6 @@ package com.softuni.fitlaunch.web;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.CoachDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
-import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.service.ClientService;
 import com.softuni.fitlaunch.service.CoachService;
 import com.softuni.fitlaunch.service.UserService;
@@ -12,7 +11,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -50,11 +51,28 @@ public class ClientController {
     public String loadClientDetails(@PathVariable("clientName") String clientName, Model model) {
         UserDTO user = userService.getUserByUsername(clientName);
         ClientDTO client = clientService.getClientByUsername(clientName);
+        CoachDTO coach = client.getCoach();
         client.setCompletedWorkouts(user.getCompletedWorkoutsIds());
 
         model.addAttribute("client", client);
+        model.addAttribute("coach", coach);
 
         return "client-details";
+    }
 
+    @GetMapping("/weight/{clientName}")
+    public String loadClientWeightInput(@PathVariable("clientName") String clientName, Model model) {
+        ClientDTO client = clientService.getClientByUsername(clientName);
+
+        model.addAttribute("client", client);
+
+        return "weight";
+    }
+
+    @PostMapping("/weight/{clientName}")
+    public String submitClientWeightInput(@PathVariable("clientName") String clientName, @ModelAttribute("client") ClientDTO client) {
+        clientService.saveWeightInput(clientName, client.getWeight());
+
+        return "redirect:/";
     }
 }

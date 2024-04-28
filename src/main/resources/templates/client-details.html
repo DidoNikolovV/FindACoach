@@ -95,23 +95,20 @@
                     <div class="card-header">
                         Coach's View
                     </div>
-                    <div class="card">
-                        <div class="card-header">
-                            Completed Workouts
-                        </div>
-                        <ul class="list-group list-group-flush">
+                    <div class="card-body">
+                        <h5 class="card-title">Workouts Completed</h5>
+                        <ul class="list-group">
                             <li class="list-group-item" th:each="completedWorkout : ${client.completedWorkouts}">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div>
-                                        <span class="fw-bold" th:text="${completedWorkout.workout.name}"></span>
-                                    </div>
-                                    <span class="badge bg-success">Completed</span>
+                                <div>
+                                    <span th:text="${completedWorkout.workout.name}"></span>
+                                    <span th:text="${completedWorkout.name}"></span>
                                 </div>
                             </li>
+<!--                            <li class="list-group-item">Workout 2</li>-->
+<!--                            <li class="list-group-item">Workout 3</li>-->
                             <!-- Add more completed workouts dynamically from backend -->
                         </ul>
                     </div>
-
                 </div>
             </div>
             <div class="col">
@@ -146,6 +143,7 @@
                             <li class="list-group-item">2024-04-25: 70 kg</li>
                             <li class="list-group-item">2024-04-26: 71 kg</li>
                             <li class="list-group-item">2024-04-27: 69 kg</li>
+                            <li class="list-group-item" th:text="${client.getWeight()}"></li>
                             <!-- Add more weight records dynamically from backend -->
                         </ul>
                     </div>

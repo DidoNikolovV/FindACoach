@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/head}"></head>
+<body>
+<nav th:replace="~{fragments/navbar}"></nav>
+<header class="header">
+    <div class="container d-flex flex-column align-items-center" style="height: 100vh;" th:object="${client}">
+        <div style="margin-top: 15rem;">
+            <h2>Weight Tracker</h2>
+            <form th:action="@{/clients/weight/{clientName}(clientName=${client.username})}" method="post">
+                <label th:for="weight" class="form-label">Enter Your Weight (kg):</label>
+                <input type="number" class="form-control" th:id="weight" th:name="weight"
+                       placeholder="Enter your weight" required th:field="*{weight}">
+                <div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+        </div>
+
+    </div>
+</header>
+<footer th:replace="~{fragments/footer}"></footer>
+</body>
+</html>

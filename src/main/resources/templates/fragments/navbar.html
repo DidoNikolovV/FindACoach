@@ -43,6 +43,9 @@
                 <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'CLIENT')">
                     <a class="nav-link text-white h6" href="/coaches/all">Coaches</a>
                 </li>
+                <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'CLIENT')">
+                    <a class="nav-link text-white h6" th:href="@{/clients/weight/{clientName}(clientName=${#authentication.principal.username})}">Weight Tracker</a>
+                </li>
                 <li class="nav-item" sec:authorize="hasRole('COACH')">
                     <a class="nav-link text-white h6"
                        th:href="@{/clients/{coach}/all(coach=${#authentication.principal.username})}">Clients</a>

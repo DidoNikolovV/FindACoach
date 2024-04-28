@@ -44,4 +44,10 @@ public class ClientService {
     public List<ClientDTO> loadAllByCoach(CoachDTO coach) {
         return clientRepository.findAllByCoachId(coach.getId()).stream().map(client -> modelMapper.map(client, ClientDTO.class)).collect(Collectors.toList());
     }
+
+    public void saveWeightInput(String clientName, Double weight) {
+        ClientEntity clientEntity = getClientEntityByUsername(clientName);
+        clientEntity.setWeight(weight);
+        clientRepository.save(clientEntity);
+    }
 }
