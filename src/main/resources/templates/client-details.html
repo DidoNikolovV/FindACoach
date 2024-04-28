@@ -140,7 +140,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Weight Records</h5>
                         <ul class="list-group">
-                            <li class="list-group-item" th:each="weight : ${client.weight}" th:text="${weight.dateTime} + ': ' + ${weight.getWeight()}">2024-04-25: 70 kg</li>
+                            <li class="list-group-item" th:each="weight : ${client.weight}" th:text="${weight.date} + ': ' + ${weight.weight}">2024-04-25: 70 kg</li>
 <!--                            <li class="list-group-item">2024-04-26: 71 kg</li>-->
 <!--                            <li class="list-group-item">2024-04-27: 69 kg</li>-->
 <!--                            <li class="list-group-item"></li>-->

@@ -12,6 +12,7 @@ import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,7 +52,7 @@ public class ClientService {
         ClientEntity clientEntity = getClientEntityByUsername(clientName);
         DailyWeightEntity dailWeightEntity = new DailyWeightEntity();
         dailWeightEntity.setWeight(dailyWeightDTO.getWeight());
-        dailWeightEntity.setDateTime(LocalDateTime.now());
+        dailWeightEntity.setDate(LocalDate.now());
         dailWeightEntity.setClient(clientEntity);
         clientEntity.getWeight().add(dailWeightEntity);
         clientRepository.save(clientEntity);

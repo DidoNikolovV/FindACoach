@@ -8,6 +8,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,7 +16,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class DailyWeightEntity extends BaseEntity {
-    private LocalDateTime dateTime;
+    private LocalDate date;
     private Double weight;
 
     @ManyToOne
