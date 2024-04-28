@@ -3,12 +3,14 @@ package com.softuni.fitlaunch.service;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.user.UserRegisterDTO;
 import com.softuni.fitlaunch.model.dto.view.UserProfileView;
+import com.softuni.fitlaunch.model.entity.DayWorkoutsEntity;
 import com.softuni.fitlaunch.model.entity.UserActivationCodeEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.UserRoleEntity;
 import com.softuni.fitlaunch.model.enums.UserRoleEnum;
 import com.softuni.fitlaunch.model.enums.UserTitleEnum;
 import com.softuni.fitlaunch.model.events.UserRegisteredEvent;
+import com.softuni.fitlaunch.repository.DayWorkoutsRepository;
 import com.softuni.fitlaunch.repository.RoleRepository;
 import com.softuni.fitlaunch.repository.UserActivationCodeRepository;
 import com.softuni.fitlaunch.repository.UserRepository;
@@ -34,6 +36,7 @@ public class UserService {
     private final ClientService clientService;
 
     private final RoleRepository roleRepository;
+
     private final ModelMapper modelMapper;
 
     private final ApplicationEventPublisher applicationEventPublisher;
@@ -98,7 +101,9 @@ public class UserService {
 
     public UserDTO getUserByUsername(String username) {
         UserEntity user = userRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, username)));
-        return modelMapper.map(user, UserDTO.class);
+        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
+        userDTO.setCompletedWorkoutsIds(user.getCompletedWorkouts().stream().map(DayWorkoutsEntity::getId).toList());
+        return userDTO;
     }
 
     public UserEntity getUserEntityByUsername(String username) {

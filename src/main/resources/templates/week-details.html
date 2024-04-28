@@ -18,11 +18,14 @@
             <tbody>
             <tr th:each="day : *{days}" class="text-light">
                 <td th:text="${day.name}"></td>
-                <td th:if="${day.workout != null}">
+                <td th:if="${day.workout != null}" class="d-flex align-items-center">
                     <a th:href="@{/workouts/{workoutId}/days/{dayName}(workoutId=${day.workout.id}, dayName=${day.name})}"
                        class="btn btn-info">
                         <span th:text="${day.workout.name}"></span>
                     </a>
+                    <div class="ml-auto">
+                        <i class="fa-solid fa-lg fa-circle-check text-success"></i>
+                    </div>
                 </td>
                 <td th:unless="${day.workout != null}" th:text="REST"></td>
             </tr>

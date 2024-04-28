@@ -5,10 +5,12 @@ import com.softuni.fitlaunch.model.dto.program.ProgramCreationDTO;
 import com.softuni.fitlaunch.model.dto.program.ProgramDTO;
 import com.softuni.fitlaunch.model.dto.program.ProgramWeekDTO;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
+import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.week.WeekCreationDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.entity.ProgramEntity;
 import com.softuni.fitlaunch.model.entity.ProgramWeekEntity;
+import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.enums.DaysEnum;
 import com.softuni.fitlaunch.service.ClientService;
 import com.softuni.fitlaunch.service.ProgramService;
@@ -128,9 +130,10 @@ public class ProgramController {
     }
 
     @GetMapping("/{programId}/weeks/{weekId}")
-    public String loadWeek(@PathVariable("programId") Long programId, @PathVariable("weekId") int weekId, Model model) {
+    public String loadWeek(@PathVariable("programId") Long programId, @PathVariable("weekId") int weekId, Model model, Principal principal) {
         ProgramDTO program = programService.getProgramById(programId);
         ProgramWeekDTO week = programService.getWeekById(weekId, programId);
+
         model.addAttribute("program", program);
         model.addAttribute("week", week);
 
