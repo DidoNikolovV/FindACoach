@@ -3,8 +3,11 @@ package com.softuni.fitlaunch.web;
 
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.CoachDTO;
+import com.softuni.fitlaunch.model.dto.user.UserDTO;
+import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.service.ClientService;
 import com.softuni.fitlaunch.service.CoachService;
+import com.softuni.fitlaunch.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,9 +27,12 @@ public class ClientController {
 
     private final CoachService coachService;
 
-    public ClientController(ClientService clientService, CoachService coachService) {
+    private final UserService userService;
+
+    public ClientController(ClientService clientService, CoachService coachService, UserService userService) {
         this.clientService = clientService;
         this.coachService = coachService;
+        this.userService = userService;
     }
 
 
@@ -42,7 +48,9 @@ public class ClientController {
 
     @GetMapping("/{clientName}/details")
     public String loadClientDetails(@PathVariable("clientName") String clientName, Model model) {
+        UserDTO user = userService.getUserByUsername(clientName);
         ClientDTO client = clientService.getClientByUsername(clientName);
+        client.setCompletedWorkouts(user.getCompletedWorkoutsIds());
 
         model.addAttribute("client", client);
 

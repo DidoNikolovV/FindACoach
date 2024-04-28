@@ -101,9 +101,7 @@ public class UserService {
 
     public UserDTO getUserByUsername(String username) {
         UserEntity user = userRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException(String.format(USER_WITH_USERNAME_X_DOES_NOT_EXIST, username)));
-        UserDTO userDTO = modelMapper.map(user, UserDTO.class);
-        userDTO.setCompletedWorkoutsIds(user.getCompletedWorkouts().stream().map(DayWorkoutsEntity::getId).toList());
-        return userDTO;
+        return modelMapper.map(user, UserDTO.class);
     }
 
     public UserEntity getUserEntityByUsername(String username) {

@@ -29,7 +29,7 @@ public class UserDTO {
 
     private List<WorkoutDTO> workoutsLiked;
 
-    private List<Long> completedWorkoutsIds;
+    private List<DayWorkoutsDTO> completedWorkoutsIds;
 
     private boolean isActivated;
 
