@@ -39,6 +39,7 @@
                       th:action="@{/coaches/coach/{coachId}/schedule(coachId=${coach.id})}"
                       th:object="${scheduledWorkoutDTO}">
                     <h2 class="my-4 text-center">Schedule Workout with Your Coach</h2>
+
                     <div class="form-group text-center">
                         <label for="datetime">Choose Date:</label>
                         <input type="datetime-local" class="form-control m-auto" th:field="*{scheduledDateTime}"

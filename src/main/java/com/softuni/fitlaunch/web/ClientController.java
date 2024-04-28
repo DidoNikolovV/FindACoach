@@ -5,6 +5,7 @@ import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.CoachDTO;
 import com.softuni.fitlaunch.model.dto.user.DailyWeightDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
+import com.softuni.fitlaunch.model.dto.workout.ScheduledWorkoutDTO;
 import com.softuni.fitlaunch.service.ClientService;
 import com.softuni.fitlaunch.service.CoachService;
 import com.softuni.fitlaunch.service.UserService;
@@ -53,10 +54,13 @@ public class ClientController {
         UserDTO user = userService.getUserByUsername(clientName);
         ClientDTO client = clientService.getClientByUsername(clientName);
         CoachDTO coach = client.getCoach();
+
         client.setCompletedWorkouts(user.getCompletedWorkoutsIds());
+        List<ScheduledWorkoutDTO> scheduledWorkouts = client.getScheduledWorkouts();
 
         model.addAttribute("client", client);
         model.addAttribute("coach", coach);
+        model.addAttribute("scheduledWorkouts", scheduledWorkouts);
 
         return "client-details";
     }

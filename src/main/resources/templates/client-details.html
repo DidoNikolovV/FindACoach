@@ -13,15 +13,18 @@
             <div class="col">
                 <div class="card" style="height: 100%">
                     <div class="card-header">
-                        Health and Fitness Stats
+                        Weight Goal
                     </div>
                     <div class="card-body">
-                        <p><strong>Weight: </strong><span th:text="*{weight} + ' kg'"></span></p>
-                        <p><strong>Height:</strong> <span class="card-text" th:text="*{height} + ' cm'"></span></p>
-                        <p><strong>Target Goals:</strong> <span class="card-text" th:text="*{targetGoals}"></span></p>
+                        <p><strong>Target Weight:</strong> <span class="card-text" th:text="*{weight} + ' kg'"></span></p>
+                        <!-- Add any additional information about the weight goal -->
+                        <p><strong>Goal Description:</strong>
+<!--                        <p><strong>Deadline:</strong> <span class="card-text" th:text="*{goalDeadline}"></span></p>-->
+<!--                        <span class="card-text" th:text="*{goalDescription}"></span></p>-->
                     </div>
                 </div>
             </div>
+
             <div class="col">
                 <div class="card" style="height: 100%">
                     <div class="card-header">
@@ -81,8 +84,8 @@
                         Appointments and Schedule
                     </div>
                     <div class="card-body">
-                        <p><strong>Upcoming Sessions:</strong> Yoga - Tomorrow, 10 AM</p>
-                        <p><strong>Appointment History:</strong> Previous session - Cardio - 2 weeks ago</p>
+                        <span class="font-weight-bold">Upcoming Sessions:</span>
+                        <p th:each="scheduledWorkout : *{scheduledWorkouts}" th:text="${scheduledWorkout.scheduledDateTime}"></p>
                     </div>
                 </div>
             </div>

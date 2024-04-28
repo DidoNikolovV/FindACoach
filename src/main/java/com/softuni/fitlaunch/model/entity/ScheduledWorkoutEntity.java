@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "scheduled_workouts")
 public class ScheduledWorkoutEntity extends BaseEntity {
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "coach_id")
     private CoachEntity coach;

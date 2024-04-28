@@ -31,7 +31,6 @@ public class CoachController {
 
     private final ClientService clientService;
 
-
     private final ScheduleWorkoutService scheduleWorkoutService;
 
     public CoachController(CoachService coachService, ClientService clientService, ScheduleWorkoutService scheduleWorkoutService) {
@@ -56,6 +55,7 @@ public class CoachController {
     @GetMapping("/coach/{id}")
     public String myCoach(@PathVariable("id") Long id, Model model, ScheduledWorkoutDTO scheduledWorkoutDTO) {
         CoachDTO coach = coachService.getCoachById(id);
+
 
         model.addAttribute("scheduledWorkoutDTO", scheduledWorkoutDTO);
         model.addAttribute("coach", coach);

@@ -14,10 +14,7 @@ import java.time.LocalDateTime;
 @Setter
 public class ScheduledWorkoutDTO {
     private Long id;
-
     private Long clientId;
-
     private Long coachId;
-
     private LocalDateTime scheduledDateTime;
 }
