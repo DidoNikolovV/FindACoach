@@ -407,6 +407,8 @@ button.th-disabled {
     color: #424242;
 }
 
+/* Comments */
+
 .comments {
     grid-column: 1/4;
     grid-row: 4;
@@ -414,6 +416,102 @@ button.th-disabled {
     padding: 20px;
     border-radius: 10px;
 }
+
+/* Custom Styles */
+
+/* Workout Details Header */
+.header {
+    padding-bottom: 2rem; /* Add space below the header */
+}
+
+/* Workout Card */
+.card {
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Add border to workout card */
+}
+
+.card-title {
+    font-size: 1.5rem; /* Increase font size of card title */
+}
+
+/* Exercise Card */
+.card .list-group-item {
+    border: none; /* Remove border from exercise items */
+}
+
+/* Comments Section */
+.comments {
+    padding: 1rem; /* Add padding to the comments section */
+    border-radius: 0.5rem; /* Add border radius */
+}
+
+.comments h1 {
+    font-size: 1.5rem; /* Increase font size of comment section title */
+    margin-bottom: 1rem; /* Add space below the title */
+}
+
+#commentForm {
+    margin-bottom: 1rem; /* Add space below the comment form */
+}
+
+#message {
+    resize: none; /* Disable textarea resizing */
+}
+
+#commentCtnr {
+    display: block; /* Ensure comment container spans the full width */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .card-title {
+        font-size: 1.2rem; /* Adjust font size for smaller screens */
+    }
+}
+
+/* Dark Mode Styles */
+.bg-dark, .text-dark {
+    color: #fff; /* Ensure text is readable on dark background */
+}
+
+.comments {
+    padding: 1rem; /* Add padding to the comments section */
+    border-radius: 0.5rem; /* Add border radius */
+    background-color: #f2f2f2; /* Set background color for comments section */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+    color: #333; /* Set text color for better contrast */
+}
+
+.comments h1 {
+    font-size: 1.5rem; /* Increase font size of comment section title */
+    margin-bottom: 1rem; /* Add space below the title */
+}
+
+#commentForm {
+    margin-bottom: 1rem; /* Add space below the comment form */
+}
+
+#message {
+    resize: none; /* Disable textarea resizing */
+}
+
+#commentCtnr {
+    display: block; /* Ensure comment container spans the full width */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .card-title {
+        font-size: 1.2rem; /* Adjust font size for smaller screens */
+    }
+}
+
+/* Dark Mode Styles */
+.bg-dark, .text-dark {
+    color: #fff; /* Ensure text is readable on dark background */
+}
+
+
+/* Footer */
 
 .footer {
     background-color: #333; /* Background color */
@@ -572,6 +670,9 @@ button.th-disabled {
 .form-check-input:focus + .form-check-label::before {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
+
+
+
 
 
 
