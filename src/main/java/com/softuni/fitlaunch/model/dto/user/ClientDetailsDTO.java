@@ -11,8 +11,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ClientDetailsDTO {
-    private Double weight;
-    private Double height;
-    private String targetGoals;
-    private String dietaryPreferences;
+    private String goals;
+    private String nutritionalInformation;
 }

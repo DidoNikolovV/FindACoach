@@ -7,24 +7,44 @@
     <div class="row justify-content-sm-center">
         <div class="col-sm-10 col-md-5">
             <!-- Member block type 5-->
-            <div class="member-block-type-5 inset-lg-right-20"><img class="img-fluid mx-auto d-block" th:src="${coachDetails.imgUrl}" width="437" height="437" alt="">
-                <div class="member-block-body mt-3"><a class="btn btn-block btn-danger" href="contacts.html">Start working</a>
-                    <div class="mt-4 text-center h2">
-                        <ul class="list-inline list-inline-xs">
-                            <li class="list-inline-item"><a class="novi-icon icon icon-xxs icon-circle icon-darkest-filled fab fa-facebook" href="#"></a></li>
-                            <li class="list-inline-item"><a class="novi-icon icon icon-xxs icon-circle icon-darkest-filled fab fa-twitter" href="#"></a></li>
-                            <li class="list-inline-item"><a class="novi-icon icon icon-xxs icon-circle icon-darkest-filled fab fa-google-plus" href="#"></a></li>
-                            <li class="list-inline-item"><a class="novi-icon icon icon-xxs icon-circle icon-darkest-filled fab fa-linkedin" href="#"></a></li>
-                        </ul>
-                    </div>
-                    <address class="contact-info text-center">
-                        <ul class="list-unstyled p">
-                            <li><span class="novi-icon icon icon-xxs text-middle text-dark mdi fa-solid fa-phone mr-2 mt-4"></span><a class="p big text-middle d-inline-block offset-top-0" href="tel:1-800-1234-567">1-800-1234-567</a></li>
-                            <li><span class="novi-icon icon icon-xxs text-middle text-dark mdi fa-solid fa-envelope pr-2 mt-4"></span><a class="p big text-middle d-inline-block offset-top-0 text-picton-blue" th:href="${coachDetails.email}" th:text="${coachDetails.email}"></a></li>
-                        </ul>
-                    </address>
+            <div class="member-block-type-5 inset-lg-right-20"><img class="img-fluid mx-auto d-block"
+                                                                    th:src="${coachDetails.imgUrl}" width="437"
+                                                                    height="437" alt="">
+                <form th:action="@{/coaches/{id}/client/information(id=*{id})}">
+                    <div class="member-block-body mt-3"><button type="submit" class="btn btn-block btn-danger">Start
+                        working</button>
 
-                </div>
+                        <div class="mt-4 text-center h2">
+                            <ul class="list-inline list-inline-xs">
+                                <li class="list-inline-item"><a
+                                        class="novi-icon icon icon-xxs icon-circle icon-darkest-filled fab fa-facebook"
+                                        href="#"></a></li>
+                                <li class="list-inline-item"><a
+                                        class="novi-icon icon icon-xxs icon-circle icon-darkest-filled fab fa-twitter"
+                                        href="#"></a></li>
+                                <li class="list-inline-item"><a
+                                        class="novi-icon icon icon-xxs icon-circle icon-darkest-filled fab fa-google-plus"
+                                        href="#"></a></li>
+                                <li class="list-inline-item"><a
+                                        class="novi-icon icon icon-xxs icon-circle icon-darkest-filled fab fa-linkedin"
+                                        href="#"></a></li>
+                            </ul>
+                        </div>
+                        <address class="contact-info text-center">
+                            <ul class="list-unstyled p">
+                                <li><span
+                                        class="novi-icon icon icon-xxs text-middle text-dark mdi fa-solid fa-phone mr-2 mt-4"></span><a
+                                        class="p big text-middle d-inline-block offset-top-0" href="tel:1-800-1234-567">1-800-1234-567</a>
+                                </li>
+                                <li><span
+                                        class="novi-icon icon icon-xxs text-middle text-dark mdi fa-solid fa-envelope pr-2 mt-4"></span><a
+                                        class="p big text-middle d-inline-block offset-top-0 text-picton-blue"
+                                        th:href="${coachDetails.email}" th:text="${coachDetails.email}"></a></li>
+                            </ul>
+                        </address>
+
+                    </div>
+                </form>
             </div>
         </div>
         <div class="col-sm-10 col-md-7 text-md-left">
@@ -33,17 +53,20 @@
             </div>
             <p class="text-muted offset-top-4">Fitness Coach</p>
             <hr class="divider bg-red hr-md-left-0">
-            <p class="offset-top-50 text-left" th:text="${coachDetails.username} + ' is the leading fitness and athletics trainer at Intense Gym. He received a Bachelor’s in Physical Health and Education, and a Master’s in Exercise Science in Los Angeles University.'"></p>
+            <p class="offset-top-50 text-left"
+               th:text="${coachDetails.username} + ' is the leading fitness and athletics trainer at Intense Gym. He received a Bachelor’s in Physical Health and Education, and a Master’s in Exercise Science in Los Angeles University.'"></p>
             <div class="offset-top-30 text-center">
                 <p>
-                    <q class="font-italic h3 text-regular">I'm glad to help all clients of Intense Gym acquire the proper body shape through fitness.</q>
+                    <q class="font-italic h3 text-regular">I'm glad to help all clients of Intense Gym acquire the
+                        proper body shape through fitness.</q>
                 </p>
             </div>
             <div class="offset-top-50">
                 <!-- Linear progress bar-->
                 <div class="progress-linear animated" data-to="70">
                     <div class="progress-linear-header clearfix">
-                        <div><span class="progress-linear-title p text-ubold float-left text-uppercase">Fitness</span></div>
+                        <div><span class="progress-linear-title p text-ubold float-left text-uppercase">Fitness</span>
+                        </div>
                         <div><span class="font-weight-bold float-right progress-linear-counter">70%</span></div>
                     </div>
                     <div class="progress-linear-body">
@@ -54,7 +77,9 @@
                     <!-- Linear progress bar-->
                     <div class="progress-linear animated" data-to="54">
                         <div class="progress-linear-header clearfix">
-                            <div><span class="progress-linear-title p text-ubold float-left text-uppercase">CrossFIT</span></div>
+                            <div><span
+                                    class="progress-linear-title p text-ubold float-left text-uppercase">CrossFIT</span>
+                            </div>
                             <div><span class="font-weight-bold float-right progress-linear-counter">54%</span></div>
                         </div>
                         <div class="progress-linear-body">
@@ -66,7 +91,8 @@
                     <!-- Linear progress bar-->
                     <div class="progress-linear animated" data-to="87">
                         <div class="progress-linear-header clearfix">
-                            <div><span class="progress-linear-title p text-ubold float-left text-uppercase">Yoga</span></div>
+                            <div><span class="progress-linear-title p text-ubold float-left text-uppercase">Yoga</span>
+                            </div>
                             <div><span class="font-weight-bold float-right progress-linear-counter">87%</span></div>
                         </div>
                         <div class="progress-linear-body">
@@ -78,7 +104,9 @@
                     <!-- Linear progress bar-->
                     <div class="progress-linear animated" data-to="65">
                         <div class="progress-linear-header clearfix">
-                            <div><span class="progress-linear-title p text-ubold float-left text-uppercase">Bodybuilding</span></div>
+                            <div><span
+                                    class="progress-linear-title p text-ubold float-left text-uppercase">Bodybuilding</span>
+                            </div>
                             <div><span class="font-weight-bold float-right progress-linear-counter">65%</span></div>
                         </div>
                         <div class="progress-linear-body">

@@ -37,9 +37,11 @@ public class ClientEntity extends BaseEntity {
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<DailyWeightEntity> weight;
 
-    private Double height;
+    @Column(name = "goals")
+    private String goals;
 
-    private String targetGoals;
+    @Column(name = "nutritional_information")
+    private String nutritionalInformation;
 
     @ManyToOne
     @JoinColumn(name = "coach_id")

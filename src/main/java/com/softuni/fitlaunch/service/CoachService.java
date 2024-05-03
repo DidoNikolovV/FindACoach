@@ -2,6 +2,7 @@ package com.softuni.fitlaunch.service;
 
 import com.softuni.fitlaunch.model.dto.CertificateDTO;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
+import com.softuni.fitlaunch.model.dto.user.ClientDetailsDTO;
 import com.softuni.fitlaunch.model.dto.user.CoachDTO;
 import com.softuni.fitlaunch.model.dto.view.UserCoachDetailsView;
 import com.softuni.fitlaunch.model.dto.view.UserCoachView;
@@ -50,6 +51,9 @@ public class CoachService {
 
     public void addClient(Long coachId, ClientDTO client) {
         ClientEntity clientEntity = clientService.getClientEntityByUsername(client.getUsername());
+        clientEntity.setGoals(client.getGoals());
+        clientEntity.setNutritionalInformation(client.getNutritionalInformation());
+
         CoachEntity coachEntity = coachRepository.findById(coachId).orElseThrow(() -> new ResourceNotFoundException(COACH_DOES_NOT_EXIST));
 
         coachEntity.getClients().add(clientEntity);
@@ -86,5 +90,18 @@ public class CoachService {
 
     public CoachEntity getCoachEntityByUsername(String username) {
         return coachRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException(CLIENT_WAS_NOT_FOUND));
+    }
+
+    public CoachEntity getCoachEntityById(Long id) {
+        return coachRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(CLIENT_WAS_NOT_FOUND));
+
+    }
+
+    public void setClientDetails(Long id, ClientDTO clientDTO) {
+        CoachEntity coach = getCoachEntityById(id);
+        ClientEntity client = modelMapper.map(clientDTO, ClientEntity.class);
+        coach.getClients().add(client);
+
+        coachRepository.save(coach);
     }
 }

@@ -2,6 +2,7 @@ package com.softuni.fitlaunch.web;
 
 
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
+import com.softuni.fitlaunch.model.dto.user.ClientDetailsDTO;
 import com.softuni.fitlaunch.model.dto.user.CoachDTO;
 import com.softuni.fitlaunch.model.dto.view.UserCoachDetailsView;
 import com.softuni.fitlaunch.model.dto.view.UserCoachView;
@@ -14,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -90,19 +92,14 @@ public class CoachController {
         model.addAttribute("coach", coachById);
         model.addAttribute("client", client);
 
-        coachService.addClient(coachId, client);
         return "client-information-form";
     }
 
-//    @PostMapping("/{coachId}/client/information")
-//    public String clientDetails(@PathVariable("coachId") Long coachId, @ModelAttribute("clientDTO") @Valid ClientDetailsDTO clientDetailsDTO, Principal principal) {
-//        coachService.setClientDetails(principal.getName(), clientDetailsDTO);
-//
-//        ClientDTO client = clientService.getClientByUsername(principal.getName());
-//        coachService.addClient(coachId, client);
-//
-//        return "redirect:/";
-//    }
+    @PostMapping("/{coachId}/client/information")
+    public String clientDetails(@PathVariable("coachId") Long coachId, @ModelAttribute("clientDTO") @Valid ClientDTO clientDTO, Principal principal) {
+        coachService.addClient(coachId, clientDTO);
+        return "redirect:/";
+    }
 
     @GetMapping("/clients/{clientId}")
     public String coachClientDetails(@PathVariable("clientId") Long id, Principal principal, Model model) {
