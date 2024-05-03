@@ -438,40 +438,8 @@ button.th-disabled {
     border: none; /* Remove border from exercise items */
 }
 
-/* Comments Section */
-.comments {
-    padding: 1rem; /* Add padding to the comments section */
-    border-radius: 0.5rem; /* Add border radius */
-}
 
-.comments h1 {
-    font-size: 1.5rem; /* Increase font size of comment section title */
-    margin-bottom: 1rem; /* Add space below the title */
-}
-
-#commentForm {
-    margin-bottom: 1rem; /* Add space below the comment form */
-}
-
-#message {
-    resize: none; /* Disable textarea resizing */
-}
-
-#commentCtnr {
-    display: block; /* Ensure comment container spans the full width */
-}
-
-/* Responsive Styles */
-@media (max-width: 768px) {
-    .card-title {
-        font-size: 1.2rem; /* Adjust font size for smaller screens */
-    }
-}
-
-/* Dark Mode Styles */
-.bg-dark, .text-dark {
-    color: #fff; /* Ensure text is readable on dark background */
-}
+/* Comment Section */
 
 .comments {
     padding: 1rem; /* Add padding to the comments section */
@@ -498,11 +466,10 @@ button.th-disabled {
     display: block; /* Ensure comment container spans the full width */
 }
 
-/* Responsive Styles */
-@media (max-width: 768px) {
-    .card-title {
-        font-size: 1.2rem; /* Adjust font size for smaller screens */
-    }
+
+/* Dark Mode Styles */
+.bg-dark, .text-dark {
+    color: #fff; /* Ensure text is readable on dark background */
 }
 
 /* Dark Mode Styles */
@@ -670,6 +637,58 @@ button.th-disabled {
 .form-check-input:focus + .form-check-label::before {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
+
+
+/* Progress Bar */
+
+/* Basic styling for progress bars */
+.progress-linear {
+    width: 100%;
+    margin-bottom: 20px;
+    position: relative;
+    height: 40px; /* Increased height to accommodate percentage number */
+}
+
+.progress-linear .progress-linear-header {
+    margin-bottom: 10px;
+}
+
+.progress-linear .progress-linear-title {
+    font-weight: bold;
+}
+
+.progress-linear .progress-linear-body {
+    height: 20px;
+    background-color: #f5f5f5;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-linear .progress-linear-bar {
+    height: 100%;
+    transition: width 0.5s ease-in-out; /* Smooth transition for width changes */
+}
+
+/* Colors for different progress bars */
+.bg-success {
+    background-color: #5cb85c;
+}
+
+.bg-info {
+    background-color: #5bc0de;
+}
+
+.bg-warning {
+    background-color: #f0ad4e;
+}
+
+.bg-danger {
+    background-color: #d9534f;
+}
+
+
+
 
 
 
