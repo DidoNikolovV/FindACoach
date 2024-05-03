@@ -1,6 +1,7 @@
 package com.softuni.fitlaunch.repository;
 
 import com.softuni.fitlaunch.model.entity.CoachEntity;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

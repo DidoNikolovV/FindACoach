@@ -13,6 +13,8 @@ import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.repository.CoachRepository;
 import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -33,11 +35,10 @@ public class CoachService {
         this.clientService = clientService;
     }
 
-    public List<UserCoachView> getAllCoaches() {
-        List<CoachEntity> coachesEntity = coachRepository.findAll();
-
-        return coachesEntity.stream().map(coachEntity -> new UserCoachView(coachEntity.getId(), coachEntity.getImgUrl(), coachEntity.getUsername(), coachEntity.getEmail(), "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In rhoncus enim at enim bibendum porta. Suspendisse id mollis neque, et sodales nisi. Ut eget pulvinar felis. Curabitur sed suscipit nibh, at scelerisque arcu. Cras pharetra sodales ultrices. Vestibulum aliquet elementum libero vel congue. Mauris ut quam ultrices odio posuere efficitur. Phasellus sagittis pellentesque laoreet.", coachEntity.getRating())).toList();
-
+    public Page<UserCoachView> getAllCoaches(Pageable pageable) {
+        return coachRepository
+                .findAll(pageable)
+                .map(coachEntity -> modelMapper.map(coachEntity, UserCoachView.class));
     }
 
     public CoachDTO getCoachById(Long id) {

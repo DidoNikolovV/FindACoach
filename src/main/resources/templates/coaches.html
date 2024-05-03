@@ -2,28 +2,66 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head}"></head>
 <body class="d-flex flex-column h-100">
-<div th:replace="~{fragments/navbar}">
-</div>
+<nav th:replace="~{fragments/navbar}">
+</nav>
 
-<div class="container-fluid d-flex">
+<div class="container d-flex flex-column flex-grow-1 align-items-center justify-content-center align-items-center justify-content-center" style="height: 100vh;">
+    <h1>Coaches</h1>
+    <hr class="divider bg-danger">
     <div class="row justify-content-center">
-        <div th:each="coach : ${allCoaches}" th:object="${coach}" class="-md-4 col-lg-4 mb-4"
-             style="margin-right: 5rem;">
-            <div class="card border-0">
-                <img th:src="*{imgUrl}" class="card-img-top" alt="Coach Image">
-                <div class="card-body">
-                    <h5 class="card-title" th:text="'Username: ' + *{username}"></h5>
-                    <i class="fa-solid fa-envelope"></i>
-                    <span class="card-text" th:text="*{email}"></span>
-                    <p class="card-text" th:text="*{description}"></p>
+        <div class="col-md-10 col-xl-12">
+            <div class="row">
+                <div class="col-md-8 col-xl-4">
+                    <!-- Box Member-->
+                    <div class="box-member" th:each="coach : ${allCoaches}"><img class="img-fluid"
+                                                                                 th:src="${coach.imgUrl}"
+                                                                                 alt="coach image">
+                        <h5 class="font-weight-bold"><a th:href="@{/coaches/{coachId}(coachId=${coach.id})}"
+                                                                      th:text="${coach.username}">Ryan Jackson</a>
+                            <small
+                                    class="text-danger">Fitness</small>
+                        </h5>
+                        <div class="box-member-caption">
+                            <div class="box-member-caption-inner">
+                                <ul class="list-inline list-inline-xs text-center">
+                                    <li class="list-inline-item"><a
+                                            class="novi-icon icon icon-xxs icon-circle icon-darkest-filled fab fa-facebook"
+                                            href="#"></a></li>
+                                    <li class="list-inline-item"><a
+                                            class="novi-icon icon icon-xxs icon-circle icon-darkest-filled fab fa-twitter"
+                                            href="#"></a></li>
+                                    <li class="list-inline-item"><a
+                                            class="novi-icon icon icon-xxs icon-circle icon-darkest-filled fab fa-google-plus"
+                                            href="#"></a></li>
+                                    <li class="list-inline-item"><a
+                                            class="novi-icon icon icon-xxs icon-circle icon-darkest-filled fab fa-linkedin"
+                                            href="#"></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="offset-xl-top-0 text-muted">He has more than 10 years of experience in Fitness and
+                        professional athletics.</p>
+
+                    <div th:if="${allCoaches.totalPages > 1}" class="mt-3">
+                        <ul class="pagination justify-content-center">
+                            <li th:if="${allCoaches.number > 0}" class="page-item">
+                                <a th:href="@{${'/workouts/all'}(page=${allCoaches.number - 1})}" class="page-link">&lt; Prev</a>
+                            </li>
+                            <li th:each="page : ${#numbers.sequence(0, allCoaches.totalPages - 1)}"
+                                th:class="${page} == ${allCoaches.number} ? 'page-item active' : 'page-item'">
+                                <a th:href="@{${'/workouts/all'}(page=${page})}" class="page-link" th:text="${page + 1}"></a>
+                            </li>
+                            <li th:if="${allCoaches.number + 1 < allCoaches.totalPages}" class="page-item">
+                                <a th:href="@{${'/workouts/all'}(page=${allCoaches.number + 1})}" class="page-link">Next &gt;</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <a th:href="@{/coaches/{id}(id=*{id})}" type="submit" class="btn btn-info mt-2" style="width: 100%;">Coach
-                    Details</a>
             </div>
         </div>
     </div>
 </div>
-
 
 <footer th:replace="~{fragments/footer}"></footer>
 

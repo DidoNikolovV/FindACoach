@@ -12,6 +12,9 @@ import com.softuni.fitlaunch.service.CoachService;
 import com.softuni.fitlaunch.service.ScheduleWorkoutService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,12 +45,16 @@ public class CoachController {
     }
 
     @GetMapping("/all")
-    public String allCoaches(Principal principal, Model model) {
+    public String allCoaches(Principal principal, Model model, @PageableDefault(
+            size = 6,
+            sort = "id"
+    ) Pageable pageable) {
         ClientDTO client = clientService.getClientByUsername(principal.getName());
         if (client.getCoach() != null) {
             return "redirect:/coaches/coach/" + client.getCoach().getId();
         }
-        List<UserCoachView> allCoaches = coachService.getAllCoaches();
+
+        Page<UserCoachView> allCoaches = coachService.getAllCoaches(pageable);
 
         model.addAttribute("allCoaches", allCoaches);
 
