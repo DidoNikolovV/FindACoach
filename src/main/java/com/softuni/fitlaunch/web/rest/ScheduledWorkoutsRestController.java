@@ -2,16 +2,16 @@ package com.softuni.fitlaunch.web.rest;
 
 
 import com.softuni.fitlaunch.model.dto.view.ScheduledWorkoutView;
+import com.softuni.fitlaunch.model.dto.workout.WorkoutRequest;
 import com.softuni.fitlaunch.service.ScheduleWorkoutService;
 import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -36,5 +36,13 @@ public class ScheduledWorkoutsRestController {
     public ResponseEntity<List<ScheduledWorkoutView>> deleteScheduledWorkout(@PathVariable("username") String username, @PathVariable("eventId") Long eventId) throws ResourceNotFoundException {
         scheduleWorkoutService.deleteScheduledWorkout(eventId);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/{coachUsername}")
+    public ResponseEntity<Void> scheduleWorkout(@PathVariable("coachUsername") String coachUsername, @RequestBody WorkoutRequest workoutRequest,
+                                                Principal principal) {
+        String scheduledTime = workoutRequest.getWorkoutDate();
+        scheduleWorkoutService.scheduleWorkout(principal.getName(), coachUsername, scheduledTime);
+        return ResponseEntity.ok().build();
     }
 }

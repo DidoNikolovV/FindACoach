@@ -9,7 +9,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 
 @Getter
@@ -26,5 +26,5 @@ public class ScheduledWorkoutEntity extends BaseEntity {
     @JoinColumn(name = "client_id")
     private ClientEntity client;
 
-    private LocalDateTime scheduledDateTime;
+    private LocalDate scheduledDate;
 }

@@ -1,8 +1,6 @@
 package com.softuni.fitlaunch.service;
 
 
-import com.softuni.fitlaunch.model.dto.user.ClientDTO;
-import com.softuni.fitlaunch.model.dto.user.CoachDTO;
 import com.softuni.fitlaunch.model.dto.view.ScheduledWorkoutView;
 import com.softuni.fitlaunch.model.entity.ClientEntity;
 import com.softuni.fitlaunch.model.entity.CoachEntity;
@@ -13,6 +11,7 @@ import com.softuni.fitlaunch.repository.ScheduledWorkoutRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -33,13 +32,14 @@ public class ScheduleWorkoutService {
         this.userService = userService;
     }
 
-    public void scheduleWorkout(ClientDTO clientDTO, CoachDTO coachDTO, LocalDateTime scheduledTime) {
-        ClientEntity clientEntity = clientService.getClientEntityByUsername(clientDTO.getUsername());
-        CoachEntity coachEntity = coachService.getCoachEntityByUsername(coachDTO.getUsername());
+    public void scheduleWorkout(String clientUsername, String coachUsername, String scheduledTime) {
+        ClientEntity clientEntity = clientService.getClientEntityByUsername(clientUsername);
+        CoachEntity coachEntity = coachService.getCoachEntityByUsername(coachUsername);
         ScheduledWorkoutEntity scheduledWorkoutEntity = new ScheduledWorkoutEntity();
         scheduledWorkoutEntity.setClient(clientEntity);
         scheduledWorkoutEntity.setCoach(coachEntity);
-        scheduledWorkoutEntity.setScheduledDateTime(scheduledTime);
+        LocalDate parse = LocalDate.parse(scheduledTime);
+        scheduledWorkoutEntity.setScheduledDate(parse);
 
         scheduledWorkoutRepository.save(scheduledWorkoutEntity);
 
@@ -57,7 +57,7 @@ public class ScheduleWorkoutService {
             allScheduledWorkouts = scheduledWorkoutRepository.findAllByCoachId(coach.getId());
         }
 
-        return allScheduledWorkouts.stream().map(scheduledWorkoutEntity -> new ScheduledWorkoutView(scheduledWorkoutEntity.getId(), scheduledWorkoutEntity.getClient().getUsername(), scheduledWorkoutEntity.getCoach().getUsername(), scheduledWorkoutEntity.getScheduledDateTime().toString())).toList();
+        return allScheduledWorkouts.stream().map(scheduledWorkoutEntity -> new ScheduledWorkoutView(scheduledWorkoutEntity.getId(), scheduledWorkoutEntity.getClient().getUsername(), scheduledWorkoutEntity.getCoach().getUsername(), scheduledWorkoutEntity.getScheduledDate().toString())).toList();
     }
 
 

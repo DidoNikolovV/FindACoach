@@ -72,15 +72,15 @@ public class CoachController {
         return "coach";
     }
 
-    @PostMapping("/coach/{coachId}/schedule")
-    public String scheduleWorkout(@PathVariable("coachId") Long coachId, Principal principal, @Valid ScheduledWorkoutDTO scheduledWorkoutDTO) {
-        CoachDTO coach = coachService.getCoachById(coachId);
-        ClientDTO client = clientService.getClientByUsername(principal.getName());
-
-        scheduleWorkoutService.scheduleWorkout(client, coach, scheduledWorkoutDTO.getScheduledDateTime());
-
-        return String.format("redirect:/users/%s/calendar", client.getUsername());
-    }
+//    @PostMapping("/coach/{coachId}/schedule")
+//    public String scheduleWorkout(@PathVariable("coachId") Long coachId, Principal principal, @Valid ScheduledWorkoutDTO scheduledWorkoutDTO) {
+//        CoachDTO coach = coachService.getCoachById(coachId);
+//        ClientDTO client = clientService.getClientByUsername(principal.getName());
+//
+//        scheduleWorkoutService.scheduleWorkout(client, coach, scheduledWorkoutDTO.getScheduledDateTime());
+//
+//        return String.format("redirect:/users/%s/calendar", client.getUsername());
+//    }
 
     @GetMapping("/{id}")
     public String coachDetails(@PathVariable("id") Long id, Model model) {
