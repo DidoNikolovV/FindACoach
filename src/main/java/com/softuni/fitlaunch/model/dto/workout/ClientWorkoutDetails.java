@@ -14,4 +14,5 @@ import java.util.List;
 public class ClientWorkoutDetails {
     private Long id;
     private String name;
+    private String workoutName;
 }

@@ -20,7 +20,7 @@ function workoutDetailsAsHTML(workout) {
 function openModal() {
     const clientName = document.getElementById("clientName").value;
     const workoutId = document.getElementById("clientWorkoutDetailsBtn").dataset.workoutId;
-    const dayName = document.getElementById("clientWorkoutDetailsBtn").dataset.workoutName;
+    const dayName = document.getElementById("clientWorkoutDetailsBtn").dataset.workoutDay;
 
     fetch(`${url}/api/v1/clients/completed-workouts/${clientName}/workouts/${workoutId}/${dayName}/details`, {
         headers: {
@@ -35,13 +35,14 @@ function openModal() {
     }).then(res => {
         console.log(res);
         const id = res.id;
-        const name = res.name;
+        const day = res.name;
+        const workoutName = res.workoutName;
 
         document.getElementById("workoutName").innerHTML = `
-            <h5>Workout Name: ${name}</h5>
+            <h5>Workout Name: ${workoutName}</h5>
         `;
         document.getElementById("workoutDescription").innerHTML = `
-            <p>Workout ID: ${id}, Workout Name: ${name}</p>
+            <p>Day: ${day}</p>
         `;
 
         $('#workoutDetailsModal').modal('show');
