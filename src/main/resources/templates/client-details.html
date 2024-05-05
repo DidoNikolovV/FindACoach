@@ -16,7 +16,8 @@
                         Weight Goal
                     </div>
                     <div class="card-body">
-                        <p><strong>Target Weight:</strong> <span class="card-text" th:text="*{weight} + ' kg'"></span></p>
+                        <p><strong>Target Weight:</strong> <span class="card-text" th:text="*{weight} + ' kg'"></span>
+                        </p>
                         <p><strong>Goal Description:</strong>
                     </div>
                 </div>
@@ -39,7 +40,8 @@
                     </div>
                     <div class="card-body">
                         <span class="font-weight-bold">Upcoming Sessions:</span>
-                        <p th:each="scheduledWorkout : *{scheduledWorkouts}" th:text="${scheduledWorkout.scheduledDateTime}"></p>
+                        <p th:each="scheduledWorkout : *{scheduledWorkouts}"
+                           th:text="${scheduledWorkout.scheduledDate}"></p>
                     </div>
                 </div>
             </div>
@@ -54,18 +56,50 @@
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">Workouts Completed</h5>
+                        <input type="hidden" id="clientName" th:value="${client.username}">
                         <ul class="list-group">
                             <li class="list-group-item" th:each="completedWorkout : ${client.completedWorkouts}">
                                 <div>
                                     <span th:text="${completedWorkout.workout.name}"></span>
                                     <span th:text="${completedWorkout.name}"></span>
+                                    <!-- Add data attributes to store workout details -->
+                                    <button type="button" class="btn btn-primary client-workout-details-btn"
+                                            id="clientWorkoutDetailsBtn"
+                                            th:data-workout-id="${completedWorkout.workout.id}"
+                                            th:data-workout-name="${completedWorkout.name}">
+                                        <!--                                                th:data-workout-exercises="${completedWorkout.workout.exercises}">-->
+                                        Details
+                                    </button>
                                 </div>
                             </li>
-<!--                            <li class="list-group-item">Workout 2</li>-->
-<!--                            <li class="list-group-item">Workout 3</li>-->
-                            <!-- Add more completed workouts dynamically from backend -->
                         </ul>
+
                     </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="workoutDetailsModal" tabindex="-1" role="dialog"
+                         aria-labelledby="workoutDetailsModalLabel"
+                         aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="workoutDetailsModalLabel">Workout Details</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body" id="modal-body">
+                                    <h5 id="workoutName"></h5>
+                                    <p id="workoutDescription"></p>
+                                    <!-- Add more workout details here as needed -->
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
             <div class="col">
@@ -76,15 +110,21 @@
                     <div class="card-body">
                         <h5 class="card-title">Weight Goal Progress</h5>
                         <div class="progress" style="height: 20px;">
-                            <div class="progress-bar bg-primary" role="progressbar" style="width: 70%;" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">70%</div>
+                            <div class="progress-bar bg-primary" role="progressbar" style="width: 70%;"
+                                 aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">70%
+                            </div>
                         </div>
                         <h5 class="card-title mt-4">Workouts Progress</h5>
                         <div class="progress" style="height: 20px;">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 80%;" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">80%</div>
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 80%;"
+                                 aria-valuenow="80" aria-valuemin="0" aria-valuemax="100">80%
+                            </div>
                         </div>
                         <h5 class="card-title mt-4">Overall Progress</h5>
                         <div class="progress" style="height: 20px;">
-                            <div class="progress-bar bg-info" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">75%</div>
+                            <div class="progress-bar bg-info" role="progressbar" style="width: 75%;" aria-valuenow="75"
+                                 aria-valuemin="0" aria-valuemax="100">75%
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -97,11 +137,9 @@
                     <div class="card-body">
                         <h5 class="card-title">Weight Records</h5>
                         <ul class="list-group">
-                            <li class="list-group-item" th:each="weight : ${client.weight}" th:text="${weight.date} + ': ' + ${weight.weight}">2024-04-25: 70 kg</li>
-<!--                            <li class="list-group-item">2024-04-26: 71 kg</li>-->
-<!--                            <li class="list-group-item">2024-04-27: 69 kg</li>-->
-<!--                            <li class="list-group-item"></li>-->
-                            <!-- Add more weight records dynamically from backend -->
+                            <li class="list-group-item" th:each="weight : ${client.weight}"
+                                th:text="${weight.date} + ': ' + ${weight.weight}">2024-04-25: 70 kg
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -111,9 +149,7 @@
 </header>
 
 
-
-
 <footer th:replace="~{fragments/footer}"></footer>
-
+<script th:src="@{/js/client-details.js}"></script>
 </body>
 </html>

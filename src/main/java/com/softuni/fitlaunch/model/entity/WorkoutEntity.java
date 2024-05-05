@@ -17,6 +17,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 @Getter
@@ -53,4 +54,19 @@ public class WorkoutEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "workout", fetch = FetchType.EAGER, orphanRemoval = true)
     private List<CommentEntity> comments;
+
+    @Override
+    public boolean equals(Object o) {
+
+
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        WorkoutEntity that = (WorkoutEntity) o;
+        return Objects.equals(author, that.author) && Objects.equals(imgUrl, that.imgUrl) && Objects.equals(name, that.name) && level == that.level && Objects.equals(description, that.description) && Objects.equals(likes, that.likes) && Objects.equals(exercises, that.exercises) && Objects.equals(dateCompleted, that.dateCompleted) && Objects.equals(comments, that.comments);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(author, imgUrl, name, level, description, likes, exercises, dateCompleted, comments);
+    }
 }

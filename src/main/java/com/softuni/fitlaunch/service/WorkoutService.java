@@ -1,14 +1,12 @@
 package com.softuni.fitlaunch.service;
 
 
+import com.softuni.fitlaunch.model.dto.week.DayWorkoutsDTO;
+import com.softuni.fitlaunch.model.dto.workout.ClientWorkoutDetails;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutCreationDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDetailsDTO;
-import com.softuni.fitlaunch.model.entity.CoachEntity;
-import com.softuni.fitlaunch.model.entity.DayWorkoutsEntity;
-import com.softuni.fitlaunch.model.entity.UserEntity;
-import com.softuni.fitlaunch.model.entity.WorkoutEntity;
-import com.softuni.fitlaunch.model.entity.WorkoutExerciseEntity;
+import com.softuni.fitlaunch.model.entity.*;
 import com.softuni.fitlaunch.model.enums.LevelEnum;
 import com.softuni.fitlaunch.repository.DayWorkoutsRepository;
 import com.softuni.fitlaunch.repository.WorkoutRepository;
@@ -105,6 +103,13 @@ public class WorkoutService {
 
         WorkoutDetailsDTO map = modelMapper.map(workout, WorkoutDetailsDTO.class);
         return map;
+    }
+
+    public ClientWorkoutDetails getWorkoutDetailsByIdForClient(Long workoutId, String clientName, String dayName) {
+        DayWorkoutsEntity workout = dayWorkoutsRepository.findByNameAndWorkoutId(dayName, workoutId).orElse(null);
+        UserEntity client = userService.getUserEntityByUsername(clientName);
+        DayWorkoutsEntity dayWorkoutsEntity = client.getCompletedWorkouts().stream().filter(completedWorkout -> completedWorkout.equals(workout)).toList().get(0);
+        return modelMapper.map(dayWorkoutsEntity, ClientWorkoutDetails.class);
     }
 
     public void startWorkout(Long workoutId, String username, String dayName) {

@@ -13,7 +13,7 @@ modal.addEventListener("click", openModal);
 document.getElementById("scheduleButton").addEventListener("click", scheduleWorkout);
 
 function openModal() {
-    $('#workoutModal').modal('show');
+    $('#workoutDetailsModal').modal('show');
 }
 
 function scheduleWorkout(e) {
