@@ -81,7 +81,7 @@
                                     <!-- Progress tracking for calories intake goal -->
                                     <div class="progress">
                                         <!-- Assuming metric.caloriesIntake and goal.caloriesIntake are available -->
-                                        <div class="progress-linear-bar bg-success" role="progressbar" th:aria-valuenow="${client.weight}" aria-valuemin="0" th:aria-valuemax="${client.weightGoal}"></div>
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 54%;" aria-valuenow="54" aria-valuemin="0" aria-valuemax="100">54%</div>
                                     </div>
                                 </td>
                             </tr>
@@ -92,7 +92,7 @@
                                     <!-- Progress tracking for calories intake goal -->
                                     <div class="progress">
                                         <!-- Assuming metric.caloriesIntake and goal.caloriesIntake are available -->
-                                        <div class="progress-bar" role="progressbar" aria-valuenow="metric.caloriesIntake" aria-valuemin="0" aria-valuemax="goal.caloriesIntake"></div>
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 73%;" aria-valuenow="73" aria-valuemin="0" aria-valuemax="100">73%</div>
                                     </div>
                                 </td>
                             </tr>
