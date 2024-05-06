@@ -111,10 +111,9 @@ public class CoachController {
     @GetMapping("/clients/{clientId}")
     public String coachClientDetails(@PathVariable("clientId") Long id, Principal principal, Model model) {
         CoachDTO coach = coachService.getCoachByUsername(principal.getName());
-        ClientDTO coachClientById = coachService.getCoachClientById(coach, id);
+        ClientDTO client = coachService.getCoachClientById(coach, id);
 
-        model.addAttribute("client", coachClientById);
-
+        model.addAttribute("client", client);
 
         return "client-details";
     }

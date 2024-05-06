@@ -64,20 +64,30 @@
                             <tbody>
                             <tr>
                                 <td>Weight</td>
-                                <td>Reduce by 5 lbs</td>
+                                <td th:text="${client.weightGoal}"></td>
                                 <td>
                                     <!-- Progress tracking for weight goal -->
                                     <div class="progress" style="height: 20px;">
-                                        <div class="progress-bar bg-info" role="progressbar" style="width: 75%;" aria-valuenow="75"
-                                             aria-valuemin="0" aria-valuemax="100">75%
+                                        <div class="progress-bar bg-success" role="progressbar" th:text="${weightProgress} + '%'" th:style="'width:' + ${weightProgress} + '%'" th:aria-valuenow="${client.weight}" aria-valuemin="0" th:aria-valuemax="${client.weightGoal}">75%
                                         </div>
                                     </div>
                                 </td>
                             </tr>
                             <!-- Repeat the same structure for other metrics and goals -->
                             <tr>
-                                <td>Calories Intake</td>
-                                <td>Reduce by 500 calories</td>
+                                <td>Performance goals</td>
+                                <td th:text="${client.performanceGoals}"></td>
+                                <td>
+                                    <!-- Progress tracking for calories intake goal -->
+                                    <div class="progress">
+                                        <!-- Assuming metric.caloriesIntake and goal.caloriesIntake are available -->
+                                        <div class="progress-linear-bar bg-success" role="progressbar" th:aria-valuenow="${client.weight}" aria-valuemin="0" th:aria-valuemax="${client.weightGoal}"></div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Body Composition Goals</td>
+                                <td th:text="${client.bodyCompositionGoal}"></td>
                                 <td>
                                     <!-- Progress tracking for calories intake goal -->
                                     <div class="progress">
@@ -86,7 +96,6 @@
                                     </div>
                                 </td>
                             </tr>
-                            <!-- Repeat for other metrics and goals -->
                             </tbody>
                         </table>
                     </div>
