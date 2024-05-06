@@ -51,16 +51,24 @@ public class CoachService {
 
 
     public void addClient(Long coachId, ClientDTO client) {
-        ClientEntity clientEntity = clientService.getClientEntityByUsername(client.getUsername());
-        clientEntity.setGoals(client.getGoals());
-        clientEntity.setNutritionalInformation(client.getNutritionalInformation());
-
+        ClientEntity clientEntity = setClientGoals(client);
         CoachEntity coachEntity = coachRepository.findById(coachId).orElseThrow(() -> new ResourceNotFoundException(COACH_DOES_NOT_EXIST));
 
         coachEntity.getClients().add(clientEntity);
         clientEntity.setCoach(coachEntity);
 
         coachRepository.save(coachEntity);
+    }
+
+    private ClientEntity setClientGoals(ClientDTO client) {
+        ClientEntity clientEntity = clientService.getClientEntityByUsername(client.getUsername());
+
+        clientEntity.setWeight(client.getWeight());
+        clientEntity.setWeightGoal(client.getWeightGoal());
+        clientEntity.setPerformanceGoals(client.getPerformanceGoals());
+        clientEntity.setBodyCompositionGoal(client.getPerformanceGoals());
+
+        return clientEntity;
     }
 
     public UserCoachDetailsView getCoachDetailsById(Long id) {

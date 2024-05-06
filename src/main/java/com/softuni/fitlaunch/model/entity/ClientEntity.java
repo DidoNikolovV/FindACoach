@@ -31,17 +31,21 @@ public class ClientEntity extends BaseEntity {
     @Email
     private String email;
 
+    @Column(name = "weight")
+    private Double weight;
+
+    @Column(name = "weight_goal")
+    private Double weightGoal;
+
+    @Column(name = "performance_goals")
+    private String performanceGoals;
+
+    @Column(name = "body_composition_goal")
+    private String bodyCompositionGoal;
+
     @Column(name = "img_url")
     private String imgUrl;
 
-    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
-    private List<DailyWeightEntity> weight;
-
-    @Column(name = "goals")
-    private String goals;
-
-    @Column(name = "nutritional_information")
-    private String nutritionalInformation;
 
     @ManyToOne
     @JoinColumn(name = "coach_id")

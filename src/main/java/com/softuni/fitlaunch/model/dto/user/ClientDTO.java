@@ -24,13 +24,15 @@ public class ClientDTO {
     @Email
     private String email;
 
+    private Double weight;
+
+    private Double weightGoal;
+
+    private String performanceGoals;
+
+    private String bodyCompositionGoal;
+
     private String imgUrl;
-
-    private List<DailyMetricsDTO> weight;
-
-    private String goals;
-
-    private String nutritionalInformation;
 
     private CoachDTO coach;
 
