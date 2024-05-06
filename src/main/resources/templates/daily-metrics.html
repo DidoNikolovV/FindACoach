@@ -9,7 +9,7 @@
         <div class="col-md-8">
             <div class="d-flex flex-column">
                 <h2 class="mt-4 text-center">Daily Tracker</h2>
-                <form th:action="@{/clients/weight/{clientName}(clientName=${#authentication.principal.username})}"
+                <form th:action="@{/clients/daily-metrics/{clientName}(clientName=${#authentication.principal.username})}"
                       th:method="post">
                     <!-- Physical Metrics -->
                     <h4>Physical Metrics</h4>

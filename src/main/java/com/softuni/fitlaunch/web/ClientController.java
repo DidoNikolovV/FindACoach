@@ -65,14 +65,14 @@ public class ClientController {
         return "client-details";
     }
 
-    @GetMapping("/weight/{clientName}")
+    @GetMapping("/daily-metrics/{clientName}")
     public String loadClientWeightInput(@PathVariable("clientName") String clientName, Model model) {
         ClientDTO client = clientService.getClientByUsername(clientName);
 
         model.addAttribute("client", client);
-        model.addAttribute("dailWeightDTO", new DailyMetricsDTO());
+        model.addAttribute("dailyMetricsDTO", new DailyMetricsDTO());
 
-        return "weight";
+        return "daily-metrics";
     }
 
     @PostMapping("/weight/{clientName}")
