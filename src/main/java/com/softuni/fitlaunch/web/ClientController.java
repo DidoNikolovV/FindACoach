@@ -75,9 +75,9 @@ public class ClientController {
         return "daily-metrics";
     }
 
-    @PostMapping("/weight/{clientName}")
+    @PostMapping("/daily-metrics/{clientName}")
     public String submitClientWeightInput(@PathVariable("clientName") String clientName, @ModelAttribute("dailWeightDTO") DailyMetricsDTO dailyWeightDTO) {
-        clientService.saveWeightInput(clientName, dailyWeightDTO);
+        clientService.saveDailyMetrics(clientName, dailyWeightDTO);
 
         return "redirect:/";
     }
