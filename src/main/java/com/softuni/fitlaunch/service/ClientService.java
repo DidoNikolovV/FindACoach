@@ -3,7 +3,7 @@ package com.softuni.fitlaunch.service;
 
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.CoachDTO;
-import com.softuni.fitlaunch.model.dto.user.DailyWeightDTO;
+import com.softuni.fitlaunch.model.dto.user.DailyMetricsDTO;
 import com.softuni.fitlaunch.model.entity.ClientEntity;
 import com.softuni.fitlaunch.model.entity.DailyWeightEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
@@ -13,7 +13,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,7 +47,7 @@ public class ClientService {
         return clientRepository.findAllByCoachId(coach.getId()).stream().map(client -> modelMapper.map(client, ClientDTO.class)).collect(Collectors.toList());
     }
 
-    public void saveWeightInput(String clientName, DailyWeightDTO dailyWeightDTO) {
+    public void saveWeightInput(String clientName, DailyMetricsDTO dailyWeightDTO) {
         ClientEntity clientEntity = getClientEntityByUsername(clientName);
         DailyWeightEntity dailWeightEntity = new DailyWeightEntity();
         dailWeightEntity.setWeight(dailyWeightDTO.getWeight());

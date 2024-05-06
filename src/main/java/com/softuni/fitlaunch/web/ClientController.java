@@ -3,7 +3,7 @@ package com.softuni.fitlaunch.web;
 
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.CoachDTO;
-import com.softuni.fitlaunch.model.dto.user.DailyWeightDTO;
+import com.softuni.fitlaunch.model.dto.user.DailyMetricsDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.workout.ScheduledWorkoutDTO;
 import com.softuni.fitlaunch.service.ClientService;
@@ -70,13 +70,13 @@ public class ClientController {
         ClientDTO client = clientService.getClientByUsername(clientName);
 
         model.addAttribute("client", client);
-        model.addAttribute("dailWeightDTO", new DailyWeightDTO());
+        model.addAttribute("dailWeightDTO", new DailyMetricsDTO());
 
         return "weight";
     }
 
     @PostMapping("/weight/{clientName}")
-    public String submitClientWeightInput(@PathVariable("clientName") String clientName, @ModelAttribute("dailWeightDTO") DailyWeightDTO dailyWeightDTO) {
+    public String submitClientWeightInput(@PathVariable("clientName") String clientName, @ModelAttribute("dailWeightDTO") DailyMetricsDTO dailyWeightDTO) {
         clientService.saveWeightInput(clientName, dailyWeightDTO);
 
         return "redirect:/";

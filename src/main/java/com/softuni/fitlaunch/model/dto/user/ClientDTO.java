@@ -25,7 +25,7 @@ public class ClientDTO {
 
     private String imgUrl;
 
-    private List<DailyWeightDTO> weight;
+    private List<DailyMetricsDTO> weight;
 
     private String goals;
 

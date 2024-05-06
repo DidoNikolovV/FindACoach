@@ -6,12 +6,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class DailyWeightDTO {
-    private LocalDate date;
+public class DailyMetricsDTO {
     private Double weight;
+    private Double caloriesIntake;
+    private Double stepsCount;
+    private Double sleepDuration;
+    private Integer mood;
+    private Integer energyLevels;
+    private LocalDate date;
 }
