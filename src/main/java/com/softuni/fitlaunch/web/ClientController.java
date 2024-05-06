@@ -57,10 +57,12 @@ public class ClientController {
 
         client.setCompletedWorkouts(user.getCompletedWorkoutsIds());
         List<ScheduledWorkoutDTO> scheduledWorkouts = client.getScheduledWorkouts();
+        List<DailyMetricsDTO> metrics = client.getDailyMetrics();
 
         model.addAttribute("client", client);
         model.addAttribute("coach", coach);
         model.addAttribute("scheduledWorkouts", scheduledWorkouts);
+        model.addAttribute("metrics", metrics);
 
         return "client-details";
     }

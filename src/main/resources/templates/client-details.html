@@ -129,21 +129,42 @@
                     </div>
                 </div>
             </div>
-            <div class="col">
-                <div class="card" style="height: 100%">
-                    <div class="card-header">
-                        Daily Weight
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Weight Records</h5>
-                        <ul class="list-group">
-                            <li class="list-group-item" th:each="weight : ${client.weight}"
-                                th:text="${weight.date} + ': ' + ${weight.weight}">2024-04-25: 70 kg
-                            </li>
-                        </ul>
+            <div class="row mt-4">
+                <div class="col">
+                    <div class="card" style="height: 100%">
+                        <div class="card-header">
+                            <h5 class="card-title">Metrics</h5>
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Weight</th>
+                                    <th>Calories Intake</th>
+                                    <th>Steps Count</th>
+                                    <th>Sleep Duration</th>
+                                    <th>Mood</th>
+                                    <th>Energy Levels</th>
+                                    <th>Date</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr th:each="metric : ${metrics}">
+                                    <td th:text="${metric.weight}"></td>
+                                    <td th:text="${metric.caloriesIntake}"></td>
+                                    <td th:text="${metric.stepsCount}"></td>
+                                    <td th:text="${metric.sleepDuration}"></td>
+                                    <td th:text="${metric.mood}"></td>
+                                    <td th:text="${metric.energyLevels}"></td>
+                                    <td th:text="${metric.date}"></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </div>
 </header>
