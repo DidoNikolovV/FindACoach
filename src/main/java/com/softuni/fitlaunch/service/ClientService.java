@@ -9,11 +9,13 @@ import com.softuni.fitlaunch.model.entity.DailyMetricsEntity;
 import com.softuni.fitlaunch.model.entity.DailyWeightEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.repository.ClientRepository;
+import com.softuni.fitlaunch.repository.DailyMetricsRepository;
 import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,12 +23,14 @@ import java.util.stream.Collectors;
 public class ClientService {
 
     private final ClientRepository clientRepository;
+    private final DailyMetricsRepository dailyMetricsRepository;
 
     private final ModelMapper modelMapper;
 
 
-    public ClientService(ClientRepository clientRepository, ModelMapper modelMapper) {
+    public ClientService(ClientRepository clientRepository, DailyMetricsRepository dailyMetricsRepository, ModelMapper modelMapper) {
         this.clientRepository = clientRepository;
+        this.dailyMetricsRepository = dailyMetricsRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -57,6 +61,42 @@ public class ClientService {
         clientEntity.getDailyMetrics().add(dailyMetrics);
 
         clientRepository.save(clientEntity);
+    }
+
+    public List<DailyMetricsDTO> calculateAverageWeeklyMetrics(String clientName) {
+        ClientEntity client = getClientEntityByUsername(clientName);
+
+        List<DailyMetricsEntity> metrics = dailyMetricsRepository.findAllByClientId(client.getId());
+
+        return calculateAverage(metrics);
+    }
+
+    private List<DailyMetricsDTO> calculateAverage(List<DailyMetricsEntity> metrics) {
+        List<DailyMetricsDTO> averageMetrics = new ArrayList<>();
+        Double totalWeight = 0D;
+        Double totalStepsCount = 0D;
+        Double totalSleepDuration = 0D;
+        Integer totalMood = 0;
+        Integer totalEnergyLevels = 0;
+        for(int i = 0; i < metrics.size(); i++) {
+             totalWeight += metrics.get(i).getWeight();
+             totalStepsCount += metrics.get(i).getStepsCount();
+             totalSleepDuration += metrics.get(i).getSleepDuration();
+             totalMood += metrics.get(i).getMood();
+             totalEnergyLevels += metrics.get(i).getEnergyLevels();
+        }
+
+        DailyMetricsDTO dailyMetricsDTO = new DailyMetricsDTO();
+
+        dailyMetricsDTO.setWeight(totalWeight / 2);
+        dailyMetricsDTO.setStepsCount(totalStepsCount / 2);
+        dailyMetricsDTO.setSleepDuration(totalSleepDuration / 2);
+        dailyMetricsDTO.setMood(totalMood / 2);
+        dailyMetricsDTO.setEnergyLevels(totalEnergyLevels / 2);
+
+        averageMetrics.add(dailyMetricsDTO);
+
+        return averageMetrics;
     }
 }
 
