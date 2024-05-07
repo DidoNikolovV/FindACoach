@@ -28,7 +28,6 @@ function openDataModal() {
             document.getElementById("avgMood").innerText = convertMood(data.mood);
             document.getElementById("avgEnergyLevels").innerText = convertEnergyLevels(data.energyLevels);
         }
-        // Populate the modal fields with data from the response
 
         $('#weeklyDataModal').modal('show');
     }).catch(function(error) {
@@ -36,17 +35,14 @@ function openDataModal() {
     });
 }
 
-// Helper functions to convert mood and energyLevels integer values to strings
 function convertMood(mood) {
-    // Implement your logic here to convert mood integer to string
-    // Example logic:
-    if (mood === 1) {
+    if (mood >= 1 && mood < 4) {
         return "Poor";
-    } else if (mood === 2) {
+    } else if (mood >= 4 && mood < 6) {
         return "Fair";
-    } else if (mood === 3) {
+    } else if (mood >= 6 && mood < 9) {
         return "Good";
-    } else if (mood === 4) {
+    } else if (mood >= 9 && mood <= 10) {
         return "Excellent";
     } else {
         return "Unknown";
@@ -54,13 +50,12 @@ function convertMood(mood) {
 }
 
 function convertEnergyLevels(energyLevels) {
-    // Implement your logic here to convert energyLevels integer to string
-    // Example logic:
-    if (energyLevels === 1) {
+
+    if (energyLevels >= 1 && energyLevels < 4) {
         return "Low";
-    } else if (energyLevels === 2) {
+    } else if (energyLevels >= 4 && energyLevels <= 7) {
         return "Moderate";
-    } else if (energyLevels === 3) {
+    } else if (energyLevels > 7 && energyLevels <= 10) {
         return "High";
     } else {
         return "Unknown";
