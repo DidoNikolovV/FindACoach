@@ -16,7 +16,59 @@
                 <div class="card" style="height: 100%">
                     <div class="card-header d-flex justify-content-between">
                         <h5 class="card-title">Metrics</h5>
-                        <button type="submit" class="btn btn-info w-25">Data</button>
+                        <button type="submit" class="btn btn-info w-25" data-toggle="modal" data-target="#weeklyDataModal">Data</button>
+                    </div>
+                    <!-- Modal -->
+                    <div class="modal fade" id="weeklyDataModal" tabindex="-1" aria-labelledby="weeklyDataModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="weeklyDataModalLabel">Weekly Data</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <!-- Placeholder for displaying weekly data -->
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th>Week</th>
+                                            <th>Weight</th>
+                                            <th>Steps Count</th>
+                                            <th>Sleep Duration</th>
+                                            <th>Mood</th>
+                                            <th>Energy Levels</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <!-- Data will be dynamically populated here -->
+                                        <!-- For demonstration purposes, you can fill this part with sample data -->
+                                        <tr>
+                                            <td>Week 1</td>
+                                            <td>75 kg</td>
+                                            <td>10000</td>
+                                            <td>7 hours</td>
+                                            <td>Good</td>
+                                            <td>High</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Week 2</td>
+                                            <td>74 kg</td>
+                                            <td>12000</td>
+                                            <td>7.5 hours</td>
+                                            <td>Excellent</td>
+                                            <td>High</td>
+                                        </tr>
+                                        <!-- Add more rows for additional weeks -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="card-body">
                         <table class="table">
