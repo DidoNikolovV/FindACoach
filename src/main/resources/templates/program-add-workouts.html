@@ -10,11 +10,13 @@
                 <h5>Add Workouts to Days</h5>
             </div>
             <div class="card-body align-content-center" style="width: 25rem">
-                <form th:action="@{/programs/create/{programId}(programId=${program.id})}" method="post" th:object="${weekCreationDTO}">
+                <form th:action="@{/programs/create/{programId}(programId=${program.id})}" method="post"
+                      th:object="${weekCreationDTO}">
                     <div class="form-group">
                         <label for="weekSelect">Select Week:</label>
                         <select class="form-control" id="weekSelect" name="week" th:field="*{number}">
-                            <option th:each="week, weekStat : ${program.weeks}" th:value="${weekStat.index + 1}" th:text="${weekStat.index + 1}" id="weekNumber"></option>
+                            <option th:each="week, weekStat : ${program.weeks}" th:value="${weekStat.index + 1}"
+                                    th:text="${weekStat.index + 1}" id="weekNumber"></option>
                         </select>
                     </div>
 
@@ -29,7 +31,8 @@
 
             <input type="hidden" id="programId" th:value="${program.id}">
             <!-- Modal -->
-            <div class="modal fade" id="workoutModal" tabindex="-1" role="dialog" aria-labelledby="workoutModalLabel" aria-hidden="true">
+            <div class="modal fade" id="workoutModal" tabindex="-1" role="dialog" aria-labelledby="workoutModalLabel"
+                 aria-hidden="true">
                 <form method="post" th:action="@{/workouts}">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">

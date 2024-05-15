@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "daily_weight")
@@ -20,6 +19,6 @@ public class DailyWeightEntity extends BaseEntity {
     private Double weight;
 
     @ManyToOne
-    @JoinColumn(name ="client_id")
+    @JoinColumn(name = "client_id")
     private ClientEntity client;
 }

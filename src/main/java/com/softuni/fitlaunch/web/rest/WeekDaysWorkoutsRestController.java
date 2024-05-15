@@ -2,7 +2,6 @@ package com.softuni.fitlaunch.web.rest;
 
 import com.softuni.fitlaunch.model.dto.week.DayWorkoutsDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutAddDTO;
-import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.service.WorkoutService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

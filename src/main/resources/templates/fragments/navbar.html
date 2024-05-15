@@ -44,7 +44,9 @@
                     <a class="nav-link text-white h6" href="/coaches/all">Coaches</a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'CLIENT')">
-                    <a class="nav-link text-white h6" th:href="@{/clients/daily-metrics/{clientName}(clientName=${#authentication.principal.username})}">Daily Metrics</a>
+                    <a class="nav-link text-white h6"
+                       th:href="@{/clients/daily-metrics/{clientName}(clientName=${#authentication.principal.username})}">Daily
+                        Metrics</a>
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('COACH')">
                     <a class="nav-link text-white h6"

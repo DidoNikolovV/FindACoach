@@ -10,10 +10,12 @@
             <div class="member-block-type-5 inset-lg-right-20"><img class="img-fluid mx-auto d-block"
                                                                     th:src="${coach.imgUrl}" width="437"
                                                                     height="437" alt="">
-                <form id="scheduleForm" th:method="POST" th:action="@{/schedule-workouts/{coachUsername}(coachUsername=${coach.username})}">
+                <form id="scheduleForm" th:method="POST"
+                      th:action="@{/schedule-workouts/{coachUsername}(coachUsername=${coach.username})}">
                     <div class="member-block-body mt-3">
                         <button type="button" class="btn btn-block btn-danger" id="openModal">Schedule Workout</button>
-                        <div class="modal fade" id="workoutModal" tabindex="-1" role="dialog" aria-labelledby="workoutModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="workoutModal" tabindex="-1" role="dialog"
+                             aria-labelledby="workoutModalLabel" aria-hidden="true">
                             <div class="modal-dialog" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -28,8 +30,10 @@
                                         <input type="hidden" id="coachUsername" th:value="${coach.username}">
                                     </div>
                                     <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                        <button type="button" class="btn btn-primary" id="scheduleButton">Schedule</button>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
+                                        </button>
+                                        <button type="button" class="btn btn-primary" id="scheduleButton">Schedule
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -79,7 +83,8 @@
                th:text="${coach.username} + ' is your personal fitness coach. With a Bachelor’s in Physical Health and Education, and a Master’s in Exercise Science from Los Angeles University, you are in good hands.'"></p>
             <div class="offset-top-30 text-center">
                 <p>
-                    <q class="font-italic h3 text-regular">Get ready to embark on a journey towards achieving your fitness goals and unlocking your full potential.</q>
+                    <q class="font-italic h3 text-regular">Get ready to embark on a journey towards achieving your
+                        fitness goals and unlocking your full potential.</q>
                 </p>
             </div>
 

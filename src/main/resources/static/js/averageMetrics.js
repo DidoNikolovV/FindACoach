@@ -21,7 +21,7 @@ function openDataModal() {
         return res.json();
     }).then(res => {
         console.log(res);
-        for(let data of res) {
+        for (let data of res) {
             document.getElementById("avgWeight").innerText = data.weight + " kg";
             document.getElementById("avgStepsCount").innerText = data.stepsCount;
             document.getElementById("avgSleep").innerText = data.sleepDuration + " hours";
@@ -30,7 +30,7 @@ function openDataModal() {
         }
 
         $('#weeklyDataModal').modal('show');
-    }).catch(function(error) {
+    }).catch(function (error) {
         console.error('Error:', error.message);
     });
 }

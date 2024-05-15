@@ -10,27 +10,34 @@
           th:action="@{/coaches/{coachId}/client/information(coachId=${coach.id})}">
         <div class="form-group">
             <label for="username">Name</label>
-            <input type="text" class="form-control" id="username" placeholder="Enter your name" th:field="${client.username}">
+            <input type="text" class="form-control" id="username" placeholder="Enter your name"
+                   th:field="${client.username}">
         </div>
         <div class="form-group">
             <label for="email">Email address</label>
-            <input type="email" class="form-control" id="email" placeholder="Enter your email" th:field="${client.email}">
+            <input type="email" class="form-control" id="email" placeholder="Enter your email"
+                   th:field="${client.email}">
         </div>
         <div class="form-group">
             <label for="currentWeight">Current Weight</label>
-            <input type="text" class="form-control" id="currentWeight" placeholder="Enter your current weight" th:field="${client.weight}">
+            <input type="text" class="form-control" id="currentWeight" placeholder="Enter your current weight"
+                   th:field="${client.weight}">
         </div>
         <div class="form-group">
             <label for="weightGoal">Weight Goal</label>
-            <input type="text" class="form-control" id="weightGoal" placeholder="Enter your weight goal" th:field="${client.weightGoal}">
+            <input type="text" class="form-control" id="weightGoal" placeholder="Enter your weight goal"
+                   th:field="${client.weightGoal}">
         </div>
         <div class="form-group">
             <label for="performanceGoals">Performance Goals</label>
-            <textarea class="form-control" id="performanceGoals" rows="3" placeholder="Describe your fitness goals" th:field="${client.performanceGoals}"></textarea>
+            <textarea class="form-control" id="performanceGoals" rows="3" placeholder="Describe your fitness goals"
+                      th:field="${client.performanceGoals}"></textarea>
         </div>
         <div class="form-group">
             <label for="bodyCompositionGoals">Body Composition Goals</label>
-            <textarea class="form-control" id="bodyCompositionGoals" rows="3" placeholder="Reduce body fat percentage or increase muscle mass percentage" th:field="${client.bodyCompositionGoal}"></textarea>
+            <textarea class="form-control" id="bodyCompositionGoals" rows="3"
+                      placeholder="Reduce body fat percentage or increase muscle mass percentage"
+                      th:field="${client.bodyCompositionGoal}"></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>

@@ -3,7 +3,6 @@ package com.softuni.fitlaunch.service;
 
 import com.softuni.fitlaunch.model.dto.week.DayCreationDTO;
 import com.softuni.fitlaunch.model.dto.week.DayDTO;
-import com.softuni.fitlaunch.model.dto.week.WeekDTO;
 import com.softuni.fitlaunch.model.entity.DayWorkoutsEntity;
 import com.softuni.fitlaunch.model.entity.ProgramWeekEntity;
 import com.softuni.fitlaunch.repository.DayRepository;
@@ -65,7 +64,6 @@ public class WeekService {
     public List<DayDTO> getAllDaysByWeekId(Long weekId) {
         return dayRepository.findAllByWeekId(weekId).stream().map(day -> modelMapper.map(day, DayDTO.class)).toList();
     }
-
 
 
     public ProgramWeekEntity getWeekByWeekNumberAndProgramId(int weekNumber, Long programId) {

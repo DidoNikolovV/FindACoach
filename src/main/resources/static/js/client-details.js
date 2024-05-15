@@ -46,7 +46,7 @@ function openModal() {
         `;
 
         $('#workoutDetailsModal').modal('show');
-    }).catch(function(error) {
+    }).catch(function (error) {
         console.error('Error:', error.message);
     });
 }

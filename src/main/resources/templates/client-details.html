@@ -16,10 +16,13 @@
                 <div class="card" style="height: 100%">
                     <div class="card-header d-flex justify-content-between">
                         <h5 class="card-title">Metrics</h5>
-                        <button type="submit" class="btn btn-info w-25" data-toggle="modal" data-target="#weeklyDataModal" id="dataModalBtn">Data</button>
+                        <button type="submit" class="btn btn-info w-25" data-toggle="modal"
+                                data-target="#weeklyDataModal" id="dataModalBtn">Data
+                        </button>
                     </div>
                     <!-- Modal -->
-                    <div class="modal fade" id="weeklyDataModal" tabindex="-1" aria-labelledby="weeklyDataModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="weeklyDataModal" tabindex="-1" aria-labelledby="weeklyDataModalLabel"
+                         aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -52,14 +55,14 @@
                                             <td id="avgMood"></td>
                                             <td id="avgEnergyLevels"></td>
                                         </tr>
-<!--                                        <tr>-->
-<!--                                            <td>Week 2</td>-->
-<!--                                            <td>74 kg</td>-->
-<!--                                            <td>12000</td>-->
-<!--                                            <td>7.5 hours</td>-->
-<!--                                            <td>Excellent</td>-->
-<!--                                            <td>High</td>-->
-<!--                                        </tr>-->
+                                        <!--                                        <tr>-->
+                                        <!--                                            <td>Week 2</td>-->
+                                        <!--                                            <td>74 kg</td>-->
+                                        <!--                                            <td>12000</td>-->
+                                        <!--                                            <td>7.5 hours</td>-->
+                                        <!--                                            <td>Excellent</td>-->
+                                        <!--                                            <td>High</td>-->
+                                        <!--                                        </tr>-->
                                         <!-- Add more rows for additional weeks -->
                                         </tbody>
                                     </table>
@@ -121,7 +124,11 @@
                                 <td>
                                     <!-- Progress tracking for weight goal -->
                                     <div class="progress" style="height: 20px;">
-                                        <div class="progress-bar bg-success" role="progressbar" th:text="${weightProgress} + '%'" th:style="'width:' + ${weightProgress} + '%'" th:aria-valuenow="${client.weight}" aria-valuemin="0" th:aria-valuemax="${client.weightGoal}">75%
+                                        <div class="progress-bar bg-success" role="progressbar"
+                                             th:text="${weightProgress} + '%'"
+                                             th:style="'width:' + ${weightProgress} + '%'"
+                                             th:aria-valuenow="${client.weight}" aria-valuemin="0"
+                                             th:aria-valuemax="${client.weightGoal}">75%
                                         </div>
                                     </div>
                                 </td>
@@ -134,7 +141,9 @@
                                     <!-- Progress tracking for calories intake goal -->
                                     <div class="progress">
                                         <!-- Assuming metric.caloriesIntake and goal.caloriesIntake are available -->
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 54%;" aria-valuenow="54" aria-valuemin="0" aria-valuemax="100">54%</div>
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 54%;"
+                                             aria-valuenow="54" aria-valuemin="0" aria-valuemax="100">54%
+                                        </div>
                                     </div>
                                 </td>
                             </tr>
@@ -145,7 +154,9 @@
                                     <!-- Progress tracking for calories intake goal -->
                                     <div class="progress">
                                         <!-- Assuming metric.caloriesIntake and goal.caloriesIntake are available -->
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 73%;" aria-valuenow="73" aria-valuemin="0" aria-valuemax="100">73%</div>
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 73%;"
+                                             aria-valuenow="73" aria-valuemin="0" aria-valuemax="100">73%
+                                        </div>
                                     </div>
                                 </td>
                             </tr>

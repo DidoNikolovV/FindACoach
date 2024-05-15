@@ -75,7 +75,7 @@ function saveWorkouts(e) {
     let selectedWeek = document.getElementById("weekSelect").value;
     console.log(selectedWeek);
 
-    modalBody.querySelectorAll("select").forEach(function(selectMenu) {
+    modalBody.querySelectorAll("select").forEach(function (selectMenu) {
         const selectedOption = selectMenu.options[selectMenu.selectedIndex];
         const selectedId = selectedOption.getAttribute('data-id');
         const selectedDay = selectedOption.getAttribute('data-day');

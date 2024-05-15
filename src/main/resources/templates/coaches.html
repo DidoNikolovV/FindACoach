@@ -5,7 +5,8 @@
 <nav th:replace="~{fragments/navbar}">
 </nav>
 
-<div class="container d-flex flex-column flex-grow-1 align-items-center justify-content-center align-items-center justify-content-center" style="height: 100vh;">
+<div class="container d-flex flex-column flex-grow-1 align-items-center justify-content-center align-items-center justify-content-center"
+     style="height: 100vh;">
     <h1>Coaches</h1>
     <hr class="divider bg-danger">
     <div class="row justify-content-center">
@@ -17,7 +18,7 @@
                                                                                  th:src="${coach.imgUrl}"
                                                                                  alt="coach image">
                         <h5 class="font-weight-bold"><a th:href="@{/coaches/{coachId}(coachId=${coach.id})}"
-                                                                      th:text="${coach.username}">Ryan Jackson</a>
+                                                        th:text="${coach.username}">Ryan Jackson</a>
                             <small
                                     class="text-danger">Fitness</small>
                         </h5>
@@ -46,14 +47,17 @@
                     <div th:if="${allCoaches.totalPages > 1}" class="mt-3">
                         <ul class="pagination justify-content-center">
                             <li th:if="${allCoaches.number > 0}" class="page-item">
-                                <a th:href="@{${'/workouts/all'}(page=${allCoaches.number - 1})}" class="page-link">&lt; Prev</a>
+                                <a th:href="@{${'/workouts/all'}(page=${allCoaches.number - 1})}" class="page-link">&lt;
+                                    Prev</a>
                             </li>
                             <li th:each="page : ${#numbers.sequence(0, allCoaches.totalPages - 1)}"
                                 th:class="${page} == ${allCoaches.number} ? 'page-item active' : 'page-item'">
-                                <a th:href="@{${'/workouts/all'}(page=${page})}" class="page-link" th:text="${page + 1}"></a>
+                                <a th:href="@{${'/workouts/all'}(page=${page})}" class="page-link"
+                                   th:text="${page + 1}"></a>
                             </li>
                             <li th:if="${allCoaches.number + 1 < allCoaches.totalPages}" class="page-item">
-                                <a th:href="@{${'/workouts/all'}(page=${allCoaches.number + 1})}" class="page-link">Next &gt;</a>
+                                <a th:href="@{${'/workouts/all'}(page=${allCoaches.number + 1})}" class="page-link">Next
+                                    &gt;</a>
                             </li>
                         </ul>
                     </div>

@@ -2,16 +2,18 @@ package com.softuni.fitlaunch.service;
 
 
 import com.softuni.fitlaunch.model.dto.week.DayWorkoutsDTO;
-import com.softuni.fitlaunch.model.dto.week.WeekDTO;
 import com.softuni.fitlaunch.model.dto.workout.ClientWorkoutDetails;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutAddDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutCreationDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDetailsDTO;
-import com.softuni.fitlaunch.model.entity.*;
+import com.softuni.fitlaunch.model.entity.CoachEntity;
+import com.softuni.fitlaunch.model.entity.DayWorkoutsEntity;
+import com.softuni.fitlaunch.model.entity.ProgramWeekEntity;
+import com.softuni.fitlaunch.model.entity.UserEntity;
+import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.model.enums.LevelEnum;
 import com.softuni.fitlaunch.repository.DayWorkoutsRepository;
-import com.softuni.fitlaunch.repository.ProgramRepository;
 import com.softuni.fitlaunch.repository.WorkoutRepository;
 import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -35,8 +37,6 @@ public class WorkoutService {
 
     private final WorkoutExerciseService workoutExerciseService;
 
-    private final ClientService clientService;
-
 
     private final CoachService coachService;
 
@@ -46,19 +46,16 @@ public class WorkoutService {
 
     private final UserService userService;
     private final WeekService weekService;
-    private final ProgramRepository programRepository;
 
 
-    public WorkoutService(WorkoutRepository workoutRepository, WorkoutExerciseService workoutExerciseService, ClientService clientService, CoachService coachService, ModelMapper modelMapper, DayWorkoutsRepository dayWorkoutsRepository, UserService userService, WeekService weekService, ProgramRepository programRepository) {
+    public WorkoutService(WorkoutRepository workoutRepository, WorkoutExerciseService workoutExerciseService, CoachService coachService, ModelMapper modelMapper, DayWorkoutsRepository dayWorkoutsRepository, UserService userService, WeekService weekService) {
         this.workoutRepository = workoutRepository;
         this.workoutExerciseService = workoutExerciseService;
-        this.clientService = clientService;
         this.coachService = coachService;
         this.modelMapper = modelMapper;
         this.dayWorkoutsRepository = dayWorkoutsRepository;
         this.userService = userService;
         this.weekService = weekService;
-        this.programRepository = programRepository;
     }
 
     public WorkoutDTO createWorkout(WorkoutCreationDTO workoutCreationDTO, String authorUsername) {
@@ -194,18 +191,16 @@ public class WorkoutService {
     }
 
     public void completeExercise(Long workoutId, String dayName, Long exerciseId) {
-       workoutExerciseService.completeExercise(exerciseId, workoutId);
+        workoutExerciseService.completeExercise(exerciseId, workoutId);
     }
 
 
     public List<DayWorkoutsDTO> getAllByWorkoutIds(Long programId, int week, List<WorkoutAddDTO> workoutAddDTO) {
-        ProgramEntity programEntity = programRepository.findById(programId).orElse(null);
         ProgramWeekEntity weekEntity = weekService.getWeekByWeekNumberAndProgramId(week, programId);
         List<Long> ids = workoutAddDTO.stream().map(WorkoutAddDTO::getId).toList();
         List<WorkoutEntity> workouts = ids.stream().map(id -> workoutRepository.findById(id).get()).toList();
         List<DayWorkoutsEntity> daysWorkouts = workouts.stream().map(workout -> createDayWorkout(workout, weekEntity)).toList();
-        List<DayWorkoutsDTO> daysWorkoutsDTO = daysWorkouts.stream().map(dayWorkoutsEntity -> modelMapper.map(dayWorkoutsEntity, DayWorkoutsDTO.class)).toList();
-        return daysWorkoutsDTO;
+        return daysWorkouts.stream().map(dayWorkoutsEntity -> modelMapper.map(dayWorkoutsEntity, DayWorkoutsDTO.class)).toList();
     }
 
     private DayWorkoutsEntity createDayWorkout(WorkoutEntity workoutEntity, ProgramWeekEntity weekEntity) {

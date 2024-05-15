@@ -6,7 +6,6 @@ import com.softuni.fitlaunch.model.dto.user.CoachDTO;
 import com.softuni.fitlaunch.model.dto.user.DailyMetricsDTO;
 import com.softuni.fitlaunch.model.entity.ClientEntity;
 import com.softuni.fitlaunch.model.entity.DailyMetricsEntity;
-import com.softuni.fitlaunch.model.entity.DailyWeightEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.repository.ClientRepository;
 import com.softuni.fitlaunch.repository.DailyMetricsRepository;
@@ -78,12 +77,12 @@ public class ClientService {
         Double totalSleepDuration = 0D;
         Integer totalMood = 0;
         Integer totalEnergyLevels = 0;
-        for(int i = 0; i < metrics.size(); i++) {
-             totalWeight += metrics.get(i).getWeight();
-             totalStepsCount += metrics.get(i).getStepsCount();
-             totalSleepDuration += metrics.get(i).getSleepDuration();
-             totalMood += metrics.get(i).getMood();
-             totalEnergyLevels += metrics.get(i).getEnergyLevels();
+        for (int i = 0; i < metrics.size(); i++) {
+            totalWeight += metrics.get(i).getWeight();
+            totalStepsCount += metrics.get(i).getStepsCount();
+            totalSleepDuration += metrics.get(i).getSleepDuration();
+            totalMood += metrics.get(i).getMood();
+            totalEnergyLevels += metrics.get(i).getEnergyLevels();
         }
 
         DailyMetricsDTO dailyMetricsDTO = new DailyMetricsDTO();
