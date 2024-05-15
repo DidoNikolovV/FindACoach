@@ -14,7 +14,7 @@
                     <div class="form-group">
                         <label for="weekSelect">Select Week:</label>
                         <select class="form-control" id="weekSelect" name="week" th:field="*{number}">
-                            <option th:each="week, weekStat : ${program.weeks}" th:value="${weekStat.index + 1}" th:text="${weekStat.index + 1}"></option>
+                            <option th:each="week, weekStat : ${program.weeks}" th:value="${weekStat.index + 1}" th:text="${weekStat.index + 1}" id="weekNumber"></option>
                         </select>
                     </div>
 
@@ -27,98 +27,103 @@
                 </form>
             </div>
 
+            <input type="hidden" id="programId" th:value="${program.id}">
             <!-- Modal -->
             <div class="modal fade" id="workoutModal" tabindex="-1" role="dialog" aria-labelledby="workoutModalLabel" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="workoutModalLabel">Add Workouts to Days</h5>
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        <div class="modal-body">
-                            <!-- Workout selection form will be added here -->
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" id="saveWorkoutsBtn">Save</button>
+                <form method="post" th:action="@{/workouts}">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="workoutModalLabel">Add Workouts to Days</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body" id="modal-body">
+                                <!-- Workout selection form will be added here -->
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="button" class="btn btn-primary" id="saveWorkoutsBtn">Save</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
+
             </div>
         </div>
     </div>
 </header>
 <footer th:replace="~{fragments/footer}"></footer>
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-        document.getElementById("openModalBtn").addEventListener("click", function () {
-            // Get selected week number
-            var selectedWeek = document.getElementById("weekSelect").value;
+<script th:src="@{/js/createWeeks.js}"></script>
+<!--<script>-->
+<!--    document.addEventListener("DOMContentLoaded", function () {-->
+<!--        document.getElementById("openModalBtn").addEventListener("click", function () {-->
+<!--            // Get selected week number-->
+<!--            var selectedWeek = document.getElementById("weekSelect").value;-->
 
-            // Here you can use AJAX to fetch available workouts for the selected week
-            // and populate the modal body with workout selection options
-            // For now, let's assume you have a function called fetchWorkoutsForWeek(selectedWeek) to fetch workouts
+<!--            // Here you can use AJAX to fetch available workouts for the selected week-->
+<!--            // and populate the modal body with workout selection options-->
+<!--            // For now, let's assume you have a function called fetchWorkoutsForWeek(selectedWeek) to fetch workouts-->
 
-            // Call fetchWorkoutsForWeek(selectedWeek) to fetch workouts and populate modal
-            fetchWorkoutsForWeek(selectedWeek);
-        });
+<!--            // Call fetchWorkoutsForWeek(selectedWeek) to fetch workouts and populate modal-->
+<!--            fetchWorkoutsForWeek(selectedWeek);-->
+<!--        });-->
 
-        // Function to fetch workouts for the selected week and populate modal
-        function fetchWorkoutsForWeek(week) {
-            // Example: AJAX request to fetch workouts for the selected week
-            // Replace this with your actual AJAX call to fetch workouts
-            var workouts = [
-                { id: 1, name: "Workout 1" },
-                { id: 2, name: "Workout 2" },
-                { id: 3, name: "Workout 3" }
-            ];
+<!--        // Function to fetch workouts for the selected week and populate modal-->
+<!--        function fetchWorkoutsForWeek(week) {-->
+<!--            // Example: AJAX request to fetch workouts for the selected week-->
+<!--            // Replace this with your actual AJAX call to fetch workouts-->
+<!--            var workouts = [-->
+<!--                { id: 1, name: "Workout 1" },-->
+<!--                { id: 2, name: "Workout 2" },-->
+<!--                { id: 3, name: "Workout 3" }-->
+<!--            ];-->
 
-            // Example days
-            var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+<!--            // Example days-->
+<!--            var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];-->
 
-            // Clear previous content in modal body
-            var modalBody = document.querySelector("#workoutModal .modal-body");
-            modalBody.innerHTML = "";
+<!--            // Clear previous content in modal body-->
+<!--            var modalBody = document.querySelector("#workoutModal .modal-body");-->
+<!--            modalBody.innerHTML = "";-->
 
-            // Create form elements for each day with select menu for workouts
-            days.forEach(function (day) {
-                var dayLabel = document.createElement("label");
-                dayLabel.appendChild(document.createTextNode(day + ":"));
+<!--            // Create form elements for each day with select menu for workouts-->
+<!--            days.forEach(function (day) {-->
+<!--                var dayLabel = document.createElement("label");-->
+<!--                dayLabel.appendChild(document.createTextNode(day + ":"));-->
 
-                var selectMenu = document.createElement("select");
-                selectMenu.name = "workout_" + day;
-                selectMenu.className = "form-control";
+<!--                var selectMenu = document.createElement("select");-->
+<!--                selectMenu.name = "workout_" + day;-->
+<!--                selectMenu.className = "form-control";-->
 
-                // Populate select menu with workout options
-                workouts.forEach(function (workout) {
-                    var option = document.createElement("option");
-                    option.value = workout.id;
-                    option.text = workout.name;
-                    selectMenu.appendChild(option);
-                });
+<!--                // Populate select menu with workout options-->
+<!--                workouts.forEach(function (workout) {-->
+<!--                    var option = document.createElement("option");-->
+<!--                    option.value = workout.id;-->
+<!--                    option.text = workout.name;-->
+<!--                    selectMenu.appendChild(option);-->
+<!--                });-->
 
-                var br = document.createElement("br");
+<!--                var br = document.createElement("br");-->
 
-                // Append day label and select menu to modal body
-                modalBody.appendChild(dayLabel);
-                modalBody.appendChild(selectMenu);
-                modalBody.appendChild(br);
-            });
+<!--                // Append day label and select menu to modal body-->
+<!--                modalBody.appendChild(dayLabel);-->
+<!--                modalBody.appendChild(selectMenu);-->
+<!--                modalBody.appendChild(br);-->
+<!--            });-->
 
-            // Show the modal
-            $('#workoutModal').modal('show');
-        }
+<!--            // Show the modal-->
+<!--            $('#workoutModal').modal('show');-->
+<!--        }-->
 
-        // Save button click event handler
-        document.getElementById("saveWorkoutsBtn").addEventListener("click", function () {
-            // Here you can retrieve selected workouts for each day and perform necessary actions
-            // For now, let's just close the modal
-            $('#workoutModal').modal('hide');
-        });
-    });
-</script>
+<!--        // Save button click event handler-->
+<!--        document.getElementById("saveWorkoutsBtn").addEventListener("click", function () {-->
+<!--            // Here you can retrieve selected workouts for each day and perform necessary actions-->
+<!--            // For now, let's just close the modal-->
+<!--            $('#workoutModal').modal('hide');-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
 
 
 </body>
