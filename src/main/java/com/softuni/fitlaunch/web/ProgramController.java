@@ -128,7 +128,7 @@ public class ProgramController {
     }
 
     @GetMapping("/{programId}/weeks/{weekId}")
-    public String loadWeek(@PathVariable("programId") Long programId, @PathVariable("weekId") int weekId, Model model, Principal principal) {
+    public String loadWeek(@PathVariable("programId") Long programId, @PathVariable("weekId") Long weekId, Model model, Principal principal) {
         ProgramDTO program = programService.getProgramById(programId);
         ProgramWeekDTO week = programService.getWeekById(weekId, programId);
 

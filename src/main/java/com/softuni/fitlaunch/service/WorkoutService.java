@@ -23,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -195,24 +196,17 @@ public class WorkoutService {
     }
 
 
-    public List<DayWorkoutsDTO> getAllByWorkoutIds(Long programId, int week, List<WorkoutAddDTO> workoutAddDTO) {
-        ProgramWeekEntity weekEntity = weekService.getWeekByWeekNumberAndProgramId(week, programId);
-        List<Long> ids = workoutAddDTO.stream().map(WorkoutAddDTO::getId).toList();
-        List<WorkoutEntity> workouts = ids.stream().map(id -> workoutRepository.findById(id).get()).toList();
-        List<DayWorkoutsEntity> daysWorkouts = workouts.stream().map(workout -> createDayWorkout(workout, weekEntity)).toList();
+    public List<DayWorkoutsDTO> getAllByWorkoutIds(Long programId, Long week, List<WorkoutAddDTO> workoutAddDTO) {
+        List<DayWorkoutsEntity> daysWorkouts = workoutAddDTO.stream().map(workout -> createDayWorkout(workout, week, programId)).toList();
         return daysWorkouts.stream().map(dayWorkoutsEntity -> modelMapper.map(dayWorkoutsEntity, DayWorkoutsDTO.class)).toList();
     }
 
-    private DayWorkoutsEntity createDayWorkout(WorkoutEntity workoutEntity, ProgramWeekEntity weekEntity) {
-        DayWorkoutsEntity dayWorkoutsEntity = new DayWorkoutsEntity();
-        dayWorkoutsEntity.setName(workoutEntity.getName());
+    private DayWorkoutsEntity createDayWorkout(WorkoutAddDTO workout, Long weekId, Long programId) {
+        ProgramWeekEntity week = weekService.getWeekByNumber(weekId, programId);
+        WorkoutEntity workoutEntity = workoutRepository.findById(workout.getId()).get();
+        DayWorkoutsEntity dayWorkoutsEntity = dayWorkoutsRepository.findByNameAndWeekId(workout.getName(), week.getId()).get();
         dayWorkoutsEntity.setWorkout(workoutEntity);
-        dayWorkoutsEntity.setWeek(weekEntity);
-        dayWorkoutsEntity.setStarted(false);
-        dayWorkoutsEntity.setCompleted(false);
-
         dayWorkoutsRepository.save(dayWorkoutsEntity);
-
         return dayWorkoutsEntity;
     }
 }

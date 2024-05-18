@@ -12,5 +12,5 @@ import java.util.Optional;
 public interface WeekRepository extends JpaRepository<ProgramWeekEntity, Long> {
     List<ProgramWeekEntity> findAllByProgramId(Long programId);
 
-    Optional<ProgramWeekEntity> findByNumberAndProgramId(int number, Long programId);
+    Optional<ProgramWeekEntity> findByNumberAndProgramId(Long number, Long programId);
 }

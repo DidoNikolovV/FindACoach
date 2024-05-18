@@ -4,9 +4,13 @@ import com.softuni.fitlaunch.model.entity.DayWorkoutsEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface DayWorkoutsRepository extends JpaRepository<DayWorkoutsEntity, Long> {
     Optional<DayWorkoutsEntity> findByNameAndWorkoutId(String name, Long workoutId);
+
+    Optional<DayWorkoutsEntity> findByNameAndWeekId(String name, Long weekId);
+
 }

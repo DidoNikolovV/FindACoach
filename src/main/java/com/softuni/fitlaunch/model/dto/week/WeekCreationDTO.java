@@ -11,7 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 public class WeekCreationDTO {
-    private int number;
+    private Long number;
 
     private List<String> days;
     private Long workoutId;

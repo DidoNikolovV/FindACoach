@@ -128,7 +128,7 @@ public class ProgramService {
     }
 
 
-    public ProgramWeekDTO getWeekById(int weekId, Long programId) {
+    public ProgramWeekDTO getWeekById(Long weekId, Long programId) {
         ProgramWeekEntity week = weekService.getWeekByNumber(weekId, programId);
         ProgramWeekDTO programWeek = modelMapper.map(week, ProgramWeekDTO.class);
         return programWeek;

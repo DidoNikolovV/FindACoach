@@ -40,7 +40,7 @@ function fetchWorkoutsForWeek(week) {
             dayLabel.appendChild(document.createTextNode(day + ":"));
 
             const selectMenu = document.createElement("select");
-            selectMenu.name = "workout_" + day;
+            selectMenu.name = day;
             selectMenu.className = "form-control";
 
             workouts.forEach(function (workout) {
@@ -80,12 +80,15 @@ function saveWorkouts(e) {
         const selectedId = selectedOption.getAttribute('data-id');
         const selectedDay = selectedOption.getAttribute('data-day');
         const selectedName = selectMenu.value;
+        console.log(selectedDay);
 
         const workout = {
             id: selectedId,
-            selectedDay,
-            name: selectedName
+            name: selectedDay,
+            workoutName: selectedName
         };
+
+        console.log(workout);
 
         workoutsToAdd.push(workout);
     });

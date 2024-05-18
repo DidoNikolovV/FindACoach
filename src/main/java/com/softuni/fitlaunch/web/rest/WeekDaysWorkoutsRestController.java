@@ -32,10 +32,10 @@ public class WeekDaysWorkoutsRestController {
     }
 
     @PostMapping("/programs/{programId}/weeks/{week}")
-    public ResponseEntity<List<DayWorkoutsDTO>> loadAllWorkouts(@PathVariable("programId") Long programId, @PathVariable("week") int week, @RequestBody List<WorkoutAddDTO> workoutAddDTO) {
+    public ResponseEntity<List<DayWorkoutsDTO>> loadAllWorkouts(@PathVariable("programId") Long programId, @PathVariable("week") Long week, @RequestBody List<WorkoutAddDTO> workoutAddDTO) {
         List<DayWorkoutsDTO> allWorkoutsByIds = workoutService.getAllByWorkoutIds(programId, week, workoutAddDTO);
         return ResponseEntity.created(
-                URI.create("/api/v1/workouts")
+                URI.create(String.format("/api/v1/workouts/programs/%d/weeks/%d", programId, week))
         ).body(allWorkoutsByIds);
     }
 }
