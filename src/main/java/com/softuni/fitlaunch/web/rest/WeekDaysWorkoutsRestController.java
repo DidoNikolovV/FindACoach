@@ -31,11 +31,11 @@ public class WeekDaysWorkoutsRestController {
         return ResponseEntity.ok(workoutService.getAllWorkoutNames());
     }
 
-    @PostMapping("/programs/{programId}/weeks/{week}")
-    public ResponseEntity<List<DayWorkoutsDTO>> loadAllWorkouts(@PathVariable("programId") Long programId, @PathVariable("week") Long week, @RequestBody List<WorkoutAddDTO> workoutAddDTO) {
-        List<DayWorkoutsDTO> allWorkoutsByIds = workoutService.getAllByWorkoutIds(programId, week, workoutAddDTO);
+    @PostMapping("/programs/{programId}/weeks/{weekNumber}")
+    public ResponseEntity<List<DayWorkoutsDTO>> loadAllWorkouts(@PathVariable("programId") Long programId, @PathVariable("weekNumber") Long weekNumber, @RequestBody List<WorkoutAddDTO> workoutAddDTO) {
+        List<DayWorkoutsDTO> allWorkoutsByIds = workoutService.getAllByWorkoutIds(programId, weekNumber, workoutAddDTO);
         return ResponseEntity.created(
-                URI.create(String.format("/api/v1/workouts/programs/%d/weeks/%d", programId, week))
+                URI.create(String.format("/api/v1/workouts/programs/%d/weeks/%d", programId, weekNumber))
         ).body(allWorkoutsByIds);
     }
 }

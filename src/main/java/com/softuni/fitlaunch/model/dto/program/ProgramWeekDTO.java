@@ -14,4 +14,5 @@ import java.util.List;
 public class ProgramWeekDTO {
     private int number;
     private List<DayWorkoutsDTO> days;
+    private boolean isCompleted;
 }

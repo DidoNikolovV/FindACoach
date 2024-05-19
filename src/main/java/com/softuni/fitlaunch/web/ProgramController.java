@@ -91,16 +91,14 @@ public class ProgramController {
     }
 
     @GetMapping("/create/{programId}")
-    public String loadProgramWorkoutCreation(@PathVariable("programId") Long programId, Model model) {
+    public String loadProgramWorkoutCreation(@PathVariable("programId") Long programId, Model model, Principal principal) {
 
         List<WorkoutDTO> allWorkouts = workoutService.getAllWorkouts();
-        ProgramDTO program = programService.getProgramById(programId);
-//        List<ProgramWeekDTO> weeks = program.getWeeks();
+        ProgramDTO program = programService.getProgramById(programId, principal.getName());
         List<DaysEnum> allDays = Arrays.stream(DaysEnum.values()).toList();
 
         model.addAttribute("allWorkouts", allWorkouts);
         model.addAttribute("program", program);
-//        model.addAttribute("weeks", weeks);
         model.addAttribute("weekCreationDTO", new WeekCreationDTO());
         model.addAttribute("days", allDays);
 
@@ -116,8 +114,8 @@ public class ProgramController {
     }
 
     @GetMapping("/details/{programId}")
-    public String loadProgram(@PathVariable("programId") Long programId, Model model) {
-        ProgramDTO program = programService.getProgramById(programId);
+    public String loadProgram(@PathVariable("programId") Long programId, Model model, Principal principal) {
+        ProgramDTO program = programService.getProgramById(programId, principal.getName());
         model.addAttribute("program", program);
 
         return "program-details2";
@@ -125,12 +123,19 @@ public class ProgramController {
 
     @GetMapping("/{programId}/weeks/{weekId}")
     public String loadWeek(@PathVariable("programId") Long programId, @PathVariable("weekId") Long weekId, Model model, Principal principal) {
-        ProgramDTO program = programService.getProgramById(programId);
+        ProgramDTO program = programService.getProgramById(programId, principal.getName());
         ProgramWeekDTO week = programService.getWeekById(weekId, programId, principal.getName());
 
         model.addAttribute("program", program);
         model.addAttribute("week", week);
 
         return "week-details";
+    }
+
+    @PostMapping("/{programId}/weeks/{weekNumber}/complete")
+    public String completeWeek(@PathVariable("programId") Long programId, @PathVariable("weekNumber") Long weekNumber, Principal principal) {
+        programService.completeWeek(weekNumber, programId, principal.getName());
+
+        return "redirect:/programs/details/" + programId;
     }
 }

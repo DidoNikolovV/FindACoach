@@ -28,6 +28,9 @@
                     <tbody>
                     <tr th:each="week : *{weeks}">
                         <td th:text="${week.number}"></td>
+                        <td class="ml-auto" th:if="${week.isCompleted()}">
+                            <i class="fa-solid fa-lg fa-circle-check text-success"></i>
+                        </td>
                         <td class="btn btn-info">
                             <a th:href="@{/programs/{programId}/weeks/{weekId}(programId=${program.id}, weekId=${week.number})}"
                                class="text-white">Details</a>

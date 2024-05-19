@@ -88,6 +88,13 @@ public class UserEntity extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "workout_id"))
     private List<DayWorkoutsEntity> completedWorkouts = new ArrayList<>();
 
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "program_weeks_completed",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "week_id"))
+    private List<ProgramWeekEntity> completeWeeks = new ArrayList<>();
+
 }
 
 

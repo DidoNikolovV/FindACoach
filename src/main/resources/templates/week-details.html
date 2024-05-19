@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head}">
+    <!-- Add Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
 <header class="header">
-    <div class="container mt-5 d-flex flex-column justify-content-center align-items-center" style="height: 100vh"
-         th:object="${week}">
+    <div class="container mt-5 d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;" th:object="${week}">
         <h2 class="text-center mb-4 text-light">Workouts for Week <span th:text="*{number}"></span></h2>
         <table class="table">
             <thead class="thead-dark">
@@ -19,8 +20,7 @@
             <tr th:each="day : *{days}" class="text-light">
                 <td th:text="${day.name}"></td>
                 <td th:if="${day.workout != null}" class="d-flex align-items-center">
-                    <a th:href="@{/workouts/{workoutId}/days/{dayName}(workoutId=${day.workout.id}, dayName=${day.name})}"
-                       class="btn btn-info">
+                    <a th:href="@{/workouts/{workoutId}/days/{dayName}(workoutId=${day.workout.id}, dayName=${day.name})}" class="btn btn-info">
                         <span th:text="${day.workout.name}"></span>
                     </a>
                     <div class="ml-auto" th:if="${day.isCompleted()}">
@@ -31,9 +31,16 @@
             </tr>
             </tbody>
         </table>
+        <div class="mt-4">
+            <form th:method="POST" th:action="@{/programs/{programId}/weeks/{weekNumber}/complete(programId=${programId}, weekNumber=${week.number})}">
+                <input type="submit" class="btn btn-success" value="Complete Week">
+            </form>
+        </div>
     </div>
 </header>
 
 <footer th:replace="~{fragments/footer}"></footer>
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </body>
 </html>

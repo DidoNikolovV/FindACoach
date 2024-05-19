@@ -83,10 +83,21 @@ public class ProgramService {
         return modelMapper.map(programEntity, ProgramDTO.class);
     }
 
-    public ProgramDTO getProgramById(Long programId) {
+    public ProgramDTO getProgramById(Long programId, String username) {
         ProgramEntity program = programRepository.findById(programId).orElseThrow(() -> new ResourceNotFoundException("Program with id " + programId + " not found"));
+        UserEntity user = userService.getUserEntityByUsername(username);
+        updateWeeksStateByUser(program, user);
         ProgramDTO map = modelMapper.map(program, ProgramDTO.class);
         return map;
+    }
+
+    public void updateWeeksStateByUser(ProgramEntity programEntity, UserEntity user) {
+        programEntity.getWeeks().forEach(week -> {
+            boolean hasNotCompleted = !week.getUsersCompleted().contains(user);
+            if(hasNotCompleted) {
+                week.setCompleted(false);
+            }
+        });
     }
 
     public ProgramEntity getProgramEntityById(Long programId) {
@@ -169,5 +180,13 @@ public class ProgramService {
         }
 
         weekService.updateDaysForWeek(week, daysToBeUpdated);
+    }
+
+    public void completeWeek(Long weekNumber, Long programId, String name) {
+        ProgramWeekEntity programWeek = weekService.getWeekByNumber(weekNumber, programId);
+        programWeek.setCompleted(true);
+        UserEntity user = userService.getUserEntityByUsername(name);
+        user.getCompleteWeeks().add(programWeek);
+        userService.saveUser(user);
     }
 }
