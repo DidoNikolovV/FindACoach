@@ -34,14 +34,18 @@ async function postComment(e) {
 }
 
 function commentAsHTML(comment) {
-    let commentHTML = `<div id="${comment.id}">\n`
-    commentHTML += `<h4>${comment.authorUsername}</h4>\n`
-    commentHTML += `<p>${comment.message}</p>\n`
-    commentHTML += `<button class="btn btn-danger" onclick="deleteComment(${comment.id})">Delete</button>\n`
-    commentHTML += '</div>\n'
+    let commentHTML = `<div id="${comment.id}" class="d-flex align-items-center mb-3">\n`;
+    commentHTML += `<img src="${comment.profilePicture}" class="rounded-circle mr-3 mb-4" alt="Profile Picture" style="width: 40px; height: 40px;">\n`;
+    commentHTML += `<div>\n`;
+    commentHTML += `<h4 class="mb-0">${comment.authorUsername}</h4>\n`;
+    commentHTML += `<p>${comment.message}</p>\n`;
+    commentHTML += `<button class="btn btn-danger" onclick="deleteComment(${comment.id})">Delete</button>\n`;
+    commentHTML += `</div>\n`;
+    commentHTML += `</div>\n`;
 
     return commentHTML;
 }
+
 
 function deleteComment(commentId) {
     fetch(`${url}/api/v1/comments/${workoutId}/${commentId}`, {

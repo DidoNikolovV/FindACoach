@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class CommentView {
     private Long id;
+    private String profilePicture;
     private String authorUsername;
     private String message;
 }

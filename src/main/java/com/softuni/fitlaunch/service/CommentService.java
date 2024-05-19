@@ -34,7 +34,9 @@ public class CommentService {
 
     public List<CommentView> getAllCommentsForWorkout(Long workoutId) {
         List<CommentEntity> comments = commentRepository.findAllByWorkoutId(workoutId);
-        return comments.stream().map(commentEntity -> new CommentView(commentEntity.getId(), commentEntity.getAuthor().getUsername(), commentEntity.getMessage())).collect(Collectors.toList());
+        return comments.stream().map(commentEntity ->
+                        new CommentView(commentEntity.getId(), commentEntity.getAuthor().getImgUrl(), commentEntity.getAuthor().getUsername(), commentEntity.getMessage()))
+                .collect(Collectors.toList());
     }
 
     public CommentView addComment(CommentCreationDTO commentDTO, String username, Long workoutId) {
@@ -45,12 +47,12 @@ public class CommentService {
         comment.setWorkout(workout);
         comment = commentRepository.save(comment);
 
-        return new CommentView(comment.getId(), author.getUsername(), comment.getMessage());
+        return new CommentView(comment.getId(), author.getImgUrl(), author.getUsername(), comment.getMessage());
     }
 
     public CommentView getComment(Long commentId) {
         CommentEntity commentEntity = commentRepository.findById(commentId).orElseThrow(() -> new ResourceNotFoundException("Comment with id " + commentId + " was not found"));
-        return new CommentView(commentEntity.getId(), commentEntity.getAuthor().getUsername(), commentEntity.getMessage());
+        return new CommentView(commentEntity.getId(), commentEntity.getAuthor().getImgUrl(), commentEntity.getAuthor().getUsername(), commentEntity.getMessage());
     }
 
     public void deleteCommentById(Long id, String username) {
