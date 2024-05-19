@@ -12,7 +12,6 @@ import com.softuni.fitlaunch.model.entity.ProgramWeekEntity;
 import com.softuni.fitlaunch.model.enums.DaysEnum;
 import com.softuni.fitlaunch.service.ClientService;
 import com.softuni.fitlaunch.service.ProgramService;
-import com.softuni.fitlaunch.service.UserService;
 import com.softuni.fitlaunch.service.WorkoutService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -36,17 +35,14 @@ public class ProgramController {
     private final ProgramService programService;
 
 
-    private final UserService userService;
-
     private final ClientService clientService;
 
 
     private final WorkoutService workoutService;
 
 
-    public ProgramController(ProgramService programService, UserService userService, ClientService clientService, WorkoutService workoutService) {
+    public ProgramController(ProgramService programService, ClientService clientService, WorkoutService workoutService) {
         this.programService = programService;
-        this.userService = userService;
         this.clientService = clientService;
         this.workoutService = workoutService;
     }
@@ -130,7 +126,7 @@ public class ProgramController {
     @GetMapping("/{programId}/weeks/{weekId}")
     public String loadWeek(@PathVariable("programId") Long programId, @PathVariable("weekId") Long weekId, Model model, Principal principal) {
         ProgramDTO program = programService.getProgramById(programId);
-        ProgramWeekDTO week = programService.getWeekById(weekId, programId);
+        ProgramWeekDTO week = programService.getWeekById(weekId, programId, principal.getName());
 
         model.addAttribute("program", program);
         model.addAttribute("week", week);

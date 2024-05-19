@@ -12,9 +12,11 @@ import com.softuni.fitlaunch.model.entity.CoachEntity;
 import com.softuni.fitlaunch.model.entity.DayWorkoutsEntity;
 import com.softuni.fitlaunch.model.entity.ProgramEntity;
 import com.softuni.fitlaunch.model.entity.ProgramWeekEntity;
+import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.model.enums.DaysEnum;
 import com.softuni.fitlaunch.model.enums.UserTitleEnum;
+import com.softuni.fitlaunch.repository.DayWorkoutsRepository;
 import com.softuni.fitlaunch.repository.ProgramRepository;
 import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -41,8 +43,10 @@ public class ProgramService {
 
     private final ClientService clientService;
 
+    private final DayWorkoutsRepository dayWorkoutsRepository;
 
-    public ProgramService(ProgramRepository programRepository, CoachService coachService, ModelMapper modelMapper, WeekService weekService, WorkoutService workoutService, UserService userService, ClientService clientService) {
+
+    public ProgramService(ProgramRepository programRepository, CoachService coachService, ModelMapper modelMapper, WeekService weekService, WorkoutService workoutService, UserService userService, ClientService clientService, DayWorkoutsRepository dayWorkoutsRepository) {
         this.programRepository = programRepository;
         this.coachService = coachService;
         this.modelMapper = modelMapper;
@@ -50,6 +54,7 @@ public class ProgramService {
         this.workoutService = workoutService;
         this.userService = userService;
         this.clientService = clientService;
+        this.dayWorkoutsRepository = dayWorkoutsRepository;
     }
 
     public List<ProgramDTO> loadAllPrograms(String username) {
@@ -127,11 +132,27 @@ public class ProgramService {
         return program;
     }
 
-
-    public ProgramWeekDTO getWeekById(Long weekId, Long programId) {
+    public void updateDaysWorkoutState(Long weekId, Long programId, String username) {
+        UserEntity user = userService.getUserEntityByUsername(username);
         ProgramWeekEntity week = weekService.getWeekByNumber(weekId, programId);
-        ProgramWeekDTO programWeek = modelMapper.map(week, ProgramWeekDTO.class);
-        return programWeek;
+        week.getDays().forEach(workout -> {
+            updatedWorkoutState(workout, user);
+        });
+
+    }
+
+    private void updatedWorkoutState(DayWorkoutsEntity workout, UserEntity user) {
+        boolean hasNotCompleted = !user.getCompletedWorkouts().contains(workout);
+        if(hasNotCompleted) {
+            workout.setCompleted(false);
+        }
+    }
+
+
+    public ProgramWeekDTO getWeekById(Long weekId, Long programId, String username) {
+        ProgramWeekEntity week = weekService.getWeekByNumber(weekId, programId);
+        updateDaysWorkoutState(weekId, programId, username);
+        return modelMapper.map(week, ProgramWeekDTO.class);
     }
 
     public void addWeekWithWorkouts(WeekCreationDTO weekCreationDTO, Long programId) {
@@ -149,9 +170,4 @@ public class ProgramService {
 
         weekService.updateDaysForWeek(week, daysToBeUpdated);
     }
-
-//    public List<WeekEntity> getWeeksWithoutInformation(Long programId) {
-//        ProgramEntity program = getProgramEntityById(programId);
-//
-//    }
 }
