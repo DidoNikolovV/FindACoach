@@ -2,122 +2,119 @@
 <html lang="en">
 <head th:replace="~{fragments/head}">
     <!-- Add Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
-<header class="header">
-    <section class="container-fluid mt-5" style="height: 100vh">
-        <h2 class="text-center text-white mb-4">Workout Details</h2>
+<section class="container" style="margin-top: 8rem;">
+    <h2 class="text-center mb-4">Workout Details</h2>
 
-        <div th:object="${workout}" class="card">
-            <div class="card-body bg-dark text-center">
-                <h5 class="card-title text-primary" th:text="*{name}"></h5>
-                <div class="d-flex justify-content-center align-items-center mt-3">
-                    <div th:if="${hasStarted}">
-                        <form th:method="POST"
-                              th:action="@{/workouts/{workoutId}/days/{dayName}/complete(workoutId=${workout.id}, dayName=${dayName})}">
-                            <div th:unless="${isCompleted}">
-                                <input type="submit" name="completeWorkout" id="completeWorkout" class="btn btn-primary"
-                                       value="Complete Workout">
-                            </div>
-                            <div th:if="${isCompleted}">
-                                <button type="button" class="btn btn-success" disabled>Workout Completed</button>
-                            </div>
-                        </form>
-                    </div>
-                    <div th:unless="${hasStarted}">
-                        <form th:method="POST"
-                              th:action="@{/workouts/{workoutId}/days/{dayName}/start(workoutId=${workout.id}, dayName=${dayName})}">
-                            <input type="submit" name="startWorkout" id="startWorkout" class="btn btn-success"
-                                   value="Start Workout">
-                        </form>
-                    </div>
-                </div>
-
-                <div class="mt-2">
-                    <span class="font-weight-bold text-primary">Likes: </span>
-                    <span id="likesCount" class="text-primary" th:text="*{likes}"></span>
-                </div>
-
-                <div th:if="${hasLiked}">
-                    <form id="dislikeForm" th:method="POST"
-                          th:action="@{/workouts/{workoutId}/days/{dayName}/dislike(workoutId=${workout.id}, dayName=${dayName})}">
-                        <button type="submit" class="btn btn-link">
-                            <i class="fa-solid fa-lg fa-thumbs-down text-primary"></i>
-                        </button>
+    <div th:object="${workout}" class="card mb-4">
+        <div class="card-body text-center">
+            <h5 class="card-title" th:text="*{name}">Workout Name</h5>
+            <div class="d-flex justify-content-center align-items-center mt-3">
+                <div th:if="${hasStarted}">
+                    <form th:method="POST"
+                          th:action="@{/workouts/{workoutId}/days/{dayName}/complete(workoutId=${workout.id}, dayName=${dayName})}">
+                        <div th:unless="${isCompleted}">
+                            <input type="submit" name="completeWorkout" id="completeWorkout" class="btn btn-primary"
+                                   value="Complete Workout">
+                        </div>
+                        <div th:if="${isCompleted}">
+                            <button type="button" class="btn btn-success" disabled>Workout Completed</button>
+                        </div>
                     </form>
                 </div>
-
-                <div th:unless="${hasLiked}">
-                    <form id="likesForm" th:method="POST"
-                          th:action="@{/workouts/{workoutId}/days/{dayName}/like(workoutId=${workout.id}, dayName=${dayName})}">
-                        <button type="submit" class="btn btn-link">
-                            <i class="fas fa-thumbs-up fa-lg text-primary" style="cursor: pointer"></i>
-                        </button>
+                <div th:unless="${hasStarted}">
+                    <form th:method="POST"
+                          th:action="@{/workouts/{workoutId}/days/{dayName}/start(workoutId=${workout.id}, dayName=${dayName})}">
+                        <input type="submit" name="startWorkout" id="startWorkout" class="btn btn-success"
+                               value="Start Workout">
                     </form>
                 </div>
-
-                <ul class="list-group list-group-flush mt-3 text-white align-items-center">
-                    <li class="list-group-item bg-dark text-white">
-                        <span class="font-weight-bold">Level:</span>
-                        <span th:text="*{level}">Beginner</span>
-                    </li>
-                    <li class="list-group-item bg-dark text-white">
-                        <span class="font-weight-bold">Description:</span>
-                        <span th:text="*{description}">This is a great workout for...</span>
-                    </li>
-                </ul>
             </div>
 
-        </div>
+            <div class="mt-2">
+                <span class="font-weight-bold text-primary">Likes: </span>
+                <span id="likesCount" class="text-primary" th:text="*{likes}">0</span>
+            </div>
 
-        <section class="card mt-4">
-            <div class="bg-dark primary container-fluid">
-                <h5 class="card-title primary">Exercises</h5>
-                <ul class="list-group list-group-flush">
-                    <div class="row">
-                        <div th:each="exercise: ${workout.exercises}" class="col-md-6">
-                            <li class="list-group-item bg-dark">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="flex-grow-1">
-                                        <h6 class="font-weight-bold" th:text="${exercise.name}"></h6>
-                                        <span class="font-weight-bold">Sets:</span>
-                                        <span th:text="${exercise.sets}"></span>
-                                        <br>
-                                        <span class="font-weight-bold">Reps:</span>
-                                        <span th:text="${exercise.reps}"></span>
-                                    </div>
-                                    <div>
-                                        <iframe class="w-100"
-                                                th:src="'https://www.youtube.com/embed/' + ${exercise.getVideoUrl()}"
-                                                height="100" frameborder="0" allowfullscreen></iframe>
-                                    </div>
-                                    <div th:if="*{hasStarted}">
-                                        <form th:method="POST"
-                                              th:action="@{/workouts/{workoutId}/days/{dayName}/exercise/{exerciseId}/complete(workoutId=${workout.id}, dayName=${dayName}, exerciseId=${exercise.id})}">
-                                            <button type="submit" class="btn btn-link" th:if="${exercise.completed}">
-                                                <i class="fa-solid fa-lg fa-circle-check text-success"></i>
-                                            </button>
-                                            <button type="submit" class="btn btn-link"
-                                                    th:unless="${exercise.completed}">
-                                                <i class="fa-regular fa-lg fa-circle-check text-muted"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </div>
-                            </li>
+            <div th:if="${hasLiked}">
+                <form id="dislikeForm" th:method="POST"
+                      th:action="@{/workouts/{workoutId}/days/{dayName}/dislike(workoutId=${workout.id}, dayName=${dayName})}">
+                    <button type="submit" class="btn btn-link">
+                        <i class="fa-solid fa-lg fa-thumbs-down text-primary"></i>
+                    </button>
+                </form>
+            </div>
+
+            <div th:unless="${hasLiked}">
+                <form id="likesForm" th:method="POST"
+                      th:action="@{/workouts/{workoutId}/days/{dayName}/like(workoutId=${workout.id}, dayName=${dayName})}">
+                    <button type="submit" class="btn btn-link">
+                        <i class="fas fa-thumbs-up fa-lg text-primary" style="cursor: pointer"></i>
+                    </button>
+                </form>
+            </div>
+
+            <ul class="list-group list-group-flush mt-3">
+                <li class="list-group-item">
+                    <span class="font-weight-bold">Level:</span>
+                    <span th:text="*{level}">Beginner</span>
+                </li>
+                <li class="list-group-item">
+                    <span class="font-weight-bold">Description:</span>
+                    <span th:text="*{description}">This is a great workout for...</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <section class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Exercises</h5>
+            <div class="row">
+                <div th:each="exercise: ${workout.exercises}" class="col-md-4 col-lg-3 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h6 class="card-title" th:text="${exercise.name}">Exercise Name</h6>
+                            <p class="mb-1">
+                                <span class="font-weight-bold">Sets:</span>
+                                <span th:text="${exercise.sets}">3</span>
+                            </p>
+                            <p>
+                                <span class="font-weight-bold">Reps:</span>
+                                <span th:text="${exercise.reps}">10</span>
+                            </p>
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <iframe class="embed-responsive-item" th:src="'https://www.youtube.com/embed/' + ${exercise.getVideoUrl()}"
+                                        allowfullscreen></iframe>
+                            </div>
+                            <div th:if="*{hasStarted}" class="mt-3">
+                                <form th:method="POST"
+                                      th:action="@{/workouts/{workoutId}/days/{dayName}/exercise/{exerciseId}/complete(workoutId=${workout.id}, dayName=${dayName}, exerciseId=${exercise.id})}">
+                                    <button type="submit" class="btn btn-link" th:if="${exercise.completed}">
+                                        <i class="fa-solid fa-lg fa-circle-check text-success"></i>
+                                    </button>
+                                    <button type="submit" class="btn btn-link"
+                                            th:unless="${exercise.completed}">
+                                        <i class="fa-regular fa-lg fa-circle-check text-muted"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </ul>
+                </div>
             </div>
-        </section>
+        </div>
     </section>
-</header>
-<section>
+</section>
+
+<section class="container mb-4">
     <input type="hidden" name="workoutId" id="workoutId" th:value="${workout.id}">
-    <div class="comments mb-2" th:if="${isCompleted}" style="padding-top: 0;">
+    <div class="comments" th:if="${isCompleted}">
         <h1>Comments</h1>
-        <div>
+        <div class="mb-4">
             <form id="commentForm" method="POST" th:action="@{/comments/{workoutId}(workoutId=${workout.id})}">
                 <div class="form-group">
                     <h4>Leave a comment</h4>
@@ -137,6 +134,7 @@
 
 <footer th:replace="~{fragments/footer}"></footer>
 
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 <script th:src="@{/js/comments.js}"></script>
 </body>
 </html>
