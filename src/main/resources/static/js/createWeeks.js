@@ -5,10 +5,11 @@ const csrfHeaderValue = document.head.querySelector('[name=_csrf]').content
 document.getElementById("openModalBtn").addEventListener("click", openModal);
 const programId = document.getElementById("programId").value;
 
+let completedWeeks = [];
+
 function openModal() {
     let selectedWeek = document.getElementById("weekSelect").value;
     fetchWorkoutsForWeek(selectedWeek);
-    // Get selected week number
 }
 
 // Function to fetch workouts for the selected week and populate modal
@@ -30,10 +31,8 @@ function fetchWorkoutsForWeek(week) {
 
         const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
 
-
         const modalBody = document.querySelector("#workoutModal .modal-body");
         modalBody.innerHTML = "";
-
 
         days.forEach(function (day) {
             const dayLabel = document.createElement("label");
@@ -90,7 +89,6 @@ function saveWorkouts(e) {
         workoutsToAdd.push(workout);
     });
 
-
     fetch(`${url}/api/v1/workouts/programs/${programId}/weeks/${selectedWeek}`, {
         method: 'POST',
         headers: {
@@ -102,9 +100,32 @@ function saveWorkouts(e) {
     }).then(res => res.json())
         .then(data => {
             console.log(data);
+            completedWeeks.push(selectedWeek); // Mark the week as completed
+            updateWeekSelect();
         }).catch(error => {
         console.error('Error saving data:', error);
     });
 
     $('#workoutModal').modal('hide');
 }
+
+// Function to update the week dropdown
+function updateWeekSelect() {
+    const weekSelect = document.getElementById("weekSelect");
+    const currentWeek = weekSelect.value;
+    const options = Array.from(weekSelect.options);
+    // Remove completed weeks from options
+    options.forEach(option => {
+        if (completedWeeks.includes(option.value)) {
+            option.remove();
+        }
+    });
+    // Select the next available week
+    const nextWeekOption = options.find(option => !completedWeeks.includes(option.value));
+    if (nextWeekOption) {
+        weekSelect.value = nextWeekOption.value;
+    }
+}
+
+// Initial call to update the week dropdown
+updateWeekSelect();
