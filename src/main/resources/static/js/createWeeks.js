@@ -73,7 +73,6 @@ function saveWorkouts(e) {
     const modalBody = document.querySelector("#workoutModal .modal-body");
     const workoutsToAdd = [];
     let selectedWeek = document.getElementById("weekSelect").value;
-    console.log(selectedWeek);
 
     modalBody.querySelectorAll("select").forEach(function (selectMenu) {
         const selectedOption = selectMenu.options[selectMenu.selectedIndex];
@@ -87,8 +86,6 @@ function saveWorkouts(e) {
             name: selectedDay,
             workoutName: selectedName
         };
-
-        console.log(workout);
 
         workoutsToAdd.push(workout);
     });
@@ -108,4 +105,6 @@ function saveWorkouts(e) {
         }).catch(error => {
         console.error('Error saving data:', error);
     });
+
+    $('#workoutModal').modal('hide');
 }
