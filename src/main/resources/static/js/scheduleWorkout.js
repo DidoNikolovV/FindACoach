@@ -4,8 +4,8 @@ const csrfHeaderName = document.head.querySelector('[name=_csrf_header]').conten
 const csrfHeaderValue = document.head.querySelector('[name=_csrf]').content
 
 
-const scheduleForm = document.getElementById("scheduleForm");
-scheduleForm.addEventListener("submit", scheduleWorkout);
+// const scheduleForm = document.getElementById("scheduleForm");
+// scheduleForm.addEventListener("submit", scheduleWorkout);
 
 
 const modal = document.getElementById("openModal");
@@ -13,13 +13,15 @@ modal.addEventListener("click", openModal);
 document.getElementById("scheduleButton").addEventListener("click", scheduleWorkout);
 
 function openModal() {
-    $('#workoutDetailsModal').modal('show');
+    console.log("opening modal....")
+    $('#workoutModal').modal('show');
 }
 
 function scheduleWorkout(e) {
     e.preventDefault();
     var workoutDate = document.getElementById("workoutDate").value;
     var coachUsername = document.getElementById("coachUsername").value;
+    console.log(coachUsername);
     // Submit the form
 
     // Prepare the data to send to the server
@@ -38,6 +40,7 @@ function scheduleWorkout(e) {
         body: JSON.stringify(formData)
     })
         .then(response => {
+            console.log(response)
             if (response.ok) {
                 alert("Workout scheduled successfully!");
                 // Optionally, you can perform further actions here, such as displaying a success message to the user
