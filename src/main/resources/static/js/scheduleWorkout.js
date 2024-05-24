@@ -21,6 +21,7 @@ function scheduleWorkout(e) {
     e.preventDefault();
     var workoutDate = document.getElementById("workoutDate").value;
     var coachUsername = document.getElementById("coachUsername").value;
+    var clientUsername = document.getElementById("clientUsername").value;
     console.log(coachUsername);
     // Submit the form
 
@@ -49,7 +50,8 @@ function scheduleWorkout(e) {
                 // Optionally, you can handle error cases here, such as displaying an error message to the user
             }
             // Close the modal regardless of the response status
-            $('#workoutModal').modal('hide');
+            $('#workoutModal').modal('hide')
+            window.location.href  = `${url}/users/${clientUsername}/calendar`
         })
         .catch(error => {
             console.error("Error scheduling workout:", error);

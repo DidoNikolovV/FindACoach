@@ -28,6 +28,7 @@
                                         <!-- Calendar goes here -->
                                         <input type="date" id="workoutDate" class="form-control">
                                         <input type="hidden" id="coachUsername" th:value="${coach.username}">
+                                        <input type="hidden" id="clientUsername" th:value="${#authentication.principal.username}">
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close
