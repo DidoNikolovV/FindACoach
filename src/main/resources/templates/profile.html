@@ -1,64 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="~{fragments/head}">
-
-</head>
+<head th:replace="~{fragments/head}"></head>
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
-<header class="header">
-    <div class="container-fluid d-flex align-items-center justify-content-center" style="height: 100vh;">
-        <div class="card" style="background-color: #f3f4f6">
-            <div class="card-body">
-                <div class="row">
-                    <!-- Left part with picture and input field -->
-                    <div class="col-md-6">
-                        <div class="col-md-12">
-                            <img th:src="${user.imgUrl}" alt="Coach Picture" class="img-fluid rounded">
+<div class="container d-flex align-items-center" style="height: 100vh;">
+    <div class="row justify-content-sm-center">
+        <div class="col-sm-10 col-md-5">
+            <!-- Profile Picture Block -->
+            <div class="member-block-type-5 inset-lg-right-20">
+                <img class="img-fluid mx-auto d-block" th:src="${user.imgUrl}" width="437" height="437"
+                     alt="Profile Picture">
+                <form th:object="${profilePictureDTO}" th:action="@{/users/profile}" th:method="POST"
+                      enctype="multipart/form-data">
+                    <input type="hidden" name="username" id="username" th:value="${user.username}">
+                    <div class="member-block-body mt-3">
+                        <div class="form-group">
+                            <label for="imgUrl" class="text-dark">Profile Picture</label>
+                            <div class="custom-file d-flex align-items-center">
+                                <img src="/images/add-img.png" alt="Upload Image" class="img-fluid"
+                                     style="max-width: 50px; height: auto; margin-right: 10px;">
+                                <input type="file" class="custom-file-input" id="imgUrl" name="picture"
+                                       th:field="*{picture}" accept="image/*">
+                                <label class="custom-file-label" for="imgUrl">Choose file</label>
+                            </div>
                         </div>
-                        <form th:object="${profilePictureDTO}" th:action="@{/users/profile}" th:method="POST"
-                              enctype="multipart/form-data">
-                            <input type="hidden" name="username" id="username" th:value="${user.getUsername()}">
-                            <div class="form-group">
-                                <label for="imgUrl" class="text-white">Profile Picture</label>
-                                <div class="custom-file d-flex align-items-center">
-                                    <img src="/images/add-img.png" alt="Upload Image" class="img-fluid"
-                                         style="max-width: 50px; height: auto; margin-right: 10px;">
-                                    <input type="file" class="custom-file-input" id="imgUrl" name="picture"
-                                           th:field="*{picture}" accept="image/*">
-                                    <label class="custom-file-label" for="imgUrl">Choose file</label>
-                                </div>
-                            </div>
-                            <div class="form-group mt-2">
-                                <button type="submit" class="btn btn-primary rounded">Upload Picture</button>
-                            </div>
-                        </form>
+                        <div class="form-group mt-2">
+                            <button type="submit" class="btn btn-primary btn-block rounded">Upload Picture</button>
+                        </div>
                     </div>
-                    <!-- Right part with other info -->
-                    <div class="col-md-6">
-                        <!-- Coach Details -->
-                        <h5 class="card-title" th:text="'Username: ' + ${user.username}"></h5>
-                        <h5 class="card-title" th:text="'Email: ' + ${user.email}"></h5>
-                        <h5 class="card-title">Coach: TODO</h5>
-                        <h5>Upcoming Sessions: </h5>
-                        <ul th:if="${upcomingSessions.size() > 0}" class="list-group">
-                            <li th:each="upcomingSession : ${upcomingSessions}" class="list-group-item">
-                                <span th:text="${upcomingSession.scheduledDateTime}"></span>
-                                <!-- Display other session details as needed -->
-                            </li>
-                        </ul>
-                        <p th:unless="${upcomingSessions.size() > 0}">No upcoming sessions</p>
-                        <a class="btn btn-info mt-2"
-                           th:href="@{/users/{username}/calendar(username=${user.username})}">Check
-                            Your Calendar To See More</a>
-                    </div>
-                </div>
+                </form>
             </div>
         </div>
+        <div class="col-sm-10 col-md-7 text-md-left">
+            <div>
+                <h1 class="text-dark" th:text="${user.username}"></h1>
+            </div>
+            <hr class="divider bg-primary hr-md-left-0">
+            <h2 style="color: #17a2b8">Biography: </h2>
+            <p class="offset-top-50 text-left">
+                <q class="font-italic h3 text-regular">I'm glad to help all clients of Intense Gym acquire the proper
+                    body shape through fitness.</q>
+            </p>
+            <div class="d-flex">
+                <div class="offset-top-50 mr-5">
+                    <p><span>Experience: </span>3 Years</p>
+                    <p><span>Age: </span>28</p>
+                    <p><span>Weight: </span>77 kg</p>
+                    <p><span>Email: </span><a th:href="'mailto:' + ${user.email}" th:text="${user.email}">example@example.com</a>
+                    </p>
+                    <p><span>Phone: </span>801546142343243</p>
+                    <ul class="list-inline list-inline-xs">
+                        <li class="list-inline-item"><a
+                                class="novi-icon icon icon-xxs icon-circle icon-primary fab fa-facebook" href="#"
+                                target="_blank"></a></li>
+                        <li class="list-inline-item"><a
+                                class="novi-icon icon icon-xxs icon-circle icon-primary fab fa-twitter" href="#"
+                                target="_blank"></a></li>
+                        <li class="list-inline-item"><a
+                                class="novi-icon icon icon-xxs icon-circle icon-primary fab fa-linkedin" href="#"
+                                target="_blank"></a></li>
+                        <li class="list-inline-item"><a
+                                class="novi-icon icon icon-xxs icon-circle icon-primary fab fa-google-plus"
+                                href="#" target="_blank"></a></li>
+                    </ul>
+                </div>
+                <div class="offset-top-50">
+                    <h5>Upcoming Sessions:</h5>
+                    <ul th:if="${upcomingSessions.size() > 0}" class="list-group">
+                        <li th:each="upcomingSession : ${upcomingSessions}" class="list-group-item">
+                            <span th:text="${upcomingSession.scheduledDateTime}"></span>
+                            <!-- Display other session details as needed -->
+                        </li>
+                    </ul>
+                    <a class="btn btn-info mt-2" style="background-color: #17a2b8"
+                       th:href="@{/users/{username}/calendar(username=${user.username})}">Check Your Calendar</a>
+                </div>
+            </div>
+
+        </div>
     </div>
-
-</header>
-
-
-<footer th:include="~{fragments/footer}" class="fixed-bottom"></footer>
+</div>
+<footer th:replace="~{fragments/footer}"></footer>
 </body>
 </html>
