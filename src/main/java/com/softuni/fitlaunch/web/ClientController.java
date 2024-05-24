@@ -59,7 +59,7 @@ public class ClientController {
         List<ScheduledWorkoutDTO> scheduledWorkouts = client.getScheduledWorkouts();
         List<DailyMetricsDTO> metrics = client.getDailyMetrics();
 
-        double weightProgress = Math.floor((client.getWeight() / client.getWeightGoal()) * 100);
+        double weightProgress = clientService.calculcateWeightProgress(client.getWeight(), client.getWeightGoal());
 
         model.addAttribute("client", client);
         model.addAttribute("coach", coach);

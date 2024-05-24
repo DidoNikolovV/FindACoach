@@ -97,5 +97,9 @@ public class ClientService {
 
         return averageMetrics;
     }
+
+    public double calculcateWeightProgress(Double clientWeight, Double weightGoal) {
+        return Math.floor((clientWeight / weightGoal) * 100);
+    }
 }
 
