@@ -23,17 +23,35 @@ function fetchExercises() {
             data.forEach(exercise => {
                 const card = document.createElement('div');
                 card.className = 'col-md-4 mb-3';
-                card.innerHTML = `
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title">${exercise.name}</h5>
-                                <input type="checkbox" class="form-check-input" id="exercise-${exercise.id}" value="${exercise.id}">
-                                <label class="form-check-label" for="exercise-${exercise.id}">Select</label>
-                            </div>
-                        </div>
-                    `;
+
+                const cardHtml = `
+        <div class="card h-100 shadow-sm" style="border-radius: 10px;">
+            <div class="card-body d-flex flex-column justify-content-between">
+                <div class="d-flex justify-content-between align-items-start mb-3">
+                    <h5 class="card-title">${exercise.name}</h5>
+                    <div>
+                        <input type="checkbox" class="form-check-input" id="exercise-${exercise.id}" value="${exercise.id}">
+                        <label class="form-check-label" for="exercise-${exercise.id}">Select</label>
+                    </div>
+                </div>
+                <div class="mt-auto d-flex flex-column align-items-end">
+                    <div class="form-group mb-2">
+                        <label for="sets-${exercise.id}" class="form-label" style="font-size: 0.85rem;">Sets</label>
+                        <input type="number" id="sets-${exercise.id}" class="form-control form-control-sm" size="5" style="width: 80px; font-size: 0.85rem; padding: 0.25rem 0.5rem;">
+                    </div>
+                    <div class="form-group mb-0">
+                        <label for="reps-${exercise.id}" class="form-label" style="font-size: 0.85rem;">Reps</label>
+                        <input type="number" id="reps-${exercise.id}" class="form-control form-control-sm" size="5" style="width: 80px; font-size: 0.85rem; padding: 0.25rem 0.5rem;">
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+                card.innerHTML = cardHtml;
                 exerciseList.appendChild(card);
             });
+
         })
         .catch(error => {
             console.error('Error fetching exercises:', error);
