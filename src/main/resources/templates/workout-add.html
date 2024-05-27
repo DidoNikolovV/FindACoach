@@ -1,17 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <link rel="stylesheet" th:href="@{/css/reset-css.css}"/>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
-    <link rel="stylesheet" th:href="@{/js/bootstrap.min.js}"/>
-    <link rel="stylesheet" type="text/css" th:href="@{/css/main.css}"/>
+<head th:replace="~{fragments/head}">
 </head>
 <body>
 <div>
     <nav th:replace="~{fragments/navbar}"></nav>
 </div>
 </body>
-<header class="header">
+<header class="header" style="height: 100vh">
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -41,35 +37,16 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="text-white">Select Exercises:</label>
-                        <div class="row">
-                            <div th:each="exercise, exerciseStat: ${exercises}" class="col mb-3">
-                                <div class="card-exercise d-flex align-items-center justify-content-end">
-                                    <div class="card-body">
-                                        <input type="checkbox" class="form-check-input"
-                                               th:id="'exercise-' + ${exercise.id}" name="selectedExerciseIds"
-                                               th:value="${exercise.id}"/>
-                                        <label class="form-check-label" th:for="'exercise-' + ${exercise.id}">
-                                            <span th:text="${exercise.name}"></span>
-                                        </label>
+                        <label class="text-white">Selected Exercises:</label>
+                        <ul id="selectedExercises" class="list-group">
+                            <!-- Selected exercises will be listed here -->
+                        </ul>
+                    </div>
 
-                                        <div class="form-group">
-                                            <label th:for="'sets-' + ${exerciseStat.index}">Sets</label>
-                                            <input type="number" class="form-control"
-                                                   th:id="'sets-' + ${exerciseStat.index}" th:name="sets"
-                                                   th:value="${exercise.sets}"/>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label th:for="'reps-' + ${exerciseStat.index}">Reps</label>
-                                            <input type="number" class="form-control"
-                                                   th:id="'reps-' + ${exerciseStat.index}" th:name="reps"
-                                                   th:value="${exercise.reps}"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exerciseModal">
+                            Add Exercises
+                        </button>
                     </div>
 
                     <button type="submit" class="btn btn-primary btn-create-workout">Create Workout</button>
@@ -79,24 +56,31 @@
     </div>
 
 </header>
+
+<!-- Modal for Adding Exercises -->
+<div class="modal fade" id="exerciseModal" tabindex="-1" aria-labelledby="exerciseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exerciseModalLabel">Select Exercises</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="exerciseList" class="row">
+                    <!-- Exercises will be dynamically loaded here -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="saveSelectedExercises()">Save</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <footer th:replace="~{fragments/footer}"></footer>
-<script>
-    function addExercise(button) {
-        let exerciseId = button.getAttribute("data-exercise-id");
-        let exerciseName = button.previousElementSibling.textContent;
+<script th:src="@{/js/createWorkout.js}"></script>
 
-        let listItem = document.createElement("li");
-        listItem.className = "list-group-item";
-        listItem.textContent = exerciseName;
-
-        let selectedExercises = document.getElementById("selectedExercises");
-        selectedExercises.appendChild(listItem);
-
-        button.previousElementSibling.style.display = "none";
-        button.style.display = "none";
-    }
-
-</script>
 </html>
-
-

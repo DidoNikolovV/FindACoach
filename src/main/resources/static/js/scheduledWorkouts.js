@@ -19,10 +19,13 @@ function updateCalendarEvents() {
             if (data && data.length > 0) {
                 let calendarEvents = data.map(workout => {
                     const isClient = userTitle === 'CLIENT';
+                    const scheduledDateTime = workout.scheduledDateTime;
+                    let formattedDate = moment(scheduledDateTime).format('YYYY-MM-DD HH:mm:ss');
+                    console.log(`Formatted: ${formattedDate}`);
                     return {
                         id: workout.id,
                         name: isClient ? `Coach: ${workout.coachName}` : `Client: ${workout.clientName}`,
-                        date: moment(workout.scheduledDateTime).format('MM-DD-YYYY'),
+                        date: formattedDate,
                         description: "Workout",
                         type: "event",
                         allowReschedule: true
