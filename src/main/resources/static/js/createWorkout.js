@@ -33,7 +33,7 @@ function fetchExercises() {
                         <div class="d-flex justify-content-between align-items-start mb-3">
                             <div>
                                 <h5 class="card-title" style="font-size: 1rem;">${exercise.name}</h5>
-                                <p class="card-text text-muted" style="font-size: 0.75rem;">Muscle Group: ${exercise.muscleGroup}</p>
+                                <p class="card-text text-muted" style="font-size: 0.75rem;" id="muscleGroup">${exercise.muscleGroup}</p>
                             </div>
                             <div>
                                 <input type="checkbox" class="form-check-input" id="exercise-${exercise.id}" value="${exercise.id}">
@@ -72,12 +72,15 @@ function saveSelectedExercises() {
         const exerciseName = checkbox.closest('.card-body').querySelector('.card-title').textContent;
         const sets = document.getElementById(`sets-${exerciseId}`).value;
         const reps = document.getElementById(`reps-${exerciseId}`).value;
+        const muscleGroup = document.getElementById("muscleGroup").textContent;
+        console.log(muscleGroup);
 
         const exercise = {
             id: exerciseId,
             name: exerciseName,
             sets: sets,
-            reps: reps
+            reps: reps,
+            muscleGroup
         };
 
         console.log(exercise);
@@ -98,7 +101,8 @@ function updateSelectedExercisesList(page = 1) {
         listItem.innerHTML = `
             <div>
                 <h6>${exercise.name}</h6>
-                <p class="mb-1">Sets: ${exercise.sets}, Reps: ${exercise.reps}</p>
+                <p class="mb-1">Sets: ${exercise.sets}, Reps: ${exercise.reps}
+                <span>Muscle Group: ${exercise.muscleGroup}</span>
             </div>
         `;
         selectedExercisesContainer.appendChild(listItem);

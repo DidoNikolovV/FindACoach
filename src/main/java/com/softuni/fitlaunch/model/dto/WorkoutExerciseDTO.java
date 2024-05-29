@@ -18,4 +18,5 @@ public class WorkoutExerciseDTO {
     private boolean isCompleted;
     private int sets;
     private int reps;
+    private String muscleGroup;
 }

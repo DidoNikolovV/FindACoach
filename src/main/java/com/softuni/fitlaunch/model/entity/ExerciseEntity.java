@@ -16,8 +16,8 @@ public class ExerciseEntity extends BaseEntity {
     @Column(nullable = false, unique = true)
     private String name;
 
-    @Column(name = "target_muscle_group", nullable = false)
-    private String targetMuscleGroup;
+    @Column(name = "muscle_group", nullable = false)
+    private String muscleGroup;
 
     @Column(name = "video_url")
     private String videoUrl;

@@ -149,7 +149,7 @@ VALUES (350,
 --        ('Advanced Yoga Instructor', 'Yoga Certification Institute', '2021-05-15'),
 --        ('Professional Life Coach', 'Coaching Association', '2020-10-01');
 
-INSERT INTO exercises (name, target_muscle_group, video_url)
+INSERT INTO exercises (name, muscle_group, video_url)
 VALUES ('Squats', 'Legs', 'https://www.youtube.com/watch?v=U3HcD0PnczY'),
        ('Bench Press', 'Chest', 'https://www.youtube.com/watch?v=rT7DgCr-3pg'),
        ('Deadlifts', 'Back', 'https://www.youtube.com/watch?v=op9kVnSso6Q'),
@@ -177,16 +177,16 @@ VALUES ('', 'Full Body Workout: Squats, Deadlifts, Bench Press, Pull-ups, and Pl
         'https://example.com/yoga_flow.jpg', 'Beginner', 30, 'Morning Yoga Flow', 1);
 
 
-INSERT INTO workout_exercises (reps, sets, name, workout_id, is_completed)
-VALUES (8, 3, 'Squats', 1, 0),
-       (12, 3, 'Bench Press', 1, 0),
-       (10, 3, 'Deadlifts', 1, 0),
-       (12, 4, 'Pull-ups', 2, 0),
-       (15, 3, 'Pull-ups', 2, 0),
-       (8, 5, 'Push-ups', 2, 0),
-       (10, 4, 'Leg Press', 3, 0),
-       (12, 3, 'Tricep Dips', 3, 0),
-       (15, 4, 'Bent Over Rows', 3, 0);
+INSERT INTO workout_exercises (reps, sets, name, muscle_group, workout_id, is_completed)
+VALUES (8, 3, 'Squats', 'Legs', 1, 0),
+       (12, 3, 'Bench Press','Chest, Shoulders & Triceps', 1, 0),
+       (10, 3, 'Deadlifts', 'Legs & Back', 1, 0),
+       (12, 4, 'Pull-ups', 'Back & Biceps', 2, 0),
+       (15, 3, 'Pull-ups', 'Back & Biceps', 2, 0),
+       (8, 5, 'Push-ups','Chest, Triceps & Shoulders', 2, 0),
+       (10, 4, 'Leg Press','Legs', 3, 0),
+       (12, 3, 'Tricep Dips', 'Triceps', 3, 0),
+       (15, 4, 'Bent Over Rows', 'Back', 3, 0);
 
 
 

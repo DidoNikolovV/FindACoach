@@ -35,4 +35,7 @@ public class WorkoutExerciseEntity extends BaseEntity {
     @Column(nullable = false)
     private int reps;
 
+    @Column(name ="muscle_group", nullable = false)
+    private String muscleGroup;
+
 }
