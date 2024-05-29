@@ -94,16 +94,24 @@ function saveSelectedExercises() {
 function updateSelectedExercisesList(page = 1) {
     const selectedExercisesContainer = document.getElementById('selectedExercises');
     selectedExercisesContainer.innerHTML = '';
+    selectedExercisesContainer.className = 'd-flex justify-content-between align-items-start'
 
     selectedExercises.forEach(exercise => {
         const listItem = document.createElement('li');
         listItem.className = 'list-group-item';
         listItem.innerHTML = `
-            <div>
-                <h6>${exercise.name}</h6>
-                <p class="mb-1">Sets: ${exercise.sets}, Reps: ${exercise.reps}
-                <span>Muscle Group: ${exercise.muscleGroup}</span>
+            <div class="d-flex justify-content-between align-items-start">
+                <div>
+                    <h6 style="margin-bottom: 0.5rem;">${exercise.name}</h6>
+                </div>
+                <div>
+                    <span class="badge badge-secondary" style="font-size: 0.85rem;">Muscle Group: ${exercise.muscleGroup}</span>
+                </div>
             </div>
+            <p class="mb-1" style="margin-bottom: 0.2rem;">
+                <span style="display: inline-block; width: 50%;">Sets: ${exercise.sets}</span>
+                <span style="display: inline-block; width: 50%;">Reps: ${exercise.reps}</span style="display: inline-block; width: 50%;">
+            </p>
         `;
         selectedExercisesContainer.appendChild(listItem);
     });
