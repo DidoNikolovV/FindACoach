@@ -16,26 +16,12 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class WorkoutCreationDTO {
-
-    private Long id;
-
     @NotBlank(message = "Name should not be null nor empty")
     @Length(max = 255, message = "Name cannot be more than 255 characters long")
     @Pattern(regexp = "^(?!\\s)[a-zA-Z0-9-* ]+", message = "Invalid workout name")
     private String name;
-
     @NotNull
     private LevelEnum level;
-
-    @NotBlank(message = "Description should not be null nor empty")
-    @Length(max = 255, message = "Description cannot be more than 255 characters long")
-    private String description;
-
     @NotNull(message = "Image should not be null")
     private MultipartFile imgUrl;
-
-    private List<Long> selectedExerciseIds;
-
-    private List<Integer> sets;
-    private List<Integer> reps;
 }

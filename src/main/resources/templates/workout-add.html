@@ -12,7 +12,7 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <h2 class="text-center text-white" style="margin-top: 10rem;">Create Workout</h2>
-                <form th:object="${workoutCreationDTO}" th:action="@{/workouts/create}" th:method="post"
+                <form th:object="${workoutCreationDTO}" th:action="@{/exercises}" method='POST'
                       enctype="multipart/form-data">
                     <div class="form-group">
                         <label for="name" class="text-white">Workout Name</label>
@@ -28,7 +28,6 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <input type="hidden" name="id" id="workoutId" th:value="${workoutCreationDTO.id}">
                         <label for="imgUrl" class="text-white">
                             <img src="/images/add-img.jpg" alt="Upload Image" style="max-width: 100%; height: auto;">
                         </label>
@@ -43,8 +42,10 @@
                         </ul>
                     </div>
 
+
                     <div class="form-group">
-                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exerciseModal">
+                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exerciseModal"
+                                id="exerciseModalButton">
                             Add Exercises
                         </button>
                     </div>
@@ -73,7 +74,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary" onclick="saveSelectedExercises()">Save</button>
+                <button type="button" class="btn btn-primary" id="saveExercises">Save</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
             </div>
         </div>

@@ -1,6 +1,7 @@
 package com.softuni.fitlaunch.service;
 
 
+import com.softuni.fitlaunch.model.dto.WorkoutExerciseDTO;
 import com.softuni.fitlaunch.model.dto.week.DayWorkoutsDTO;
 import com.softuni.fitlaunch.model.dto.workout.ClientWorkoutDetails;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutAddDTO;
@@ -12,6 +13,7 @@ import com.softuni.fitlaunch.model.entity.DayWorkoutsEntity;
 import com.softuni.fitlaunch.model.entity.ProgramWeekEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
+import com.softuni.fitlaunch.model.entity.WorkoutExerciseEntity;
 import com.softuni.fitlaunch.model.enums.LevelEnum;
 import com.softuni.fitlaunch.repository.DayWorkoutsRepository;
 import com.softuni.fitlaunch.repository.WorkoutRepository;
@@ -64,7 +66,7 @@ public class WorkoutService {
         CoachEntity author = coachService.getCoachEntityByUsername(authorUsername);
         workout.setAuthor(author);
         workout = workoutRepository.save(workout);
-        workoutExerciseService.createWorkoutExercises(workoutCreationDTO, workout);
+//        workoutExerciseService.createWorkoutExercises(workoutCreationDTO, workout);
 
         return modelMapper.map(workout, WorkoutDTO.class);
     }
@@ -208,5 +210,14 @@ public class WorkoutService {
         dayWorkoutsEntity.setWorkout(workoutEntity);
         dayWorkoutsRepository.save(dayWorkoutsEntity);
         return dayWorkoutsEntity;
+    }
+
+    public WorkoutDTO addExercisesToWorkout(Long workoutId, List<WorkoutExerciseDTO> exercises) {
+        WorkoutEntity workout = getWorkoutEntityById(workoutId);
+        List<WorkoutExerciseEntity> exercisesToAdd = exercises.stream().map(exercise -> modelMapper.map(exercise, WorkoutExerciseEntity.class)).toList();
+        workout.getExercises().addAll(exercisesToAdd);
+        workoutRepository.save(workout);
+
+        return modelMapper.map(workout, WorkoutDTO.class);
     }
 }

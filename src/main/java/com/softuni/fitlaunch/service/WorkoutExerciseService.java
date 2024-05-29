@@ -34,24 +34,20 @@ public class WorkoutExerciseService {
                 .toList();
     }
 
-    public void createWorkoutExercises(WorkoutCreationDTO workoutCreationDTO, WorkoutEntity workout) {
-        List<ExerciseEntity> exercises = workoutCreationDTO.getSelectedExerciseIds().stream().map(exerciseService::getById).toList();
-        List<WorkoutExerciseEntity> workoutExercises = exercises.stream().map(exerciseEntity -> modelMapper.map(exerciseEntity, WorkoutExerciseEntity.class)).toList();
-        for (WorkoutExerciseEntity workoutExercise : workoutExercises) {
-            workoutExercise.setWorkout(workout);
-            int exerciseSets = workoutCreationDTO.getSets().get((int) (workoutExercise.getId() - 1));
-            int exerciseReps = workoutCreationDTO.getReps().get((int) (workoutExercise.getId() - 1));
-            workoutExercise.setSets(exerciseSets);
-            workoutExercise.setReps(exerciseReps);
-        }
-
-        workoutExerciseRepository.saveAll(workoutExercises);
-
-    }
-
-    public List<WorkoutExerciseDTO> getAllByWorkoutId(Long workoutId) {
-        return workoutExerciseRepository.findAllByWorkoutId(workoutId).stream().map(exerciseEntity -> modelMapper.map(exerciseEntity, WorkoutExerciseDTO.class)).toList();
-    }
+//    public void createWorkoutExercises(WorkoutCreationDTO workoutCreationDTO, WorkoutEntity workout) {
+//        List<ExerciseEntity> exercises = workoutCreationDTO.getSelectedExerciseIds().stream().map(exerciseService::getById).toList();
+//        List<WorkoutExerciseEntity> workoutExercises = exercises.stream().map(exerciseEntity -> modelMapper.map(exerciseEntity, WorkoutExerciseEntity.class)).toList();
+//        for (WorkoutExerciseEntity workoutExercise : workoutExercises) {
+//            workoutExercise.setWorkout(workout);
+//            int exerciseSets = workoutCreationDTO.getSets().get((int) (workoutExercise.getId() - 1));
+//            int exerciseReps = workoutCreationDTO.getReps().get((int) (workoutExercise.getId() - 1));
+//            workoutExercise.setSets(exerciseSets);
+//            workoutExercise.setReps(exerciseReps);
+//        }
+//
+//        workoutExerciseRepository.saveAll(workoutExercises);
+//
+//    }
 
     public void completeExercise(Long exerciseId, Long workoutId) {
         WorkoutExerciseEntity exerciseToBeCompleted = workoutExerciseRepository.findByIdAndWorkoutId(exerciseId, workoutId).orElseThrow(() -> new ResourceNotFoundException("Exercise does not exist"));
