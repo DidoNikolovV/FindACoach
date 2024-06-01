@@ -87,7 +87,8 @@
                                 <span th:text="${exercise.reps}">10</span>
                             </p>
                             <div class="embed-responsive embed-responsive-16by9">
-                                <iframe class="embed-responsive-item" th:src="'https://www.youtube.com/embed/' + ${exercise.getVideoUrl()}"
+                                <iframe class="embed-responsive-item"
+                                        th:src="'https://www.youtube.com/embed/' + ${exercise.getVideoUrl()}"
                                         allowfullscreen></iframe>
                             </div>
                             <div th:if="*{hasStarted}" class="mt-3">

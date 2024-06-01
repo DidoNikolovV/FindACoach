@@ -12,15 +12,18 @@
             <div class="row">
                 <div class="col-md-12">
                     <h3 th:text="*{name}" class="mb-3 text-center"></h3>
-<!--                    <p th:text="*{}" class="text-center mb-4"></p>-->
-                    <p class="text-center"><strong>Total Duration:</strong> <span th:text="*{weeks.size()}"></span> weeks</p>
+                    <!--                    <p th:text="*{}" class="text-center mb-4"></p>-->
+                    <p class="text-center"><strong>Total Duration:</strong> <span th:text="*{weeks.size()}"></span>
+                        weeks</p>
                 </div>
             </div>
             <div class="row mb-4">
                 <div class="col-md-12">
                     <div class="progress">
-                        <div class="progress-bar" role="progressbar" th:style="'width: ' + 68 + '%;'" aria-valuenow="25" aria-valuemin="0"
-                             aria-valuemax="100">68%</div>
+                        <div class="progress-bar" role="progressbar" th:style="'width: ' + 68 + '%;'" aria-valuenow="25"
+                             aria-valuemin="0"
+                             aria-valuemax="100">68%
+                        </div>
                     </div>
                 </div>
             </div>

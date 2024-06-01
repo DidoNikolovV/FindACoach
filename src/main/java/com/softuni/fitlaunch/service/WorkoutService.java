@@ -74,7 +74,6 @@ public class WorkoutService {
         CoachEntity author = coachService.getCoachEntityByUsername(authorUsername);
         workout.setAuthor(author);
         workout = workoutRepository.save(workout);
-//        workoutExerciseService.createWorkoutExercises(workoutCreationDTO, workout);
 
         return modelMapper.map(workout, WorkoutDTO.class);
     }
@@ -87,16 +86,16 @@ public class WorkoutService {
         CoachEntity author = coachService.getCoachEntityByUsername(authorUsername);
         workout.setAuthor(author);
         workout = workoutRepository.save(workout);
-        List<WorkoutExerciseEntity> exercises = mapJsonToExercisesDtoObject(json, workout);
+        mapAndProccessJsonExercises(json, workout);
 
         return modelMapper.map(workout, WorkoutDTO.class);
     }
 
-    private List<WorkoutExerciseEntity> mapJsonToExercisesDtoObject(List<String> json, WorkoutEntity workout) {
+    private List<WorkoutExerciseEntity> mapAndProccessJsonExercises(List<String> json, WorkoutEntity workout) {
         ObjectMapper objectMapper = new ObjectMapper();
         List<WorkoutExerciseEntity> exercises = new ArrayList<>();
         try {
-            for(String exerciseJson : json) {
+            for (String exerciseJson : json) {
                 WorkoutExerciseEntity exercise = objectMapper.readValue(exerciseJson, WorkoutExerciseEntity.class);
                 exercises.add(exercise);
             }

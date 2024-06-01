@@ -79,10 +79,10 @@ function updateWeeklyDataTable(data) {
 
 function updateWeeklyDataCharts(data) {
     const chartConfigs = [
-        { elementId: 'week1Chart', data: data[0] },
-        { elementId: 'week2Chart', data: data[1] },
-        { elementId: 'week3Chart', data: data[2] },
-        { elementId: 'week4Chart', data: data[3] }
+        {elementId: 'week1Chart', data: data[0]},
+        {elementId: 'week2Chart', data: data[1]},
+        {elementId: 'week3Chart', data: data[2]},
+        {elementId: 'week4Chart', data: data[3]}
     ];
 
     chartConfigs.forEach(config => {

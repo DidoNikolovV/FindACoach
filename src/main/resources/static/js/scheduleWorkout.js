@@ -51,7 +51,7 @@ function scheduleWorkout(e) {
             }
             // Close the modal regardless of the response status
             $('#workoutModal').modal('hide')
-            window.location.href  = `${url}/users/${clientUsername}/calendar`
+            window.location.href = `${url}/users/${clientUsername}/calendar`
         })
         .catch(error => {
             console.error("Error scheduling workout:", error);

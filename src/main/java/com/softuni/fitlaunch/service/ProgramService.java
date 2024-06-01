@@ -94,7 +94,7 @@ public class ProgramService {
     public void updateWeeksStateByUser(ProgramEntity programEntity, UserEntity user) {
         programEntity.getWeeks().forEach(week -> {
             boolean hasNotCompleted = !week.getUsersCompleted().contains(user);
-            if(hasNotCompleted) {
+            if (hasNotCompleted) {
                 week.setCompleted(false);
             }
         });
@@ -154,7 +154,7 @@ public class ProgramService {
 
     private void updatedWorkoutState(DayWorkoutsEntity workout, UserEntity user) {
         boolean hasNotCompleted = !user.getCompletedWorkouts().contains(workout);
-        if(hasNotCompleted) {
+        if (hasNotCompleted) {
             workout.setCompleted(false);
         }
     }

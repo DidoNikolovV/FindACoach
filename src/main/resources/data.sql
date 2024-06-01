@@ -179,12 +179,12 @@ VALUES ('', 'Full Body Workout: Squats, Deadlifts, Bench Press, Pull-ups, and Pl
 
 INSERT INTO workout_exercises (reps, sets, name, muscle_group, workout_id, is_completed)
 VALUES (8, 3, 'Squats', 'Legs', 1, 0),
-       (12, 3, 'Bench Press','Chest, Shoulders & Triceps', 1, 0),
+       (12, 3, 'Bench Press', 'Chest, Shoulders & Triceps', 1, 0),
        (10, 3, 'Deadlifts', 'Legs & Back', 1, 0),
        (12, 4, 'Pull-ups', 'Back & Biceps', 2, 0),
        (15, 3, 'Pull-ups', 'Back & Biceps', 2, 0),
-       (8, 5, 'Push-ups','Chest, Triceps & Shoulders', 2, 0),
-       (10, 4, 'Leg Press','Legs', 3, 0),
+       (8, 5, 'Push-ups', 'Chest, Triceps & Shoulders', 2, 0),
+       (10, 4, 'Leg Press', 'Legs', 3, 0),
        (12, 3, 'Tricep Dips', 'Triceps', 3, 0),
        (15, 4, 'Bent Over Rows', 'Back', 3, 0);
 

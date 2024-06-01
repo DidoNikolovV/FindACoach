@@ -7,7 +7,8 @@
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
 <header class="header">
-    <div class="container mt-5 d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;" th:object="${week}">
+    <div class="container mt-5 d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;"
+         th:object="${week}">
         <h2 class="text-center mb-4 text-light">Workouts for Week <span th:text="*{number}"></span></h2>
         <table class="table">
             <thead class="thead-dark">
@@ -20,7 +21,8 @@
             <tr th:each="day : *{days}" class="text-light">
                 <td th:text="${day.name}"></td>
                 <td th:if="${day.workout != null}" class="d-flex align-items-center">
-                    <a th:href="@{/workouts/{workoutId}/days/{dayName}(workoutId=${day.workout.id}, dayName=${day.name})}" class="btn btn-info">
+                    <a th:href="@{/workouts/{workoutId}/days/{dayName}(workoutId=${day.workout.id}, dayName=${day.name})}"
+                       class="btn btn-info">
                         <span th:text="${day.workout.name}"></span>
                     </a>
                     <div class="ml-auto" th:if="${day.isCompleted()}">
@@ -32,7 +34,8 @@
             </tbody>
         </table>
         <div class="mt-4">
-            <form th:method="POST" th:action="@{/programs/{programId}/weeks/{weekNumber}/complete(programId=${programId}, weekNumber=${week.number})}">
+            <form th:method="POST"
+                  th:action="@{/programs/{programId}/weeks/{weekNumber}/complete(programId=${programId}, weekNumber=${week.number})}">
                 <input type="submit" class="btn btn-success" value="Complete Week">
             </form>
         </div>
