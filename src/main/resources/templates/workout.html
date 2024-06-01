@@ -3,7 +3,7 @@
 <head th:replace="~{fragments/head}"></head>
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
-<header class="header" style="height: 100vh">
+<header class="header" style="min-height: 100vh;">
     <section class="container mt-5">
         <div class="text-center mb-4">
             <h2 class="text-white">Workout Details</h2>
@@ -27,26 +27,24 @@
             <div class="card-header">
                 <h5 class="card-title">Exercises</h5>
             </div>
-            <div class="card-body">
-                <div class="row">
-                    <div th:each="exercise: ${workout.exercises}" class="col-md-6 mb-4">
-                        <div class="card bg-secondary text-white">
-                            <div class="card-body">
-                                <h6 class="card-title font-weight-bold" th:text="${exercise.name}"></h6>
-                                <div>
-                                    <span th:text="${exercise.getMuscleGroup()}" class="badge badge-secondary"
-                                          style="font-size: 0.85rem; position:absolute; top: 10px; right: 10px;"></span>
-                                </div>
-                                <p>
-                                    <span class="font-weight-bold">Sets:</span>
-                                    <span th:text="${exercise.sets}"></span>
-                                    <br>
-                                    <span class="font-weight-bold">Reps:</span>
-                                    <span th:text="${exercise.reps}"></span>
-                                </p>
-                                <iframe class="w-100" th:src="'https://www.youtube.com/embed/' + ${exercise.videoUrl}"
-                                        height="200" frameborder="0" allowfullscreen></iframe>
+            <div class="card-body row row-cols-1 row-cols-sm-3">
+                <div th:each="exercise: ${workout.exercises}" class="col mb-4">
+                    <div class="card bg-secondary text-white h-100">
+                        <div class="card-body">
+                            <h6 class="card-title font-weight-bold" th:text="${exercise.name}"></h6>
+                            <div>
+                                <span th:text="${exercise.getMuscleGroup()}" class="badge badge-secondary"
+                                      style="font-size: 0.85rem; position:absolute; top: 10px; right: 10px;"></span>
                             </div>
+                            <p>
+                                <span class="font-weight-bold">Sets:</span>
+                                <span th:text="${exercise.sets}"></span>
+                                <br>
+                                <span class="font-weight-bold">Reps:</span>
+                                <span th:text="${exercise.reps}"></span>
+                            </p>
+                            <iframe class="w-100" th:src="'https://www.youtube.com/embed/' + ${exercise.videoUrl}"
+                                    height="150" frameborder="0" allowfullscreen></iframe>
                         </div>
                     </div>
                 </div>
