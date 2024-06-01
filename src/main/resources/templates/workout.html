@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head}">
-</head>
+<head th:replace="~{fragments/head}"></head>
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
 <header class="header">
-    <section class="container mt-5" style="height: 100vh">
-        <h2 class="text-center text-white mb-4">Workout Details</h2>
+    <section class="container mt-5">
+        <div class="text-center mb-4">
+            <h2 class="text-white">Workout Details</h2>
+        </div>
 
-        <div th:object="${workout}" class="card">
-            <div class="card-body bg-dark text-center">
+        <div th:object="${workout}" class="card bg-dark text-white mb-4">
+            <div class="card-header text-center">
                 <h5 class="card-title text-primary" th:text="*{name}"></h5>
-
-                <ul class="list-group list-group-flush mt-3 text-white align-items-center">
-                    <li class="list-group-item bg-dark text-white">
+            </div>
+            <div class="card-body text-center">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item bg-dark">
                         <span class="font-weight-bold">Level:</span>
                         <span th:text="*{level}">Beginner</span>
                     </li>
@@ -21,32 +23,33 @@
             </div>
         </div>
 
-        <section class="card mt-4">
-            <div class="bg-dark primary container-fluid">
-                <h5 class="card-title primary">Exercises</h5>
-                <ul class="list-group list-group-flush">
-                    <div class="row">
-                        <div th:each="exercise: ${workout.exercises}" class="col-md-6">
-                            <li class="list-group-item bg-dark">
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="flex-grow-1">
-                                        <h6 class="font-weight-bold" th:text="${exercise.name}"></h6>
-                                        <span class="font-weight-bold">Sets:</span>
-                                        <span th:text="${exercise.sets}"></span>
-                                        <br>
-                                        <span class="font-weight-bold">Reps:</span>
-                                        <span th:text="${exercise.reps}"></span>
-                                    </div>
-                                    <div>
-                                        <iframe class="w-100"
-                                                th:src="'https://www.youtube.com/embed/' + ${exercise.getVideoUrl()}"
-                                                height="100" frameborder="0" allowfullscreen></iframe>
-                                    </div>
+        <section class="card bg-dark text-white">
+            <div class="card-header">
+                <h5 class="card-title">Exercises</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div th:each="exercise: ${workout.exercises}" class="col-md-6 mb-4">
+                        <div class="card bg-secondary text-white">
+                            <div class="card-body">
+                                <h6 class="card-title font-weight-bold" th:text="${exercise.name}"></h6>
+                                <div>
+                                    <span th:text="${exercise.getMuscleGroup()}" class="badge badge-secondary"
+                                          style="font-size: 0.85rem; position:absolute; top: 10px; right: 10px;"></span>
                                 </div>
-                            </li>
+                                <p>
+                                    <span class="font-weight-bold">Sets:</span>
+                                    <span th:text="${exercise.sets}"></span>
+                                    <br>
+                                    <span class="font-weight-bold">Reps:</span>
+                                    <span th:text="${exercise.reps}"></span>
+                                </p>
+                                <iframe class="w-100" th:src="'https://www.youtube.com/embed/' + ${exercise.videoUrl}"
+                                        height="200" frameborder="0" allowfullscreen></iframe>
+                            </div>
                         </div>
                     </div>
-                </ul>
+                </div>
             </div>
         </section>
 
@@ -54,5 +57,6 @@
     </section>
 </header>
 <footer th:replace="~{fragments/footer}"></footer>
+
 </body>
 </html>
