@@ -12,10 +12,13 @@ document.getElementById("createWorkout").addEventListener("click", createWorkout
 // });
 
 let selectedExercises = [];
-const exercisesPerPage = 5;
+const exercisesPerPage = 6;
 
-function fetchExercises() {
-    fetch(`${url}/api/v1/workout`, {
+let currentPage = 0; // Initialize currentPage as a global variable
+
+function fetchExercises(page = 0) {
+    const pageSize = 6;
+    fetch(`${url}/api/v1/workout?page=${page}&size=${pageSize}`, {
         headers: {
             'Accept': 'application/json',
             [csrfHeaderName]: csrfHeaderValue
@@ -25,7 +28,8 @@ function fetchExercises() {
         .then(data => {
             const exerciseList = document.getElementById('exerciseList');
             exerciseList.innerHTML = '';
-            data.forEach(exercise => {
+            console.log(data.content);
+            data.content.forEach(exercise => {
                 const card = document.createElement('div');
                 card.className = 'col-md-4 mb-3';
                 card.innerHTML = `
@@ -56,11 +60,83 @@ function fetchExercises() {
             `;
                 exerciseList.appendChild(card);
             });
+
+            updatePagination(data.number, data.totalPages);
             $('#exerciseModal').modal('show');
+            currentPage = page; // Update the currentPage variable
         })
         .catch(error => {
             console.error('Error fetching exercises:', error);
         });
+}
+
+// Function to update pagination UI
+function updatePagination(currentPage, totalPages) {
+    const pagination = document.getElementById('pagination');
+    pagination.innerHTML = '';
+
+    if (currentPage > 0) {
+        const prevButton = document.createElement('button');
+        prevButton.textContent = 'Previous';
+        prevButton.addEventListener('click', () => fetchExercises(currentPage - 1));
+        pagination.appendChild(prevButton);
+    }
+
+    if (currentPage < totalPages - 1) {
+        const nextButton = document.createElement('button');
+        nextButton.textContent = 'Next';
+        nextButton.addEventListener('click', () => fetchExercises(currentPage + 1));
+        pagination.appendChild(nextButton);
+    }
+}
+
+// Call fetchExercises initially to load the first page
+fetchExercises();
+
+
+function updatePagination(currentPage, totalPages) {
+    const paginationList = document.querySelector('.pagination');
+    paginationList.innerHTML = '';
+
+    for (let i = 0; i < totalPages; i++) {
+        const li = document.createElement('li');
+        li.classList.add('page-item');
+        if (i === currentPage) {
+            li.classList.add('active');
+        }
+
+        const link = document.createElement('a');
+        link.classList.add('page-link');
+        link.href = '#';
+        link.dataset.page = i;
+        link.textContent = i + 1;
+
+        li.appendChild(link);
+        paginationList.appendChild(li);
+    }
+
+    // Add event listener to pagination links
+    paginationList.querySelectorAll('.page-link').forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            const page = parseInt(this.dataset.page);
+            fetchExercises(page);
+        });
+    });
+}
+
+function populatePagination(currentPage, totalPages) {
+    var paginationNav = $('#paginationNav');
+    var paginationList = paginationNav.find('.pagination');
+    paginationList.empty();
+    for (var i = 0; i < totalPages; i++) {
+        var activeClass = (i === currentPage) ? 'active' : '';
+        paginationList.append('<li class="page-item ' + activeClass + '"><a class="page-link" href="#" data-page="' + i + '">' + (i + 1) + '</a></li>');
+    }
+    paginationList.find('.page-link').click(function (e) {
+        e.preventDefault();
+        fetchExercises($(this).data('page'));
+    });
 }
 
 document.getElementById("saveExercises").addEventListener("click", saveSelectedExercises);
@@ -144,7 +220,8 @@ function createWorkout() {
         body: formData
     }).then(res => res.json())
         .then(data => {
-            console.log("Newly created workout: ", data);
+            console.log("Redirecting....")
+            window.location.href = `${url}/workouts/${data.id}`
         })
         .catch(error => console.error(error));
 }

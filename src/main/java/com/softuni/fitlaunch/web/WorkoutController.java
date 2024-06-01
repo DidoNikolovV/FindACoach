@@ -83,9 +83,9 @@ public class WorkoutController {
     @GetMapping("/create")
     public String createWorkout(Model model) {
 
-        List<WorkoutExerciseDTO> exercises = exerciseService.loadAllExercises();
-
-        model.addAttribute("exercises", exercises);
+//        List<WorkoutExerciseDTO> exercises = exerciseService.loadAllExercises();
+//
+//        model.addAttribute("exercises", exercises);
         model.addAttribute("workoutCreationDTO", new WorkoutCreationDTO());
 
         return "workout-add";

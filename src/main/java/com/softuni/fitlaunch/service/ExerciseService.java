@@ -4,6 +4,8 @@ import com.softuni.fitlaunch.model.dto.WorkoutExerciseDTO;
 import com.softuni.fitlaunch.model.entity.ExerciseEntity;
 import com.softuni.fitlaunch.repository.ExerciseRepository;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,8 +22,8 @@ public class ExerciseService {
         this.modelMapper = modelMapper;
     }
 
-    public List<WorkoutExerciseDTO> loadAllExercises() {
-        return exerciseRepository.findAll().stream().map(exercise -> modelMapper.map(exercise, WorkoutExerciseDTO.class)).toList();
+    public Page<WorkoutExerciseDTO> loadAllExercises(Pageable pageable) {
+        return exerciseRepository.findAll(pageable).map(exercise -> modelMapper.map(exercise, WorkoutExerciseDTO.class));
     }
 
     public ExerciseEntity getByName(String name) {

@@ -5,6 +5,9 @@ import com.softuni.fitlaunch.model.dto.WorkoutExerciseDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.service.ExerciseService;
 import com.softuni.fitlaunch.service.WorkoutService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,8 +33,8 @@ public class WorkoutRestController {
     }
 
     @GetMapping
-    public List<WorkoutExerciseDTO> loadExercises() {
-        return exerciseService.loadAllExercises();
+    public Page<WorkoutExerciseDTO> loadExercises(Pageable pageable) {
+        return exerciseService.loadAllExercises(pageable);
     }
 
     @PostMapping("/create")
@@ -43,8 +46,7 @@ public class WorkoutRestController {
 
         WorkoutDTO newWorkout = workoutService.createWorkout(name, level, imgUrl, principal.getName(), exercises);
 
-        return ResponseEntity.created(
-                URI.create("workouts/" + newWorkout.getId())
-        ).body(newWorkout);
+        return ResponseEntity.created(URI.create("/workouts/" + newWorkout.getId()))
+                .body(newWorkout);
     }
 }
