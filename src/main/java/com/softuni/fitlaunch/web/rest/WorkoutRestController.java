@@ -44,7 +44,7 @@ public class WorkoutRestController {
         WorkoutDTO newWorkout = workoutService.createWorkout(name, level, imgUrl, principal.getName(), exercises);
 
         return ResponseEntity.created(
-                URI.create("/api/v1/workout/" + newWorkout.getId())
+                URI.create("workouts/" + newWorkout.getId())
         ).body(newWorkout);
     }
 }
