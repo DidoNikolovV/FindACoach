@@ -34,6 +34,10 @@ public class WorkoutExerciseService {
                 .toList();
     }
 
+    public List<WorkoutExerciseEntity> saveAll(List<WorkoutExerciseEntity> exercises) {
+        return workoutExerciseRepository.saveAll(exercises);
+    }
+
 //    public void createWorkoutExercises(WorkoutCreationDTO workoutCreationDTO, WorkoutEntity workout) {
 //        List<ExerciseEntity> exercises = workoutCreationDTO.getSelectedExerciseIds().stream().map(exerciseService::getById).toList();
 //        List<WorkoutExerciseEntity> workoutExercises = exercises.stream().map(exerciseEntity -> modelMapper.map(exerciseEntity, WorkoutExerciseEntity.class)).toList();

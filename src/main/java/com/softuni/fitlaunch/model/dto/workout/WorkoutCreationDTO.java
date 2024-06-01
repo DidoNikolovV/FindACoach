@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.List;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -21,7 +19,7 @@ public class WorkoutCreationDTO {
     @Pattern(regexp = "^(?!\\s)[a-zA-Z0-9-* ]+", message = "Invalid workout name")
     private String name;
     @NotNull
-    private LevelEnum level;
+    private String level;
     @NotNull(message = "Image should not be null")
     private MultipartFile imgUrl;
 }

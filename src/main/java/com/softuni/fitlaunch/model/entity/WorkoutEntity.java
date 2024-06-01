@@ -46,14 +46,14 @@ public class WorkoutEntity extends BaseEntity {
     @Column
     private Integer likes = 0;
 
-    @OneToMany(mappedBy = "workout", cascade = CascadeType.MERGE, fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)
     private List<WorkoutExerciseEntity> exercises = new ArrayList<>();
 
     @Column
     private String dateCompleted;
 
     @OneToMany(mappedBy = "workout", fetch = FetchType.EAGER, orphanRemoval = true)
-    private List<CommentEntity> comments;
+    private List<CommentEntity> comments = new ArrayList<>();
 
     @Override
     public boolean equals(Object o) {

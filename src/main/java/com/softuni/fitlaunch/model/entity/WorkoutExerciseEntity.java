@@ -25,7 +25,6 @@ public class WorkoutExerciseEntity extends BaseEntity {
     @JoinColumn(name = "workout_id")
     private WorkoutEntity workout;
 
-
     @NotNull
     private boolean isCompleted;
 

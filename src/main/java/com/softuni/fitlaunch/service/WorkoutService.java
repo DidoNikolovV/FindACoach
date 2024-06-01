@@ -1,6 +1,8 @@
 package com.softuni.fitlaunch.service;
 
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.softuni.fitlaunch.model.dto.WorkoutExerciseDTO;
 import com.softuni.fitlaunch.model.dto.week.DayWorkoutsDTO;
 import com.softuni.fitlaunch.model.dto.workout.ClientWorkoutDetails;
@@ -10,6 +12,7 @@ import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDetailsDTO;
 import com.softuni.fitlaunch.model.entity.CoachEntity;
 import com.softuni.fitlaunch.model.entity.DayWorkoutsEntity;
+import com.softuni.fitlaunch.model.entity.ExerciseEntity;
 import com.softuni.fitlaunch.model.entity.ProgramWeekEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
@@ -23,9 +26,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -39,7 +43,7 @@ public class WorkoutService {
     private final WorkoutRepository workoutRepository;
 
     private final WorkoutExerciseService workoutExerciseService;
-
+    private final ExerciseService exerciseService;
 
     private final CoachService coachService;
 
@@ -50,15 +54,19 @@ public class WorkoutService {
     private final UserService userService;
     private final WeekService weekService;
 
+    private final FileUpload fileUpload;
 
-    public WorkoutService(WorkoutRepository workoutRepository, WorkoutExerciseService workoutExerciseService, CoachService coachService, ModelMapper modelMapper, DayWorkoutsRepository dayWorkoutsRepository, UserService userService, WeekService weekService) {
+
+    public WorkoutService(WorkoutRepository workoutRepository, WorkoutExerciseService workoutExerciseService, ExerciseService exerciseService, CoachService coachService, ModelMapper modelMapper, DayWorkoutsRepository dayWorkoutsRepository, UserService userService, WeekService weekService, FileUpload fileUpload) {
         this.workoutRepository = workoutRepository;
         this.workoutExerciseService = workoutExerciseService;
+        this.exerciseService = exerciseService;
         this.coachService = coachService;
         this.modelMapper = modelMapper;
         this.dayWorkoutsRepository = dayWorkoutsRepository;
         this.userService = userService;
         this.weekService = weekService;
+        this.fileUpload = fileUpload;
     }
 
     public WorkoutDTO createWorkout(WorkoutCreationDTO workoutCreationDTO, String authorUsername) {
@@ -69,6 +77,43 @@ public class WorkoutService {
 //        workoutExerciseService.createWorkoutExercises(workoutCreationDTO, workout);
 
         return modelMapper.map(workout, WorkoutDTO.class);
+    }
+
+    public WorkoutDTO createWorkout(String name, String level, MultipartFile imgUrl, String authorUsername, List<String> json) {
+        WorkoutCreationDTO workoutCreationDTO = new WorkoutCreationDTO(name, level, imgUrl);
+        String picture = fileUpload.uploadFile(imgUrl);
+        WorkoutEntity workout = modelMapper.map(workoutCreationDTO, WorkoutEntity.class);
+        workout.setImgUrl(picture);
+        CoachEntity author = coachService.getCoachEntityByUsername(authorUsername);
+        workout.setAuthor(author);
+        workout = workoutRepository.save(workout);
+        List<WorkoutExerciseEntity> exercises = mapJsonToExercisesDtoObject(json, workout);
+
+        return modelMapper.map(workout, WorkoutDTO.class);
+    }
+
+    private List<WorkoutExerciseEntity> mapJsonToExercisesDtoObject(List<String> json, WorkoutEntity workout) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        List<WorkoutExerciseEntity> exercises = new ArrayList<>();
+        try {
+            for(String exerciseJson : json) {
+                WorkoutExerciseEntity exercise = objectMapper.readValue(exerciseJson, WorkoutExerciseEntity.class);
+                exercises.add(exercise);
+            }
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+
+        exercises.forEach(exercise -> {
+            ExerciseEntity dbExercise = exerciseService.getByName(exercise.getName());
+            exercise.setVideoUrl(dbExercise.getVideoUrl());
+            exercise.setMuscleGroup(dbExercise.getMuscleGroup());
+            exercise.setWorkout(workout);
+        });
+
+        exercises = workoutExerciseService.saveAll(exercises);
+
+        return exercises;
     }
 
 

@@ -4,6 +4,7 @@ const csrfHeaderName = document.head.querySelector('[name=_csrf_header]').conten
 const csrfHeaderValue = document.head.querySelector('[name=_csrf]').content
 const exercisesModalButton = document.getElementById("exerciseModalButton");
 exercisesModalButton.addEventListener("click", fetchExercises);
+document.getElementById("createWorkout").addEventListener("click", createWorkout);
 
 // Fetch exercises when the modal is opened
 // $('#exerciseModal').on('show.bs.modal', function () {
@@ -14,7 +15,7 @@ let selectedExercises = [];
 const exercisesPerPage = 5;
 
 function fetchExercises() {
-    fetch(`${url}/api/v1/exercises`, {
+    fetch(`${url}/api/v1/workout`, {
         headers: {
             'Accept': 'application/json',
             [csrfHeaderName]: csrfHeaderValue
@@ -115,6 +116,37 @@ function updateSelectedExercisesList(page = 1) {
         `;
         selectedExercisesContainer.appendChild(listItem);
     });
+}
+
+function createWorkout() {
+    console.log("=========Inside createWorkout function========")
+    const workoutName = document.getElementById("name").value;
+    const workoutLevel = document.getElementById("level").value;
+    const workoutImg = document.getElementById("imgUrl").files[0];
+    selectedExercises.forEach(exercise => console.log("Selected exercise: ", exercise));
+
+    const formData = new FormData()
+    formData.append("name", workoutName);
+    formData.append("level", workoutLevel);
+    formData.append("imgUrl", workoutImg);
+    selectedExercises.forEach(exercise => {
+        formData.append("exercises", JSON.stringify(exercise));
+    })
+
+    const workout = {
+        name: workoutName,
+        level: workoutLevel,
+        imgUrl: workoutImg
+
+    }
+    fetch(`${url}/api/v1/workout/create`, {
+        method: 'POST',
+        body: formData
+    }).then(res => res.json())
+        .then(data => {
+            console.log("Newly created workout: ", data);
+        })
+        .catch(error => console.error(error));
 }
 
 function setExercisesToWorkout() {
