@@ -9,7 +9,6 @@ const username = document.getElementById("username").value
 const userTitle = document.getElementById("userTitle").value
 
 function updateCalendarEvents() {
-    // Fetch scheduled workouts from the backend
     fetch(`${url}/api/v1/schedule-workouts/calendar/${username}`, {
         headers: {
             "Accept": "application/json"
@@ -21,19 +20,18 @@ function updateCalendarEvents() {
                     const isClient = userTitle === 'CLIENT';
                     const scheduledDateTime = workout.scheduledDateTime;
                     let formattedDate = moment(scheduledDateTime).format('YYYY-MM-DD HH:mm:ss');
-                    console.log(`Formatted: ${formattedDate}`);
+                    let partnerName = isClient ? workout.coachName : workout.clientName;
+                    let partnerRole = isClient ? 'Coach' : 'Client';
                     return {
                         id: workout.id,
-                        name: isClient ? `Coach: ${workout.coachName}` : `Client: ${workout.clientName}`,
+                        name: `Workout`,
                         date: formattedDate,
-                        description: "Workout",
+                        description: `<b>${partnerName}</b> (${partnerRole})<br><b>Time:</b> ${formattedDate}`,
                         type: "event",
                         allowReschedule: true
                     };
                 });
 
-
-                // Use setCalendarEvents to update the calendar events
                 $(calendar).evoCalendar({
                     onMonthChange: updateCalendarEvents,
                     onYearChange: updateCalendarEvents,
@@ -48,8 +46,7 @@ function updateCalendarEvents() {
                     if (confirm("Do you want to delete this event?")) {
                         deleteCalendarEvent(selectedIndex);
                     }
-
-                })
+                });
             } else {
                 $('#calendar').evoCalendar({
                     theme: 'Default',
