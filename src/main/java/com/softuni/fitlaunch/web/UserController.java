@@ -95,7 +95,9 @@ public class UserController {
 
     @GetMapping("/register")
     public ModelAndView register(@ModelAttribute("userRegisterDTO") UserRegisterDTO userRegisterDTO) {
-        return new ModelAndView("register");
+        ModelAndView modelAndView = new ModelAndView("register");
+        modelAndView.addObject("activePage", "register");
+        return modelAndView;
     }
 
     @PostMapping("/register")
