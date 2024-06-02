@@ -46,7 +46,8 @@ public class UserController {
     }
 
     @GetMapping("/login")
-    public String login() {
+    public String login(Model model) {
+        model.addAttribute("activePage", "login");
         return "login";
     }
 
@@ -59,6 +60,7 @@ public class UserController {
         model.addAttribute("profilePictureDTO", new ProfilePictureUploadDTO());
         model.addAttribute("user", userProfileView);
         model.addAttribute("upcomingSessions", upcomingSessions);
+        model.addAttribute("activePage", "myProfile");
 
         return "profile";
     }
@@ -70,6 +72,7 @@ public class UserController {
         UserProfileView profileView = userService.uploadProfilePicture(principal.getName(), picture.getPicture());
 
         model.addAttribute("user", profileView);
+        model.addAttribute("activePage", "myProfile");
 
         return "redirect:/users/profile";
     }
@@ -137,7 +140,7 @@ public class UserController {
     public String myCalendar(@PathVariable("username") String username, Model model) {
         UserDTO userByUsername = userService.getUserByUsername(username);
         model.addAttribute("userTitle", userByUsername.getTitle().name());
-
+        model.addAttribute("activePage", "myCalendar");
         return "my-calendar";
     }
 
@@ -150,7 +153,8 @@ public class UserController {
     }
 
     @GetMapping("/contact-us")
-    public String contactUs() {
+    public String contactUs(Model model) {
+        model.addAttribute("activePage", "concatUs");
         return "contact-us";
     }
 

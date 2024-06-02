@@ -2,6 +2,7 @@ package com.softuni.fitlaunch.web;
 
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -13,8 +14,8 @@ public class HomeController {
     }
 
     @GetMapping("/contact-us")
-    public String loadContactUs() {
-
+    public String loadContactUs(Model model) {
+        model.addAttribute("activePage", "contactUs");
         return "contact-us";
     }
 }

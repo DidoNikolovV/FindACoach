@@ -10,12 +10,12 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'CLIENT', 'COACH')">
+                <li class="nav-item active" th:classappend="${activePage == 'myCalendar'} ? 'custom-active'" sec:authorize="hasAnyRole('ADMIN', 'CLIENT', 'COACH')">
                     <a class="nav-link text-white h6"
                        th:href="@{/users/{username}/calendar(username=${#authentication.principal.username})}">My
                         Calendar</a>
                 </li>
-                <li class="nav-item dropdown" sec:authorize="hasAnyRole('ADMIN', 'COACH', 'CLIENT')">
+                <li class="nav-item dropdown"  sec:authorize="hasAnyRole('ADMIN', 'COACH', 'CLIENT')">
                     <a class="nav-link dropdown-toggle text-white h6" href="#" role="button"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         Programs
@@ -23,8 +23,8 @@
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="/programs/create" sec:authorize="hasAnyRole('ADMIN', 'COACH')">Create
                             Program</a>
-                        <a class="dropdown-item" href="/programs/all">All Programs</a>
-                        <a class="dropdown-item" href="/workouts/create">Create Workout</a>
+                        <a class="dropdown-item custom-active" th:classappend="${activePage == 'allPrograms'} ? 'custom-active'" href="/programs/all">All Programs</a>
+                        <a class="dropdown-item" th:classappend="${activePage == 'createWorkout'} ? 'custom-active'" href="/workouts/create">Create Workout</a>
                     </div>
                 </li>
                 <li class="nav-item dropdown" sec:authorize="hasAnyRole('ADMIN', 'COACH')">
@@ -40,10 +40,10 @@
                     </div>
                 </li>
 
-                <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'CLIENT')">
+                <li class="nav-item" th:classappend="${activePage == 'coaches'} ? 'custom-active'" sec:authorize="hasAnyRole('ADMIN', 'CLIENT')">
                     <a class="nav-link text-white h6" href="/coaches/all">Coaches</a>
                 </li>
-                <li class="nav-item" sec:authorize="hasAnyRole('ADMIN', 'CLIENT')">
+                <li class="nav-item" th:classappend="${activePage == 'dailyMetrics'} ? 'custom-active'" sec:authorize="hasAnyRole('ADMIN', 'CLIENT')">
                     <a class="nav-link text-white h6"
                        th:href="@{/clients/daily-metrics/{clientName}(clientName=${#authentication.principal.username})}">Daily
                         Metrics</a>
@@ -74,21 +74,21 @@
                         </form>
                     </div>
                 </li>
-                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                <li class="nav-item" sec:authorize="!isAuthenticated()" th:classappend="${activePage == 'register'} ? 'custom-active'">
                     <a class="nav-link text-white h6" href="/users/register">Register</a>
                 </li>
-                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                <li class="nav-item" sec:authorize="!isAuthenticated()" th:classappend="${activePage == 'login'} ? 'custom-active'">
                     <a class="nav-link text-white h6" href="/users/login">Login</a>
                 </li>
 
-                <li class="nav-item" sec:authorize="isAuthenticated()">
+                <li class="nav-item" sec:authorize="isAuthenticated()" th:classappend="${activePage == 'myProfile'} ? 'custom-active'">
                     <a class="nav-link" href="/users/profile">
                         <!-- Font Awesome User Icon -->
                         <i class="fas fa-user"></i>
                     </a>
                 </li>
 
-                <li class="nav-item" sec:authorize="isAuthenticated()">
+                <li class="nav-item" sec:authorize="isAuthenticated()" th:classappend="${activePage == 'contactUs'} ? 'custom-active'">
                     <a class="nav-link" href="/contact-us">Contact Us</a>
                 </li>
             </ul>

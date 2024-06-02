@@ -8,7 +8,6 @@ import com.softuni.fitlaunch.model.dto.view.UserCoachView;
 import com.softuni.fitlaunch.model.dto.workout.ScheduledWorkoutDTO;
 import com.softuni.fitlaunch.service.ClientService;
 import com.softuni.fitlaunch.service.CoachService;
-import com.softuni.fitlaunch.service.ScheduleWorkoutService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -34,12 +33,10 @@ public class CoachController {
 
     private final ClientService clientService;
 
-    private final ScheduleWorkoutService scheduleWorkoutService;
 
-    public CoachController(CoachService coachService, ClientService clientService, ScheduleWorkoutService scheduleWorkoutService) {
+    public CoachController(CoachService coachService, ClientService clientService) {
         this.coachService = coachService;
         this.clientService = clientService;
-        this.scheduleWorkoutService = scheduleWorkoutService;
     }
 
     @GetMapping("/all")
@@ -55,6 +52,7 @@ public class CoachController {
         Page<UserCoachView> allCoaches = coachService.getAllCoaches(pageable);
 
         model.addAttribute("allCoaches", allCoaches);
+        model.addAttribute("activePage", "coaches");
 
         return "coaches";
     }
@@ -66,19 +64,10 @@ public class CoachController {
 
         model.addAttribute("scheduledWorkoutDTO", scheduledWorkoutDTO);
         model.addAttribute("coach", coach);
+        model.addAttribute("activePage", "coaches");
 
         return "coach";
     }
-
-//    @PostMapping("/coach/{coachId}/schedule")
-//    public String scheduleWorkout(@PathVariable("coachId") Long coachId, Principal principal, @Valid ScheduledWorkoutDTO scheduledWorkoutDTO) {
-//        CoachDTO coach = coachService.getCoachById(coachId);
-//        ClientDTO client = clientService.getClientByUsername(principal.getName());
-//
-//        scheduleWorkoutService.scheduleWorkout(client, coach, scheduledWorkoutDTO.getScheduledDateTime());
-//
-//        return String.format("redirect:/users/%s/calendar", client.getUsername());
-//    }
 
     @GetMapping("/{id}")
     public String coachDetails(@PathVariable("id") Long id, Model model) {

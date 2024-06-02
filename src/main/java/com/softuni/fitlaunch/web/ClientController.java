@@ -76,6 +76,7 @@ public class ClientController {
 
         model.addAttribute("client", client);
         model.addAttribute("dailyMetricsDTO", new DailyMetricsDTO());
+        model.addAttribute("activePage", "dailyMetrics");
 
         return "daily-metrics";
     }

@@ -52,6 +52,7 @@ public class ProgramController {
         List<ProgramDTO> allPrograms = programService.loadAllPrograms(principal.getName());
 
         model.addAttribute("allPrograms", allPrograms);
+        model.addAttribute("activePage", "allPrograms");
 
         return "programs";
     }

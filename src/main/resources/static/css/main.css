@@ -126,9 +126,21 @@ nav .left {
     margin-right: 20px; /* Adjust as needed */
 }
 
+.navbar .nav-item.custom-active .nav-link {
+    background-color: #007bff; /* Change background color */
+    color: white;             /* Change text color */
+    border-radius: 4px;       /* Slightly rounded corners */
+    font-weight: bold;        /* Bold text */
+    padding: 8px 16px;        /* Padding for better spacing */
+}
 
 .navbar-nav .nav-link:hover {
     color: #fff;
+}
+
+.navbar .nav-item .nav-link.active {
+    background-color: #0056b3;
+    color: white;
 }
 
 .header {

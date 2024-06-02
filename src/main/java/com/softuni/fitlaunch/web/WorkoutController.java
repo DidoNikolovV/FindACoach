@@ -87,6 +87,7 @@ public class WorkoutController {
 //
 //        model.addAttribute("exercises", exercises);
         model.addAttribute("workoutCreationDTO", new WorkoutCreationDTO());
+        model.addAttribute("activePage", "createWorkout");
 
         return "workout-add";
     }
