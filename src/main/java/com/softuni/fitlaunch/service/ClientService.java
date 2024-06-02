@@ -99,6 +99,9 @@ public class ClientService {
     }
 
     public double calculcateWeightProgress(Double clientWeight, Double weightGoal) {
+        if(clientWeight == null) {
+            return 0D;
+        }
         return Math.floor((clientWeight / weightGoal) * 100);
     }
 }
