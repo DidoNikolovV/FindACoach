@@ -106,11 +106,9 @@ public class ProgramController {
     }
 
     @PostMapping("/create/{programId}")
-    public String loadProgramWorkoutCreation(@PathVariable("programId") Long programId,
-                                             @ModelAttribute("weekCreationDTO") WeekCreationDTO weekCreationDTO) {
+    public String loadProgramWorkoutCreation(@PathVariable("programId") Long programId) {
 
-        programService.addWeekWithWorkouts(weekCreationDTO, programId);
-        return "redirect:/programs/create/" + programId;
+        return "redirect:/programs/details/" + programId;
     }
 
     @GetMapping("/details/{programId}")
