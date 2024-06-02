@@ -3,18 +3,15 @@ const url = 'http://localhost:8080'
 const csrfHeaderName = document.head.querySelector('[name=_csrf_header]').content
 const csrfHeaderValue = document.head.querySelector('[name=_csrf]').content
 const exercisesModalButton = document.getElementById("exerciseModalButton");
-exercisesModalButton.addEventListener("click", fetchExercises);
 document.getElementById("createWorkout").addEventListener("click", createWorkout);
 
-// Fetch exercises when the modal is opened
-// $('#exerciseModal').on('show.bs.modal', function () {
-//     fetchExercises();
-// });
+$('#exerciseModal').on('show.bs.modal', function () {
+    fetchExercises();
+});
 
 let selectedExercises = [];
-const exercisesPerPage = 6;
 
-let currentPage = 0; // Initialize currentPage as a global variable
+let currentPage = 0;
 
 function fetchExercises(page = 0) {
     const pageSize = 6;
@@ -70,30 +67,6 @@ function fetchExercises(page = 0) {
         });
 }
 
-// Function to update pagination UI
-function updatePagination(currentPage, totalPages) {
-    const pagination = document.getElementById('pagination');
-    pagination.innerHTML = '';
-
-    if (currentPage > 0) {
-        const prevButton = document.createElement('button');
-        prevButton.textContent = 'Previous';
-        prevButton.addEventListener('click', () => fetchExercises(currentPage - 1));
-        pagination.appendChild(prevButton);
-    }
-
-    if (currentPage < totalPages - 1) {
-        const nextButton = document.createElement('button');
-        nextButton.textContent = 'Next';
-        nextButton.addEventListener('click', () => fetchExercises(currentPage + 1));
-        pagination.appendChild(nextButton);
-    }
-}
-
-// Call fetchExercises initially to load the first page
-fetchExercises();
-
-
 function updatePagination(currentPage, totalPages) {
     const paginationList = document.querySelector('.pagination');
     paginationList.innerHTML = '';
@@ -122,20 +95,6 @@ function updatePagination(currentPage, totalPages) {
             const page = parseInt(this.dataset.page);
             fetchExercises(page);
         });
-    });
-}
-
-function populatePagination(currentPage, totalPages) {
-    var paginationNav = $('#paginationNav');
-    var paginationList = paginationNav.find('.pagination');
-    paginationList.empty();
-    for (var i = 0; i < totalPages; i++) {
-        var activeClass = (i === currentPage) ? 'active' : '';
-        paginationList.append('<li class="page-item ' + activeClass + '"><a class="page-link" href="#" data-page="' + i + '">' + (i + 1) + '</a></li>');
-    }
-    paginationList.find('.page-link').click(function (e) {
-        e.preventDefault();
-        fetchExercises($(this).data('page'));
     });
 }
 
@@ -224,16 +183,4 @@ function createWorkout() {
             window.location.href = `${url}/workouts/${data.id}`
         })
         .catch(error => console.error(error));
-}
-
-function setExercisesToWorkout() {
-    const exerciseIds = selectedExercises.map(exercise => exercise.id);
-    const createWorkoutForm = document.getElementById('createWorkoutForm');
-    exerciseIds.forEach(id => {
-        const hiddenInput = document.createElement('input');
-        hiddenInput.type = 'hidden';
-        hiddenInput.name = 'selectedExerciseIds';
-        hiddenInput.value = id;
-        createWorkoutForm.appendChild(hiddenInput);
-    });
 }

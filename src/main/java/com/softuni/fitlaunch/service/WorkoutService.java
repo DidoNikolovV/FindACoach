@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -126,10 +125,7 @@ public class WorkoutService {
     }
 
     public DayWorkoutsEntity getDayWorkout(Long workoutId, String dayName) {
-        Optional<DayWorkoutsEntity> byWorkoutIdAndName = dayWorkoutsRepository.findByNameAndWorkoutId(dayName, workoutId);
-        DayWorkoutsEntity dayWorkoutsEntity = byWorkoutIdAndName.get();
-        return dayWorkoutsEntity;
-//        return dayWorkoutsRepository.findByWorkoutIdAndName(workoutId, dayName).orElseThrow(() -> new ResourceNotFoundException("Workout not does not exist"));
+        return dayWorkoutsRepository.findByNameAndWorkoutId(dayName, workoutId).orElse(null);
     }
 
     public Page<WorkoutDTO> getAllWorkouts(Pageable pageable) {
