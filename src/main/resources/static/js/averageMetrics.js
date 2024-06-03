@@ -3,7 +3,10 @@ const url = 'http://localhost:8080';
 const csrfHeaderName = document.head.querySelector('[name=_csrf_header]').content;
 const csrfHeaderValue = document.head.querySelector('[name=_csrf]').content;
 
-document.getElementById("dataModalBtn").addEventListener("click", openDataModal);
+document.getElementById("dataModalBtn").addEventListener("click", openWeeklyModal)
+// document.getElementById("weekDataModalBtn").addEventListener("click", openDataModal);
+document.getElementById("weekDataModalBtn").addEventListener("click", openWeekDataModal);
+// let weekNumber = document.getElementById("weekNumber").value;
 
 function openDataModal() {
     const clientName = document.getElementById("clientName").value;
@@ -27,6 +30,92 @@ function openDataModal() {
     }).catch(error => {
         console.error('Error:', error.message);
     });
+}
+
+function openWeeklyModal() {
+    const clientName = document.getElementById("clientName").value;
+    console.log("Fetching data for client:", clientName);
+
+    fetch(`${url}/api/v1/clients/${clientName}/metrics/data`, {
+        headers: {
+            'Accept': 'application/json',
+            [csrfHeaderName]: csrfHeaderValue
+        }
+    }).then(res => {
+        if (!res.ok) {
+            throw new Error('Failed to fetch data');
+        }
+        return res.json();
+    }).then(data => {
+        console.log(data);
+        updateWeeklyDataTable(data);
+        updateWeeklyDataCharts(data);
+        $('#weeklyDataModal').modal('show');
+    }).catch(error => {
+        console.error('Error:', error.message);
+    });
+}
+
+function openWeekDataModal() {
+    const clientName = document.getElementById("clientName").value;
+    const weekNumber = document.getElementById("weekNumber").textContent;
+    fetch(`${url}/api/v1/clients/${clientName}/metrics/week/${weekNumber}`, {
+        headers: {
+            'Accept': 'application/json',
+            [csrfHeaderName] : csrfHeaderValue
+        }
+    }).then(res => {
+        if(!res.ok) {
+            throw new Error("Failed to fetch data");
+        }
+
+        return res.json();
+    }).then(data => {
+        console.log(data);
+        updateDailyDataModal(data, weekNumber);
+        $('dailyDataModal').modal('show');
+    }).catch(error => {
+        console.error('Error: ', error.message);
+    });
+}
+
+function updateDailyDataModal(data, weekNumber) {
+    const modalBody = document.getElementById('dailyModalBody');
+    if(!modalBody) {
+        console.error('dailyModalBody element not found');
+        return;
+    }
+
+    modalBody.innerHTML = `
+        <h5>Daily Metrics for Week ${weekNumber}</h5>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Weight</th>
+                    <th>Calories Intake</th>
+                    <th>Steps Count</th>
+                    <th>Sleep Duration</th>
+                    <th>Mood</th>
+                    <th>Energy Levels</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${data.map(day => `
+                    <tr>
+                        <td>${day.date}</td>
+                        <td>${day.weight} kg</td>
+                        <td>${day.caloriesIntake}</td>
+                        <td>${day.stepsCount}</td>
+                        <td>${day.sleepDuration} hours</td>
+                        <td>${convertMood(day.mood)}</td>
+                        <td>${convertEnergyLevels(day.energyLevels)}</td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+        
+    `
 }
 
 function convertMood(mood) {

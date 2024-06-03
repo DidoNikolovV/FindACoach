@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<head th:replace="~{fragments/head}">
-
-</head>
+<head th:replace="~{fragments/head}"></head>
 <nav th:replace="~{fragments/navbar}"></nav>
 <body>
 
@@ -16,13 +14,10 @@
                 <div class="card" style="height: 100%">
                     <div class="card-header d-flex justify-content-between">
                         <h5 class="card-title">Metrics</h5>
-                        <button type="submit" class="btn btn-info w-25" data-toggle="modal"
-                                data-target="#weeklyDataModal" id="dataModalBtn">Data
-                        </button>
+                        <button type="button" class="btn btn-info w-25" data-toggle="modal" data-target="#weeklyDataModal" id="dataModalBtn">Data</button>
                     </div>
                     <!-- Modal -->
-                    <div class="modal fade" id="weeklyDataModal" tabindex="-1" aria-labelledby="weeklyDataModalLabel"
-                         aria-hidden="true">
+                    <div class="modal fade" id="weeklyDataModal" tabindex="-1" aria-labelledby="weeklyDataModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -35,37 +30,29 @@
                                     <!-- Placeholder for displaying weekly data -->
                                     <ul class="nav nav-tabs" id="weekTabs" role="tablist">
                                         <li class="nav-item">
-                                            <a class="nav-link active" id="week1-tab" data-toggle="tab" href="#week1"
-                                               role="tab" aria-controls="week1" aria-selected="true">Week 1</a>
+                                            <a class="nav-link active" id="week1-tab" data-toggle="tab" href="#week1" role="tab" aria-controls="week1" aria-selected="true">Week 1</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" id="week2-tab" data-toggle="tab" href="#week2"
-                                               role="tab" aria-controls="week2" aria-selected="false">Week 2</a>
+                                            <a class="nav-link" id="week2-tab" data-toggle="tab" href="#week2" role="tab" aria-controls="week2" aria-selected="false">Week 2</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" id="week3-tab" data-toggle="tab" href="#week3"
-                                               role="tab" aria-controls="week3" aria-selected="false">Week 3</a>
+                                            <a class="nav-link" id="week3-tab" data-toggle="tab" href="#week3" role="tab" aria-controls="week3" aria-selected="false">Week 3</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" id="week4-tab" data-toggle="tab" href="#week4"
-                                               role="tab" aria-controls="week4" aria-selected="false">Week 4</a>
+                                            <a class="nav-link" id="week4-tab" data-toggle="tab" href="#week4" role="tab" aria-controls="week4" aria-selected="false">Week 4</a>
                                         </li>
                                     </ul>
                                     <div class="tab-content" id="weeklyDataChart">
-                                        <div class="tab-pane fade show active" id="week1" role="tabpanel"
-                                             aria-labelledby="week1-tab">
+                                        <div class="tab-pane fade show active" id="week1" role="tabpanel" aria-labelledby="week1-tab">
                                             <canvas id="week1Chart" width="400" height="200"></canvas>
                                         </div>
-                                        <div class="tab-pane fade" id="week2" role="tabpanel"
-                                             aria-labelledby="week2-tab">
+                                        <div class="tab-pane fade" id="week2" role="tabpanel" aria-labelledby="week2-tab">
                                             <canvas id="week2Chart" width="400" height="200"></canvas>
                                         </div>
-                                        <div class="tab-pane fade" id="week3" role="tabpanel"
-                                             aria-labelledby="week3-tab">
+                                        <div class="tab-pane fade" id="week3" role="tabpanel" aria-labelledby="week3-tab">
                                             <canvas id="week3Chart" width="400" height="200"></canvas>
                                         </div>
-                                        <div class="tab-pane fade" id="week4" role="tabpanel"
-                                             aria-labelledby="week4-tab">
+                                        <div class="tab-pane fade" id="week4" role="tabpanel" aria-labelledby="week4-tab">
                                             <canvas id="week4Chart" width="400" height="200"></canvas>
                                         </div>
                                     </div>
@@ -77,33 +64,60 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <table class="table">
-                            <thead>
+                        <table class="table table-striped table-bordered" style="width: 100%;">
+                            <thead class="thead-dark">
                             <tr>
-                                <th>Weight</th>
-                                <th>Calories Intake</th>
-                                <th>Steps Count</th>
-                                <th>Sleep Duration</th>
-                                <th>Mood</th>
-                                <th>Energy Levels</th>
-                                <th>Date</th>
+                                <th>Week</th>
+                                <th>Average Weight</th>
+                                <th>Average Steps Count</th>
+                                <th>Average Sleep Duration</th>
+                                <th>Average Mood</th>
+                                <th>Average Energy Levels</th>
+                                <th>Action</th>
                             </tr>
                             </thead>
                             <tbody id="weeklyDataBody">
-                            <tr th:each="metric : ${metrics}">
-                                <td th:text="${metric.weight}"></td>
-                                <td th:text="${metric.caloriesIntake}"></td>
-                                <td th:text="${metric.stepsCount}"></td>
-                                <td th:text="${metric.sleepDuration}"></td>
-                                <td th:text="${metric.mood}"></td>
-                                <td th:text="${metric.energyLevels}"></td>
-                                <td th:text="${metric.date}"></td>
+                            <!-- Example of a dynamically generated row for Week 1 -->
+                            <tr>
+                                <td class="week-cell">
+                                    <div class="d-flex justify-content-between align-items-center w-100">
+                                        <p>Week <span id="weekNumber">1</span></p>
+                                    </div>
+                                </td>
+                                <td>80 kg</td>
+                                <td>10,000</td>
+                                <td>7 hours</td>
+                                <td>Good</td>
+                                <td>High</td>
+                                <td><button class="btn btn-primary btn-sm ml-auto" id="weekDataModalBtn" data-toggle="modal" data-target="#dailyDataModal">Week Data</button></td>
                             </tr>
+                            <!-- Additional rows for other weeks will be generated here -->
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
+
+            <!-- Modal for displaying daily metrics for a specific week -->
+            <div class="modal fade" id="dailyDataModal" tabindex="-1" role="dialog" aria-labelledby="dailyDataModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="dailyDataModalLabel">Daily Metrics</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body" id="dailyModalBody">
+                            <!-- Daily metrics content will be dynamically inserted here -->
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             <!-- Goals Progress Table -->
             <div class="col">
@@ -127,12 +141,7 @@
                                 <td>
                                     <!-- Progress tracking for weight goal -->
                                     <div class="progress" style="height: 20px;">
-                                        <div class="progress-bar bg-success" role="progressbar"
-                                             th:text="${weightProgress} + '%'"
-                                             th:style="'width:' + ${weightProgress} + '%'"
-                                             th:aria-valuenow="${client.weight}" aria-valuemin="0"
-                                             th:aria-valuemax="${client.weightGoal}">75%
-                                        </div>
+                                        <div class="progress-bar bg-success" role="progressbar" th:text="${weightProgress} + '%'" th:style="'width:' + ${weightProgress} + '%'" th:aria-valuenow="${client.weight}" aria-valuemin="0" th:aria-valuemax="${client.weightGoal}">75%</div>
                                     </div>
                                 </td>
                             </tr>
@@ -141,12 +150,10 @@
                                 <td>Performance goals</td>
                                 <td th:text="${client.performanceGoals}"></td>
                                 <td>
-                                    <!-- Progress tracking for calories intake goal -->
+                                    <!-- Progress tracking for performance goals -->
                                     <div class="progress">
                                         <!-- Assuming metric.caloriesIntake and goal.caloriesIntake are available -->
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 54%;"
-                                             aria-valuenow="54" aria-valuemin="0" aria-valuemax="100">54%
-                                        </div>
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 54%;" aria-valuenow="54" aria-valuemin="0" aria-valuemax="100">54%</div>
                                     </div>
                                 </td>
                             </tr>
@@ -154,12 +161,10 @@
                                 <td>Body Composition Goals</td>
                                 <td th:text="${client.bodyCompositionGoal}"></td>
                                 <td>
-                                    <!-- Progress tracking for calories intake goal -->
+                                    <!-- Progress tracking for body composition goals -->
                                     <div class="progress">
                                         <!-- Assuming metric.caloriesIntake and goal.caloriesIntake are available -->
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 73%;"
-                                             aria-valuenow="73" aria-valuemin="0" aria-valuemax="100">73%
-                                        </div>
+                                        <div class="progress-bar bg-success" role="progressbar" style="width: 73%;" aria-valuenow="73" aria-valuemin="0" aria-valuemax="100">73%</div>
                                     </div>
                                 </td>
                             </tr>
@@ -171,7 +176,6 @@
         </div>
     </div>
 </header>
-
 
 <footer th:replace="~{fragments/footer}"></footer>
 <!--<script th:src="@{/js/client-details.js}"></script>-->

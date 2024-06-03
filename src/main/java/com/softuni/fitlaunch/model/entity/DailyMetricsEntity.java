@@ -33,6 +33,10 @@ public class DailyMetricsEntity extends BaseEntity {
     private LocalDate date;
 
     @ManyToOne
+    @JoinColumn(name = "week_id")
+    private WeekMetricsEntity week;
+
+    @ManyToOne
     @JoinColumn(name = "client_id")
     private ClientEntity client;
 }

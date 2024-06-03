@@ -7,6 +7,7 @@ import com.softuni.fitlaunch.model.dto.user.DailyMetricsDTO;
 import com.softuni.fitlaunch.model.entity.ClientEntity;
 import com.softuni.fitlaunch.model.entity.DailyMetricsEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
+import com.softuni.fitlaunch.model.entity.WeekMetricsEntity;
 import com.softuni.fitlaunch.repository.ClientRepository;
 import com.softuni.fitlaunch.repository.DailyMetricsRepository;
 import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
@@ -24,12 +25,15 @@ public class ClientService {
     private final ClientRepository clientRepository;
     private final DailyMetricsRepository dailyMetricsRepository;
 
+    private final WeekMetricsService weekMetricsService;
+
     private final ModelMapper modelMapper;
 
 
-    public ClientService(ClientRepository clientRepository, DailyMetricsRepository dailyMetricsRepository, ModelMapper modelMapper) {
+    public ClientService(ClientRepository clientRepository, DailyMetricsRepository dailyMetricsRepository, WeekMetricsService weekMetricsService, ModelMapper modelMapper) {
         this.clientRepository = clientRepository;
         this.dailyMetricsRepository = dailyMetricsRepository;
+        this.weekMetricsService = weekMetricsService;
         this.modelMapper = modelMapper;
     }
 
@@ -53,13 +57,30 @@ public class ClientService {
 
     public void saveDailyMetrics(String clientName, DailyMetricsDTO dailyWeightDTO) {
         ClientEntity clientEntity = getClientEntityByUsername(clientName);
-
+        List<DailyMetricsEntity> allByClientId = dailyMetricsRepository.findAllByClientId(clientEntity.getId());
+        WeekMetricsEntity weekMetricsEntity = new WeekMetricsEntity();
         DailyMetricsEntity dailyMetrics = modelMapper.map(dailyWeightDTO, DailyMetricsEntity.class);
+        if(allByClientId.size() < 7) {
+            weekMetricsEntity.setNumber(1);
+        } else {
+            DailyMetricsEntity last = allByClientId.get(allByClientId.size() - 1);
+            WeekMetricsEntity lastWeek = last.getWeek();
+            weekMetricsEntity.setNumber(lastWeek.getNumber() + 1);
+        }
+
+        weekMetricsEntity.getDailyMetrics().add(dailyMetrics);
         dailyMetrics.setDate(LocalDate.now());
         dailyMetrics.setClient(clientEntity);
+        dailyMetrics.setWeek(weekMetricsEntity);
         clientEntity.getDailyMetrics().add(dailyMetrics);
 
+        weekMetricsService.saveWeekMetrics(weekMetricsEntity);
         clientRepository.save(clientEntity);
+    }
+
+    private WeekMetricsEntity createWeekMetricsEntity() {
+        WeekMetricsEntity weekMetricsEntity = new WeekMetricsEntity();
+        return weekMetricsEntity;
     }
 
     public List<DailyMetricsDTO> calculateAverageWeeklyMetrics(String clientName) {
@@ -103,6 +124,11 @@ public class ClientService {
             return 0D;
         }
         return Math.floor((clientWeight / weightGoal) * 100);
+    }
+
+    public List<DailyMetricsDTO> getAllByWeekNumber(int weekNumber) {
+        WeekMetricsEntity weekMetrics = weekMetricsService.getByNumber(weekNumber);
+        return weekMetrics.getDailyMetrics().stream().map(metric -> modelMapper.map(metric, DailyMetricsDTO.class)).toList();
     }
 }
 

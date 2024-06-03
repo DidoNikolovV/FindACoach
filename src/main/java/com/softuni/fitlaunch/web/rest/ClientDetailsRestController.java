@@ -2,6 +2,8 @@ package com.softuni.fitlaunch.web.rest;
 
 import com.softuni.fitlaunch.model.dto.user.DailyMetricsDTO;
 import com.softuni.fitlaunch.model.dto.workout.ClientWorkoutDetails;
+import com.softuni.fitlaunch.model.entity.DailyMetricsEntity;
+import com.softuni.fitlaunch.model.entity.WeekMetricsEntity;
 import com.softuni.fitlaunch.service.ClientService;
 import com.softuni.fitlaunch.service.WorkoutService;
 import lombok.extern.slf4j.Slf4j;
@@ -40,5 +42,12 @@ public class ClientDetailsRestController {
         List<DailyMetricsDTO> metrics = clientService.calculateAverageWeeklyMetrics(clientName);
 
         return ResponseEntity.ok(metrics);
+    }
+
+    @GetMapping("{clientName}/metrics/week/{weekNumber}")
+    public ResponseEntity<List<DailyMetricsDTO>> loadWeekMetricsData(@PathVariable("clientName") String clientName,
+                                                                     @PathVariable("weekNumber") int weekNumber) {
+        List<DailyMetricsDTO> allByWeekNumber = clientService.getAllByWeekNumber(weekNumber);
+        return ResponseEntity.ok(allByWeekNumber);
     }
 }
