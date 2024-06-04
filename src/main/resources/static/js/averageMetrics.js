@@ -55,7 +55,6 @@ function openWeeklyModal() {
         return res.json();
     }).then(data => {
         console.log(data);
-        updateWeeklyDataTable(data);
         updateWeeklyDataCharts(data);
         $('#weeklyDataModal').modal('show');
     }).catch(error => {
