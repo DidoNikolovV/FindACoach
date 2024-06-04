@@ -5,7 +5,14 @@ const csrfHeaderValue = document.head.querySelector('[name=_csrf]').content;
 
 document.getElementById("dataModalBtn").addEventListener("click", openWeeklyModal)
 // document.getElementById("weekDataModalBtn").addEventListener("click", openDataModal);
-document.getElementById("weekDataModalBtn").addEventListener("click", openWeekDataModal);
+let weekDataModalBtns = document.getElementsByClassName("weekDataModalBtn");
+for(let btn of weekDataModalBtns) {
+    btn.addEventListener('click', function() {
+        openWeekDataModal(btn);
+    });
+}
+console.log(weekDataModalBtns);
+// document.querySelectorAll(".weekDataModalBtn").forEach(el => el.addEventListener("click", openWeekDataModal));
 // let weekNumber = document.getElementById("weekNumber").value;
 
 function openDataModal() {
@@ -56,9 +63,20 @@ function openWeeklyModal() {
     });
 }
 
-function openWeekDataModal() {
+function openWeekDataModal(btn) {
     const clientName = document.getElementById("clientName").value;
-    const weekNumber = document.getElementById("weekNumber").textContent;
+    let tr = btn.closest('tr');
+
+    // Find the <span> with the class "weekNumber" within that <tr>
+    let weekNumberSpan = tr.querySelector('.weekNumber');
+
+    // Get the week number value
+    let weekNumber = weekNumberSpan.textContent || weekNumberSpan.innerText;
+
+    // Use the week number to fetch data or perform any other operation
+    console.log("Week Data button clicked for week number: " + weekNumber);
+    // const weekNumber = document.querySelector(".weekNumber").value;
+    console.log(weekNumber);
     fetch(`${url}/api/v1/clients/${clientName}/metrics/week/${weekNumber}`, {
         headers: {
             'Accept': 'application/json',

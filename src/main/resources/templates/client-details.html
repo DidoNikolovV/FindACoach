@@ -81,7 +81,7 @@
                             <tr th:each="week : ${allWeeks}">
                                 <td class="week-cell">
                                     <div class="d-flex justify-content-between align-items-center w-100">
-                                        <p>Week <span id="weekNumber" th:text="${week.number}"></span></p>
+                                        <p>Week <span class="weekNumber" th:value="${week.number}" th:text="${week.number}"></span></p>
                                     </div>
                                 </td>
                                 <td>80 kg</td>
@@ -89,7 +89,7 @@
                                 <td>7 hours</td>
                                 <td>Good</td>
                                 <td>High</td>
-                                <td><button class="btn btn-primary btn-sm ml-auto" id="weekDataModalBtn" data-toggle="modal" data-target="#dailyDataModal">Week Data</button></td>
+                                <td><button class="btn btn-primary btn-sm ml-auto weekDataModalBtn" data-toggle="modal" data-target="#dailyDataModal">Week Data</button></td>
                             </tr>
                             <!-- Additional rows for other weeks will be generated here -->
                             </tbody>
