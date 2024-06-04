@@ -21,5 +21,4 @@ public class WeekMetricsService {
     public WeekMetricsEntity getByNumber(int number) {
         return weekMetricsRepository.findByNumber(number).orElse(null);
     }
-
 }

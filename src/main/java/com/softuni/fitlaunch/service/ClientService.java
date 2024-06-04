@@ -58,14 +58,22 @@ public class ClientService {
     public void saveDailyMetrics(String clientName, DailyMetricsDTO dailyWeightDTO) {
         ClientEntity clientEntity = getClientEntityByUsername(clientName);
         List<DailyMetricsEntity> allByClientId = dailyMetricsRepository.findAllByClientId(clientEntity.getId());
-        WeekMetricsEntity weekMetricsEntity = new WeekMetricsEntity();
         DailyMetricsEntity dailyMetrics = modelMapper.map(dailyWeightDTO, DailyMetricsEntity.class);
+        WeekMetricsEntity weekMetricsEntity = null;
         if(allByClientId.size() < 7) {
-            weekMetricsEntity.setNumber(1);
+            weekMetricsEntity = weekMetricsService.getByNumber(1);
+            if(weekMetricsEntity == null) {
+                weekMetricsEntity = new WeekMetricsEntity();
+                weekMetricsEntity.setNumber(1);
+            }
         } else {
             DailyMetricsEntity last = allByClientId.get(allByClientId.size() - 1);
             WeekMetricsEntity lastWeek = last.getWeek();
-            weekMetricsEntity.setNumber(lastWeek.getNumber() + 1);
+            weekMetricsEntity = weekMetricsService.getByNumber(lastWeek.getNumber() + 1);
+            if(weekMetricsEntity == null) {
+                weekMetricsEntity = new WeekMetricsEntity();
+                weekMetricsEntity.setNumber(lastWeek.getNumber() + 1);
+            }
         }
 
         weekMetricsEntity.getDailyMetrics().add(dailyMetrics);
@@ -78,10 +86,10 @@ public class ClientService {
         clientRepository.save(clientEntity);
     }
 
-    private WeekMetricsEntity createWeekMetricsEntity() {
-        WeekMetricsEntity weekMetricsEntity = new WeekMetricsEntity();
-        return weekMetricsEntity;
+    private boolean weekMetricsDoesNotExist(WeekMetricsEntity weekMetricsEntity) {
+        return weekMetricsService.getByNumber(weekMetricsEntity.getNumber()) == null;
     }
+
 
     public List<DailyMetricsDTO> calculateAverageWeeklyMetrics(String clientName) {
         ClientEntity client = getClientEntityByUsername(clientName);
