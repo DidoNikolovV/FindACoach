@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Slf4j
@@ -68,11 +69,15 @@ public class ClientController {
 
         List<WeekMetricsEntity> allWeeks = weekMetricsService.getAll();
 
+        Map<Integer, DailyMetricsDTO> average = weekMetricsService.calculateAverageByClient(client);
+
+
         model.addAttribute("client", client);
         model.addAttribute("coach", coach);
         model.addAttribute("scheduledWorkouts", scheduledWorkouts);
         model.addAttribute("metrics", metrics);
         model.addAttribute("allWeeks", allWeeks);
+        model.addAttribute("average", average);
         model.addAttribute("weightProgress", weightProgress);
 
         return "client-details";

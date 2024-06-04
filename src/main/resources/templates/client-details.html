@@ -78,17 +78,17 @@
                             </thead>
                             <tbody id="weeklyDataBody">
                             <!-- Example of a dynamically generated row for Week 1 -->
-                            <tr th:each="week : ${allWeeks}">
+                            <tr th:each="week : ${average}">
                                 <td class="week-cell">
                                     <div class="d-flex justify-content-between align-items-center w-100">
-                                        <p>Week <span class="weekNumber" th:value="${week.number}" th:text="${week.number}"></span></p>
+                                        <p>Week <span class="weekNumber" th:value="${week.key}" th:text="${week.key}"></span></p>
                                     </div>
                                 </td>
-                                <td>80 kg</td>
-                                <td>10,000</td>
-                                <td>7 hours</td>
-                                <td>Good</td>
-                                <td>High</td>
+                                <td th:text="${week.value.weight}">80 kg</td>
+                                <td th:text="${week.value.stepsCount}">10,000</td>
+                                <td th:text="${week.value.sleepDuration}">7 hours</td>
+                                <td th:text="${week.value.mood}">Good</td>
+                                <td th:text="${week.value.energyLevels}">High</td>
                                 <td><button class="btn btn-primary btn-sm ml-auto weekDataModalBtn" data-toggle="modal" data-target="#dailyDataModal">Week Data</button></td>
                             </tr>
                             <!-- Additional rows for other weeks will be generated here -->
