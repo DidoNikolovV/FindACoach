@@ -6,9 +6,11 @@ import com.softuni.fitlaunch.model.dto.user.CoachDTO;
 import com.softuni.fitlaunch.model.dto.user.DailyMetricsDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.workout.ScheduledWorkoutDTO;
+import com.softuni.fitlaunch.model.entity.WeekMetricsEntity;
 import com.softuni.fitlaunch.service.ClientService;
 import com.softuni.fitlaunch.service.CoachService;
 import com.softuni.fitlaunch.service.UserService;
+import com.softuni.fitlaunch.service.WeekMetricsService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -32,10 +34,13 @@ public class ClientController {
 
     private final UserService userService;
 
-    public ClientController(ClientService clientService, CoachService coachService, UserService userService) {
+    private final WeekMetricsService weekMetricsService;
+
+    public ClientController(ClientService clientService, CoachService coachService, UserService userService, WeekMetricsService weekMetricsService) {
         this.clientService = clientService;
         this.coachService = coachService;
         this.userService = userService;
+        this.weekMetricsService = weekMetricsService;
     }
 
 
@@ -61,10 +66,13 @@ public class ClientController {
 
         double weightProgress = clientService.calculcateWeightProgress(client.getWeight(), client.getWeightGoal());
 
+        List<WeekMetricsEntity> allWeeks = weekMetricsService.getAll();
+
         model.addAttribute("client", client);
         model.addAttribute("coach", coach);
         model.addAttribute("scheduledWorkouts", scheduledWorkouts);
         model.addAttribute("metrics", metrics);
+        model.addAttribute("allWeeks", allWeeks);
         model.addAttribute("weightProgress", weightProgress);
 
         return "client-details";

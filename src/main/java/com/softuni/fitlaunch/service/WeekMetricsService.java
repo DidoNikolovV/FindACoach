@@ -5,6 +5,8 @@ import com.softuni.fitlaunch.model.entity.WeekMetricsEntity;
 import com.softuni.fitlaunch.repository.WeekMetricsRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class WeekMetricsService {
 
@@ -20,5 +22,9 @@ public class WeekMetricsService {
 
     public WeekMetricsEntity getByNumber(int number) {
         return weekMetricsRepository.findByNumber(number).orElse(null);
+    }
+
+    public List<WeekMetricsEntity> getAll() {
+        return weekMetricsRepository.findAll();
     }
 }

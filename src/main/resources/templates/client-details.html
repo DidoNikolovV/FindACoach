@@ -78,10 +78,10 @@
                             </thead>
                             <tbody id="weeklyDataBody">
                             <!-- Example of a dynamically generated row for Week 1 -->
-                            <tr>
+                            <tr th:each="week : ${allWeeks}">
                                 <td class="week-cell">
                                     <div class="d-flex justify-content-between align-items-center w-100">
-                                        <p>Week <span id="weekNumber">1</span></p>
+                                        <p>Week <span id="weekNumber" th:text="${week.number}"></span></p>
                                     </div>
                                 </td>
                                 <td>80 kg</td>
