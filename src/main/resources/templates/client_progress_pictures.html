@@ -2,18 +2,6 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:include="~{fragments/head}">
     <title>Client Progress</title>
-    <style>
-        .card-img-top {
-            height: 200px;
-            object-fit: cover;
-        }
-        .upload-form {
-            margin-bottom: 2rem;
-        }
-        .progress-title {
-            margin-top: 1rem;
-        }
-    </style>
 </head>
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
@@ -41,8 +29,8 @@
     <h4 class="progress-title text-center">Progress Pictures</h4>
     <div class="row">
         <div th:each="progressPicture: ${progressPictures}" class="col-md-3 mb-3">
-            <div class="card" style="margin-top: 2rem;">
-                <img th:src="${progressPicture.url}" class="card-img-top" alt="Progress progressPicture">
+            <div class="card" style="margin-top: 2rem; padding-left: 1rem;">
+                <img th:src="${progressPicture.url}" class="card-img-top" alt="Progress progressPicture" style="height: 300px; width: 300px;">
             </div>
         </div>
     </div>
