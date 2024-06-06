@@ -20,6 +20,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Map;
@@ -114,23 +117,21 @@ public class ClientController {
         return "client_progress_pictures";
     }
 
-//    @PostMapping("/{clientUsername}/progress")
-//    public String handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
-//        if (file.isEmpty()) {
-//            redirectAttributes.addFlashAttribute("message", "Please select a file to upload.");
-//            return "redirect:/progress";
-//        }
-//
-//        try {
-//            String fileUrl = fileUpload.uploadFile(file);
-//            photoRepository.save(fileUrl); // Save URL to the database
-//            redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "'.");
-//
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            redirectAttributes.addFlashAttribute("message", "Failed to upload '" + file.getOriginalFilename() + "'.");
-//        }
-//
-//        return "redirect:/progress";
-//    }
+    @PostMapping("/{clientUsername}/progress")
+    public String handleFileUpload(@PathVariable("clientUsername") String clientUsername, @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+        if (file.isEmpty()) {
+            redirectAttributes.addFlashAttribute("message", "Please select a file to upload.");
+            return "redirect:/progress";
+        }
+        try {
+            clientService.addProgressPicture(clientUsername, file);
+            redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "'.");
+
+        } catch (Exception e) {
+            log.error("Failed to upload {}.", file.getOriginalFilename());
+            redirectAttributes.addFlashAttribute("message", "Failed to upload '" + file.getOriginalFilename() + "'.");
+        }
+
+        return "redirect:/client_progress_pictures";
+    }
 }
