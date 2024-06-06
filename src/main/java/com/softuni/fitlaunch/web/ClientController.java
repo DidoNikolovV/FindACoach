@@ -118,18 +118,18 @@ public class ClientController {
     }
 
     @PostMapping("/{clientUsername}/progress")
-    public String handleFileUpload(@PathVariable("clientUsername") String clientUsername, @RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+    public String handleFileUpload(@PathVariable("clientUsername") String clientUsername, @RequestParam("file") MultipartFile file, Model model) {
         if (file.isEmpty()) {
-            redirectAttributes.addFlashAttribute("message", "Please select a file to upload.");
+            model.addAttribute("message", "Please select a file to upload.");
             return "redirect:/progress";
         }
         try {
             clientService.addProgressPicture(clientUsername, file);
-            redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "'.");
+            model.addAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "'.");
 
         } catch (Exception e) {
             log.error("Failed to upload {}.", file.getOriginalFilename());
-            redirectAttributes.addFlashAttribute("message", "Failed to upload '" + file.getOriginalFilename() + "'.");
+            model.addAttribute("message", "Failed to upload '" + file.getOriginalFilename() + "'.");
         }
 
         return "redirect:/client_progress_pictures";
