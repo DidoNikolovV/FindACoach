@@ -11,8 +11,11 @@ import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.WeekMetricsEntity;
 import com.softuni.fitlaunch.repository.ClientRepository;
 import com.softuni.fitlaunch.repository.DailyMetricsRepository;
+import com.softuni.fitlaunch.repository.ProgressPictureRepository;
 import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,13 +37,16 @@ public class ClientService {
 
     private final FileUpload fileUpload;
 
+    private final ProgressPictureRepository progressPictureRepository;
 
-    public ClientService(ClientRepository clientRepository, DailyMetricsRepository dailyMetricsRepository, WeekMetricsService weekMetricsService, ModelMapper modelMapper, FileUpload fileUpload) {
+
+    public ClientService(ClientRepository clientRepository, DailyMetricsRepository dailyMetricsRepository, WeekMetricsService weekMetricsService, ModelMapper modelMapper, FileUpload fileUpload, ProgressPictureRepository progressPictureRepository) {
         this.clientRepository = clientRepository;
         this.dailyMetricsRepository = dailyMetricsRepository;
         this.weekMetricsService = weekMetricsService;
         this.modelMapper = modelMapper;
         this.fileUpload = fileUpload;
+        this.progressPictureRepository = progressPictureRepository;
     }
 
     public void registerClient(UserEntity user) {
@@ -163,9 +169,9 @@ public class ClientService {
         return progressPicture;
     }
 
-    public List<ProgressPicture> getProgressPicturesByClientUsername(String clientUsername) {
+    public Page<ProgressPicture> getProgressPicturesByClientUsername(String clientUsername, Pageable pageable) {
         ClientEntity client = getClientEntityByUsername(clientUsername);
-        return client.getProgressPictures();
+        return progressPictureRepository.findByClientId(client.getId(), pageable);
     }
 
 
