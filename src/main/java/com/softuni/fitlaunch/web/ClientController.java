@@ -132,6 +132,6 @@ public class ClientController {
             model.addAttribute("message", "Failed to upload '" + file.getOriginalFilename() + "'.");
         }
 
-        return "redirect:/client_progress_pictures";
+        return String.format("redirect:/clients/%s/progress", clientUsername);
     }
 }
