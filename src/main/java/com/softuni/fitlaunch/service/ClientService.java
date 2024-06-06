@@ -6,6 +6,7 @@ import com.softuni.fitlaunch.model.dto.user.CoachDTO;
 import com.softuni.fitlaunch.model.dto.user.DailyMetricsDTO;
 import com.softuni.fitlaunch.model.entity.ClientEntity;
 import com.softuni.fitlaunch.model.entity.DailyMetricsEntity;
+import com.softuni.fitlaunch.model.entity.ProgressPicture;
 import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.WeekMetricsEntity;
 import com.softuni.fitlaunch.repository.ClientRepository;
@@ -13,6 +14,8 @@ import com.softuni.fitlaunch.repository.DailyMetricsRepository;
 import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -29,12 +32,15 @@ public class ClientService {
 
     private final ModelMapper modelMapper;
 
+    private final FileUpload fileUpload;
 
-    public ClientService(ClientRepository clientRepository, DailyMetricsRepository dailyMetricsRepository, WeekMetricsService weekMetricsService, ModelMapper modelMapper) {
+
+    public ClientService(ClientRepository clientRepository, DailyMetricsRepository dailyMetricsRepository, WeekMetricsService weekMetricsService, ModelMapper modelMapper, FileUpload fileUpload) {
         this.clientRepository = clientRepository;
         this.dailyMetricsRepository = dailyMetricsRepository;
         this.weekMetricsService = weekMetricsService;
         this.modelMapper = modelMapper;
+        this.fileUpload = fileUpload;
     }
 
     public void registerClient(UserEntity user) {
@@ -138,5 +144,30 @@ public class ClientService {
         WeekMetricsEntity weekMetrics = weekMetricsService.getByNumber(weekNumber);
         return weekMetrics.getDailyMetrics().stream().map(metric -> modelMapper.map(metric, DailyMetricsDTO.class)).toList();
     }
+
+    @Transactional
+    public void addProgressPicture(String clientUsername, MultipartFile file) {
+        ClientEntity client = getClientEntityByUsername(clientUsername);
+        String fileUrl = fileUpload.uploadFile(file);
+
+        ProgressPicture progressPicture = createProgressPicture(fileUrl, client);
+        client.getProgressPictures().add(progressPicture);
+
+        clientRepository.save(client);
+    }
+
+    private ProgressPicture createProgressPicture(String fileUrl, ClientEntity client) {
+        ProgressPicture progressPicture = new ProgressPicture();
+        progressPicture.setUrl(fileUrl);
+        progressPicture.setClient(client);
+        return progressPicture;
+    }
+
+    public List<ProgressPicture> getProgressPicturesByClientUsername(String clientUsername) {
+        ClientEntity client = getClientEntityByUsername(clientUsername);
+        return client.getProgressPictures();
+    }
+
+
 }
 

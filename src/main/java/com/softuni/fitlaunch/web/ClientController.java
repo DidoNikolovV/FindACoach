@@ -6,6 +6,7 @@ import com.softuni.fitlaunch.model.dto.user.CoachDTO;
 import com.softuni.fitlaunch.model.dto.user.DailyMetricsDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.workout.ScheduledWorkoutDTO;
+import com.softuni.fitlaunch.model.entity.ProgressPicture;
 import com.softuni.fitlaunch.model.entity.WeekMetricsEntity;
 import com.softuni.fitlaunch.service.ClientService;
 import com.softuni.fitlaunch.service.CoachService;
@@ -36,6 +37,7 @@ public class ClientController {
     private final UserService userService;
 
     private final WeekMetricsService weekMetricsService;
+
 
     public ClientController(ClientService clientService, CoachService coachService, UserService userService, WeekMetricsService weekMetricsService) {
         this.clientService = clientService;
@@ -100,4 +102,35 @@ public class ClientController {
 
         return "redirect:/";
     }
+
+    @GetMapping("/{clientUsername}/progress")
+    public String showProgressPage(@PathVariable("clientUsername") String clientUsername, Model model) {
+        ClientDTO client = clientService.getClientByUsername(clientUsername);
+        List<ProgressPicture> pictures = clientService.getProgressPicturesByClientUsername(clientUsername);
+
+        model.addAttribute("client", client);
+        model.addAttribute("progressPictures", pictures);
+
+        return "client_progress_pictures";
+    }
+
+//    @PostMapping("/{clientUsername}/progress")
+//    public String handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes) {
+//        if (file.isEmpty()) {
+//            redirectAttributes.addFlashAttribute("message", "Please select a file to upload.");
+//            return "redirect:/progress";
+//        }
+//
+//        try {
+//            String fileUrl = fileUpload.uploadFile(file);
+//            photoRepository.save(fileUrl); // Save URL to the database
+//            redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "'.");
+//
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            redirectAttributes.addFlashAttribute("message", "Failed to upload '" + file.getOriginalFilename() + "'.");
+//        }
+//
+//        return "redirect:/progress";
+//    }
 }

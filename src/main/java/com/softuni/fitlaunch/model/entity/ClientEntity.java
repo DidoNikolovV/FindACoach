@@ -66,4 +66,7 @@ public class ClientEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<DailyMetricsEntity> dailyMetrics;
+
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ProgressPicture> progressPictures = new ArrayList<>();
 }
