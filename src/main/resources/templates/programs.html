@@ -5,9 +5,9 @@
 <nav th:replace="~{fragments/navbar}"></nav>
 
 <header class="header">
-    <div class="container d-flex flex-grow-1 align-items-center justify-content-center" style="min-height: 100vh;">
+    <div class="container d-flex flex-grow-1 flex-column align-items-center justify-content-center" style="min-height: 100vh;">
         <div class="row" id="programsContainer">
-            <div th:each="program : ${allPrograms}" th:object="${program}" class="col mb-4">
+            <div th:each="program : ${allPrograms}" th:object="${program}" class="col-md-4 mb-4">
                 <div class="card border-0">
                     <a th:href="@{/programs/details/{id}(id=*{id})}" type="submit"
                        th:class="${membership == 'Free' ? 'th-disabled-overlay' : 'card-link p-0 card-hover'}">
@@ -21,8 +21,43 @@
                 </div>
             </div>
         </div>
+        <!-- Helper Button -->
+        <div class="row mt-4">
+            <div class="col text-center">
+                <button class="btn btn-lg btn-info" data-toggle="modal" data-target="#helperModal">
+                    Need Help Choosing a Program?
+                </button>
+            </div>
+        </div>
     </div>
 </header>
+
+<!-- Modal -->
+<div class="modal fade" id="helperModal" tabindex="-1" role="dialog" aria-labelledby="helperModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="helperModalLabel">Help Me Choose a Program</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>We understand that choosing the right program can be overwhelming. Here are a few steps to help you get started:</p>
+                <ul>
+                    <li>Consider your fitness level: Beginner, Intermediate, or Advanced.</li>
+                    <li>Think about your goals: Weight loss, muscle gain, endurance, etc.</li>
+                    <li>Check out our program descriptions and reviews.</li>
+                    <li>Still unsure? <a href="mailto:coach@example.com">Contact your coach</a> for personalized advice.</li>
+                </ul>
+                <p>You can also use our <a th:href="@{/programs/recommendation}">Program Recommendation Tool</a> for a customized suggestion based on your preferences and fitness level.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <footer th:replace="~{fragments/footer}"></footer>
 
