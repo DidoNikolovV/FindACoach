@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}">
+    <title>Discussion</title>
+    <style>
+        .comment-card {
+            margin-bottom: 20px;
+        }
+        .pagination {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<nav th:replace="~{fragments/navbar}"></nav>
+
+<div class="container mt-5 d-flex flex-column justify-content-center" style="height: 100vh;">
+    <h1 th:text="${topic.title}" class="mb-4"></h1>
+    <div class="card mb-4">
+        <div class="card-header">
+            <h3 class="h5">Original Post</h3>
+            <small class="text-muted" th:text="${topic.author} + ' - ' + ${topic.date}"></small>
+        </div>
+        <div class="card-body">
+            <p th:text="${topic.content}"></p>
+        </div>
+    </div>
+
+    <!-- Comments Section -->
+    <div id="commentsList" class="mb-4">
+        <h3>Comments</h3>
+        <div th:each="comment : ${comments}" class="card comment-card">
+            <div class="card-header">
+                <small class="text-muted" th:text="${comment.authorUsername}"></small>
+            </div>
+            <div class="card-body">
+                <p th:text="${comment.message}"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Comment Form -->
+    <div class="card">
+        <div class="card-header">
+            <h4 class="h5">Add a Comment</h4>
+        </div>
+        <div class="card-body">
+            <form id="newCommentForm">
+                <div class="form-group">
+                    <label for="commentContent">Content</label>
+                    <textarea class="form-control" id="commentContent" name="content" rows="3" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Post Comment</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Pagination for Comments -->
+    <ul class="pagination justify-content-center">
+        <li th:if="${commentsPage.hasPrevious()}" class="page-item">
+            <a th:href="@{/forum/topic/{id}(id=${topic.id}, page=${commentsPage.number - 1})}" class="page-link">&lt; Prev</a>
+        </li>
+        <li th:each="page : ${#numbers.sequence(0, commentsPage.totalPages - 1)}"
+            th:class="${page} == ${commentsPage.number} ? 'page-item active' : 'page-item'">
+            <a th:href="@{/forum/topic/{id}(id=${topic.id}, page=${page})}" class="page-link" th:text="${page + 1}"></a>
+        </li>
+        <li th:if="${commentsPage.hasNext()}" class="page-item">
+            <a th:href="@{/forum/topic/{id}(id=${topic.id}, page=${commentsPage.number + 1})}" class="page-link">Next &gt;</a>
+        </li>
+    </ul>
+</div>
+
+<footer th:replace="~{fragments/footer}"></footer>
+
+<!-- Custom JS -->
+<script>
+    document.getElementById('newCommentForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = {
+            content: document.getElementById('commentContent').value,
+            topicId: [[${topic.id}]]  // Assuming you have topic.id available
+        };
+
+        fetch(`${window.location.origin}/api/v1/forum/topics/${formData.topicId}/comments`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        }).then(res => res.json())
+            .then(data => {
+                // Handle the response, possibly updating the UI to reflect the new comment
+                window.location.reload();
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    });
+</script>
+
+</body>
+</html>

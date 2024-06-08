@@ -1,5 +1,6 @@
 package com.softuni.fitlaunch.service;
 
+import com.softuni.fitlaunch.model.dto.TopicCommentDTO;
 import com.softuni.fitlaunch.model.dto.comment.CommentCreationDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.view.CommentView;
@@ -10,6 +11,9 @@ import com.softuni.fitlaunch.model.enums.UserRoleEnum;
 import com.softuni.fitlaunch.repository.CommentRepository;
 import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -63,5 +67,10 @@ public class CommentService {
         if (user.getRoles().stream().anyMatch(r -> r.getRole().equals(UserRoleEnum.ADMIN)) || user.getUsername().equals(comment.getAuthor().getUsername())) {
             commentRepository.delete(comment);
         }
+    }
+
+    public Page<TopicCommentDTO> findByTopicId(Long id, PageRequest pageRequest) {
+        List<TopicCommentDTO> list = commentRepository.findAllByTopicId(id, pageRequest).stream().map(commentEntity -> modelMapper.map(commentEntity, TopicCommentDTO.class)).toList();
+        return new PageImpl<>(list);
     }
 }

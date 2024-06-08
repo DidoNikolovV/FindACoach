@@ -33,4 +33,8 @@ public class TopicService {
 
         return newTopic;
     }
+
+    public TopicDTO getById(Long id) {
+        return modelMapper.map(topicRepository.findById(id).orElse(null), TopicDTO.class);
+    }
 }
