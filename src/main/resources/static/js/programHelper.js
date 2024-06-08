@@ -59,6 +59,8 @@ function loadRecommendation() {
             // Show the button to display all programs
             document.getElementById('showAllProgramsRow').style.display = 'block';
 
+            $('#helperModal').modal('hide');
+
         })
         .catch(err => {
             console.error(err);
