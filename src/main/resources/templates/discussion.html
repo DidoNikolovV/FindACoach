@@ -56,7 +56,7 @@
     </div>
 
     <!-- Pagination for Comments -->
-    <ul class="pagination justify-content-center">
+    <ul class="pagination justify-content-center mt-5">
         <li th:if="${commentsPage.hasPrevious()}" class="page-item">
             <a th:href="@{/forum/topic/{id}(id=${topic.id}, page=${commentsPage.number - 1})}" class="page-link">&lt; Prev</a>
         </li>
