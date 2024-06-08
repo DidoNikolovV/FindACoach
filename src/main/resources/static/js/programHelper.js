@@ -6,6 +6,7 @@ const csrfHeaderValue = document.head.querySelector('[name=_csrf]').content;
 let recommendationBtn = document.getElementById("getRecommendationBtn");
 console.log(recommendationBtn);
 document.getElementById("getRecommendationBtn").addEventListener("click", loadRecommendation);
+document.getElementById('showAllProgramsButton').addEventListener('click', showAllPrograms);
 
 function loadRecommendation() {
     const formData = {
@@ -14,8 +15,6 @@ function loadRecommendation() {
         workoutPreference: document.getElementById('workoutPreference').value,
         workoutFrequency: document.getElementById('workoutFrequency').value
     };
-
-    console.log("This is the formData: ", formData);
 
     fetch(`${window.location.origin}/api/v1/program-helper/get-recommendation`, {
         method: 'POST',
@@ -27,12 +26,10 @@ function loadRecommendation() {
         body: JSON.stringify(formData)
     }).then(res => res.json())
         .then(data => {
-            console.log(data);
             // Hide all programs
             const allProgramCards = document.querySelectorAll('#programsContainer .col-md-4');
             allProgramCards.forEach(card => card.style.display = 'none');
 
-            // Show only the recommended program
             const recommendedProgram = Array.from(allProgramCards).find(card => {
                 const cardTitle = card.querySelector('.card-title').innerText.toLowerCase();
                 return cardTitle.includes(data.fitnessLevel);
@@ -44,14 +41,11 @@ function loadRecommendation() {
                 recommendedProgram.classList.add('col-md-12');
             }
 
-            // Update the recommended program details
             const recommendedProgramTitle = recommendedProgram.querySelector('.card-title').innerText;
             const recommendationMessage = document.createElement('p');
-            recommendationMessage.className = 'recommended-program-message text-center';
-            recommendationMessage.innerText = "Based on your input, we recommend you start with this program.";
 
             const titleElement = document.createElement('h4');
-            titleElement.className = 'text-center text-info';
+            titleElement.className = 'text-center text-white';
             titleElement.innerText = `Recommended Program: ${recommendedProgramTitle}`;
 
             // Append the recommendation message and title above the recommended program
@@ -63,9 +57,25 @@ function loadRecommendation() {
             document.getElementById('helperButtonContainer').style.display = 'none';
 
             // Show the button to display all programs
-            // document.getElementById('showAllProgramsButton').style.display = 'block';
+            document.getElementById('showAllProgramsRow').style.display = 'block';
+
         })
         .catch(err => {
             console.error(err);
-        })
+        });
+}
+
+function showAllPrograms() {
+
+    const allProgramCards = document.querySelectorAll('#programsContainer .col-md-4, #programsContainer .col-md-12');
+    allProgramCards.forEach(card => {
+        card.style.display = 'block';
+        card.classList.remove('col-md-12');
+        card.classList.add('col-md-4');
+    });
+
+
+    document.getElementById('helperButtonContainer').style.display = 'block';
+    document.getElementById('showAllProgramsRow').style.display = 'none';
+
 }
