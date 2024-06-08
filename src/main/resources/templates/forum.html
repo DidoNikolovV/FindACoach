@@ -40,7 +40,7 @@
 
         <!-- List of Topics -->
         <div id="topicsList" class="row">
-            <div th:each="topic : ${topics}" class="col-md-6">
+            <div th:each="topic : ${topics}" class="col-md-6 pt-2">
                 <div class="card">
                     <div class="card-header">
                         <h3 th:text="${topic.title}" class="h5"></h3>
@@ -55,7 +55,7 @@
         </div>
 
         <!-- Pagination -->
-        <ul class="pagination justify-content-center">
+        <ul class="pagination justify-content-center mt-5">
             <li th:if="${topics.hasPrevious()}" class="page-item">
                 <a th:href="@{/forum(page=${topics.number - 1})}" class="page-link">&lt; Prev</a>
             </li>
