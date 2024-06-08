@@ -15,6 +15,7 @@
 <nav th:replace="~{fragments/navbar}"></nav>
 
 <div class="container mt-5 d-flex flex-column justify-content-center" style="height: 100vh;">
+    <input type="hidden" name="topicId" id="topicId" th:value="${topic.id}">
     <h1 th:text="${topic.title}" class="mb-4"></h1>
     <div class="card mb-4">
         <div class="card-header">
@@ -45,14 +46,18 @@
             <h4 class="h5">Add a Comment</h4>
         </div>
         <div class="card-body">
-            <form id="newCommentForm">
+            <form id="topicCommentForm" method="POST" th:action="@{/comments/{topicId}(topicId=${topic.id})}">
                 <div class="form-group">
-                    <label for="commentContent">Content</label>
-                    <textarea class="form-control" id="commentContent" name="content" rows="3" required></textarea>
+                    <label for="message">Content</label>
+                    <textarea class="form-control" id="message" name="content" rows="3" required></textarea>
                 </div>
                 <button type="submit" class="btn btn-primary">Post Comment</button>
             </form>
         </div>
+    </div>
+
+    <div>
+        <span id="commentCtnr"></span>
     </div>
 
     <!-- Pagination for Comments -->
@@ -71,34 +76,34 @@
 </div>
 
 <footer th:replace="~{fragments/footer}"></footer>
-
+<script th:src="@{/js/comments.js}"></script>
 <!-- Custom JS -->
-<script>
-    document.getElementById('newCommentForm').addEventListener('submit', function(event) {
-        event.preventDefault();
+<!--<script>-->
+<!--    document.getElementById('newCommentForm').addEventListener('submit', function(event) {-->
+<!--        event.preventDefault();-->
 
-        const formData = {
-            content: document.getElementById('commentContent').value,
-            topicId: [[${topic.id}]]  // Assuming you have topic.id available
-        };
+<!--        const formData = {-->
+<!--            content: document.getElementById('commentContent').value,-->
+<!--            topicId: [[${topic.id}]]  // Assuming you have topic.id available-->
+<!--        };-->
 
-        fetch(`${window.location.origin}/api/v1/forum/topics/${formData.topicId}/comments`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify(formData)
-        }).then(res => res.json())
-            .then(data => {
-                // Handle the response, possibly updating the UI to reflect the new comment
-                window.location.reload();
-            })
-            .catch(err => {
-                console.error(err);
-            });
-    });
-</script>
+<!--        fetch(`${window.location.origin}/api/v1/forum/topics/${formData.topicId}/comments`, {-->
+<!--            method: 'POST',-->
+<!--            headers: {-->
+<!--                'Content-Type': 'application/json',-->
+<!--                'Accept': 'application/json'-->
+<!--            },-->
+<!--            body: JSON.stringify(formData)-->
+<!--        }).then(res => res.json())-->
+<!--            .then(data => {-->
+<!--                // Handle the response, possibly updating the UI to reflect the new comment-->
+<!--                window.location.reload();-->
+<!--            })-->
+<!--            .catch(err => {-->
+<!--                console.error(err);-->
+<!--            });-->
+<!--    });-->
+<!--</script>-->
 
 </body>
 </html>

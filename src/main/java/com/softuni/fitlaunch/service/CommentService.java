@@ -5,6 +5,7 @@ import com.softuni.fitlaunch.model.dto.comment.CommentCreationDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.view.CommentView;
 import com.softuni.fitlaunch.model.entity.CommentEntity;
+import com.softuni.fitlaunch.model.entity.TopicEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.model.enums.UserRoleEnum;
@@ -27,12 +28,15 @@ public class CommentService {
 
     private final WorkoutService workoutService;
 
+    private final TopicService topicService;
+
     private final ModelMapper modelMapper;
 
-    public CommentService(CommentRepository commentRepository, UserService userService, WorkoutService workoutService, ModelMapper modelMapper) {
+    public CommentService(CommentRepository commentRepository, UserService userService, WorkoutService workoutService, TopicService topicService, ModelMapper modelMapper) {
         this.commentRepository = commentRepository;
         this.userService = userService;
         this.workoutService = workoutService;
+        this.topicService = topicService;
         this.modelMapper = modelMapper;
     }
 
@@ -73,4 +77,21 @@ public class CommentService {
         List<TopicCommentDTO> list = commentRepository.findAllByTopicId(id, pageRequest).stream().map(commentEntity -> modelMapper.map(commentEntity, TopicCommentDTO.class)).toList();
         return new PageImpl<>(list);
     }
+
+    public TopicCommentDTO addTopicComment(CommentCreationDTO commentCreationDTO, String name, Long topicId) {
+        UserEntity user = userService.getUserEntityByUsername(name);
+        TopicEntity topic = topicService.getEntityById(topicId);
+
+        CommentEntity comment = modelMapper.map(commentCreationDTO, CommentEntity.class);
+        comment.setAuthor(user);
+        comment.setTopic(topic);
+        topic.getComments().add(comment);
+
+        comment = commentRepository.save(comment);
+
+
+        return modelMapper.map(comment, TopicCommentDTO.class);
+
+    }
+
 }
