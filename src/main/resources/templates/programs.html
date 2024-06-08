@@ -5,7 +5,7 @@
 <nav th:replace="~{fragments/navbar}"></nav>
 
 <header class="header">
-    <div class="container d-flex flex-grow-1 flex-column align-items-center justify-content-center" style="min-height: 100vh;">
+    <div class="container d-flex flex-column align-items-center justify-content-center" style="min-height: 100vh;">
         <div class="row" id="programsContainer">
             <div th:each="program : ${allPrograms}" th:object="${program}" class="col-md-4 mb-4">
                 <div class="card border-0">
@@ -21,8 +21,8 @@
                 </div>
             </div>
         </div>
-        <!-- Helper Button -->
-        <div class="row mt-4">
+        <!-- Helper Button Container -->
+        <div class="row mt-4" id="helperButtonContainer">
             <div class="col text-center">
                 <button class="btn btn-lg btn-info" data-toggle="modal" data-target="#helperModal">
                     Need Help Choosing a Program?
