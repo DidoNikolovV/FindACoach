@@ -19,6 +19,15 @@ VALUES (1, 1),
        (2, 3),
        (3, 2);
 
+INSERT INTO topics (title, content, author, date)
+VALUES
+    ('Getting Started with Fitness', 'Hey everyone, I am new to fitness. Can anyone guide me on how to start?', 'John Doe', '2024-06-04 10:00:00'),
+    ('Nutrition Tips', 'What are some good nutrition tips for gaining muscle?', 'Jane Smith', '2024-06-04 11:00:00'),
+    ('Best Cardio Exercises', 'I want to improve my cardiovascular health. What exercises would you recommend?', 'Mike Johnson', '2024-06-04 12:00:00'),
+    ('Home Workouts', 'Can anyone suggest some effective home workouts for losing weight?', 'Emily Davis', '2024-06-04 13:00:00'),
+    ('Strength Training', 'What are the best exercises for building strength?', 'Chris Brown', '2024-06-04 14:00:00');
+
+
 -- INSERT INTO workouts(`id`, `description`, `img_url`, `level`, `name`, `likes`, `author_id`, `has_started`,
 --                      `is_completed`)
 -- VALUES (1, 'Start your fitness journey with our beginner workouts.', '/images/beginner.jpg', 'BEGINNER', 'Full Body', 0,

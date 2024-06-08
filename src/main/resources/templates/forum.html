@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="~{fragments/head}">
+    <title>Forum</title>
+    <style>
+        .card {
+            margin-bottom: 20px;
+        }
+        .pagination {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<nav th:replace="~{fragments/navbar}"></nav>
+
+<header class="header">
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Community Forum</h1>
+
+        <!-- Post a New Topic -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2 class="h5">Start a New Discussion</h2>
+            </div>
+            <div class="card-body">
+                <form id="newTopicForm">
+                    <div class="form-group">
+                        <label for="topicTitle">Title</label>
+                        <input type="text" class="form-control" id="topicTitle" name="title" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="topicContent">Content</label>
+                        <textarea class="form-control" id="topicContent" name="content" rows="5" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Post Topic</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- List of Topics -->
+        <div id="topicsList" class="row">
+            <div th:each="topic : ${topics}" class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 th:text="${topic.title}" class="h5"></h3>
+                        <small class="text-muted" th:text="${topic.author} + ' - ' + ${topic.date}"></small>
+                    </div>
+                    <div class="card-body">
+                        <p th:text="${topic.content}"></p>
+                        <a th:href="@{/forum/topic/{id}(id=${topic.id})}" class="btn btn-secondary">View Discussion</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <ul class="pagination justify-content-center">
+            <li th:if="${topics.hasPrevious()}" class="page-item">
+                <a th:href="@{/forum(page=${topics.number - 1})}" class="page-link">&lt; Prev</a>
+            </li>
+            <li th:each="page : ${#numbers.sequence(0, topics.totalPages - 1)}"
+                th:class="${page} == ${topics.number} ? 'page-item active' : 'page-item'">
+                <a th:href="@{/forum(page=${page})}" class="page-link" th:text="${page + 1}"></a>
+            </li>
+            <li th:if="${topics.hasNext()}" class="page-item">
+                <a th:href="@{/forum(page=${topics.number + 1})}" class="page-link">Next &gt;</a>
+            </li>
+        </ul>
+    </div>
+</header>
+
+<footer th:replace="~{fragments/footer}"></footer>
+
+<!-- Custom JS -->
+<script>
+    document.getElementById('newTopicForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const formData = {
+            title: document.getElementById('topicTitle').value,
+            content: document.getElementById('topicContent').value,
+        };
+
+        fetch(`${window.location.origin}/api/v1/forum/topics`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify(formData)
+        }).then(res => res.json())
+            .then(data => {
+                // Handle the response, possibly updating the UI to reflect the new topic
+                window.location.reload();
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    });
+</script>
+
+</body>
+</html>
