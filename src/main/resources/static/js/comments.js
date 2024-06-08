@@ -44,7 +44,7 @@ function postTopicComment(e) {
     const messageValue = document.getElementById('message').value;
     const topicId = document.getElementById("topicId").value;
 
-    fetch(`${url}/api/v1/comments/${topicId}`, {
+    fetch(`${url}/api/v1/comments/topic/${topicId}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -102,7 +102,9 @@ function loadComments() {
 }
 
 function loadTopicComments() {
-    fetch(`${url}/api/v1/comments/topic/all`, {
+    const topicId = document.getElementById("topicId").value;
+
+    fetch(`${url}/api/v1/comments/topic/${topicId}/all`, {
         headers: {
             "Accept": "application/json"
         }

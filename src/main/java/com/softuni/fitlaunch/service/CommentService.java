@@ -10,6 +10,7 @@ import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.model.enums.UserRoleEnum;
 import com.softuni.fitlaunch.repository.CommentRepository;
+import com.softuni.fitlaunch.repository.TopicRepository;
 import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -30,13 +31,16 @@ public class CommentService {
 
     private final TopicService topicService;
 
+    private final TopicRepository topicRepository;
+
     private final ModelMapper modelMapper;
 
-    public CommentService(CommentRepository commentRepository, UserService userService, WorkoutService workoutService, TopicService topicService, ModelMapper modelMapper) {
+    public CommentService(CommentRepository commentRepository, UserService userService, WorkoutService workoutService, TopicService topicService, TopicRepository topicRepository, ModelMapper modelMapper) {
         this.commentRepository = commentRepository;
         this.userService = userService;
         this.workoutService = workoutService;
         this.topicService = topicService;
+        this.topicRepository = topicRepository;
         this.modelMapper = modelMapper;
     }
 
@@ -86,12 +90,10 @@ public class CommentService {
         comment.setAuthor(user);
         comment.setTopic(topic);
         topic.getComments().add(comment);
-
         comment = commentRepository.save(comment);
 
 
         return modelMapper.map(comment, TopicCommentDTO.class);
-
     }
 
 }

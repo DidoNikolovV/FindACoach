@@ -46,7 +46,7 @@
             <h4 class="h5">Add a Comment</h4>
         </div>
         <div class="card-body">
-            <form id="topicCommentForm" method="POST" th:action="@{/comments/{topicId}(topicId=${topic.id})}">
+            <form id="topicCommentForm" method="POST" th:action="@{/comments/topic/{topicId}(topicId=${topic.id})}">
                 <div class="form-group">
                     <label for="message">Content</label>
                     <textarea class="form-control" id="message" name="content" rows="3" required></textarea>
