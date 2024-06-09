@@ -143,6 +143,31 @@ nav .left {
     color: white;
 }
 
+/* Show dropdown on hover */
+.nav-item.dropdown:hover .dropdown-menu {
+    max-height: 400px; /* Adjust this value to ensure it covers the maximum height of the dropdown content */
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Ensure the dropdown menu appears on hover */
+.dropdown-menu {
+    display: block;
+    position: absolute;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+/* Adjust dropdown position */
+.nav-item.dropdown {
+    position: relative;
+}
+
+
+
 .header {
     background: url(../images/background-image.jpg) center center no-repeat;
     background-size: cover;
