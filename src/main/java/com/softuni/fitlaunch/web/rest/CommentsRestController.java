@@ -73,7 +73,7 @@ public class CommentsRestController {
 
     @GetMapping("/topic/{topicId}/all")
     public ResponseEntity<Page<TopicCommentDTO>> getCommentsByTopicId(@PathVariable("topicId") Long topicId) {
-        return ResponseEntity.ok(commentService.findByTopicId(topicId, PageRequest.of(0, 5)));
+        return ResponseEntity.ok(commentService.findByTopicId(topicId, PageRequest.of(0, 4)));
     }
 
     @PostMapping(value = "/topic/{topicId}", consumes = "application/json", produces = "application/json")

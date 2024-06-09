@@ -62,17 +62,30 @@ function postTopicComment(e) {
 }
 
 function commentAsHTML(comment) {
-    let commentHTML = `<div id="${comment.id}" class="d-flex align-items-center mb-3">\n`;
-    commentHTML += `<img src="${comment.profilePicture}" class="rounded-circle mr-3 mb-4" alt="Profile Picture" style="width: 40px; height: 40px;">\n`;
-    commentHTML += `<div>\n`;
-    commentHTML += `<h4 class="mb-0">${comment.authorUsername}</h4>\n`;
-    commentHTML += `<p>${comment.message}</p>\n`;
-    commentHTML += `<button class="btn btn-danger" onclick="deleteComment(${comment.id})">Delete</button>\n`;
+    let profilePicture = comment.profilePicture ? comment.profilePicture : '/images/profile-avatar.jpg';
+    let commentHTML = `<div id="${comment.id}" class="card comment-card mb-3">\n`;
+    commentHTML += `<div class="card-header d-flex align-items-center">\n`;
+    commentHTML += `<img src="${profilePicture}" class="rounded-circle mr-3" alt="Profile Picture" style="width: 40px; height: 40px;">\n`;
+    commentHTML += `<small class="text-muted">${comment.authorUsername}</small>\n`;
     commentHTML += `</div>\n`;
+    commentHTML += `<div class="card-body">\n`;
+    commentHTML += `<p class="text-muted">${comment.message}</p>\n`;
+    commentHTML += `<div class="d-flex justify-content-start mt-2">\n`;
+    commentHTML += `<button class="btn btn-sm mr-2 like-btn border-0" type="button">Like</button>\n`;
+    commentHTML += `<button class="btn btn-sm delete-btn border-0" onclick="deleteComment(${comment.id})">Delete</button>\n`;
+    commentHTML += `</div>\n`;
+    commentHTML += `<div class="reply-form" style="display: none; margin-top: 10px;">\n`;
+    commentHTML += `<textarea class="form-control mb-2" rows="2" placeholder="Write a reply..."></textarea>\n`;
+    commentHTML += `<button class="btn btn-sm btn-primary submit-reply-btn" type="button">Submit</button>\n`;
+    commentHTML += `</div>\n`;
+    commentHTML += `</div>\n`;
+    commentHTML += `<div class="replies-container pl-4"></div>\n`;
     commentHTML += `</div>\n`;
 
     return commentHTML;
 }
+
+
 
 
 function deleteComment(commentId) {
@@ -101,20 +114,48 @@ function loadComments() {
         })
 }
 
-function loadTopicComments() {
-    const topicId = document.getElementById("topicId").value;
+let currentPage = 1;
+const commentsPerPage = 4;
 
-    fetch(`${url}/api/v1/comments/topic/${topicId}/all`, {
+function loadTopicComments(currentPage = 1) {
+    const topicId = document.getElementById("topicId").value;
+    const urlWithParams = `${url}/api/v1/comments/topic/${topicId}/all?page=${currentPage - 1}&size=${commentsPerPage}`;
+
+    fetch(urlWithParams, {
         headers: {
             "Accept": "application/json"
         }
-    }).then(res => res.json())
+    })
+        .then(res => res.json())
         .then(data => {
-            for (let comment of data) {
-                commentContainer.innerHTML += commentAsHTML(comment)
-            }
-        })
+            renderComments(data.content);
+            renderPaginationControls(data.totalPages, currentPage);
+        });
 }
 
-loadComments();
+function renderComments(comments) {
+    const commentContainer = document.getElementById('commentCtnr');
+    commentContainer.innerHTML = '';
+    comments.forEach(comment => {
+        commentContainer.innerHTML += commentAsHTML(comment);
+    });
+}
+
+function renderPaginationControls(totalPages, currentPage) {
+    const paginationControls = document.getElementById('paginationControls');
+    paginationControls.innerHTML = '';
+
+    for (let i = 1; i <= totalPages; i++) {
+        const pageItem = document.createElement('li');
+        pageItem.className = `page-item ${i === currentPage ? 'active' : ''}`;
+        pageItem.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+        pageItem.addEventListener('click', function(event) {
+            event.preventDefault();
+            loadTopicComments(i);
+        });
+        paginationControls.appendChild(pageItem);
+    }
+}
+
+// loadComments();
 loadTopicComments();
