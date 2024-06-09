@@ -10,6 +10,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
+                <li class="nav-item active" th:classappend="${activePage == 'forum'} ? 'custom-active'">
+                    <a class="nav-link text-white h6" th:href="@{/forum}">Forum</a>
+                </li>
                 <li class="nav-item active" th:classappend="${activePage == 'myCalendar'} ? 'custom-active'" sec:authorize="hasAnyRole('ADMIN', 'CLIENT', 'COACH')">
                     <a class="nav-link text-white h6"
                        th:href="@{/users/{username}/calendar(username=${#authentication.principal.username})}">My
