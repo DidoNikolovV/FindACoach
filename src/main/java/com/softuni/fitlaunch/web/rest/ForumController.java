@@ -34,8 +34,10 @@ public class ForumController {
             size = 3,
             sort = "id"
     ) Pageable pageable) {
+
         Page<TopicEntity> topics = topicService.getAllTopics(pageable);
         model.addAttribute("topics", topics);
+        model.addAttribute("activePage", "forum");
 
         return "forum";
     }
