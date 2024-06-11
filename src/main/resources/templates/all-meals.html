@@ -8,7 +8,7 @@
     <h2 class="text-center text-white">All Meals</h2>
     <div class="row mx-auto">
         <div class="col-12">
-            <div class="card-container mt-5">
+            <div class="card-container mt-5 mb-3">
                 <div class="card" th:each="meal : ${allMeals}" th:object="${meal}">
                     <form th:action="@{/meals/{id}(id=*{id})}">
                         <div class="img-container" style="height: 150px; overflow: hidden;">
