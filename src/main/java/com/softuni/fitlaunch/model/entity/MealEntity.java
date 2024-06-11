@@ -19,16 +19,25 @@ import lombok.Setter;
 public class MealEntity extends BaseEntity {
 
 
-    @Column
+    @Column(name = "name")
     private String name;
 
-    @Column
+    @Column(name = "description")
     private String description;
 
-    @Column
+    @Column(name = "type")
     private String type;
 
-    @Column
+    @Column(name = "protein")
+    private Double protein;
+
+    @Column(name = "carbohydrates")
+    private Double carbohydrates;
+
+    @Column(name = "fats")
+    private Double fats;
+
+    @Column(name = "calories")
     private Double calories;
 
     @ManyToOne
