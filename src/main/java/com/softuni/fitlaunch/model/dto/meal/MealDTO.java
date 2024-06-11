@@ -15,6 +15,9 @@ public class MealDTO {
     private String name;
     private String description;
     private String type;
+    private Double protein;
+    private Double carbohydrates;
+    private Double fats;
     private Double calories;
     private String imageUrl;
 

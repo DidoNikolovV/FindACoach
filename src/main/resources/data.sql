@@ -81,22 +81,23 @@ VALUES ('Grilled Chicken Salad', 'https://res.cloudinary.com/your-cloud-name/ima
 
 
 -- Inserting meals into the meals table
-INSERT INTO meals (calories, description, name, type, author_id, image_id)
+INSERT INTO meals (calories, description, name, type, author_id, image_id, protein, carbohydrates, fats)
 VALUES (350,
         'Fresh grilled chicken breast served on a bed of mixed greens with cherry tomatoes, cucumbers, and a light vinaigrette dressing.',
-        'Grilled Chicken Salad', 'Salad', 1, 1),
+        'Grilled Chicken Salad', 'Salad', 1, 1, 30, 10, 15),
        (450,
         'Classic Italian dish featuring al dente spaghetti noodles topped with a rich and savory Bolognese sauce made with ground beef, tomatoes, onions, and garlic.',
-        'Spaghetti Bolognese', 'Pasta', 1, 2),
+        'Spaghetti Bolognese', 'Pasta', 1, 2, 20, 60, 15),
        (300,
         'Grilled salmon fillet seasoned with herbs and served with a side of steamed vegetables, including carrots, broccoli, and snap peas.',
-        'Grilled Salmon with Steamed Vegetables', 'Seafood', 1, 3),
+        'Grilled Salmon with Steamed Vegetables', 'Seafood', 1, 3, 25, 10, 12),
        (250,
         'Fresh assortment of colorful vegetables stir-fried to perfection in a light soy sauce, served over a bed of fluffy rice.',
-        'Vegetable Stir-Fry', 'Vegetarian', 1, 4),
+        'Vegetable Stir-Fry', 'Vegetarian', 1, 4, 5, 35, 10),
        (400,
         'Traditional Italian pizza topped with ripe tomatoes, fresh mozzarella cheese, basil leaves, and a drizzle of olive oil on a thin crust.',
-        'Margherita Pizza', 'Pizza', 1, 5);
+        'Margherita Pizza', 'Pizza', 1, 5, 15, 50, 18);
+
 
 
 --
