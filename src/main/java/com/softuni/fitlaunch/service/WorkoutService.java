@@ -90,7 +90,7 @@ public class WorkoutService {
         return modelMapper.map(workout, WorkoutDTO.class);
     }
 
-    private List<WorkoutExerciseEntity> mapAndProccessJsonExercises(List<String> json, WorkoutEntity workout) {
+    private void mapAndProccessJsonExercises(List<String> json, WorkoutEntity workout) {
         ObjectMapper objectMapper = new ObjectMapper();
         List<WorkoutExerciseEntity> exercises = new ArrayList<>();
         try {
@@ -109,9 +109,8 @@ public class WorkoutService {
             exercise.setWorkout(workout);
         });
 
-        exercises = workoutExerciseService.saveAll(exercises);
+        workoutExerciseService.saveAll(exercises);
 
-        return exercises;
     }
 
 
