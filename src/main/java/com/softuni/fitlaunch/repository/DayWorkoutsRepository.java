@@ -12,4 +12,6 @@ public interface DayWorkoutsRepository extends JpaRepository<DayWorkoutsEntity, 
 
     Optional<DayWorkoutsEntity> findByNameAndWeekId(String name, Long weekId);
 
+    Optional<DayWorkoutsEntity> findByNameAndWorkoutIdAndWeekId(String dayName, Long workoutId, Long weekId);
+
 }

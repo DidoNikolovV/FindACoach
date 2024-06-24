@@ -124,8 +124,8 @@ public class WorkoutService {
         return workoutRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Workout with id " + id + " does not exist"));
     }
 
-    public DayWorkoutsEntity getDayWorkout(Long workoutId, String dayName) {
-        return dayWorkoutsRepository.findByNameAndWorkoutId(dayName, workoutId).orElse(null);
+    public DayWorkoutsEntity getDayWorkout(Long workoutId, Long weekId, String dayName) {
+        return dayWorkoutsRepository.findByNameAndWorkoutIdAndWeekId(dayName, workoutId, weekId).orElse(null);
     }
 
     public Page<WorkoutDTO> getAllWorkouts(Pageable pageable) {
@@ -162,12 +162,12 @@ public class WorkoutService {
         return modelMapper.map(dayWorkoutsEntity, ClientWorkoutDetails.class);
     }
 
-    public void startWorkout(Long workoutId, String username, String dayName) {
+    public void startWorkout(Long workoutId, String username, Long weekId, String dayName) {
         UserEntity user = userService.getUserEntityByUsername(username);
 
-        DayWorkoutsEntity dayWorkout = getDayWorkout(workoutId, dayName);
+        DayWorkoutsEntity dayWorkout = getDayWorkout(workoutId, weekId, dayName);
 
-        boolean isStarted = isWorkoutStarted(workoutId, dayName, username);
+        boolean isStarted = isWorkoutStarted(workoutId, weekId, dayName, username);
         if (!isStarted) {
             user.getStartedWorkouts().add(dayWorkout);
             dayWorkout.setStarted(true);
@@ -176,12 +176,12 @@ public class WorkoutService {
         userService.saveUser(user);
     }
 
-    public void completedWorkout(Long workoutId, String username, String dayName) {
+    public void completedWorkout(Long workoutId, String username, Long weekNumber, String dayName) {
         UserEntity user = userService.getUserEntityByUsername(username);
 
-        DayWorkoutsEntity dayWorkout = getDayWorkout(workoutId, dayName);
+        DayWorkoutsEntity dayWorkout = getDayWorkout(workoutId, weekNumber, dayName);
 
-        boolean isCompleted = isWorkoutCompleted(workoutId, dayName, username);
+        boolean isCompleted = isWorkoutCompleted(workoutId, weekNumber, dayName, username);
         if (!isCompleted) {
             user.getCompletedWorkouts().add(dayWorkout);
             dayWorkout.setCompleted(true);
@@ -190,14 +190,14 @@ public class WorkoutService {
         userService.saveUser(user);
     }
 
-    public boolean isWorkoutStarted(Long workoutId, String dayName, String username) {
-        DayWorkoutsEntity dayWorkoutsEntity = getDayWorkout(workoutId, dayName);
+    public boolean isWorkoutStarted(Long workoutId, Long weekNumber, String dayName, String username) {
+        DayWorkoutsEntity dayWorkoutsEntity = getDayWorkout(workoutId, weekNumber, dayName);
         UserEntity user = userService.getUserEntityByUsername(username);
         return user.getStartedWorkouts().stream().anyMatch(workout -> workout.getId().equals(dayWorkoutsEntity.getId()));
     }
 
-    public boolean isWorkoutCompleted(Long workoutId, String dayName, String username) {
-        DayWorkoutsEntity dayWorkoutsEntity = getDayWorkout(workoutId, dayName);
+    public boolean isWorkoutCompleted(Long workoutId, Long weekId, String dayName, String username) {
+        DayWorkoutsEntity dayWorkoutsEntity = getDayWorkout(workoutId, weekId, dayName);
         UserEntity user = userService.getUserEntityByUsername(username);
         return user.getCompletedWorkouts().stream().anyMatch(workout -> workout.getId().equals(dayWorkoutsEntity.getId()));
     }

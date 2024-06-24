@@ -3,8 +3,8 @@
 <head th:replace="~{fragments/head}"></head>
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
-<header class="header">
-    <div class="container d-flex align-items-center justify-content-center" style="height: 100vh">
+<div style="height: 100vh">
+    <div class="container d-flex align-items-center justify-content-center" style="margin-top: 11rem;">
         <div class="card mx-auto" style="max-width: 500px;">
             <div class="card-header text-center">
                 <h5>Add Workouts to Days</h5>
@@ -56,7 +56,7 @@
             </div>
         </div>
     </div>
-</header>
+</div>
 <footer th:replace="~{fragments/footer}"></footer>
 <script th:src="@{/js/createWeeks.js}"></script>
 </body>

@@ -21,7 +21,7 @@
             <tr th:each="day : *{days}" class="text-light">
                 <td th:text="${day.name}"></td>
                 <td th:if="${day.workout != null}" class="d-flex align-items-center">
-                    <a th:href="@{/workouts/{workoutId}/days/{dayName}(workoutId=${day.workout.id}, dayName=${day.name})}"
+                    <a th:href="@{/workouts/{workoutId}/weeks/{weekId}/days/{dayName}(workoutId=${day.workout.id}, weekId=${week.number}, dayName=${day.name})}"
                        class="btn btn-info">
                         <span th:text="${day.workout.name}"></span>
                     </a>
