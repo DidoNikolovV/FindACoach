@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head}"></head>
+<head th:replace="~{fragments/head}">
+</head>
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
 
 <header class="header">
     <div class="container d-flex flex-column align-items-center justify-content-center" style="min-height: 100vh;">
-        <div class="row" id="programsContainer">
+        <div class="row col-md-10" id="programsContainer" style="margin-top: 11rem;">
             <div th:each="program : ${allPrograms}" th:object="${program}" class="col-md-4 mb-4">
                 <div class="card border-0">
                     <a th:href="@{/programs/details/{id}(id=*{id})}" type="submit"
                        th:class="${membership == 'Free' ? 'th-disabled-overlay' : 'card-link p-0 card-hover'}">
                         <img th:src="*{imgUrl}" class="card-img-top program-img" alt="Workout Image">
                         <div th:class="${membership == 'Free' ? 'card-img-overlay th-disabled-overlay' : 'card-img-overlay'}">
-                            <h5 class="card-title text-center text-white text-uppercase text-info" th:text="*{name}">
-                                Full Body</h5>
+                            <h5 class="card-title text-center text-white text-uppercase text-info" th:text="*{name}">Full Body</h5>
                             <i th:if="${membership == 'Free'}" class="fas fa-lock lock-icon"></i>
                         </div>
                     </a>
