@@ -10,5 +10,4 @@ import java.util.List;
 @Repository
 public interface MealRepository extends JpaRepository<MealEntity, Long> {
     List<MealEntity> findAllByAuthorId(Long id);
-
 }

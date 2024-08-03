@@ -1,6 +1,7 @@
 package com.softuni.fitlaunch.service;
 
 
+import com.softuni.fitlaunch.model.dto.MealCreationForm;
 import com.softuni.fitlaunch.model.dto.meal.MealCreationDTO;
 import com.softuni.fitlaunch.model.dto.meal.MealDTO;
 import com.softuni.fitlaunch.model.entity.CoachEntity;
@@ -39,7 +40,6 @@ public class MealService {
 
         return coachMeals.stream().map(meal -> modelMapper.map(meal, MealDTO.class)).toList();
     }
-
     public MealDTO createMeal(MealCreationDTO mealCreationDTO, String username, MultipartFile image) {
         MealEntity newMeal = modelMapper.map(mealCreationDTO, MealEntity.class);
         CoachEntity author = coachService.getCoachEntityByUsername(username);
@@ -62,5 +62,10 @@ public class MealService {
 
     public MealEntity getMealEntityById(Long id) {
         return mealRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Meal with id " + id + " does not exist"));
+    }
+
+    public List<MealDTO> createMealsForDay(Long dayId, MealCreationForm form) {
+        List<MealEntity> dbMeals = mealRepository.findAllById(form.getValues());
+        return dbMeals.stream().map(dbMeal -> modelMapper.map(dbMeal, MealDTO.class)).toList();
     }
 }

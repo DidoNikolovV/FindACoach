@@ -5,7 +5,6 @@ import com.softuni.fitlaunch.model.dto.workout.WorkoutCreationDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutDetailsDTO;
 import com.softuni.fitlaunch.model.enums.LevelEnum;
-import com.softuni.fitlaunch.service.ExerciseService;
 import com.softuni.fitlaunch.service.UserService;
 import com.softuni.fitlaunch.service.WorkoutService;
 import lombok.extern.slf4j.Slf4j;
@@ -31,13 +30,10 @@ public class WorkoutController {
 
     private final WorkoutService workoutService;
 
-    private final ExerciseService exerciseService;
-
     private final UserService userService;
 
-    public WorkoutController(WorkoutService workoutService, ExerciseService exerciseService, UserService userService) {
+    public WorkoutController(WorkoutService workoutService, UserService userService) {
         this.workoutService = workoutService;
-        this.exerciseService = exerciseService;
         this.userService = userService;
     }
 
@@ -57,34 +53,31 @@ public class WorkoutController {
         return "workouts";
     }
 
-    @PostMapping("/{workoutId}/days/{dayName}/like")
-    public String like(@PathVariable("workoutId") Long workoutId, @PathVariable("dayName") String dayName, Principal principal) {
+    @PostMapping("/{workoutId}/weeks/{weekId}/days/{dayName}/like")
+    public String like(@PathVariable("workoutId") Long workoutId, @PathVariable("dayName") String dayName, @PathVariable("weekId") Long weekNumber, Principal principal) {
         workoutService.like(workoutId, principal.getName());
 
-        return String.format("redirect:/workouts/%d/days/%s", workoutId, dayName);
+        return String.format("redirect:/workouts/%d/weeks/%d/days/%s", workoutId, weekNumber, dayName);
     }
 
-    @PostMapping("/{workoutId}/days/{dayName}/dislike")
-    public String dislike(@PathVariable("workoutId") Long workoutId, @PathVariable("dayName") String dayName, Principal principal) {
+    @PostMapping("/{workoutId}/weeks/{weekId}/days/{dayName}/dislike")
+    public String dislike(@PathVariable("workoutId") Long workoutId, @PathVariable("dayName") String dayName, @PathVariable("weekId") Long weekNumber, Principal principal) {
         workoutService.dislike(workoutId, principal.getName());
 
-        return String.format("redirect:/workouts/%d/days/%s", workoutId, dayName);
+        return String.format("redirect:/workouts/%d/weeks/%d/days/%s", workoutId, weekNumber, dayName);
     }
 
-    @PostMapping("/{workoutId}/days/{dayName}/exercise/{exerciseId}/complete")
+    @PostMapping("/{workoutId}/weeks/{weekId}/days/{dayName}/exercise/{exerciseId}/complete")
     public String dislike(@PathVariable("workoutId") Long workoutId, @PathVariable("dayName") String dayName,
-                          @PathVariable("exerciseId") Long exerciseId, Principal principal) {
+                          @PathVariable("exerciseId") Long exerciseId,
+                          @PathVariable("weekId") Long weekNumber, Principal principal) {
 
         workoutService.completeExercise(workoutId, dayName, exerciseId);
-        return String.format("redirect:/workouts/%d/days/%s", workoutId, dayName);
+        return String.format("redirect:/workouts/%d/weeks/%d/days/%s", workoutId, weekNumber, dayName);
     }
 
     @GetMapping("/create")
     public String createWorkout(Model model) {
-
-//        List<WorkoutExerciseDTO> exercises = exerciseService.loadAllExercises();
-//
-//        model.addAttribute("exercises", exercises);
         model.addAttribute("workoutCreationDTO", new WorkoutCreationDTO());
         model.addAttribute("activePage", "createWorkout");
 
@@ -114,15 +107,15 @@ public class WorkoutController {
 
         workoutService.startWorkout(workoutId, principal.getName(), weekNumber, dayName);
 
-        return String.format("redirect:/workouts/%d/days/%s", workoutId, dayName);
+        return String.format("redirect:/workouts/%d/weeks/%d/days/%s", workoutId, weekNumber, dayName);
     }
 
     @PostMapping("/{workoutId}/weeks/{weekId}/days/{dayName}/complete")
-    public String completeWorkout(@PathVariable("workoutId") Long workoutId, @PathVariable("weekId") Long weekNumber ,@PathVariable("dayName") String dayName, Principal principal) {
+    public String completeWorkout(@PathVariable("workoutId") Long workoutId, @PathVariable("weekId") Long weekNumber, @PathVariable("dayName") String dayName, Principal principal) {
 
         workoutService.completedWorkout(workoutId, principal.getName(), weekNumber, dayName);
 
-        return String.format("redirect:/workouts/%d/days/%s", workoutId, dayName);
+        return String.format("redirect:/workouts/%d/weeks/%d/days/%s", workoutId, weekNumber, dayName);
     }
 
     @GetMapping("{workoutId}/weeks/{weekId}/days/{dayName}")

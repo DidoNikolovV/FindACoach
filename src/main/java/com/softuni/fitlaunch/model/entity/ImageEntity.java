@@ -14,7 +14,6 @@ import lombok.Setter;
 @Setter
 public class ImageEntity extends BaseEntity {
 
-
     @OneToOne(mappedBy = "image")
     private MealEntity meal;
 
@@ -23,5 +22,4 @@ public class ImageEntity extends BaseEntity {
 
     @Column
     private String url;
-
 }

@@ -51,8 +51,4 @@ public class CoachEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<MealEntity> meals;
-
-    @OneToMany(mappedBy = "coach", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<MealPlanEntity> mealPlans;
-
 }

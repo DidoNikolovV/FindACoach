@@ -47,8 +47,4 @@ public class MealEntity extends BaseEntity {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private ImageEntity image;
-
-    @ManyToOne
-    @JoinColumn(name = "meal_id")
-    private MealPlanDayEntity day;
 }
