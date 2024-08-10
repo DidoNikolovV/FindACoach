@@ -4,10 +4,7 @@ package com.softuni.fitlaunch.model.entity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -46,17 +43,9 @@ public class ClientEntity extends BaseEntity {
     @Column(name = "img_url")
     private String imgUrl;
 
-
     @ManyToOne
     @JoinColumn(name = "coach_id")
     private CoachEntity coach;
-
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "program_workout_exercises_completed",
-            joinColumns = @JoinColumn(name = "client_id"),
-            inverseJoinColumns = @JoinColumn(name = "exercise_id"))
-    private List<ExerciseEntity> programExercisesCompleted = new ArrayList<>();
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
     private List<ScheduledWorkoutEntity> scheduledWorkouts = new ArrayList<>();
@@ -69,4 +58,7 @@ public class ClientEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProgressPicture> progressPictures = new ArrayList<>();
+
+//    @OneToMany(mappedBy = "user")
+//    private List<UserProgress> progress;
 }

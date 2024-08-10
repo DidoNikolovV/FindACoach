@@ -74,27 +74,8 @@ public class UserEntity extends BaseEntity {
     @Column(name = "img_url")
     private String imgUrl;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "program_workouts_started",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "workout_id"))
-    private List<DayWorkoutsEntity> startedWorkouts = new ArrayList<>();
-
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "program_workouts_completed",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "workout_id"))
-    private List<DayWorkoutsEntity> completedWorkouts = new ArrayList<>();
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "program_weeks_completed",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "week_id"))
-    private List<ProgramWeekEntity> completeWeeks = new ArrayList<>();
-
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserProgress> workoutProgress = new ArrayList<>();
 }
 
 

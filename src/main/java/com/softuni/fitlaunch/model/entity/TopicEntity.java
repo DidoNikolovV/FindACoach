@@ -15,8 +15,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "topics")
-public class TopicEntity extends BaseEntity{
-
+public class TopicEntity extends BaseEntity {
     private String title;
     private String content;
     private String author;

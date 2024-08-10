@@ -29,10 +29,10 @@ public class ClientDetailsRestController {
     }
 
     @GetMapping("/completed-workouts/{clientName}/workouts/{workoutId}/{dayName}/details")
-    public ResponseEntity<ClientWorkoutDetails> loadCompletedWorkoutDetails(@PathVariable("clientName") String clientName,
+    public ResponseEntity<List<ClientWorkoutDetails>> loadCompletedWorkoutDetails(@PathVariable("clientName") String clientName,
                                                                             @PathVariable("workoutId") Long workoutId,
                                                                             @PathVariable("dayName") String dayName) {
-        ClientWorkoutDetails workoutDetailsByIdForClient = workoutService.getWorkoutDetailsByIdForClient(workoutId, clientName, dayName);
+        List<ClientWorkoutDetails> workoutDetailsByIdForClient = workoutService.getCompletedWorkoutsForClient(clientName);
 
         return ResponseEntity.ok(workoutDetailsByIdForClient);
     }

@@ -7,17 +7,17 @@ import com.softuni.fitlaunch.model.dto.program.ProgramWeekDTO;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.CoachDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
-import com.softuni.fitlaunch.model.dto.week.WeekCreationDTO;
 import com.softuni.fitlaunch.model.entity.CoachEntity;
 import com.softuni.fitlaunch.model.entity.DayWorkoutsEntity;
 import com.softuni.fitlaunch.model.entity.ProgramEntity;
 import com.softuni.fitlaunch.model.entity.ProgramWeekEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
+import com.softuni.fitlaunch.model.entity.UserProgress;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.model.enums.DaysEnum;
 import com.softuni.fitlaunch.model.enums.UserTitleEnum;
-import com.softuni.fitlaunch.repository.DayWorkoutsRepository;
 import com.softuni.fitlaunch.repository.ProgramRepository;
+import com.softuni.fitlaunch.repository.UserProgressRepository;
 import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -42,11 +42,10 @@ public class ProgramService {
     private final UserService userService;
 
     private final ClientService clientService;
+    private final UserProgressRepository userProgressRepository;
 
-    private final DayWorkoutsRepository dayWorkoutsRepository;
 
-
-    public ProgramService(ProgramRepository programRepository, CoachService coachService, ModelMapper modelMapper, WeekService weekService, WorkoutService workoutService, UserService userService, ClientService clientService, DayWorkoutsRepository dayWorkoutsRepository) {
+    public ProgramService(ProgramRepository programRepository, CoachService coachService, ModelMapper modelMapper, WeekService weekService, WorkoutService workoutService, UserService userService, ClientService clientService, UserProgressRepository userProgressRepository) {
         this.programRepository = programRepository;
         this.coachService = coachService;
         this.modelMapper = modelMapper;
@@ -54,7 +53,7 @@ public class ProgramService {
         this.workoutService = workoutService;
         this.userService = userService;
         this.clientService = clientService;
-        this.dayWorkoutsRepository = dayWorkoutsRepository;
+        this.userProgressRepository = userProgressRepository;
     }
 
     public List<ProgramDTO> loadAllPrograms(String username) {
@@ -86,19 +85,19 @@ public class ProgramService {
     public ProgramDTO getProgramById(Long programId, String username) {
         ProgramEntity program = programRepository.findById(programId).orElseThrow(() -> new ResourceNotFoundException("Program with id " + programId + " not found"));
         UserEntity user = userService.getUserEntityByUsername(username);
-        updateWeeksStateByUser(program, user);
-        ProgramDTO map = modelMapper.map(program, ProgramDTO.class);
-        return map;
+//        updateWeeksStateByUser(program, user);
+        return modelMapper.map(program, ProgramDTO.class);
     }
 
-    public void updateWeeksStateByUser(ProgramEntity programEntity, UserEntity user) {
-        programEntity.getWeeks().forEach(week -> {
-            boolean hasNotCompleted = !week.getUsersCompleted().contains(user);
-            if (hasNotCompleted) {
-                week.setCompleted(false);
-            }
-        });
-    }
+//    public void updateWeeksStateByUser(ProgramEntity programEntity, UserEntity user) {
+//        programEntity.getWeeks().forEach(week -> {
+//            UserProgress userProgress = userProgressRepository.findByUserIdAndWeekId(user.getId(), week.getId()).orElse(null);
+//            boolean hasNotCompleted = userProgress.isWeekCompleted();
+//            if (hasNotCompleted) {
+//                week.setCompleted(false);
+//            }
+//        });
+//    }
 
     public ProgramEntity getProgramEntityById(Long programId) {
         return programRepository.findById(programId).orElseThrow(() -> new ResourceNotFoundException("Program with id " + programId + " not found"));
@@ -153,12 +152,12 @@ public class ProgramService {
     }
 
     private void updatedWorkoutState(DayWorkoutsEntity workout, UserEntity user) {
-        boolean hasNotCompleted = !user.getCompletedWorkouts().contains(workout);
+        UserProgress userProgress = userProgressRepository.findByUserIdAndWorkoutId(user.getId(), workout.getId()).orElse(null);
+        boolean hasNotCompleted = !userProgress.isWorkoutCompleted();
         if (hasNotCompleted) {
             workout.setCompleted(false);
         }
     }
-
 
     public ProgramWeekDTO getWeekById(Long weekId, Long programId, String username) {
         ProgramWeekEntity week = weekService.getWeekByNumber(weekId, programId);
@@ -166,27 +165,15 @@ public class ProgramService {
         return modelMapper.map(week, ProgramWeekDTO.class);
     }
 
-    public void addWeekWithWorkouts(WeekCreationDTO weekCreationDTO, Long programId) {
-        WorkoutEntity workoutToBeAdded = workoutService.getWorkoutEntityById(weekCreationDTO.getWorkoutId());
-        ProgramWeekEntity week = weekService.getWeekByNumber(weekCreationDTO.getNumber(), programId);
-        List<DayWorkoutsEntity> daysToBeUpdated = new ArrayList<>();
-
-        for (String day : weekCreationDTO.getDays()) {
-            DayWorkoutsEntity dayWorkoutsEntity = new DayWorkoutsEntity();
-            dayWorkoutsEntity.setWorkout(workoutToBeAdded);
-            dayWorkoutsEntity.setWeek(week);
-            dayWorkoutsEntity.setName(day);
-            daysToBeUpdated.add(dayWorkoutsEntity);
-        }
-
-        weekService.updateDaysForWeek(week, daysToBeUpdated);
-    }
 
     public void completeWeek(Long weekNumber, Long programId, String name) {
         ProgramWeekEntity programWeek = weekService.getWeekByNumber(weekNumber, programId);
-        programWeek.setCompleted(true);
         UserEntity user = userService.getUserEntityByUsername(name);
-        user.getCompleteWeeks().add(programWeek);
+        UserProgress userProgress = new UserProgress();
+        userProgress.setWeek(programWeek);
+        userProgress.setUser(user);
+        userProgress.setWeekCompleted(true);
+        userProgressRepository.save(userProgress);
         userService.saveUser(user);
     }
 }

@@ -3,7 +3,6 @@ package com.softuni.fitlaunch.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.softuni.fitlaunch.model.dto.WorkoutExerciseDTO;
 import com.softuni.fitlaunch.model.dto.week.DayWorkoutsDTO;
 import com.softuni.fitlaunch.model.dto.workout.ClientWorkoutDetails;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutAddDTO;
@@ -15,10 +14,12 @@ import com.softuni.fitlaunch.model.entity.DayWorkoutsEntity;
 import com.softuni.fitlaunch.model.entity.ExerciseEntity;
 import com.softuni.fitlaunch.model.entity.ProgramWeekEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
+import com.softuni.fitlaunch.model.entity.UserProgress;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutExerciseEntity;
 import com.softuni.fitlaunch.model.enums.LevelEnum;
 import com.softuni.fitlaunch.repository.DayWorkoutsRepository;
+import com.softuni.fitlaunch.repository.UserProgressRepository;
 import com.softuni.fitlaunch.repository.WorkoutRepository;
 import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
@@ -39,6 +40,8 @@ public class WorkoutService {
 
     @Value("${app.images.path}")
     private String BASE_IMAGES_PATH;
+
+    private final UserProgressRepository userProgressRepository;
     private final WorkoutRepository workoutRepository;
 
     private final WorkoutExerciseService workoutExerciseService;
@@ -56,7 +59,8 @@ public class WorkoutService {
     private final FileUpload fileUpload;
 
 
-    public WorkoutService(WorkoutRepository workoutRepository, WorkoutExerciseService workoutExerciseService, ExerciseService exerciseService, CoachService coachService, ModelMapper modelMapper, DayWorkoutsRepository dayWorkoutsRepository, UserService userService, WeekService weekService, FileUpload fileUpload) {
+    public WorkoutService(UserProgressRepository userProgressRepository, WorkoutRepository workoutRepository, WorkoutExerciseService workoutExerciseService, ExerciseService exerciseService, CoachService coachService, ModelMapper modelMapper, DayWorkoutsRepository dayWorkoutsRepository, UserService userService, WeekService weekService, FileUpload fileUpload) {
+        this.userProgressRepository = userProgressRepository;
         this.workoutRepository = workoutRepository;
         this.workoutExerciseService = workoutExerciseService;
         this.exerciseService = exerciseService;
@@ -127,6 +131,10 @@ public class WorkoutService {
         return dayWorkoutsRepository.findByNameAndWorkoutIdAndWeekId(dayName, workoutId, weekId).orElse(null);
     }
 
+//    public UserProgress getDayWorkout(Long userId, Long workoutId) {
+//        return userProgressRepository.findByUserIdAndWorkoutId(userId, workoutId).orElse(null);
+//    }
+
     public Page<WorkoutDTO> getAllWorkouts(Pageable pageable) {
         return workoutRepository
                 .findAll(pageable)
@@ -154,51 +162,67 @@ public class WorkoutService {
         return map;
     }
 
-    public ClientWorkoutDetails getWorkoutDetailsByIdForClient(Long workoutId, String clientName, String dayName) {
-        DayWorkoutsEntity workout = dayWorkoutsRepository.findByNameAndWorkoutId(dayName, workoutId).orElse(null);
-        UserEntity client = userService.getUserEntityByUsername(clientName);
-        DayWorkoutsEntity dayWorkoutsEntity = client.getCompletedWorkouts().stream().filter(completedWorkout -> completedWorkout.equals(workout)).toList().get(0);
-        return modelMapper.map(dayWorkoutsEntity, ClientWorkoutDetails.class);
+    public List<ClientWorkoutDetails> getCompletedWorkoutsForClient(String clientName) {
+        List<UserProgress> completedWorkouts = userProgressRepository.findByUserUsernameAndWorkoutCompletedTrue(clientName);
+
+        return completedWorkouts.stream()
+                .map(userProgress -> modelMapper.map(userProgress.getWorkout(), ClientWorkoutDetails.class))
+                .collect(Collectors.toList());
     }
+
 
     public void startWorkout(Long workoutId, String username, Long weekId, String dayName) {
         UserEntity user = userService.getUserEntityByUsername(username);
-
         DayWorkoutsEntity dayWorkout = getDayWorkout(workoutId, weekId, dayName);
 
-        boolean isStarted = isWorkoutStarted(workoutId, weekId, dayName, username);
-        if (!isStarted) {
-            user.getStartedWorkouts().add(dayWorkout);
-            dayWorkout.setStarted(true);
-        }
-
-        userService.saveUser(user);
+        UserProgress progress = userProgressRepository.findByUserIdAndWorkoutId(user.getId(), dayWorkout.getId())
+                .orElseGet(() -> {
+                    UserProgress newProgress = new UserProgress();
+                    newProgress.setUser(user);
+                    newProgress.setWorkout(dayWorkout);
+                    return newProgress;
+                });
+        progress.setWorkoutStarted(true);
+        userProgressRepository.save(progress);
     }
 
     public void completedWorkout(Long workoutId, String username, Long weekNumber, String dayName) {
         UserEntity user = userService.getUserEntityByUsername(username);
 
-        DayWorkoutsEntity dayWorkout = getDayWorkout(workoutId, weekNumber, dayName);
 
-        boolean isCompleted = isWorkoutCompleted(workoutId, weekNumber, dayName, username);
-        if (!isCompleted) {
-            user.getCompletedWorkouts().add(dayWorkout);
-            dayWorkout.setCompleted(true);
+        UserProgress progress = userProgressRepository.findByUserIdAndWorkoutId(user.getId(), workoutId)
+                .orElseGet(() -> {
+                    UserProgress newProgress = new UserProgress();
+                    newProgress.setUser(user);
+                    DayWorkoutsEntity workout = getDayWorkout(workoutId, weekNumber, dayName);
+                    newProgress.setWorkout(workout);
+                    return newProgress;
+                });
+
+        if (!progress.isWorkoutCompleted()) {
+            progress.setWorkoutCompleted(true);
+            userProgressRepository.save(progress);
         }
-
-        userService.saveUser(user);
     }
 
-    public boolean isWorkoutStarted(Long workoutId, Long weekNumber, String dayName, String username) {
-        DayWorkoutsEntity dayWorkoutsEntity = getDayWorkout(workoutId, weekNumber, dayName);
+    public boolean isWorkoutStarted(Long workoutId, Long weekId, String username) {
         UserEntity user = userService.getUserEntityByUsername(username);
-        return user.getStartedWorkouts().stream().anyMatch(workout -> workout.getId().equals(dayWorkoutsEntity.getId()));
+
+        DayWorkoutsEntity dayWorkout = dayWorkoutsRepository.findByWorkoutIdAndWeekId(workoutId, weekId)
+                .orElseThrow(() -> new ResourceNotFoundException("Workout not found for the specified week"));
+        return user.getWorkoutProgress().stream()
+                .filter(progress -> progress.getWorkout().equals(dayWorkout))
+                .anyMatch(UserProgress::isWorkoutStarted);
     }
 
     public boolean isWorkoutCompleted(Long workoutId, Long weekId, String dayName, String username) {
-        DayWorkoutsEntity dayWorkoutsEntity = getDayWorkout(workoutId, weekId, dayName);
         UserEntity user = userService.getUserEntityByUsername(username);
-        return user.getCompletedWorkouts().stream().anyMatch(workout -> workout.getId().equals(dayWorkoutsEntity.getId()));
+        DayWorkoutsEntity dayWorkout = dayWorkoutsRepository.findByNameAndWorkoutIdAndWeekId(dayName, workoutId, weekId)
+                .orElseThrow(() -> new ResourceNotFoundException("Workout not found for the specified week and day"));
+
+        return user.getWorkoutProgress().stream()
+                .filter(progress -> progress.getWorkout().equals(dayWorkout))
+                .anyMatch(UserProgress::isWorkoutCompleted);
     }
 
 
@@ -249,14 +273,5 @@ public class WorkoutService {
         dayWorkoutsEntity.setWorkout(workoutEntity);
         dayWorkoutsRepository.save(dayWorkoutsEntity);
         return dayWorkoutsEntity;
-    }
-
-    public WorkoutDTO addExercisesToWorkout(Long workoutId, List<WorkoutExerciseDTO> exercises) {
-        WorkoutEntity workout = getWorkoutEntityById(workoutId);
-        List<WorkoutExerciseEntity> exercisesToAdd = exercises.stream().map(exercise -> modelMapper.map(exercise, WorkoutExerciseEntity.class)).toList();
-        workout.getExercises().addAll(exercisesToAdd);
-        workoutRepository.save(workout);
-
-        return modelMapper.map(workout, WorkoutDTO.class);
     }
 }

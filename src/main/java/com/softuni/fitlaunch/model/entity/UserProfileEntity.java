@@ -27,5 +27,4 @@ public class UserProfileEntity extends BaseEntity {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", unique = true)
     private UserEntity user;
-
 }

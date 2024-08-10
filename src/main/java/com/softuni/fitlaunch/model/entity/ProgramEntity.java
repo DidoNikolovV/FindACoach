@@ -34,14 +34,6 @@ public class ProgramEntity extends BaseEntity {
     @JoinColumn(name = "coach_id")
     private CoachEntity coach;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "programs_clients",
-            joinColumns = @JoinColumn(name = "program_id"),
-            inverseJoinColumns = @JoinColumn(name = "client_id"))
-    private List<ClientEntity> clients = new ArrayList<>();
-
-
     @OneToMany(mappedBy = "program", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProgramWeekEntity> weeks = new ArrayList<>();
 

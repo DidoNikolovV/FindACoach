@@ -5,20 +5,18 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
+@Data
 @Entity
 @Table(name = "days_workouts")
-@Getter
-@Setter
 public class DayWorkoutsEntity extends BaseEntity {
 
     @Column(name = "name")
@@ -38,11 +36,6 @@ public class DayWorkoutsEntity extends BaseEntity {
     @JoinColumn(name = "week_id")
     private ProgramWeekEntity week;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH, CascadeType.DETACH})
-    @JoinTable(
-            name = "program_workouts_started",
-            joinColumns = @JoinColumn(name = "workout_id"),
-            inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private List<UserEntity> users = new ArrayList<>();
-
+    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserProgress> userProgress = new ArrayList<>();
 }
