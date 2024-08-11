@@ -45,4 +45,8 @@ public class UserProgress extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "week_id")
     private ProgramWeekEntity week;
+
+    @ManyToOne
+    @JoinColumn(name = "program_id")
+    private ProgramEntity program;
 }
