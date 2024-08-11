@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{fragments/head}">
-    <!-- Add Bootstrap CSS -->
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
@@ -25,7 +23,7 @@
                        class="btn btn-info">
                         <span th:text="${day.workout.name}"></span>
                     </a>
-                    <div class="ml-auto" th:if="${day.isCompleted()}">
+                    <div class="ml-auto" th:if="${day.isCompleted}">
                         <i class="fa-solid fa-lg fa-circle-check text-success"></i>
                     </div>
                 </td>
