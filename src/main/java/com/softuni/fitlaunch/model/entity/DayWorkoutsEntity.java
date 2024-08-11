@@ -26,12 +26,6 @@ public class DayWorkoutsEntity extends BaseEntity {
     @JoinColumn(name = "workout_id")
     private WorkoutEntity workout;
 
-    @Column(name = "is_completed")
-    private boolean isCompleted = false;
-
-    @Column(name = "is_started")
-    private boolean isStarted = false;
-
     @ManyToOne
     @JoinColumn(name = "week_id")
     private ProgramWeekEntity week;
