@@ -11,18 +11,19 @@
         <div th:object="${program}" style="width: 60%">
             <div class="row">
                 <div class="col-md-12">
-                    <h3 th:text="*{name}" class="mb-3 text-center"></h3>
-                    <!--                    <p th:text="*{}" class="text-center mb-4"></p>-->
-                    <p class="text-center"><strong>Total Duration:</strong> <span th:text="*{weeks.size()}"></span>
+                    <h3 th:text="${program.name}" class="mb-3 text-center"></h3>
+                    <p class="text-center"><strong>Total Duration:</strong> <span th:text="${program.weeks.size()}"></span>
                         weeks</p>
                 </div>
             </div>
             <div class="row mb-4">
                 <div class="col-md-12">
                     <div class="progress">
-                        <div class="progress-bar" role="progressbar" th:style="'width: ' + 68 + '%;'" aria-valuenow="25"
+                        <div class="progress-bar" role="progressbar" th:style="'width: ' + ${program.completedPercentage} + '%;'"
+                             aria-valuenow="${program.completedPercentage}"
                              aria-valuemin="0"
-                             aria-valuemax="100">68%
+                             aria-valuemax="100">
+                            <span th:text="${program.completedPercentage} + '%'"></span>
                         </div>
                     </div>
                 </div>
@@ -35,10 +36,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="week : *{weeks}">
+                <tr th:each="week : ${program.weeks}">
                     <td>
                         <span th:text="${week.number}"></span>
-                        <span th:if="${week.isCompleted()}" class="badge badge-success ml-2">Completed</span>
+                        <span th:if="${week.completed}" class="badge badge-success ml-2">Completed</span>
                     </td>
                     <td>
                         <a th:href="@{/programs/{programId}/weeks/{weekId}(programId=${program.id}, weekId=${week.number})}"

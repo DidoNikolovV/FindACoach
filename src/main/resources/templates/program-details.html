@@ -11,16 +11,16 @@
     <ul class="list-group list-group-flush">
         <li th:each="week, weekStat : ${allWeeks}" class="list-group-item">
             <h4 th:text="'Week ' + ${weekStat.index + 1}"></h4>
-            <div th:each="programWorkout, workoutStat : ${week.weekWorkouts}" class="list-group-item font-weight-bold">
+            <div th:each="programWorkout, workoutStat : ${week.days}" class="list-group-item font-weight-bold">
                 <div class="d-flex justify-content-between align-items-center">
                     <div class="flex-grow-1">
                         <a th:href="@{/workouts/{programId}/{weekId}/{id}(programId=${program.id}, weekId=${week.id}, id=${programWorkout.id})}"
                            class="text-dark">
-                            <span th:text="'Day ' + ${workoutStat.index + 1}"></span>
+                            <span th:text="'Day ' + ${programWorkout.dayNumber}"></span>
                             <span th:text="${programWorkout.name}"></span>
                         </a>
                         <!-- Check if the specific workout for the week is completed -->
-                        <i th:if="${programWorkout.completed}" class="fa-solid fa-lg fa-circle-check text-success"></i>
+                        <i th:if="${completedWorkouts[programWorkout.name]}" class="fa-solid fa-lg fa-circle-check text-success"></i>
                     </div>
                     <form th:method="POST"
                           th:action="@{/programs/{programId}/complete/{weekId}(programId=${program.id}, weekId=${week.id})}">
@@ -32,15 +32,15 @@
 
     <div class="d-flex justify-content-center mt-4">
         <div>
-            <h5>Total Completed Workouts: <span th:text="${user.completedWorkouts.size()} + '/'"></span> <span
-                    th:text="${allProgramWorkouts.size()}"></span></h5>
+            <h5>Total Completed Workouts: <span th:text="${completedWorkouts.size()} + '/'"></span> <span
+                    th:text="${allWeeks.size()}"></span></h5>
         </div>
     </div>
 
     <div class="d-flex justify-content-center my-2">
         <div>
             <form method="POST" th:action="@{/programs/{programId}/completed(programId=${programId})}">
-                <button th:class="${user.completedWorkouts.size() == allProgramWorkouts.size() ? 'btn btn-success' : 'btn btn-success disabled'}">
+                <button th:class="${completedWorkouts.size() == allWeeks.size() ? 'btn btn-success' : 'btn btn-success disabled'}">
                     Completed Program
                 </button>
             </form>
