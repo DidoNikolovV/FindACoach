@@ -176,12 +176,9 @@ public class WorkoutService {
         DayWorkoutsEntity dayWorkout = getDayWorkout(workoutId, weekId, dayName);
 
         UserProgress progress = userProgressRepository.findByUserIdAndWorkoutId(user.getId(), dayWorkout.getId())
-                .orElseGet(() -> {
-                    UserProgress newProgress = new UserProgress();
-                    newProgress.setUser(user);
-                    newProgress.setWorkout(dayWorkout);
-                    return newProgress;
-                });
+                .orElse(new UserProgress());
+        progress.setUser(user);
+        progress.setWorkout(dayWorkout);
         progress.setWorkoutStarted(true);
         userProgressRepository.save(progress);
     }
@@ -205,14 +202,14 @@ public class WorkoutService {
         }
     }
 
-    public boolean isWorkoutStarted(Long workoutId, Long weekId, String username) {
+    public boolean isWorkoutStarted(String dayName, Long workoutId, Long weekId, String username) {
         UserEntity user = userService.getUserEntityByUsername(username);
 
-        DayWorkoutsEntity dayWorkout = dayWorkoutsRepository.findByWorkoutIdAndWeekId(workoutId, weekId)
+        DayWorkoutsEntity dayWorkout = dayWorkoutsRepository.findByNameAndWorkoutIdAndWeekId(dayName, workoutId, weekId)
                 .orElseThrow(() -> new ResourceNotFoundException("Workout not found for the specified week"));
-        return user.getWorkoutProgress().stream()
-                .filter(progress -> progress.getWorkout().equals(dayWorkout))
-                .anyMatch(UserProgress::isWorkoutStarted);
+        return userProgressRepository.findByUserIdAndWorkoutId(user.getId(), dayWorkout.getId())
+                .map(UserProgress::isWorkoutStarted)
+                .orElse(false);
     }
 
     public boolean isWorkoutCompleted(Long workoutId, Long weekId, String dayName, String username) {

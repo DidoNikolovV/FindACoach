@@ -12,6 +12,7 @@ import com.softuni.fitlaunch.model.entity.ProgramWeekEntity;
 import com.softuni.fitlaunch.model.enums.DaysEnum;
 import com.softuni.fitlaunch.service.ClientService;
 import com.softuni.fitlaunch.service.ProgramService;
+import com.softuni.fitlaunch.service.UserProgressService;
 import com.softuni.fitlaunch.service.WorkoutService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 
 @Slf4j
@@ -40,11 +42,14 @@ public class ProgramController {
 
     private final WorkoutService workoutService;
 
+    private final UserProgressService userProgressService;
 
-    public ProgramController(ProgramService programService, ClientService clientService, WorkoutService workoutService) {
+
+    public ProgramController(ProgramService programService, ClientService clientService, WorkoutService workoutService, UserProgressService userProgressService) {
         this.programService = programService;
         this.clientService = clientService;
         this.workoutService = workoutService;
+        this.userProgressService = userProgressService;
     }
 
     @GetMapping("/all")
@@ -64,10 +69,11 @@ public class ProgramController {
         ClientDTO clientDTO = clientService.getClientByUsername(principal.getName());
 
         List<ProgramWeekEntity> allWeeksByProgramId = programService.getAllWeeksByProgramId(programId);
+        Map<Long, Boolean> completedWorkouts = userProgressService.getCompletedWorkouts(clientDTO.getUsername(), programId);
 
         model.addAttribute("program", programDTO);
         model.addAttribute("allWeeks", allWeeksByProgramId);
-        model.addAttribute("allWorkouts", allWeeksByProgramId);
+        model.addAttribute("completedWorkouts", completedWorkouts);
         model.addAttribute("user", clientDTO);
 
 
