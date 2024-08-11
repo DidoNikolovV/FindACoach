@@ -14,4 +14,9 @@ public interface UserProgressRepository extends JpaRepository<UserProgress, Long
 
     List<UserProgress> findByUserUsernameAndWorkoutCompletedTrue(String clientName);
 
+    List<UserProgress> findByUserIdAndProgramId(Long userId, Long programId);
+
+    Optional<UserProgress> findByUserIdAndWorkoutIdAndWeekIdAndProgramId(Long userId, Long dayWorkoutId, Long weekId, Long programId);
+
+    List<UserProgress> findByUserIdAndProgramIdAndWeekId(Long userId, Long programId, Long weekId);
 }
