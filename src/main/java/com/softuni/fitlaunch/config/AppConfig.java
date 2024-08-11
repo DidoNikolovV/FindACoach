@@ -1,5 +1,7 @@
 package com.softuni.fitlaunch.config;
 
+import com.softuni.fitlaunch.model.dto.program.ProgramWeekDTO;
+import com.softuni.fitlaunch.model.entity.ProgramWeekEntity;
 import org.hibernate.collection.spi.PersistentBag;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.Converter;
@@ -19,8 +21,9 @@ public class AppConfig implements WebMvcConfigurer {
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
-        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.LOOSE);
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         modelMapper.addConverter(persistentBagToListConverter);
+        modelMapper.typeMap(ProgramWeekEntity.class, ProgramWeekDTO.class);
         return modelMapper;
 
 //        return new ModelMapper();
