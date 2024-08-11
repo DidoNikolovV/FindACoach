@@ -123,7 +123,7 @@ public class WorkoutController {
 
         WorkoutDetailsDTO workoutDetailsDTO = workoutService.getWorkoutDetailsById(workoutId, dayName);
 
-        boolean hasStarted = workoutService.isWorkoutStarted(workoutId, weekNumber, principal.getName());
+        boolean hasStarted = workoutService.isWorkoutStarted(dayName, workoutId, weekNumber, principal.getName());
         boolean isCompleted = workoutService.isWorkoutCompleted(workoutId, weekNumber, dayName, principal.getName());
         boolean hasLiked = userService.isWorkoutLiked(workoutId, principal.getName());
 

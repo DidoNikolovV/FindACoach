@@ -20,43 +20,15 @@ VALUES (1, 1),
        (3, 2);
 
 INSERT INTO topics (title, content, author, date)
-VALUES
-    ('Getting Started with Fitness', 'Hey everyone, I am new to fitness. Can anyone guide me on how to start?', 'John Doe', '2024-06-04 10:00:00'),
-    ('Nutrition Tips', 'What are some good nutrition tips for gaining muscle?', 'Jane Smith', '2024-06-04 11:00:00'),
-    ('Best Cardio Exercises', 'I want to improve my cardiovascular health. What exercises would you recommend?', 'Mike Johnson', '2024-06-04 12:00:00'),
-    ('Home Workouts', 'Can anyone suggest some effective home workouts for losing weight?', 'Emily Davis', '2024-06-04 13:00:00'),
-    ('Strength Training', 'What are the best exercises for building strength?', 'Chris Brown', '2024-06-04 14:00:00');
-
-
--- INSERT INTO workouts(`id`, `description`, `img_url`, `level`, `name`, `likes`, `author_id`, `has_started`,
---                      `is_completed`)
--- VALUES (1, 'Start your fitness journey with our beginner workouts.', '/images/beginner.jpg', 'BEGINNER', 'Full Body', 0,
---         2, false, false),
---        (2, 'Take your fitness to the next level with our intermediate workouts.', '/images/intermediate.jpg',
---         'INTERMEDIATE', 'Push', 0, 1, false, false),
---        (3, 'Challenge yourself with our advanced workout programs.', '/images/advanced.jpg', 'ADVANCED', 'Pull', 0, 1,
---         false, false),
---        (4, 'Start your fitness journey with our beginner workouts.', '/images/beginner.jpg', 'BEGINNER', 'LEGS', 0, 1,
---         false, false);
-
-
--- INSERT INTO workouts_exercises(`workout_id`, `exercise_id`)
--- VALUES
---     (1, 1),
---     (1, 2),
---     (1, 3),
---     (2, 1),
---     (2, 2),
---     (2, 5),
---     (3, 10),
---     (3, 9),
---     (3, 5),
---     (3, 10),
---     (3, 2),
---     (4, 3),
---     (4, 1),
---     (4, 4);
-
+VALUES ('Getting Started with Fitness', 'Hey everyone, I am new to fitness. Can anyone guide me on how to start?',
+        'John Doe', '2024-06-04 10:00:00'),
+       ('Nutrition Tips', 'What are some good nutrition tips for gaining muscle?', 'Jane Smith', '2024-06-04 11:00:00'),
+       ('Best Cardio Exercises', 'I want to improve my cardiovascular health. What exercises would you recommend?',
+        'Mike Johnson', '2024-06-04 12:00:00'),
+       ('Home Workouts', 'Can anyone suggest some effective home workouts for losing weight?', 'Emily Davis',
+        '2024-06-04 13:00:00'),
+       ('Strength Training', 'What are the best exercises for building strength?', 'Chris Brown',
+        '2024-06-04 14:00:00');
 
 INSERT INTO coaches (description, email, img_url, rating, username)
 VALUES ('Random Desc', 'didaka@example.com', '/images/profile-avatar.jpg', 5.8, 'DidoNikolov');
@@ -70,7 +42,6 @@ VALUES ('/images/beginner-program.jpg', 'Beginner', 1),
        ('/images/intermediate-program.jpg', 'Intermediate', 1),
        ('/images/advanced-program.jpg', 'Advanced', 1);
 
--- Inserting image URLs into the images table
 INSERT INTO images (title, url)
 VALUES ('Grilled Chicken Salad', 'https://res.cloudinary.com/your-cloud-name/image/upload/grilled_chicken_salad.jpg'),
        ('Spaghetti Bolognese', 'https://res.cloudinary.com/your-cloud-name/image/upload/spaghetti_bolognese.jpg'),
@@ -80,7 +51,6 @@ VALUES ('Grilled Chicken Salad', 'https://res.cloudinary.com/your-cloud-name/ima
        ('Margherita Pizza', 'https://res.cloudinary.com/your-cloud-name/image/upload/margherita_pizza.jpg');
 
 
--- Inserting meals into the meals table
 INSERT INTO meals (calories, description, name, type, author_id, image_id, protein, carbohydrates, fats)
 VALUES (350,
         'Fresh grilled chicken breast served on a bed of mixed greens with cherry tomatoes, cucumbers, and a light vinaigrette dressing.',
@@ -97,67 +67,6 @@ VALUES (350,
        (400,
         'Traditional Italian pizza topped with ripe tomatoes, fresh mozzarella cheese, basil leaves, and a drizzle of olive oil on a thin crust.',
         'Margherita Pizza', 'Pizza', 1, 5, 15, 50, 18);
-
-
-
---
--- INSERT INTO programs_weeks_workouts (id, name, program_week_id, has_started, is_completed, level, description,
---                                      program_id)
--- VALUES (1, 'Push', 1, 0, 0, 'Beginner', 'This workout is designed to hit Chest, Triceps and Shoulder effectively', 1),
---        (2, 'Pull', 1, 0, 0, 'Beginner', 'This workout is designed to hit Back, Biceps and Rear Delts effectively', 1),
---        (3, 'Legs', 1, 0, 0, 'Beginner', 'This workout is designed to hit Legs effectively', 1),
---        (4, 'Upper Body', 1, 0, 0, 'Beginner', 'This workout is designed to hit Upper Body effectively', 1),
---        (5, 'Lower Body', 2, 0, 0, 'Beginner', 'This workout is designed to hit Lower Body effectively', 1),
---        (6, 'Back & Back', 2, 0, 0, 'Beginner', 'This workout is designed to hit Back and Biceps effectively', 1),
---        (7, 'Chest & Triceps', 2, 0, 0, 'Beginner', 'This workout is designed to hit Chest and Triceps effectively', 1),
---        (8, 'ABS/Calves', 2, 0, 0, 'Beginner', 'This workout is designed to hit ABS and Calves effectively', 1),
---        (9, 'Full Body', 3, 0, 0, 'Beginner', 'This workout is designed to hit your whole body effectively', 1),
---        (10, 'HIIT ', 3, 0, 0, 'Beginner', 'This workout is designed to make your heart rate go up effectively', 1),
---        (11, 'Core', 3, 0, 0, 'Beginner', 'This workout is designed to hit your Core effectively', 1),
---        (12, 'Push', 3, 0, 0, 'Beginner', 'This workout is designed to hit Chest, Triceps and Shoulder  effectively', 1),
---        (13, 'Pull', 4, 0, 0, 'Beginner', 'This workout is designed to hit Back, Biceps and Rear Delts effectively', 1),
---        (14, 'Legs', 4, 0, 0, 'Beginner', 'This workout is designed to hit Legs effectively effectively', 1),
---        (15, 'Arms', 4, 0, 0, 'Beginner', 'This workout is designed to hit your Arms effectively', 1),
---        (16, 'Shoulders', 4, 0, 0, 'Beginner', 'This workout is designed to hit your Shoulders effectively', 1);
---
--- -- INSERT INTO exercises(`id`, `name`, `video_url`, `program_workout_id`)
--- -- VALUES
--- --     (1, 'Shoulder Press','OLePvpxQEGk', 1),
--- --     (2, 'Squats', 'MLoZuAkIyZI', 1),
--- --     (3, 'Dumbbell Lateral Raise', 'JIhbYYA1Q90', 2),
--- --     (4, 'Chest Fly',  'g3T7LsEeDWQ', 2),
--- --     (5, 'Cable Row', 'G18ysBYu5Mw', 3),
--- --     (6, 'Pull-ups', 'dvG8B2OjfWk', 3),
--- --     (7, 'Dumbbell Curls', '', 4),
--- --     (8, 'RDL', '5rIqP63yWFg', 4),
--- --     (9, 'Deadlift', 'McCDaAsSeRc', 5),
--- --     (10, 'Bench Press','EdDqD4aKwxM', 5);
---
--- INSERT INTO exercises(`id`, `name`, `video_url`)
--- VALUES (1, 'Shoulder Press', 'OLePvpxQEGk'),
---        (2, 'Squats', 'MLoZuAkIyZI'),
---        (3, 'Dumbbell Lateral Raise', 'JIhbYYA1Q90'),
---        (4, 'Chest Fly', 'g3T7LsEeDWQ'),
---        (5, 'Cable Row', 'G18ysBYu5Mw'),
---        (6, 'Pull-ups', 'dvG8B2OjfWk'),
---        (7, 'Dumbbell Curls', ''),
---        (8, 'RDL', '5rIqP63yWFg'),
---        (9, 'Deadlift', 'McCDaAsSeRc'),
---        (10, 'Bench Press', 'EdDqD4aKwxM');
---
--- INSERT INTO program_workouts_exercises(id, workout_id, exercise_id, sets, reps, is_completed)
--- VALUES (1, 1, 1, 3, 12, 0),
---        (2, 1, 2, 4, 10, 0),
---        (3, 2, 3, 5, 5, 0),
---        (4, 2, 4, 2, 20, 0),
---        (5, 3, 2, 3, 12, 0),
---        (6, 3, 1, 4, 6, 0);
---
---
--- INSERT INTO certificates (name, issuing_authority, issue_date)
--- VALUES ('Certified Fitness Trainer', 'Fitness Certification Authority', '2022-01-01'),
---        ('Advanced Yoga Instructor', 'Yoga Certification Institute', '2021-05-15'),
---        ('Professional Life Coach', 'Coaching Association', '2020-10-01');
 
 INSERT INTO exercises (name, muscle_group, video_url)
 VALUES ('Squats', 'Legs', 'https://www.youtube.com/watch?v=U3HcD0PnczY'),
@@ -197,6 +106,7 @@ VALUES (8, 3, 'Squats', 'Legs', 1, 0),
        (10, 4, 'Leg Press', 'Legs', 3, 0),
        (12, 3, 'Tricep Dips', 'Triceps', 3, 0),
        (15, 4, 'Bent Over Rows', 'Back', 3, 0);
+
 
 
 

@@ -12,7 +12,6 @@ function openModal() {
     fetchWorkoutsForWeek(selectedWeek);
 }
 
-// Function to fetch workouts for the selected week and populate modal
 function fetchWorkoutsForWeek(week) {
     fetch(`${url}/api/v1/workouts`, {
         headers: {
@@ -24,36 +23,31 @@ function fetchWorkoutsForWeek(week) {
             throw new Error('Failed to fetch data');
         }
         return res.json();
-    }).then(res => {
-        console.log(res);
-
-        const workouts = res;
+    }).then(workouts => {
+        console.log(workouts);
 
         const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-
         const modalBody = document.querySelector("#workoutModal .modal-body");
         modalBody.innerHTML = "";
 
-        days.forEach(function (day) {
+        days.forEach(day => {
             const dayLabel = document.createElement("label");
             dayLabel.appendChild(document.createTextNode(day + ":"));
 
             const selectMenu = document.createElement("select");
-            selectMenu.name = day;
+            selectMenu.name = day; // Ensure day is correctly set
             selectMenu.className = "form-control";
 
-            workouts.forEach(function (workout) {
+            workouts.forEach(workout => {
                 const option = document.createElement("option");
                 option.setAttribute('data-id', workout.id);
                 option.setAttribute("data-day", day);
                 option.value = workout.name;
                 option.text = workout.name;
-                console.log(option);
                 selectMenu.appendChild(option);
             });
 
             const br = document.createElement("br");
-
             modalBody.appendChild(dayLabel);
             modalBody.appendChild(selectMenu);
             modalBody.appendChild(br);
@@ -71,14 +65,13 @@ function saveWorkouts(e) {
     e.preventDefault();
     const modalBody = document.querySelector("#workoutModal .modal-body");
     const workoutsToAdd = [];
-    let selectedWeek = document.getElementById("weekSelect").value;
+    const selectedWeek = document.getElementById("weekSelect").value;
 
-    modalBody.querySelectorAll("select").forEach(function (selectMenu) {
+    modalBody.querySelectorAll("select").forEach(selectMenu => {
         const selectedOption = selectMenu.options[selectMenu.selectedIndex];
         const selectedId = selectedOption.getAttribute('data-id');
-        const selectedDay = selectedOption.getAttribute('data-day');
+        const selectedDay = selectMenu.name; // Ensure this is correctly set
         const selectedName = selectMenu.value;
-        console.log(selectedDay);
 
         const workout = {
             id: selectedId,
@@ -127,5 +120,3 @@ function updateWeekSelect() {
     }
 }
 
-// Initial call to update the week dropdown
-updateWeekSelect();

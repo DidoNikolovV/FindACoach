@@ -16,6 +16,7 @@ public class ProgramDTO {
     private String imgUrl;
     private String name;
     private List<ProgramWeekDTO> weeks;
+    private Integer completedPercentage;
 }
 
 
