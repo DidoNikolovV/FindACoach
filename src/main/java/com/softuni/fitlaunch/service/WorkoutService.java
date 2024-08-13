@@ -94,7 +94,7 @@ public class WorkoutService {
         return modelMapper.map(workout, WorkoutDTO.class);
     }
 
-    private void mapAndProccessJsonExercises(List<String> json, WorkoutEntity workout) {
+    void mapAndProccessJsonExercises(List<String> json, WorkoutEntity workout) {
         ObjectMapper objectMapper = new ObjectMapper();
         List<WorkoutExerciseEntity> exercises = new ArrayList<>();
         try {
@@ -130,10 +130,6 @@ public class WorkoutService {
     public DayWorkoutsEntity getDayWorkout(Long workoutId, Long weekId, String dayName) {
         return dayWorkoutsRepository.findByNameAndWorkoutIdAndWeekId(dayName, workoutId, weekId).orElse(null);
     }
-
-//    public UserProgress getDayWorkout(Long userId, Long workoutId) {
-//        return userProgressRepository.findByUserIdAndWorkoutId(userId, workoutId).orElse(null);
-//    }
 
     public Page<WorkoutDTO> getAllWorkouts(Pageable pageable) {
         return workoutRepository
@@ -185,7 +181,6 @@ public class WorkoutService {
 
     public void completedWorkout(Long workoutId, String username, Long weekNumber, String dayName) {
         UserEntity user = userService.getUserEntityByUsername(username);
-
 
         UserProgress progress = userProgressRepository.findByUserIdAndWorkoutId(user.getId(), workoutId)
                 .orElseGet(() -> {

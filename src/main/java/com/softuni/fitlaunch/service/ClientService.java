@@ -98,10 +98,6 @@ public class ClientService {
         clientRepository.save(clientEntity);
     }
 
-    private boolean weekMetricsDoesNotExist(WeekMetricsEntity weekMetricsEntity) {
-        return weekMetricsService.getByNumber(weekMetricsEntity.getNumber()) == null;
-    }
-
 
     public List<DailyMetricsDTO> calculateAverageWeeklyMetrics(String clientName) {
         ClientEntity client = getClientEntityByUsername(clientName);
@@ -173,7 +169,6 @@ public class ClientService {
         ClientEntity client = getClientEntityByUsername(clientUsername);
         return progressPictureRepository.findByClientId(client.getId(), pageable);
     }
-
 
 }
 
