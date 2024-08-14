@@ -97,19 +97,11 @@ public class CoachService {
     }
 
     public CoachEntity getCoachEntityByUsername(String username) {
-        return coachRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException(CLIENT_WAS_NOT_FOUND));
+        return coachRepository.findByUsername(username).orElseThrow(() -> new ResourceNotFoundException(COACH_DOES_NOT_EXIST));
     }
 
     public CoachEntity getCoachEntityById(Long id) {
-        return coachRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(CLIENT_WAS_NOT_FOUND));
+        return coachRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(COACH_DOES_NOT_EXIST));
 
-    }
-
-    public void setClientDetails(Long id, ClientDTO clientDTO) {
-        CoachEntity coach = getCoachEntityById(id);
-        ClientEntity client = modelMapper.map(clientDTO, ClientEntity.class);
-        coach.getClients().add(client);
-
-        coachRepository.save(coach);
     }
 }
