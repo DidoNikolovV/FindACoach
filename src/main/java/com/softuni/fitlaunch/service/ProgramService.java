@@ -14,7 +14,6 @@ import com.softuni.fitlaunch.model.entity.ProgramEntity;
 import com.softuni.fitlaunch.model.entity.ProgramWeekEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.UserProgress;
-import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.model.enums.DaysEnum;
 import com.softuni.fitlaunch.model.enums.UserTitleEnum;
 import com.softuni.fitlaunch.repository.ProgramRepository;
@@ -168,7 +167,6 @@ public class ProgramService {
                 .map(day -> {
                     DayWorkoutsDTO dayDTO = modelMapper.map(day, DayWorkoutsDTO.class);
 
-                    // Find the corresponding UserProgress record
                     UserProgress progress = userProgressList.stream()
                             .filter(p -> p.getWorkout().getId().equals(day.getWorkout().getId()) && p.getWorkout().getName().equals(day.getName()))
                             .findFirst()
@@ -183,7 +181,6 @@ public class ProgramService {
                 })
                 .collect(Collectors.toList());
 
-        // Set the days in the weekDTO
         weekDTO.setDays(dayDTOs);
         return weekDTO;
     }

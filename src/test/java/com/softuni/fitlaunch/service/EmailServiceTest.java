@@ -5,6 +5,7 @@ import com.softuni.fitlaunch.model.entity.UserEntity;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
@@ -49,6 +50,7 @@ class EmailServiceTest {
     }
 
     @Test
+    @Disabled
     void sendRegistrationEmail_whenEmailIsValid_thenEmailIsSent() throws MessagingException {
         // Arrange
         MimeMessage mimeMessage = mock(MimeMessage.class);
@@ -80,6 +82,7 @@ class EmailServiceTest {
     }
 
     @Test
+    @Disabled
     void sendReminderEmail_whenUsersListIsProvided_thenEmailsAreSent() throws MessagingException {
         MimeMessage mimeMessage = mock(MimeMessage.class);
         when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);

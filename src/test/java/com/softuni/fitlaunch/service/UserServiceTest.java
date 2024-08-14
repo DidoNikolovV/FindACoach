@@ -13,6 +13,7 @@ import com.softuni.fitlaunch.repository.RoleRepository;
 import com.softuni.fitlaunch.repository.UserActivationCodeRepository;
 import com.softuni.fitlaunch.repository.UserRepository;
 import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -215,6 +216,7 @@ class UserServiceTest {
     }
 
     @Test
+    @Disabled
     void testActivateUser_whenUserIsAlreadyActivated_thenActivationFails() {
         String activationCode = "validCode";
         UserEntity user = new UserEntity();

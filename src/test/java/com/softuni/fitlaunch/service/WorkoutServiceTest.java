@@ -23,11 +23,13 @@ import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -54,6 +56,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+
 
 class WorkoutServiceTest {
 
@@ -233,7 +236,7 @@ class WorkoutServiceTest {
         when(dayWorkoutsRepository.findByNameAndWorkoutIdAndWeekId(dayName, workoutId, weekNumber)).thenReturn(Optional.of(dayWorkout));
 
         workoutService.completedWorkout(workoutId, username, weekNumber, dayName);
-        
+
         ArgumentCaptor<UserProgress> progressCaptor = ArgumentCaptor.forClass(UserProgress.class);
         verify(userProgressRepository).save(progressCaptor.capture());
 
