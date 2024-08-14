@@ -31,7 +31,6 @@ public class ProgramService {
 
     private final ProgramRepository programRepository;
 
-
     private final CoachService coachService;
 
     private final ModelMapper modelMapper;
@@ -100,10 +99,8 @@ public class ProgramService {
             boolean isCompleted = isWeekCompleted(userProgressList, week);
             weekDTO.setCompleted(isCompleted);
 
-            // Create or update UserProgress for each workout in the week
             for (DayWorkoutsEntity dayWorkout : week.getDays()) {
                 UserProgress userProgress = userProgressService.getOrCreateUserProgress(user, program, week, dayWorkout);
-                // Optionally, update progress status (e.g., started, completed) based on user actions
             }
 
             weeksDTO.add(weekDTO);
@@ -121,36 +118,12 @@ public class ProgramService {
     }
 
 
-    public void updateWeeksStateByUser(ProgramEntity program, UserEntity user) {
-        ProgramDTO programDTO = modelMapper.map(program, ProgramDTO.class);
-
-        List<UserProgress> userProgressList = userProgressService.getUserProgressForProgram(user.getUsername(), program.getId());
-
-        for (ProgramWeekEntity week : program.getWeeks()) {
-            ProgramWeekDTO weekDto = modelMapper.map(week, ProgramWeekDTO.class);
-            weekDto.setCompleted(isWeekCompleted(userProgressList, week));
-            programDTO.getWeeks().add(weekDto);
-        }
-    }
-
     private boolean isWeekCompleted(List<UserProgress> userProgressList, ProgramWeekEntity week) {
         return userProgressList.stream()
                 .filter(progress -> progress.getWeek().equals(week))
                 .allMatch(UserProgress::isWeekCompleted);
     }
 
-    public ProgramEntity getProgramEntityById(Long programId) {
-        return programRepository.findById(programId).orElseThrow(() -> new ResourceNotFoundException("Program with id " + programId + " not found"));
-    }
-
-    public void removeLike(WorkoutEntity weekWorkout) {
-        Long oldLikes = Long.valueOf(weekWorkout.getLikes());
-        if (oldLikes - 1 < 0) {
-            weekWorkout.setLikes(0);
-        } else {
-            weekWorkout.setLikes((int) (oldLikes - 1));
-        }
-    }
 
     public ProgramEntity createProgram(ProgramCreationDTO programCreationDTO, String username) {
         CoachEntity coach = coachService.getCoachEntityByUsername(username);
@@ -183,22 +156,6 @@ public class ProgramService {
         return program;
     }
 
-    public void updateDaysWorkoutState(Long weekId, Long programId, String username) {
-        UserEntity user = userService.getUserEntityByUsername(username);
-        ProgramWeekEntity week = weekService.getWeekByNumber(weekId, programId);
-        week.getDays().forEach(workout -> {
-            updatedWorkoutState(workout, user);
-        });
-
-    }
-
-    private void updatedWorkoutState(DayWorkoutsEntity workout, UserEntity user) {
-        UserProgress userProgress = userProgressService.getByUserIdAndWorkoutId(user.getId(), workout.getId());
-        boolean hasNotCompleted = !userProgress.isWorkoutCompleted();
-        if (hasNotCompleted) {
-            userProgress.setWorkoutCompleted(false);
-        }
-    }
 
     public ProgramWeekDTO getWeekById(Long weekId, Long programId, String username) {
         ProgramWeekEntity week = weekService.getWeekByNumber(weekId, programId);
