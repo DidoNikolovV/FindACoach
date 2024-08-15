@@ -57,7 +57,9 @@ public class CommentService {
         CommentEntity comment = modelMapper.map(commentDTO, CommentEntity.class);
         comment.setAuthor(author);
         comment.setWorkout(workout);
-        comment = commentRepository.save(comment);
+        workout.getComments().add(comment);
+        workoutService.saveWorkout(workout);
+//        comment = commentRepository.save(comment);
 
         return new CommentView(comment.getId(), author.getImgUrl(), author.getUsername(), comment.getMessage());
     }

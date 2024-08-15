@@ -5,12 +5,12 @@ const csrfHeaderValue = document.head.querySelector('[name=_csrf]').content
 
 const currentLocation = window.location.href.toString();
 const commentContainer = document.getElementById('commentCtnr');
-
+let workoutId = "";
 if(currentLocation.startsWith('http://localhost:8080/forum/topic')) {
     const topicCommentForm = document.getElementById("topicCommentForm");
     topicCommentForm.addEventListener("submit", postTopicComment);
 } else {
-    const workoutId = document.getElementById('workoutId').value
+    workoutId = document.getElementById('workoutId').value
     const commentForm = document.getElementById('commentForm')
     commentForm.addEventListener('submit', postComment)
     const showCommentsBtn = document.getElementById('showComments');
@@ -157,5 +157,5 @@ function renderPaginationControls(totalPages, currentPage) {
     }
 }
 
-// loadComments();
+loadComments();
 loadTopicComments();
