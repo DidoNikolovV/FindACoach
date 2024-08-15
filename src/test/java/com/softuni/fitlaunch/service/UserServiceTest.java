@@ -35,6 +35,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -266,5 +267,32 @@ class UserServiceTest {
         UserProfileView result = userService.getUserProfileByUsername(username);
 
         assertEquals(userProfileView, result);
+    }
+
+    @Test
+    void testGetUserEntityByEmail_whenUserWithThisEmailExists_thenReturnIt() {
+        UserEntity user = new UserEntity();
+        user.setEmail("test@example.com");
+        user.setId(1L);
+
+        when(userRepository.findByEmail("test@example.com")).thenReturn(Optional.of(user));
+
+        userService.getUserEntityByEmail("test@example.com");
+
+        verify(userRepository, times(1)).findByEmail("test@example.com");
+    }
+
+    @Test
+    void testChangeMembership_whenUserWantsToChangeHisMembership_thenChangeIt() {
+        UserEntity user = new UserEntity();
+        user.setId(1L);
+        user.setUsername("test");
+
+        UserDTO userDto = new UserDTO();
+        userDto.setUsername("test");
+
+        when(userRepository.findByUsername("test")).thenReturn(Optional.of(user));
+
+        userService.changeMembership(userDto, anyString());
     }
 }

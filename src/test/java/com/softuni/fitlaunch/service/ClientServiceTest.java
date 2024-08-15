@@ -14,10 +14,14 @@ import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Pageable;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.swing.text.html.Option;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -26,6 +30,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -225,6 +231,39 @@ class ClientServiceTest {
 
         verify(weekMetricsService, times(1)).getByNumber(1);
     }
+
+    @Test
+    void testAddProgressPicture_whenClientUpload_thenSaveIt() {
+        ClientEntity client = new ClientEntity();
+        client.setId(1L);
+        client.setUsername("test");
+        client.setProgressPictures(new ArrayList<>());
+
+        MultipartFile multipartFileMock = Mockito.mock(MultipartFile.class);
+
+        when(clientRepository.findByUsername("test")).thenReturn(Optional.of(client));
+        when(fileUpload.uploadFile(multipartFileMock)).thenReturn(anyString());
+
+        underTest.addProgressPicture("test", multipartFileMock);
+
+        verify(clientRepository, times(1)).save(client);
+    }
+
+    @Test
+    void testGetProgressPicturesByClientUsername_whenThereArePicturesPersisted_thenReturnPageWithThem() {
+        ClientEntity client = new ClientEntity();
+        client.setId(1L);
+        client.setUsername("test");
+        client.setProgressPictures(new ArrayList<>());
+
+        Pageable pageableMock = mock(Pageable.class);
+
+        when(clientRepository.findByUsername("test")).thenReturn(Optional.of(client));
+        when(progressPictureRepository.findByClientId(1L, pageableMock)).thenReturn(any());
+
+        underTest.getProgressPicturesByClientUsername("test", pageableMock);
+    }
+
 
 
 

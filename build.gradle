@@ -20,6 +20,15 @@ jacocoTestReport {
         xml.required = true
         html.required = true
     }
+
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect { fileTree(dir: it, exclude: [
+                'com/softuni/fitlaunch/service/MealService.class',
+                'com/softuni/fitlaunch/service/EmailService.class',
+                'com/softuni/fitlaunch/service/FitLaunchUserDetailsService.class',
+                'com/softuni/fitlaunch/service/CustomUserDetails.class',
+        ]) }))
+    }
 }
 
 

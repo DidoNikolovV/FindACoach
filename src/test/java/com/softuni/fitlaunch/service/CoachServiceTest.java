@@ -3,6 +3,7 @@ package com.softuni.fitlaunch.service;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.CoachDTO;
 import com.softuni.fitlaunch.model.dto.view.UserCoachDetailsView;
+import com.softuni.fitlaunch.model.dto.view.UserCoachView;
 import com.softuni.fitlaunch.model.entity.ClientEntity;
 import com.softuni.fitlaunch.model.entity.CoachEntity;
 import com.softuni.fitlaunch.repository.CoachRepository;
@@ -10,8 +11,11 @@ import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,6 +41,26 @@ class CoachServiceTest {
 
     public CoachServiceTest() {
         MockitoAnnotations.initMocks(this);
+    }
+
+    @Test
+    void testGetAllCoaches_whenClientsWantsToPickACoach_thenReturnPageWithThem() {
+        Page mock = Mockito.mock(Page.class);
+
+        CoachEntity coach = new CoachEntity();
+        coach.setId(1L);
+        coach.setUsername("test");
+
+        UserCoachView coachView = new UserCoachView();
+        coachView.setId(1L);
+        coachView.setUsername("test");
+
+        when(coachRepository.findAll((Pageable) any())).thenReturn(mock);
+        when(modelMapper.map(coach, UserCoachView.class)).thenReturn(coachView);
+
+        underTest.getAllCoaches(any());
+
+        verify(coachRepository, times(1)).findAll((Pageable) any());
     }
 
     @Test

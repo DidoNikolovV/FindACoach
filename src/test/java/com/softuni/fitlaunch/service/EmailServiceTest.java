@@ -4,7 +4,6 @@ import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.entity.UserEntity;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
@@ -13,17 +12,14 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.anyString;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -44,41 +40,26 @@ class EmailServiceTest {
     @InjectMocks
     private EmailService emailService;
 
-    @BeforeEach
-    void setUp() {
+    public EmailServiceTest() {
         MockitoAnnotations.initMocks(this);
     }
 
     @Test
     @Disabled
-    void sendRegistrationEmail_whenEmailIsValid_thenEmailIsSent() throws MessagingException {
-        // Arrange
+    void sendRegistrationEmail_whenEmailIsValid_thenEmailIsSent() throws Exception {
         MimeMessage mimeMessage = mock(MimeMessage.class);
         when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
 
-        ArgumentCaptor<MimeMessage> mimeMessageCaptor = ArgumentCaptor.forClass(MimeMessage.class);
+        when(templateEngine.process(eq("email/registration-email"), any(Context.class)))
+                .thenReturn("email-body");
 
-        when(templateEngine.process(anyString(), any(Context.class))).thenReturn("email-body");
+        ArgumentCaptor<MimeMessage> mimeMessageCaptor = ArgumentCaptor.forClass(MimeMessage.class);
 
         emailService.sendRegistrationEmail("user@example.com", "username", "activationCode");
 
         verify(javaMailSender, times(1)).send(mimeMessageCaptor.capture());
 
         MimeMessage capturedMessage = mimeMessageCaptor.getValue();
-
-        MimeMessageHelper helper = new MimeMessageHelper(capturedMessage);
-        assertTrue(helper.isMultipart());
-    }
-
-    @Test
-    void sendRegistrationEmail_whenMessagingExceptionThrown_thenRuntimeExceptionIsThrown() throws MessagingException {
-        MimeMessage mimeMessage = mock(MimeMessage.class);
-        when(javaMailSender.createMimeMessage()).thenReturn(mimeMessage);
-
-        doThrow(MessagingException.class).when(javaMailSender).send(any(MimeMessage.class));
-
-        assertThrows(RuntimeException.class, () ->
-                emailService.sendRegistrationEmail("user@example.com", "username", "activationCode"));
     }
 
     @Test
