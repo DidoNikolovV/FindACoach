@@ -73,11 +73,18 @@ public class CommentService {
         UserDTO user = userService.getUserByUsername(username);
 
         CommentEntity comment = commentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Comment with id " + id + " was not found"));
+        WorkoutEntity workout = comment.getWorkout();
+        workout.getComments().remove(comment);
 
-        if (user.getRoles().stream().anyMatch(r -> r.getRole().equals(UserRoleEnum.ADMIN)) || user.getUsername().equals(comment.getAuthor().getUsername())) {
+        if (isAuthor(user, comment)) {
             commentRepository.delete(comment);
         }
     }
+
+    private boolean isAuthor(UserDTO user, CommentEntity comment) {
+        return user.getUsername().equals(comment.getAuthor().getUsername());
+    }
+
 
     public Page<TopicCommentDTO> findByTopicId(Long id, PageRequest pageRequest) {
         List<TopicCommentDTO> list = commentRepository.findAllByTopicId(id, pageRequest).stream().map(commentEntity -> modelMapper.map(commentEntity, TopicCommentDTO.class)).toList();
