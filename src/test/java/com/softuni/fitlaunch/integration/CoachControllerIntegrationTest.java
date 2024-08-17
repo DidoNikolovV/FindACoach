@@ -4,6 +4,7 @@ package com.softuni.fitlaunch.integration;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.CoachDTO;
 import com.softuni.fitlaunch.model.dto.view.UserCoachDetailsView;
+import com.softuni.fitlaunch.model.dto.workout.ScheduledWorkoutDTO;
 import com.softuni.fitlaunch.service.ClientService;
 import com.softuni.fitlaunch.service.CoachService;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,9 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.ArrayList;
+
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -98,6 +102,28 @@ public class CoachControllerIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.model().attribute("client", client))
                 .andExpect(MockMvcResultMatchers.view().name("client-details"));
+    }
+
+    @Test
+    @WithMockUser(value = "testUser", roles = {"CLIENT"})
+    public void testMyCoach() throws Exception {
+        CoachDTO coach = new CoachDTO();
+        coach.setId(1L);
+        coach.setUsername("testCoach");
+        coach.setImgUrl("testUrl");
+        coach.setScheduledWorkouts(new ArrayList<>());
+        coach.setCertificates(new ArrayList<>());
+        coach.setEmail("test@email.com");
+        coach.setRating(5.0);
+        coach.setDescription("test desc");
+
+        when(coachService.getCoachById(1L)).thenReturn(coach);
+
+        mockMvc.perform(get("/coaches/coach/{id}", 1L))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.model().attribute("coach", coach))
+                .andExpect(MockMvcResultMatchers.model().attribute("activePage", "coaches"))
+                .andExpect(MockMvcResultMatchers.view().name("coach"));
     }
 
 }

@@ -1,7 +1,6 @@
 package com.softuni.fitlaunch.integration;
 
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.softuni.fitlaunch.model.dto.TopicCommentDTO;
 import com.softuni.fitlaunch.model.dto.comment.CommentCreationDTO;
 import com.softuni.fitlaunch.model.dto.view.CommentView;
@@ -39,13 +38,8 @@ public class CommentRestControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-
-    @Autowired
-    private ObjectMapper objectMapper;
-
     @MockBean
     private CommentService commentService;
-
 
     @Test
     void testGetComment() throws Exception {

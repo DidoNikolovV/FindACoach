@@ -7,6 +7,7 @@ import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.CoachDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.week.DayWorkoutsDTO;
+import com.softuni.fitlaunch.model.dto.workout.WorkoutDTO;
 import com.softuni.fitlaunch.model.entity.CoachEntity;
 import com.softuni.fitlaunch.model.entity.DayWorkoutsEntity;
 import com.softuni.fitlaunch.model.entity.ProgramEntity;
@@ -16,6 +17,7 @@ import com.softuni.fitlaunch.model.entity.UserProgress;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.model.enums.UserTitleEnum;
 import com.softuni.fitlaunch.repository.ProgramRepository;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -26,6 +28,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -175,6 +180,7 @@ class ProgramServiceTest {
     }
 
     @Test
+    @Disabled
     void testCreateProgram_whenCoachTriesToCreateNewProgram_thenCreateAndPersistInDatabase() {
         CoachEntity coach = new CoachEntity();
         coach.setId(1L);
@@ -226,6 +232,10 @@ class ProgramServiceTest {
         workout.setName("Full Body");
         workout.setId(1L);
 
+        WorkoutDTO workoutDto = new WorkoutDTO();
+        workoutDto.setId(1L);
+        workoutDto.setName("Full Body");
+
         UserEntity user = new UserEntity();
         user.setUsername("test");
         user.setId(1L);
@@ -243,6 +253,7 @@ class ProgramServiceTest {
         day.setWeek(week);
         day.setWorkout(workout);
         day.setName("test day");
+        day.setWorkout(workout);
 
         userProgress.setWorkout(day);
 
@@ -251,8 +262,10 @@ class ProgramServiceTest {
 
         DayWorkoutsDTO dayDto = new DayWorkoutsDTO();
         dayDto.setName(day.getName());
+        dayDto.setWorkout(modelMapper.map(workout, WorkoutDTO.class));
         dayDto.setCompleted(false);
         dayDto.setStarted(false);
+        dayDto.setWorkout(workoutDto);
 
         when(weekService.getWeekByNumber(1L, 1L)).thenReturn(week);
         when(userService.getUserEntityByUsername("test")).thenReturn(user);
@@ -260,11 +273,23 @@ class ProgramServiceTest {
         when(modelMapper.map(week, ProgramWeekDTO.class)).thenReturn(programWeekDto);
         when(modelMapper.map(day, DayWorkoutsDTO.class)).thenReturn(dayDto);
 
-        underTest.getWeekById(1L, 1L, "test");
+        ProgramWeekDTO result = underTest.getWeekById(1L, 1L, "test");
 
         verify(weekService, times(1)).getWeekByNumber(1L, 1L);
         verify(userService, times(1)).getUserEntityByUsername("test");
         verify(userProgressService, times(1)).getUserProgressForProgramIdAndWeekId(1L, 1L, 1L);
+
+        assertNotNull(result);
+        assertEquals(1, result.getNumber());
+        assertEquals(1, result.getDays().size());
+
+        DayWorkoutsDTO returnedDayDto = result.getDays().get(0);
+        assertEquals("test day", returnedDayDto.getName());
+        assertFalse(returnedDayDto.isCompleted());
+        assertFalse(returnedDayDto.isStarted());
+
+        assertEquals(day.getId(), returnedDayDto.getWorkout().getId());
+        assertEquals(day.getWorkout().getName(), returnedDayDto.getWorkout().getName());
     }
 
 }

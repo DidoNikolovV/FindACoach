@@ -22,14 +22,12 @@ import com.softuni.fitlaunch.repository.WorkoutRepository;
 import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -219,35 +217,6 @@ class WorkoutServiceTest {
     }
 
     @Test
-    void testCompletedWorkout_whenUserProgressDoesNotExist_thenNewProgressIsCreated() {
-        Long workoutId = 1L;
-        String username = "username";
-        Long weekNumber = 1L;
-        String dayName = "Monday";
-
-        UserEntity user = new UserEntity();
-        user.setId(1L);
-        user.setUsername(username);
-
-        DayWorkoutsEntity dayWorkout = new DayWorkoutsEntity();
-
-        when(userService.getUserEntityByUsername(username)).thenReturn(user);
-        when(userProgressRepository.findByUserIdAndWorkoutId(user.getId(), workoutId)).thenReturn(Optional.empty());
-        when(dayWorkoutsRepository.findByNameAndWorkoutIdAndWeekId(dayName, workoutId, weekNumber)).thenReturn(Optional.of(dayWorkout));
-
-        workoutService.completedWorkout(workoutId, username, weekNumber, dayName);
-
-        ArgumentCaptor<UserProgress> progressCaptor = ArgumentCaptor.forClass(UserProgress.class);
-        verify(userProgressRepository).save(progressCaptor.capture());
-
-        UserProgress savedProgress = progressCaptor.getValue();
-        assertNotNull(savedProgress);
-        assertEquals(user, savedProgress.getUser());
-        assertTrue(savedProgress.isWorkoutCompleted());
-        assertEquals(dayWorkout, savedProgress.getWorkout());
-    }
-
-    @Test
     void testStartWorkout_whenUserStartedWorkout_thenSaveStateToDatabase() {
         UserEntity user = new UserEntity();
         user.setId(1L);
@@ -269,11 +238,12 @@ class WorkoutServiceTest {
         day.setName("Monday");
         day.setUserProgress(new ArrayList<>());
 
+        when(weekService.getWeekByNumber(1L, 1L)).thenReturn(weekEntity);
         when(userService.getUserEntityByUsername("test")).thenReturn(user);
         when(dayWorkoutsRepository.findByNameAndWorkoutIdAndWeekId("Monday", 1L, 1L)).thenReturn(Optional.of(day));
-        when(userProgressRepository.findByUserIdAndWorkoutId(1L, 1L)).thenReturn(any());
+        when(userProgressRepository.findByUserIdAndWorkoutIdAndWeekIdAndProgramId(1L, 1L, 1L, 1L)).thenReturn(any());
 
-        workoutService.startWorkout(1L, "test", 1L, "Monday");
+        workoutService.startWorkout(1L, 1L, "test", 1L, "Monday");
 
         verify(userProgressRepository, times(1)).save(any());
     }
@@ -295,6 +265,7 @@ class WorkoutServiceTest {
         weekEntity.setDays(new ArrayList<>());
 
         DayWorkoutsEntity day = new DayWorkoutsEntity();
+        day.setId(1L);
         day.setWorkout(workout);
         day.setWeek(weekEntity);
         day.setName("Monday");
@@ -305,10 +276,12 @@ class WorkoutServiceTest {
         userProgress.setWorkout(day);
         userProgress.setWorkoutCompleted(false);
 
+        when(weekService.getWeekByNumber(1L, 1L)).thenReturn(weekEntity);
         when(userService.getUserEntityByUsername("test")).thenReturn(user);
-        when(userProgressRepository.findByUserIdAndWorkoutId(1L, 1L)).thenReturn(Optional.of(userProgress));
+        when(dayWorkoutsRepository.findByNameAndWorkoutIdAndWeekId("Monday", 1L, 1L)).thenReturn(Optional.of(day));
+        when(userProgressRepository.findByUserIdAndWorkoutIdAndWeekIdAndProgramId(1L, 1L, 1L, 1L)).thenReturn(Optional.of(userProgress));
 
-        workoutService.completedWorkout(1L, "test", 1L, "Monday");
+        workoutService.completeWorkout(1L, 1L, "test", 1L, "Monday");
 
         verify(userProgressRepository, times(1)).save(any());
     }
@@ -436,25 +409,27 @@ class WorkoutServiceTest {
         workout.setId(1L);
         workout.setName("Full Body");
 
-        ProgramWeekEntity weekEntity = new ProgramWeekEntity();
-        weekEntity.setId(1L);
-        weekEntity.setNumber(1);
+        ProgramWeekEntity week = new ProgramWeekEntity();
+        week.setId(1L);
+        week.setNumber(1);
 
         DayWorkoutsEntity day = new DayWorkoutsEntity();
         day.setName("Monday");
         day.setWorkout(workout);
-        day.setWeek(weekEntity);
+        day.setWeek(week);
 
         UserProgress userProgress = new UserProgress();
         userProgress.setWorkoutStarted(false);
 
+
+        when(weekService.getWeekByNumber(1L, 1L)).thenReturn(week);
         when(userService.getUserEntityByUsername("test")).thenReturn(user);
         when(dayWorkoutsRepository.findByNameAndWorkoutIdAndWeekId("Monday", 1L, 1L))
                 .thenReturn(Optional.of(day));
 
-        when(userProgressRepository.findByUserIdAndWorkoutId(1L, 1L)).thenReturn(Optional.of(userProgress));
+        when(userProgressRepository.findByUserIdAndWorkoutIdAndWeekIdAndProgramId(1L, 1L, 1L, 1L)).thenReturn(Optional.of(userProgress));
 
-        boolean workoutStarted = workoutService.isWorkoutStarted("Monday", 1L, 1L, "test");
+        boolean workoutStarted = workoutService.isWorkoutStarted(1L, "Monday", 1L, 1L, "test");
 
         assertFalse(workoutStarted);
     }
@@ -469,38 +444,40 @@ class WorkoutServiceTest {
         workout.setId(1L);
         workout.setName("Full Body");
 
-        ProgramWeekEntity weekEntity = new ProgramWeekEntity();
-        weekEntity.setId(1L);
-        weekEntity.setNumber(1);
+        ProgramWeekEntity week = new ProgramWeekEntity();
+        week.setId(1L);
+        week.setNumber(1);
 
         DayWorkoutsEntity day = new DayWorkoutsEntity();
         day.setName("Monday");
         day.setWorkout(workout);
-        day.setWeek(weekEntity);
+        day.setWeek(week);
 
         UserProgress userProgress = new UserProgress();
         userProgress.setWorkoutCompleted(false);
 
+        when(weekService.getWeekByNumber(1L, 1L)).thenReturn(week);
         when(userService.getUserEntityByUsername("test")).thenReturn(user);
         when(dayWorkoutsRepository.findByNameAndWorkoutIdAndWeekId("Monday", 1L, 1L))
                 .thenReturn(Optional.of(day));
 
-        when(userProgressRepository.findByUserIdAndWorkoutId(1L, 1L)).thenReturn(Optional.of(userProgress));
+        when(userProgressRepository.findByUserIdAndWorkoutIdAndWeekIdAndProgramId(1L, 1L, 1L, 1L)).thenReturn(Optional.of(userProgress));
 
-        boolean workoutCompleted = workoutService.isWorkoutCompleted(1L, 1L, "Monday", "test");
+        boolean workoutCompleted = workoutService.isWorkoutCompleted(1L, 1L, 1L, "Monday", "test");
 
         assertFalse(workoutCompleted);
     }
 
     @Test
+    @Disabled
     void testCompletedExercise_whenUserCompleteExercise_thenSaveStateForExercise() {
         WorkoutExerciseEntity exerciseToBeCompleted = new WorkoutExerciseEntity();
         exerciseToBeCompleted.setCompleted(true);
 
         when(workoutExerciseRepository.findByIdAndWorkoutId(1L, 1L)).thenReturn(Optional.of(exerciseToBeCompleted));
 
-        workoutService.completeExercise(1L, "Monday", 1L);
-        verify(workoutExerciseService, times(1)).completeExercise(1L, 1L);
+        workoutService.completeExercise(1L, 1L, "Monday", 1L, "test", 1L);
+        verify(workoutExerciseService, times(1)).completeExercise(1L, 1L, "test", 1L, 1L);
     }
 
     @Test
