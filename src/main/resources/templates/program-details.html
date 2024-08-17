@@ -19,8 +19,8 @@
                             <span th:text="'Day ' + ${programWorkout.dayNumber}"></span>
                             <span th:text="${programWorkout.name}"></span>
                         </a>
-                        <!-- Check if the specific workout for the week is completed -->
-                        <i th:if="${completedWorkouts[programWorkout.name]}" class="fa-solid fa-lg fa-circle-check text-success"></i>
+                        <i th:if="${completedWorkouts[programWorkout.name]}"
+                           class="fa-solid fa-lg fa-circle-check text-success"></i>
                     </div>
                     <form th:method="POST"
                           th:action="@{/programs/{programId}/complete/{weekId}(programId=${program.id}, weekId=${week.id})}">

@@ -36,7 +36,6 @@ public class ProgramService {
 
     private final WeekService weekService;
 
-    private final WorkoutService workoutService;
 
     private final UserService userService;
 
@@ -44,12 +43,11 @@ public class ProgramService {
     private final UserProgressService userProgressService;
 
 
-    public ProgramService(ProgramRepository programRepository, CoachService coachService, ModelMapper modelMapper, WeekService weekService, WorkoutService workoutService, UserService userService, ClientService clientService, UserProgressService userProgressService) {
+    public ProgramService(ProgramRepository programRepository, CoachService coachService, ModelMapper modelMapper, WeekService weekService, UserService userService, ClientService clientService, UserProgressService userProgressService) {
         this.programRepository = programRepository;
         this.coachService = coachService;
         this.modelMapper = modelMapper;
         this.weekService = weekService;
-        this.workoutService = workoutService;
         this.userService = userService;
         this.clientService = clientService;
         this.userProgressService = userProgressService;
@@ -86,21 +84,20 @@ public class ProgramService {
                 .orElseThrow(() -> new ResourceNotFoundException("Program with id " + programId + " not found"));
 
         UserEntity user = userService.getUserEntityByUsername(username);
+
         List<UserProgress> userProgressList = userProgressService.getUserProgressForProgram(username, programId);
 
         ProgramDTO programDTO = modelMapper.map(program, ProgramDTO.class);
+
         List<ProgramWeekDTO> weeksDTO = new ArrayList<>();
         int totalWeeks = program.getWeeks().size();
         long completedWeeksCount = 0;
 
         for (ProgramWeekEntity week : program.getWeeks()) {
             ProgramWeekDTO weekDTO = modelMapper.map(week, ProgramWeekDTO.class);
+
             boolean isCompleted = isWeekCompleted(userProgressList, week);
             weekDTO.setCompleted(isCompleted);
-
-            for (DayWorkoutsEntity dayWorkout : week.getDays()) {
-                UserProgress userProgress = userProgressService.getOrCreateUserProgress(user, program, week, dayWorkout);
-            }
 
             weeksDTO.add(weekDTO);
 
@@ -110,11 +107,13 @@ public class ProgramService {
         }
 
         programDTO.setWeeks(weeksDTO);
+
         int completedPercentage = (totalWeeks == 0) ? 0 : (int) ((completedWeeksCount / (double) totalWeeks) * 100);
         programDTO.setCompletedPercentage(completedPercentage);
 
         return programDTO;
     }
+
 
 
     private boolean isWeekCompleted(List<UserProgress> userProgressList, ProgramWeekEntity week) {
@@ -159,37 +158,34 @@ public class ProgramService {
     public ProgramWeekDTO getWeekById(Long weekId, Long programId, String username) {
         ProgramWeekEntity week = weekService.getWeekByNumber(weekId, programId);
         UserEntity user = userService.getUserEntityByUsername(username);
-        List<UserProgress> userProgressList = userProgressService.getUserProgressForProgramIdAndWeekId(user.getId(), programId, weekId);
+
+        List<UserProgress> userProgressList = userProgressService.getUserProgressForProgramIdAndWeekId(user.getId(), programId, week.getId());
 
         ProgramWeekDTO weekDTO = modelMapper.map(week, ProgramWeekDTO.class);
 
         List<DayWorkoutsDTO> dayDTOs = week.getDays().stream()
-                .map(day -> {
-                    DayWorkoutsDTO dayDTO = modelMapper.map(day, DayWorkoutsDTO.class);
+                .map(day -> modelMapper.map(day, DayWorkoutsDTO.class))
+                .toList();
 
-                    UserProgress progress = userProgressList.stream()
-                            .filter(p -> p.getWorkout().getId().equals(day.getWorkout().getId()) && p.getWorkout().getName().equals(day.getName()))
-                            .findFirst()
-                            .orElse(null);
+        List<DayWorkoutsDTO> updatedDays = dayDTOs.stream().map(dayDTO -> {
+            UserProgress progress = userProgressList.stream()
+                    .filter(p -> p.getWorkout().getId().equals(dayDTO.getWorkout().getId())
+                            && p.getDayName() != null
+                            && p.getDayName().equalsIgnoreCase(dayDTO.getName()))
+                    .findFirst()
+                    .orElse(null);
 
-                    if (progress != null) {
-                        dayDTO.setCompleted(progress.isWorkoutCompleted());
-                        dayDTO.setStarted(progress.isWorkoutStarted());
-                    }
+            if (progress != null) {
+                dayDTO.setCompleted(progress.isWorkoutCompleted());
+                dayDTO.setStarted(progress.isWorkoutStarted());
+            } else {
+                dayDTO.setCompleted(false);
+                dayDTO.setStarted(false);
+            }
+            return dayDTO;
+        }).toList();
 
-                    return dayDTO;
-                })
-                .collect(Collectors.toList());
-
-        weekDTO.setDays(dayDTOs);
+        weekDTO.setDays(updatedDays);
         return weekDTO;
-    }
-
-
-    public void completeWeek(Long weekNumber, Long programId, String name) {
-        ProgramWeekEntity programWeek = weekService.getWeekByNumber(weekNumber, programId);
-        UserEntity user = userService.getUserEntityByUsername(name);
-        userProgressService.completeWeek(programWeek, user);
-        userService.saveUser(user);
     }
 }

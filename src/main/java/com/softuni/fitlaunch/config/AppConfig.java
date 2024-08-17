@@ -26,7 +26,6 @@ public class AppConfig implements WebMvcConfigurer {
         modelMapper.typeMap(ProgramWeekEntity.class, ProgramWeekDTO.class);
         return modelMapper;
 
-//        return new ModelMapper();
     }
 
     Converter<PersistentBag, List> persistentBagToListConverter = new AbstractConverter<PersistentBag, List>() {

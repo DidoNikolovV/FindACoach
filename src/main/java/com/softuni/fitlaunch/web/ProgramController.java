@@ -131,16 +131,10 @@ public class ProgramController {
         ProgramDTO program = programService.getProgramById(programId, principal.getName());
         ProgramWeekDTO week = programService.getWeekById(weekId, programId, principal.getName());
 
+
         model.addAttribute("program", program);
         model.addAttribute("week", week);
 
         return "week-details";
-    }
-
-    @PostMapping("/{programId}/weeks/{weekNumber}/complete")
-    public String completeWeek(@PathVariable("programId") Long programId, @PathVariable("weekNumber") Long weekNumber, Principal principal) {
-        programService.completeWeek(weekNumber, programId, principal.getName());
-
-        return "redirect:/programs/details/" + programId;
     }
 }

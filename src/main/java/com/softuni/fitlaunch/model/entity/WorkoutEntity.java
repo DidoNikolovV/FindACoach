@@ -52,7 +52,7 @@ public class WorkoutEntity extends BaseEntity {
     @Column
     private String dateCompleted;
 
-    @OneToMany(mappedBy = "workout", fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "workout", fetch = FetchType.EAGER, cascade = CascadeType.ALL,orphanRemoval = true)
     private List<CommentEntity> comments = new ArrayList<>();
 
     @Override

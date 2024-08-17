@@ -5,11 +5,11 @@ import com.softuni.fitlaunch.model.dto.TopicCommentDTO;
 import com.softuni.fitlaunch.model.dto.comment.CommentCreationDTO;
 import com.softuni.fitlaunch.model.dto.view.CommentView;
 import com.softuni.fitlaunch.service.CommentService;
-import com.sun.mail.iap.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +23,7 @@ import java.security.Principal;
 import java.util.List;
 
 
+@CrossOrigin("*")
 @Slf4j
 @RestController
 @RequestMapping("/api/v1/comments")
@@ -75,6 +76,7 @@ public class CommentsRestController {
     public ResponseEntity<Page<TopicCommentDTO>> getCommentsByTopicId(@PathVariable("topicId") Long topicId) {
         return ResponseEntity.ok(commentService.findByTopicId(topicId, PageRequest.of(0, 4)));
     }
+
 
     @PostMapping(value = "/topic/{topicId}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<TopicCommentDTO> postTopicComment(@PathVariable("topicId") Long topicId,

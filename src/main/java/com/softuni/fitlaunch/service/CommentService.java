@@ -59,7 +59,7 @@ public class CommentService {
         comment.setWorkout(workout);
         workout.getComments().add(comment);
         workoutService.saveWorkout(workout);
-//        comment = commentRepository.save(comment);
+        comment = commentRepository.save(comment);
 
         return new CommentView(comment.getId(), author.getImgUrl(), author.getUsername(), comment.getMessage());
     }

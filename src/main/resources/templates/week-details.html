@@ -16,15 +16,15 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="day : *{days}" class="text-light">
+            <tr th:each="day : ${week.days}" class="text-light">
                 <td th:text="${day.name}"></td>
                 <td th:if="${day.workout != null}" class="d-flex align-items-center">
-                    <a th:href="@{/workouts/{workoutId}/weeks/{weekId}/days/{dayName}(workoutId=${day.workout.id}, weekId=${week.number}, dayName=${day.name})}"
+                    <a th:href="@{/workouts/{programId}/{workoutId}/weeks/{weekId}/days/{dayName}(programId=${program.id}, workoutId=${day.workout.id}, weekId=${week.number}, dayName=${day.name})}"
                        class="btn btn-info">
                         <span th:text="${day.workout.name}"></span>
                     </a>
-                    <div class="ml-auto" th:if="${day.isCompleted}">
-                        <i class="fa-solid fa-lg fa-circle-check text-success"></i>
+                    <div class="ml-auto">
+                        <i th:if="${day.isCompleted}" class="fa-solid fa-lg fa-circle-check text-success"></i>
                     </div>
                 </td>
                 <td th:unless="${day.workout != null}" th:text="REST"></td>

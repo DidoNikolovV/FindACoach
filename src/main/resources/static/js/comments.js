@@ -86,19 +86,31 @@ function commentAsHTML(comment) {
 }
 
 
-
-
 function deleteComment(commentId) {
     fetch(`${url}/api/v1/comments/${workoutId}/${commentId}`, {
         method: 'DELETE',
         headers: {
             [csrfHeaderName]: csrfHeaderValue
         }
-    }).then(res => res.json())
-        .then(data => {
-            const commentId = data.id;
-            document.getElementById(commentId).remove();
+    })
+        .then(res => {
+            if (res.ok) {
+                const commentElement = document.getElementById(commentId);
+                console.log("Deleting comment with ID:", commentId);
+                if (commentElement) {
+                    commentElement.remove();
+                } else {
+                    console.error("Comment element not found in DOM:", commentId);
+                }
+            } else {
+                return res.json().then(data => {
+                    console.error("Failed to delete comment:", data);
+                });
+            }
         })
+        .catch(error => {
+            console.error("Error deleting comment:", error);
+        });
 }
 
 function loadComments() {
@@ -158,4 +170,4 @@ function renderPaginationControls(totalPages, currentPage) {
 }
 
 loadComments();
-loadTopicComments();
+// loadTopicComments();

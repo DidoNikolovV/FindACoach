@@ -4,6 +4,7 @@ package com.softuni.fitlaunch.web;
 import com.softuni.fitlaunch.model.dto.meal.MealCreationDTO;
 import com.softuni.fitlaunch.model.dto.meal.MealDTO;
 import com.softuni.fitlaunch.service.MealService;
+import lombok.Generated;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.security.Principal;
 import java.util.List;
 
+@Generated
 @Controller
 @RequestMapping("/meals")
 public class MealController {

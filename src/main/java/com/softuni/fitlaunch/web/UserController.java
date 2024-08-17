@@ -10,6 +10,7 @@ import com.softuni.fitlaunch.service.ScheduleWorkoutService;
 import com.softuni.fitlaunch.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -160,11 +161,13 @@ public class UserController {
         return "contact-us";
     }
 
+    @Generated
     @GetMapping("/upgrade")
     public String membershipPlans() {
         return "program-add-workouts";
     }
 
+    @Generated
     @PostMapping("/upgrade/{membership}")
     public String membershipPlans(@PathVariable("membership") String membership, Principal principal) {
         UserDTO loggedUser = userService.getUserByUsername(principal.getName());

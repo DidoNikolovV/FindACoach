@@ -8,11 +8,6 @@
 <div class="container" style="height: 100vh;">
     <h2 class="text-center" th:text="${client.username} + ' Progress'" style="margin-top: 11rem;"></h2>
 
-    <!-- Display message if any -->
-    <div th:if="${message}" class="alert alert-info" role="alert">
-        <span th:text="${message}"></span>
-    </div>
-
     <!-- Upload form -->
     <form class="upload-form" method="POST" th:action="@{/clients/{clientUsername}/progress(clientUsername=${client.username})}" enctype="multipart/form-data" style="margin-top: 5rem;">
         <div class="form-row align-items-center">

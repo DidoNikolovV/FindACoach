@@ -15,7 +15,7 @@
             <div class="d-flex justify-content-center align-items-center mt-3">
                 <div th:if="${hasStarted}">
                     <form th:method="POST"
-                          th:action="@{/workouts/{workoutId}/weeks/{weekId}/days/{dayName}/complete(workoutId=${workout.id}, weekId=${weekId}, dayName=${dayName})}">
+                          th:action="@{/workouts/{programId}/{workoutId}/weeks/{weekId}/days/{dayName}/complete(programId=${programId},workoutId=${workout.id}, weekId=${weekId}, dayName=${dayName})}">
                         <div th:unless="${isCompleted}">
                             <input type="submit" name="completeWorkout" id="completeWorkout" class="btn btn-primary"
                                    value="Complete Workout">
@@ -27,7 +27,7 @@
                 </div>
                 <div th:unless="${hasStarted}">
                     <form th:method="POST"
-                          th:action="@{/workouts/{workoutId}/weeks/{weekId}/days/{dayName}/start(workoutId=${workout.id}, weekId=${weekId} ,dayName=${dayName})}">
+                          th:action="@{/workouts/{programId}/{workoutId}/weeks/{weekId}/days/{dayName}/start(programId=${programId}, workoutId=${workout.id}, weekId=${weekId} ,dayName=${dayName})}">
                         <input type="submit" name="startWorkout" id="startWorkout" class="btn btn-success"
                                value="Start Workout">
                     </form>
@@ -41,7 +41,7 @@
 
             <div th:if="${hasLiked}">
                 <form id="dislikeForm" th:method="POST"
-                      th:action="@{/workouts/{workoutId}/weeks/{weekId}/days/{dayName}/dislike(workoutId=${workout.id}, weekId=${weekId}, dayName=${dayName})}">
+                      th:action="@{/workouts/{programId}/{workoutId}/weeks/{weekId}/days/{dayName}/dislike(programId=${programId}, workoutId=${workout.id}, weekId=${weekId}, dayName=${dayName})}">
                     <button type="submit" class="btn btn-link">
                         <i class="fa-solid fa-lg fa-thumbs-down text-primary"></i>
                     </button>
@@ -50,7 +50,7 @@
 
             <div th:unless="${hasLiked}">
                 <form id="likesForm" th:method="POST"
-                      th:action="@{/workouts/{workoutId}/weeks/{weekId}/days/{dayName}/like(workoutId=${workout.id}, weekId=${weekId}, dayName=${dayName})}">
+                      th:action="@{/workouts/{programId}/{workoutId}/weeks/{weekId}/days/{dayName}/like(programId=${programId}, workoutId=${workout.id}, weekId=${weekId}, dayName=${dayName})}">
                     <button type="submit" class="btn btn-link">
                         <i class="fas fa-thumbs-up fa-lg text-primary" style="cursor: pointer"></i>
                     </button>
@@ -74,7 +74,7 @@
         <div class="card-body">
             <h5 class="card-title">Exercises</h5>
             <div class="row">
-                <div th:each="exercise: ${workout.exercises}" class="col-md-4 col-lg-3 mb-4">
+                <div th:each="exercise: ${exercises}" class="col-md-4 col-lg-3 mb-4">
                     <div class="card h-100">
                         <div class="card-body">
                             <h6 class="card-title" th:text="${exercise.name}">Exercise Name</h6>
@@ -93,7 +93,7 @@
                             </div>
                             <div th:if="*{hasStarted}" class="mt-3">
                                 <form th:method="POST"
-                                      th:action="@{/workouts/{workoutId}/weeks/{weekId}/days/{dayName}/exercise/{exerciseId}/complete(workoutId=${workout.id}, weekId=${weekId},dayName=${dayName}, exerciseId=${exercise.id})}">
+                                      th:action="@{/workouts/{programId}/{workoutId}/weeks/{weekId}/days/{dayName}/exercise/{exerciseId}/complete(programId=${programId},workoutId=${workout.id}, weekId=${weekId},dayName=${dayName}, exerciseId=${exercise.id})}">
                                     <button type="submit" class="btn btn-link" th:if="${exercise.completed}">
                                         <i class="fa-solid fa-lg fa-circle-check text-success"></i>
                                     </button>

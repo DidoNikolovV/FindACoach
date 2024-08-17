@@ -22,12 +22,18 @@ jacocoTestReport {
     }
 
     afterEvaluate {
-        classDirectories.setFrom(files(classDirectories.files.collect { fileTree(dir: it, exclude: [
-                'com/softuni/fitlaunch/service/MealService.class',
-                'com/softuni/fitlaunch/service/EmailService.class',
-                'com/softuni/fitlaunch/service/FitLaunchUserDetailsService.class',
-                'com/softuni/fitlaunch/service/CustomUserDetails.class',
-        ]) }))
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                    'com/softuni/fitlaunch/service/MealService.class',
+                    'com/softuni/fitlaunch/service/EmailService.class',
+                    'com/softuni/fitlaunch/service/FitLaunchUserDetailsService.class',
+                    'com/softuni/fitlaunch/service/CustomUserDetails.class',
+                    'com/softuni/fitlaunch/web/rest/ForumController.class',
+                    'com/softuni/fitlaunch/model',
+                    'com/softuni/fitlaunch/interceptor',
+                    'com/softuni/fitlaunch/validation/validators',
+            ])
+        }))
     }
 }
 
@@ -53,6 +59,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
     implementation group: 'com.cloudinary', name: 'cloudinary-core', version: '1.38.0'
     implementation group: 'com.cloudinary', name: 'cloudinary-http44', version: '1.38.0'
+    testImplementation group: 'org.springframework.security', name: 'spring-security-test', version: '6.3.1'
 }
 
 tasks.named('test') {

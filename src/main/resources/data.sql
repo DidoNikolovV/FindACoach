@@ -108,6 +108,296 @@ VALUES (8, 3, 'Squats', 'Legs', 1, 0),
        (15, 4, 'Bent Over Rows', 'Back', 3, 0);
 
 
+INSERT INTO weeks (id, number, program_id)
+VALUES
+    (1, 1, 1),
+    (2, 2, 1),
+    (3, 3, 1),
+    (4, 4, 1),
+    (5, 1, 2),
+    (6, 2, 2),
+    (7, 3, 2),
+    (8, 4, 2),
+    (9, 1, 3),
+    (10, 2, 3),
+    (11, 3, 3),
+    (12, 4, 3);
+
+INSERT INTO days (id, week_id, name)
+VALUES
+    -- Week 1, Program 1
+    (1, 1, 'MONDAY'),
+    (2, 1, 'TUESDAY'),
+    (3, 1, 'WEDNESDAY'),
+    (4, 1, 'THURSDAY'),
+    (5, 1, 'FRIDAY'),
+    (6, 1, 'SATURDAY'),
+    (7, 1, 'SUNDAY'),
+
+    -- Week 2, Program 1
+    (8, 2, 'MONDAY'),
+    (9, 2, 'TUESDAY'),
+    (10, 2, 'WEDNESDAY'),
+    (11, 2, 'THURSDAY'),
+    (12, 2, 'FRIDAY'),
+    (13, 2, 'SATURDAY'),
+    (14, 2, 'SUNDAY'),
+
+    -- Week 3, Program 1
+    (15, 3, 'MONDAY'),
+    (16, 3, 'TUESDAY'),
+    (17, 3, 'WEDNESDAY'),
+    (18, 3, 'THURSDAY'),
+    (19, 3, 'FRIDAY'),
+    (20, 3, 'SATURDAY'),
+    (21, 3, 'SUNDAY'),
+
+    -- Week 1, Program 2
+    (22, 5, 'MONDAY'),
+    (23, 5, 'TUESDAY'),
+    (24, 5, 'WEDNESDAY'),
+    (25, 5, 'THURSDAY'),
+    (26, 5, 'FRIDAY'),
+    (27, 5, 'SATURDAY'),
+    (28, 5, 'SUNDAY'),
+
+    -- Week 2, Program 2
+    (29, 6, 'MONDAY'),
+    (30, 6, 'TUESDAY'),
+    (31, 6, 'WEDNESDAY'),
+    (32, 6, 'THURSDAY'),
+    (33, 6, 'FRIDAY'),
+    (34, 6, 'SATURDAY'),
+    (35, 6, 'SUNDAY'),
+
+    -- Week 3, Program 2
+    (36, 7, 'MONDAY'),
+    (37, 7, 'TUESDAY'),
+    (38, 7, 'WEDNESDAY'),
+    (39, 7, 'THURSDAY'),
+    (40, 7, 'FRIDAY'),
+    (41, 7, 'SATURDAY'),
+    (42, 7, 'SUNDAY'),
+
+    -- Week 1, Program 3
+    (43, 9, 'MONDAY'),
+    (44, 9, 'TUESDAY'),
+    (45, 9, 'WEDNESDAY'),
+    (46, 9, 'THURSDAY'),
+    (47, 9, 'FRIDAY'),
+    (48, 9, 'SATURDAY'),
+    (49, 9, 'SUNDAY'),
+
+    -- Week 2, Program 3
+    (50, 10, 'MONDAY'),
+    (51, 10, 'TUESDAY'),
+    (52, 10, 'WEDNESDAY'),
+    (53, 10, 'THURSDAY'),
+    (54, 10, 'FRIDAY'),
+    (55, 10, 'SATURDAY'),
+    (56, 10, 'SUNDAY'),
+
+    -- Week 3, Program 3
+    (57, 11, 'MONDAY'),
+    (58, 11, 'TUESDAY'),
+    (59, 11, 'WEDNESDAY'),
+    (60, 11, 'THURSDAY'),
+    (61, 11, 'FRIDAY'),
+    (62, 11, 'SATURDAY'),
+    (63, 11, 'SUNDAY');
+
+INSERT INTO days_workouts (week_id, workout_id, name)
+VALUES
+    -- Week 1, Program 1
+    (1, 1, 'MONDAY'),
+    (1, 2, 'TUESDAY'),
+    (1, 3, 'WEDNESDAY'),
+    (1, 1, 'THURSDAY'),
+    (1, 2, 'FRIDAY'),
+    (1, 3, 'SATURDAY'),
+    (1, 1, 'SUNDAY'),
+
+    -- Week 2, Program 1
+    (2, 1, 'MONDAY'),
+    (2, 2, 'TUESDAY'),
+    (2, 3, 'WEDNESDAY'),
+    (2, 1, 'THURSDAY'),
+    (2, 2, 'FRIDAY'),
+    (2, 3, 'SATURDAY'),
+    (2, 1, 'SUNDAY'),
+
+    -- Week 3, Program 1
+    (3, 1, 'MONDAY'),
+    (3, 2, 'TUESDAY'),
+    (3, 3, 'WEDNESDAY'),
+    (3, 1, 'THURSDAY'),
+    (3, 2, 'FRIDAY'),
+    (3, 3, 'SATURDAY'),
+    (3, 1, 'SUNDAY'),
+
+    -- Week 1, Program 2
+    (5, 1, 'MONDAY'),
+    (5, 2, 'TUESDAY'),
+    (5, 3, 'WEDNESDAY'),
+    (5, 1, 'THURSDAY'),
+    (5, 2, 'FRIDAY'),
+    (5, 3, 'SATURDAY'),
+    (5, 1, 'SUNDAY'),
+
+    -- Week 2, Program 2
+    (6, 1, 'MONDAY'),
+    (6, 2, 'TUESDAY'),
+    (6, 3, 'WEDNESDAY'),
+    (6, 1, 'THURSDAY'),
+    (6, 2, 'FRIDAY'),
+    (6, 3, 'SATURDAY'),
+    (6, 1, 'SUNDAY'),
+
+    -- Week 3, Program 2
+    (7, 1, 'MONDAY'),
+    (7, 2, 'TUESDAY'),
+    (7, 3, 'WEDNESDAY'),
+    (7, 1, 'THURSDAY'),
+    (7, 2, 'FRIDAY'),
+    (7, 3, 'SATURDAY'),
+    (7, 1, 'SUNDAY'),
+
+    -- Week 1, Program 3
+    (9, 1, 'MONDAY'),
+    (9, 2, 'TUESDAY'),
+    (9, 3, 'WEDNESDAY'),
+    (9, 1, 'THURSDAY'),
+    (9, 2, 'FRIDAY'),
+    (9, 3, 'SATURDAY'),
+    (9, 1, 'SUNDAY'),
+
+    -- Week 2, Program 3
+    (10, 1, 'MONDAY'),
+    (10, 2, 'TUESDAY'),
+    (10, 3, 'WEDNESDAY'),
+    (10, 1, 'THURSDAY'),
+    (10, 2, 'FRIDAY'),
+    (10, 3, 'SATURDAY'),
+    (10, 1, 'SUNDAY'),
+
+    -- Week 3, Program 3
+    (11, 1, 'MONDAY'),
+    (11, 2, 'TUESDAY'),
+    (11, 3, 'WEDNESDAY'),
+    (11, 1, 'THURSDAY'),
+    (11, 2, 'FRIDAY'),
+    (11, 3, 'SATURDAY'),
+    (11, 1, 'SUNDAY');
+
+
+-- Assuming the following exercise IDs based on insertion order:
+-- 1: Squats
+-- 2: Bench Press
+-- 3: Deadlifts
+-- 4: Pull-ups
+-- 5: Push-ups
+-- 6: Leg Press
+-- 7: Tricep Dips
+-- 8: Bent Over Rows
+
+-- Program 1, Week 1, User 1
+-- Week 1, Program 1
+-- User 1, Program 1
+-- Inserting data for user_id = 1, program_id = 1
+INSERT INTO user_progress (exercise_completed, workout_started, workout_completed, week_completed, user_id, workout_id, exercise_id, week_id, program_id, day_name)
+VALUES
+    -- User 1, Program 1, Week 1
+    (false, false, false, false, 1, 1, 1, 1, 1, 'MONDAY'),
+    (false, false, false, false, 1, 2, 2, 1, 1, 'TUESDAY'),
+    (false, false, false, false, 1, 3, 3, 1, 1, 'WEDNESDAY'),
+    (false, false, false, false, 1, 4, 1, 1, 1, 'THURSDAY'),
+    (false, false, false, false, 1, 5, 2, 1, 1, 'FRIDAY'),
+    (false, false, false, false, 1, 6, 3, 1, 1, 'SATURDAY'),
+    (false, false, false, false, 1, 7, 1, 1, 1, 'SUNDAY'),
+
+    -- User 1, Program 1, Week 2
+    (false, false, false, false, 1, 8, 1, 2, 1, 'MONDAY'),
+    (false, false, false, false, 1, 9, 2, 2, 1, 'TUESDAY'),
+    (false, false, false, false, 1, 10, 3, 2, 1, 'WEDNESDAY'),
+    (false, false, false, false, 1, 11, 1, 2, 1, 'THURSDAY'),
+    (false, false, false, false, 1, 12, 2, 2, 1, 'FRIDAY'),
+    (false, false, false, false, 1, 13, 3, 2, 1, 'SATURDAY'),
+    (false, false, false, false, 1, 14, 1, 2, 1, 'SUNDAY'),
+
+    -- User 1, Program 1, Week 3
+    (false, false, false, false, 1, 15, 1, 3, 1, 'MONDAY'),
+    (false, false, false, false, 1, 16, 2, 3, 1, 'TUESDAY'),
+    (false, false, false, false, 1, 17, 3, 3, 1, 'WEDNESDAY'),
+    (false, false, false, false, 1, 18, 1, 3, 1, 'THURSDAY'),
+    (false, false, false, false, 1, 19, 2, 3, 1, 'FRIDAY'),
+    (false, false, false, false, 1, 20, 3, 3, 1, 'SATURDAY'),
+    (false, false, false, false, 1, 21, 1, 3, 1, 'SUNDAY'),
+
+    -- User 2, Program 1, Week 1
+    (false, false, false, false, 2, 1, 1, 1, 1, 'MONDAY'),
+    (false, false, false, false, 2, 2, 2, 1, 1, 'TUESDAY'),
+    (false, false, false, false, 2, 3, 3, 1, 1, 'WEDNESDAY'),
+    (false, false, false, false, 2, 4, 1, 1, 1, 'THURSDAY'),
+    (false, false, false, false, 2, 5, 2, 1, 1, 'FRIDAY'),
+    (false, false, false, false, 2, 6, 3, 1, 1, 'SATURDAY'),
+    (false, false, false, false, 2, 7, 1, 1, 1, 'SUNDAY'),
+
+    -- User 2, Program 1, Week 2
+    (false, false, false, false, 2, 8, 1, 2, 1, 'MONDAY'),
+    (false, false, false, false, 2, 9, 2, 2, 1, 'TUESDAY'),
+    (false, false, false, false, 2, 10, 3, 2, 1, 'WEDNESDAY'),
+    (false, false, false, false, 2, 11, 1, 2, 1, 'THURSDAY'),
+    (false, false, false, false, 2, 12, 2, 2, 1, 'FRIDAY'),
+    (false, false, false, false, 2, 13, 3, 2, 1, 'SATURDAY'),
+    (false, false, false, false, 2, 14, 1, 2, 1, 'SUNDAY'),
+
+    -- User 2, Program 1, Week 3
+    (false, false, false, false, 2, 15, 1, 3, 1, 'MONDAY'),
+    (false, false, false, false, 2, 16, 2, 3, 1, 'TUESDAY'),
+    (false, false, false, false, 2, 17, 3, 3, 1, 'WEDNESDAY'),
+    (false, false, false, false, 2, 18, 1, 3, 1, 'THURSDAY'),
+    (false, false, false, false, 2, 19, 2, 3, 1, 'FRIDAY'),
+    (false, false, false, false, 2, 20, 3, 3, 1, 'SATURDAY'),
+    (false, false, false, false, 2, 21, 1, 3, 1, 'SUNDAY'),
+
+    -- User 3, Program 1, Week 1
+    (false, false, false, false, 3, 1, 1, 1, 1, 'MONDAY'),
+    (false, false, false, false, 3, 2, 2, 1, 1, 'TUESDAY'),
+    (false, false, false, false, 3, 3, 3, 1, 1, 'WEDNESDAY'),
+    (false, false, false, false, 3, 4, 1, 1, 1, 'THURSDAY'),
+    (false, false, false, false, 3, 5, 2, 1, 1, 'FRIDAY'),
+    (false, false, false, false, 3, 6, 3, 1, 1, 'SATURDAY'),
+    (false, false, false, false, 3, 7, 1, 1, 1, 'SUNDAY'),
+
+    -- User 3, Program 1, Week 2
+    (false, false, false, false, 3, 8, 1, 2, 1, 'MONDAY'),
+    (false, false, false, false, 3, 9, 2, 2, 1, 'TUESDAY'),
+    (false, false, false, false, 3, 10, 3, 2, 1, 'WEDNESDAY'),
+    (false, false, false, false, 3, 11, 1, 2, 1, 'THURSDAY'),
+    (false, false, false, false, 3, 12, 2, 2, 1, 'FRIDAY'),
+    (false, false, false, false, 3, 13, 3, 2, 1, 'SATURDAY'),
+    (false, false, false, false, 3, 14, 1, 2, 1, 'SUNDAY'),
+
+    -- User 3, Program 1, Week 3
+    (false, false, false, false, 3, 15, 1, 3, 1, 'MONDAY'),
+    (false, false, false, false, 3, 16, 2, 3, 1, 'TUESDAY'),
+    (false, false, false, false, 3, 17, 3, 3, 1, 'WEDNESDAY'),
+    (false, false, false, false, 3, 18, 1, 3, 1, 'THURSDAY'),
+    (false, false, false, false, 3, 19, 2, 3, 1, 'FRIDAY'),
+    (false, false, false, false, 3, 20, 3, 3, 1, 'SATURDAY'),
+    (false, false, false, false, 3, 21, 1, 3, 1, 'SUNDAY');
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

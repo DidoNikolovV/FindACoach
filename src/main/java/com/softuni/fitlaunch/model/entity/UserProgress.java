@@ -42,6 +42,9 @@ public class UserProgress extends BaseEntity {
     @JoinColumn(name = "exercise_id")
     private ExerciseEntity exercise;
 
+    @Column(name = "day_name")
+    private String dayName;
+
     @ManyToOne
     @JoinColumn(name = "week_id")
     private ProgramWeekEntity week;
