@@ -129,7 +129,6 @@ class CommentServiceTest {
         when(modelMapper.map(commentCreationDTO, CommentEntity.class)).thenReturn(comment);
 
 
-
         underTest.addTopicComment(commentCreationDTO, "username", 1L);
 
         verify(commentRepository, times(1)).save(comment);
@@ -144,13 +143,20 @@ class CommentServiceTest {
         user.setId(1L);
         user.setUsername("test");
 
+        WorkoutEntity workout = new WorkoutEntity();
+        workout.setId(1L);
+
         UserRoleDTO userRoleDto = new UserRoleDTO();
         userRoleDto.setRole(UserRoleEnum.COACH);
         userDto.setRoles(List.of(userRoleDto));
+
         CommentEntity comment = new CommentEntity();
         comment.setAuthor(user);
         comment.setMessage("Test comment");
         comment.setId(1L);
+        comment.setWorkout(workout);
+
+        workout.getComments().add(comment);
 
         when(userService.getUserByUsername("test")).thenReturn(userDto);
         when(commentRepository.findById(1L)).thenReturn(Optional.of(comment));
@@ -176,6 +182,7 @@ class CommentServiceTest {
         comment.setAuthor(user);
         comment.setMessage("Test comment");
         comment.setId(1L);
+        comment.setWorkout(workout);
 
         when(userService.getUserEntityByUsername("test")).thenReturn(user);
         when(workoutService.getWorkoutEntityById(1L)).thenReturn(workout);
