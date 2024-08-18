@@ -15,6 +15,7 @@ import com.softuni.fitlaunch.repository.UserRepository;
 import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -40,11 +41,12 @@ public class UserService {
     private final ApplicationEventPublisher applicationEventPublisher;
 
     private final UserActivationCodeRepository userActivationCodeRepository;
+    private final PasswordEncoder passwordEncoder;
 
     private final FileUpload fileUpload;
 
 
-    public UserService(UserRepository userRepository, CoachService coachService, RoleRepository roleRepository, ClientService clientService, ModelMapper modelMapper, ApplicationEventPublisher applicationEventPublisher, UserActivationCodeRepository userActivationCodeRepository, FileUpload fileUpload) {
+    public UserService(UserRepository userRepository, CoachService coachService, RoleRepository roleRepository, ClientService clientService, ModelMapper modelMapper, ApplicationEventPublisher applicationEventPublisher, UserActivationCodeRepository userActivationCodeRepository, PasswordEncoder passwordEncoder, FileUpload fileUpload) {
         this.userRepository = userRepository;
         this.coachService = coachService;
         this.roleRepository = roleRepository;
@@ -52,6 +54,7 @@ public class UserService {
         this.modelMapper = modelMapper;
         this.applicationEventPublisher = applicationEventPublisher;
         this.userActivationCodeRepository = userActivationCodeRepository;
+        this.passwordEncoder = passwordEncoder;
         this.fileUpload = fileUpload;
     }
 
@@ -68,6 +71,7 @@ public class UserService {
 
         user.getRoles().add(role);
         user.setTitle(UserTitleEnum.valueOf(userRegisterDTO.getTitle()));
+        user.setPassword(passwordEncoder.encode(userRegisterDTO.getPassword()));
 
         userRepository.save(user);
 

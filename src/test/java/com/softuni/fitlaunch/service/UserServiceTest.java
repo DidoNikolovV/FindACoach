@@ -20,6 +20,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.Instant;
@@ -65,6 +66,9 @@ class UserServiceTest {
     @Mock
     private FileUpload fileUpload;
 
+    @Mock
+    private PasswordEncoder passwordEncoder;
+
     @InjectMocks
     private UserService userService;
 
@@ -76,8 +80,8 @@ class UserServiceTest {
     void testRegister_whenUserDetailsAreValid_thenUserIsRegisteredSuccessfully() {
         UserRegisterDTO dto = new UserRegisterDTO();
         dto.setUsername("testuser");
-        dto.setPassword("password");
-        dto.setConfirmPassword("password");
+        dto.setPassword("12345");
+        dto.setConfirmPassword("12345");
         dto.setTitle(UserTitleEnum.CLIENT.name());
 
         UserRoleEntity userRoleEntity = new UserRoleEntity();
@@ -85,9 +89,10 @@ class UserServiceTest {
 
         UserEntity user = new UserEntity();
         user.setUsername(dto.getUsername());
-        user.setPassword(dto.getPassword());
+        user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setTitle(UserTitleEnum.CLIENT);
 
+        when(passwordEncoder.encode(dto.getPassword())).thenReturn("bd203a998ca15d05d7d27ecbb5dc3fe026ccb039694983c5c24376052ffaa5bb62878e4380229de99749caaee0d1223e");
         when(userRepository.count()).thenReturn(0L);
         when(roleRepository.findById(1L)).thenReturn(Optional.of(userRoleEntity));
         when(userRepository.findByUsername("testuser")).thenReturn(Optional.empty());
