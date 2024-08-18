@@ -86,6 +86,7 @@ function commentAsHTML(comment) {
 }
 
 
+
 function deleteComment(commentId) {
     fetch(`${url}/api/v1/comments/${workoutId}/${commentId}`, {
         method: 'DELETE',

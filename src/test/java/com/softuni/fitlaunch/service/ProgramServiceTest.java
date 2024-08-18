@@ -167,7 +167,7 @@ class ProgramServiceTest {
         userProgressList.add(userProgress);
 
         when(programRepository.findById(1L)).thenReturn(Optional.of(programEntity));
-        when(userService.getUserEntityByUsername("test")).thenReturn(user);
+//        when(userService.getUserEntityByUsername("test")).thenReturn(user);
         when(userProgressService.getUserProgressForProgram("test", 1L)).thenReturn(userProgressList);
         when(modelMapper.map(programEntity, ProgramDTO.class)).thenReturn(programDTO);
         when(modelMapper.map(programWeekEntity, ProgramWeekDTO.class)).thenReturn(programWeekDto);
@@ -175,7 +175,7 @@ class ProgramServiceTest {
         underTest.getProgramById(1L, "test");
 
         verify(programRepository, times(1)).findById(1L);
-        verify(userService, times(1)).getUserEntityByUsername("test");
+//        verify(userService, times(1)).getUserEntityByUsername("test");
         verify(userProgressService, times(1)).getUserProgressForProgram("test", 1L);
     }
 

@@ -31,12 +31,6 @@
             </tr>
             </tbody>
         </table>
-        <div class="mt-4">
-            <form th:method="POST"
-                  th:action="@{/programs/{programId}/weeks/{weekNumber}/complete(programId=${programId}, weekNumber=${week.number})}">
-                <input type="submit" class="btn btn-success" value="Complete Week">
-            </form>
-        </div>
     </div>
 </header>
 

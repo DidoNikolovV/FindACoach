@@ -72,9 +72,9 @@ public class ClientService {
         List<DailyMetricsEntity> allByClientId = dailyMetricsRepository.findAllByClientId(clientEntity.getId());
         DailyMetricsEntity dailyMetrics = modelMapper.map(dailyWeightDTO, DailyMetricsEntity.class);
         WeekMetricsEntity weekMetricsEntity = null;
-        if(allByClientId.size() < 7) {
+        if (allByClientId.size() < 7) {
             weekMetricsEntity = weekMetricsService.getByNumber(1);
-            if(weekMetricsEntity == null) {
+            if (weekMetricsEntity == null) {
                 weekMetricsEntity = new WeekMetricsEntity();
                 weekMetricsEntity.setNumber(1);
             }
@@ -82,7 +82,7 @@ public class ClientService {
             DailyMetricsEntity last = allByClientId.get(allByClientId.size() - 1);
             WeekMetricsEntity lastWeek = last.getWeek();
             weekMetricsEntity = weekMetricsService.getByNumber(lastWeek.getNumber() + 1);
-            if(weekMetricsEntity == null) {
+            if (weekMetricsEntity == null) {
                 weekMetricsEntity = new WeekMetricsEntity();
                 weekMetricsEntity.setNumber(lastWeek.getNumber() + 1);
             }
@@ -122,6 +122,14 @@ public class ClientService {
             totalEnergyLevels += metrics.get(i).getEnergyLevels();
         }
 
+        DailyMetricsDTO dailyMetricsDTO = createDailyMetricsDto(totalWeight, totalStepsCount, totalSleepDuration, totalMood, totalEnergyLevels);
+
+        averageMetrics.add(dailyMetricsDTO);
+
+        return averageMetrics;
+    }
+
+    private DailyMetricsDTO createDailyMetricsDto(Double totalWeight, Double totalStepsCount, Double totalSleepDuration, Integer totalMood, Integer totalEnergyLevels) {
         DailyMetricsDTO dailyMetricsDTO = new DailyMetricsDTO();
 
         dailyMetricsDTO.setWeight(totalWeight / 2);
@@ -129,14 +137,11 @@ public class ClientService {
         dailyMetricsDTO.setSleepDuration(totalSleepDuration / 2);
         dailyMetricsDTO.setMood(totalMood / 2);
         dailyMetricsDTO.setEnergyLevels(totalEnergyLevels / 2);
-
-        averageMetrics.add(dailyMetricsDTO);
-
-        return averageMetrics;
+        return dailyMetricsDTO;
     }
 
     public double calculcateWeightProgress(Double clientWeight, Double weightGoal) {
-        if(clientWeight == null) {
+        if (clientWeight == null) {
             return 0D;
         }
         return Math.floor((clientWeight / weightGoal) * 100);

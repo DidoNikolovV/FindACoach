@@ -38,7 +38,7 @@ function loadRecommendation() {
             if (recommendedProgram) {
                 recommendedProgram.style.display = 'block';
                 recommendedProgram.classList.remove('col-md-4');
-                recommendedProgram.classList.add('col-md-12');
+                recommendedProgram.classList.add('col-md-4'); // Keep original size
             }
 
             const recommendedProgramTitle = recommendedProgram.querySelector('.card-title').innerText;
@@ -60,7 +60,6 @@ function loadRecommendation() {
             document.getElementById('showAllProgramsRow').style.display = 'block';
 
             $('#helperModal').modal('hide');
-
         })
         .catch(err => {
             console.error(err);

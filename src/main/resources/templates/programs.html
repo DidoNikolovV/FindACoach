@@ -8,7 +8,7 @@
 <header class="header">
     <div class="container d-flex flex-column align-items-center justify-content-center" style="min-height: 100vh;">
         <div class="row col-md-10" id="programsContainer" style="margin-top: 11rem;">
-            <div th:each="program : ${allPrograms}" th:object="${program}" class="col-md-4 mb-4">
+            <div th:each="program : ${allPrograms}" th:object="${program}" class="col-md-4 mb-4 program-card">
                 <div class="card border-0">
                     <a th:href="@{/programs/details/{id}(id=*{id})}" type="submit"
                        th:class="${membership == 'Free' ? 'th-disabled-overlay' : 'card-link p-0 card-hover'}">

@@ -42,10 +42,6 @@ public class UserProgressService {
         return userProgressRepository.findByUserIdAndProgramId(user.getId(), programId);
     }
 
-    public List<UserProgress> getUserProgressForProgram(String username, Long programId, Long weekId) {
-        UserEntity user = userService.getUserEntityByUsername(username);
-        return userProgressRepository.findByUserIdAndProgramIdAndWeekId(user.getId(), programId, weekId);
-    }
 
     public Map<Long, Boolean> getCompletedWorkouts(String username, Long programId) {
         List<UserProgress> userProgressList = getUserProgressForProgram(username, programId);
@@ -59,13 +55,18 @@ public class UserProgressService {
         UserEntity user = userService.getUserEntityByUsername(username);
 
         for (ProgramWeekEntity week : weeks) {
-            UserProgress progress = new UserProgress();
-            progress.setUser(user);
-            progress.setProgram(program);
-            progress.setWeek(week);
+            UserProgress progress = createUserProgress(program, week, user);
 
             userProgressRepository.save(progress);
         }
+    }
+
+    private static UserProgress createUserProgress(ProgramEntity program, ProgramWeekEntity week, UserEntity user) {
+        UserProgress progress = new UserProgress();
+        progress.setUser(user);
+        progress.setProgram(program);
+        progress.setWeek(week);
+        return progress;
     }
 
     public void saveUserProgress(UserProgress userProgress) {

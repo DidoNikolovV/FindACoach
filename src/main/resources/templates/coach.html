@@ -6,7 +6,6 @@
 <div class="container d-flex align-items-center" style="height: 100vh;">
     <div class="row justify-content-sm-center">
         <div class="col-sm-10 col-md-5">
-            <!-- Member block type 5-->
             <div class="member-block-type-5 inset-lg-right-20"><img class="img-fluid mx-auto d-block"
                                                                     th:src="${coach.imgUrl}" width="437"
                                                                     height="437" alt="">
@@ -25,7 +24,6 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <!-- Calendar goes here -->
                                         <input type="date" id="workoutDate" class="form-control">
                                         <input type="hidden" id="coachUsername" th:value="${coach.username}">
                                         <input type="hidden" id="clientUsername"
@@ -90,14 +88,10 @@
                 </p>
             </div>
 
-            <!-- Calendar for scheduling workouts -->
             <div class="calendar">
-                <!-- Insert your calendar code here -->
             </div>
 
-            <!-- Progress tracker -->
             <div class="progress-tracker">
-                <!-- Insert your progress tracker code here -->
             </div>
         </div>
     </div>

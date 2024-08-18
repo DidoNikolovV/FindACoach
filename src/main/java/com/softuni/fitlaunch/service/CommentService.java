@@ -54,14 +54,18 @@ public class CommentService {
     public CommentView addComment(CommentCreationDTO commentDTO, String username, Long workoutId) {
         UserEntity author = userService.getUserEntityByUsername(username);
         WorkoutEntity workout = workoutService.getWorkoutEntityById(workoutId);
+        CommentEntity comment = createComment(commentDTO, author, workout);
+        comment = commentRepository.save(comment);
+
+        return new CommentView(comment.getId(), author.getImgUrl(), author.getUsername(), comment.getMessage());
+    }
+
+    private CommentEntity createComment(CommentCreationDTO commentDTO, UserEntity author, WorkoutEntity workout) {
         CommentEntity comment = modelMapper.map(commentDTO, CommentEntity.class);
         comment.setAuthor(author);
         comment.setWorkout(workout);
         workout.getComments().add(comment);
-        workoutService.saveWorkout(workout);
-        comment = commentRepository.save(comment);
-
-        return new CommentView(comment.getId(), author.getImgUrl(), author.getUsername(), comment.getMessage());
+        return comment;
     }
 
     public CommentView getComment(Long commentId) {

@@ -47,14 +47,19 @@ public class UserActivationService {
     public String createActivationCode(String email) {
         String activationCode = generateActivationCode();
 
-        UserActivationCodeEntity userActivationCodeEntity = new UserActivationCodeEntity();
-        userActivationCodeEntity.setActivationCode(activationCode);
-        userActivationCodeEntity.setCreated(Instant.now());
-        userActivationCodeEntity.setUser(userService.getUserEntityByEmail(email));
+        UserActivationCodeEntity userActivationCodeEntity = createUserActivationCode(email, activationCode);
 
         userActivationCodeRepository.save(userActivationCodeEntity);
 
         return activationCode;
+    }
+
+    private UserActivationCodeEntity createUserActivationCode(String email, String activationCode) {
+        UserActivationCodeEntity userActivationCodeEntity = new UserActivationCodeEntity();
+        userActivationCodeEntity.setActivationCode(activationCode);
+        userActivationCodeEntity.setCreated(Instant.now());
+        userActivationCodeEntity.setUser(userService.getUserEntityByEmail(email));
+        return userActivationCodeEntity;
     }
 
     private String generateActivationCode() {

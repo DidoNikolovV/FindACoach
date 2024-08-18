@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class ProgramService {
@@ -83,8 +82,6 @@ public class ProgramService {
         ProgramEntity program = programRepository.findById(programId)
                 .orElseThrow(() -> new ResourceNotFoundException("Program with id " + programId + " not found"));
 
-        UserEntity user = userService.getUserEntityByUsername(username);
-
         List<UserProgress> userProgressList = userProgressService.getUserProgressForProgram(username, programId);
 
         ProgramDTO programDTO = modelMapper.map(program, ProgramDTO.class);
@@ -115,7 +112,6 @@ public class ProgramService {
     }
 
 
-
     private boolean isWeekCompleted(List<UserProgress> userProgressList, ProgramWeekEntity week) {
         return userProgressList.stream()
                 .filter(progress -> progress.getWeek().equals(week))
@@ -137,10 +133,7 @@ public class ProgramService {
         for (ProgramWeekEntity week : weeks) {
             week.setProgram(program);
             for (int i = 1; i <= 7; i++) {
-                DayWorkoutsEntity day = new DayWorkoutsEntity();
-                DaysEnum dayEnum = DaysEnum.values()[i - 1];
-                day.setName(dayEnum.name());
-                day.setWeek(week);
+                DayWorkoutsEntity day = createDay(week, i);
                 week.getDays().add(day);
             }
         }
@@ -149,9 +142,17 @@ public class ProgramService {
         program.setImgUrl("/images/intermediate-program.jpg");
         program.setWeeks(weeks);
         program = programRepository.save(program);
-        userProgressService.saveUserProgress(program, username, weeks);
+//        userProgressService.saveUserProgress(program, username, weeks);
 
         return program;
+    }
+
+    private static DayWorkoutsEntity createDay(ProgramWeekEntity week, int index) {
+        DayWorkoutsEntity day = new DayWorkoutsEntity();
+        DaysEnum dayEnum = DaysEnum.values()[index - 1];
+        day.setName(dayEnum.name());
+        day.setWeek(week);
+        return day;
     }
 
 
@@ -168,12 +169,7 @@ public class ProgramService {
                 .toList();
 
         List<DayWorkoutsDTO> updatedDays = dayDTOs.stream().map(dayDTO -> {
-            UserProgress progress = userProgressList.stream()
-                    .filter(p -> p.getWorkout().getId().equals(dayDTO.getWorkout().getId())
-                            && p.getDayName() != null
-                            && p.getDayName().equalsIgnoreCase(dayDTO.getName()))
-                    .findFirst()
-                    .orElse(null);
+            UserProgress progress = getUserProgressForCurrentDayWorkout(dayDTO, userProgressList);
 
             if (progress != null) {
                 dayDTO.setCompleted(progress.isWorkoutCompleted());
@@ -187,5 +183,14 @@ public class ProgramService {
 
         weekDTO.setDays(updatedDays);
         return weekDTO;
+    }
+
+    private UserProgress getUserProgressForCurrentDayWorkout(DayWorkoutsDTO dayDTO, List<UserProgress> userProgressList) {
+        return userProgressList.stream()
+                .filter(p -> p.getWorkout().getId().equals(dayDTO.getWorkout().getId())
+                        && p.getDayName() != null
+                        && p.getDayName().equalsIgnoreCase(dayDTO.getName()))
+                .findFirst()
+                .orElse(null);
     }
 }

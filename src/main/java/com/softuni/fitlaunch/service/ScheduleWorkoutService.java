@@ -34,14 +34,18 @@ public class ScheduleWorkoutService {
     public void scheduleWorkout(String clientUsername, String coachUsername, String scheduledTime) {
         ClientEntity clientEntity = clientService.getClientEntityByUsername(clientUsername);
         CoachEntity coachEntity = coachService.getCoachEntityByUsername(coachUsername);
+        ScheduledWorkoutEntity scheduledWorkoutEntity = createScheduledWorkoutEntity(scheduledTime, clientEntity, coachEntity);
+
+        scheduledWorkoutRepository.save(scheduledWorkoutEntity);
+    }
+
+    private ScheduledWorkoutEntity createScheduledWorkoutEntity(String scheduledTime, ClientEntity clientEntity, CoachEntity coachEntity) {
         ScheduledWorkoutEntity scheduledWorkoutEntity = new ScheduledWorkoutEntity();
         scheduledWorkoutEntity.setClient(clientEntity);
         scheduledWorkoutEntity.setCoach(coachEntity);
         LocalDate parse = LocalDate.parse(scheduledTime);
         scheduledWorkoutEntity.setScheduledDate(parse);
-
-        scheduledWorkoutRepository.save(scheduledWorkoutEntity);
-
+        return scheduledWorkoutEntity;
     }
 
 
