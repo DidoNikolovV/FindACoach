@@ -11,10 +11,10 @@ spring:
       hibernate:
         format_sql: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
   sql:
     init:
-      mode: always
+      mode: never
   mvc:
     hiddenmethod:
       filter:
@@ -28,6 +28,10 @@ spring:
       static-locations: file:src/main/resources/static/
       cache:
         period: 0
+    messages:
+      basename: messages
+      encoding: UTF-8
+      cache-duration: 3600
 
   mail:
     fitlaunch: ${EMAIL:didaka934@gmail.com}

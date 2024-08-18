@@ -9,11 +9,16 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Configuration
 public class AppConfig implements WebMvcConfigurer {
@@ -42,6 +47,30 @@ public class AppConfig implements WebMvcConfigurer {
                 registry.addMapping("/api/v1").allowedOrigins("*");
             }
         };
+    }
+
+    @Bean
+    public LocaleResolver localeResolver() {
+        CookieLocaleResolver localeResolver = new CookieLocaleResolver();
+        localeResolver.setDefaultLocale(Locale.ENGLISH);
+        localeResolver.setCookieName("localeCookie");
+        localeResolver.setCookieMaxAge(3600);
+        return localeResolver;
+    }
+
+    @Bean
+    public LocaleChangeInterceptor localeChangeInterceptor() {
+        LocaleChangeInterceptor localeChangeInterceptor = new LocaleChangeInterceptor();
+        localeChangeInterceptor.setParamName("lang");
+        return localeChangeInterceptor;
+    }
+
+    @Bean
+    public ReloadableResourceBundleMessageSource messageSource() {
+        ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
+        messageSource.setBasenames("classpath:messages");
+        messageSource.setDefaultEncoding("UTF-8");
+        return messageSource;
     }
 
 

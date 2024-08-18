@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <nav th:fragment="~{fragments/navbar}" class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
     <div class="container">
         <a class="logo text-warning" href="/">FindACoach</a>
@@ -11,66 +10,56 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active" th:classappend="${activePage == 'forum'} ? 'custom-active'">
-                    <a class="nav-link text-white h6" th:href="@{/forum}">Forum</a>
+                    <a class="nav-link text-white h6" th:href="@{/forum}" th:text="#{nav.forum}">Forum</a>
                 </li>
                 <li class="nav-item active" th:classappend="${activePage == 'myCalendar'} ? 'custom-active'" sec:authorize="hasAnyRole('ADMIN', 'CLIENT', 'COACH')">
                     <a class="nav-link text-white h6"
-                       th:href="@{/users/{username}/calendar(username=${#authentication.principal.username})}">My
-                        Calendar</a>
+                       th:href="@{/users/{username}/calendar(username=${#authentication.principal.username})}" th:text="#{nav.myCalendar}">My Calendar</a>
                 </li>
-                <li class="nav-item dropdown"  sec:authorize="hasAnyRole('ADMIN', 'COACH', 'CLIENT')">
+                <li class="nav-item dropdown" sec:authorize="hasAnyRole('ADMIN', 'COACH', 'CLIENT')">
                     <a class="nav-link dropdown-toggle text-white h6" href="#" role="button"
-                       aria-haspopup="true" aria-expanded="false">
-                        Programs
-                    </a>
+                       aria-haspopup="true" aria-expanded="false" th:text="#{nav.programs}">Programs</a>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="/programs/create" sec:authorize="hasAnyRole('ADMIN', 'COACH')">Create
-                            Program</a>
-                        <a class="dropdown-item custom-active" th:classappend="${activePage == 'allPrograms'} ? 'custom-active'" href="/programs/all">All Programs</a>
-<!--                        <a class="dropdown-item" th:classappend="${activePage == 'createWorkout'} ? 'custom-active'" href="/workouts/create">Create Workout</a>-->
+                        <a class="dropdown-item" href="/programs/create" sec:authorize="hasAnyRole('ADMIN', 'COACH')" th:text="#{nav.createProgram}">Create Program</a>
+                        <a class="dropdown-item custom-active" th:classappend="${activePage == 'allPrograms'} ? 'custom-active'" href="/programs/all" th:text="#{nav.allPrograms}">All Programs</a>
+                        <!-- Uncomment and update as needed -->
+                        <!-- <a class="dropdown-item" th:classappend="${activePage == 'createWorkout'} ? 'custom-active'" href="/workouts/create" th:text="#{nav.createWorkout}">Create Workout</a> -->
                     </div>
                 </li>
-<!--                <li class="nav-item dropdown" sec:authorize="hasAnyRole('ADMIN', 'COACH')">-->
-<!--                    <a class="nav-link dropdown-toggle text-white h6" href="#" id="navbarDropdownMenuLink" role="button"-->
-<!--                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
-<!--                        Meals-->
-<!--                    </a>-->
-<!--                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">-->
-<!--                        <a class="dropdown-item" href="/meals/create">Create Meal</a>-->
-<!--                        <a class="dropdown-item" href="/meals/all">All Meals</a>-->
-<!--                        <a class="dropdown-item" href="/meal-plans/create">Create Meal Plan</a>-->
-<!--                        <a class="dropdown-item" href="/meal-plans/all">Meal Plans</a>-->
-<!--                    </div>-->
-<!--                </li>-->
-
+                <!-- Uncomment and update as needed -->
+                <!-- <li class="nav-item dropdown" sec:authorize="hasAnyRole('ADMIN', 'COACH')">
+                    <a class="nav-link dropdown-toggle text-white h6" href="#" id="navbarDropdownMenuLink" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{nav.meals}">Meals</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                        <a class="dropdown-item" href="/meals/create" th:text="#{nav.createMeal}">Create Meal</a>
+                        <a class="dropdown-item" href="/meals/all" th:text="#{nav.allMeals}">All Meals</a>
+                        <a class="dropdown-item" href="/meal-plans/create" th:text="#{nav.createMealPlan}">Create Meal Plan</a>
+                        <a class="dropdown-item" href="/meal-plans/all" th:text="#{nav.mealPlans}">Meal Plans</a>
+                    </div>
+                </li> -->
                 <li class="nav-item" th:classappend="${activePage == 'coaches'} ? 'custom-active'" sec:authorize="hasAnyRole('ADMIN', 'CLIENT')">
-                    <a class="nav-link text-white h6" href="/coaches/all">Coaches</a>
+                    <a class="nav-link text-white h6" href="/coaches/all" th:text="#{nav.coaches}">Coaches</a>
                 </li>
                 <li class="nav-item" th:classappend="${activePage == 'dailyMetrics'} ? 'custom-active'" sec:authorize="hasAnyRole('ADMIN', 'CLIENT')">
                     <a class="nav-link text-white h6"
-                       th:href="@{/clients/daily-metrics/{clientName}(clientName=${#authentication.principal.username})}">Daily
-                        Metrics</a>
+                       th:href="@{/clients/daily-metrics/{clientName}(clientName=${#authentication.principal.username})}" th:text="#{nav.dailyMetrics}">Daily Metrics</a>
                 </li>
                 <li class="nav-item" sec:authorize="hasRole('COACH')">
                     <a class="nav-link text-white h6"
-                       th:href="@{/clients/{coach}/all(coach=${#authentication.principal.username})}">Clients</a>
+                       th:href="@{/clients/{coach}/all(coach=${#authentication.principal.username})}" th:text="#{nav.clients}">Clients</a>
                 </li>
                 <li class="nav-item dropdown" sec:authorize="hasRole('ADMIN')">
                     <a class="nav-link dropdown-toggle text-white h6" href="#" id="navbarDropdown" role="button"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Admin
-                    </a>
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" th:text="#{nav.admin}">Admin</a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item h6" href="/workouts/add">Add Workout</a>
-                        <a class="dropdown-item h6" href="/users/all">Manage Users</a>
+                        <a class="dropdown-item h6" href="/workouts/add" th:text="#{nav.addWorkout}">Add Workout</a>
+                        <a class="dropdown-item h6" href="/users/all" th:text="#{nav.manageUsers}">Manage Users</a>
                     </div>
                 </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <div class="form-inline my-2 my-lg-0 border px-3">
                         <div class="logged-user text-white">
-                            Welcome,
-                            <th:block sec:authentication="name"></th:block>
-                            !
+                            Welcome, <th:block sec:authentication="name"></th:block>!
                         </div>
                         <form th:method="post" th:action="@{/users/logout}">
                             <input type="submit" class="btn btn-link text-white" value="Logout"/>
@@ -78,23 +67,30 @@
                     </div>
                 </li>
                 <li class="nav-item" sec:authorize="!isAuthenticated()" th:classappend="${activePage == 'register'} ? 'custom-active'">
-                    <a class="nav-link text-white h6" href="/users/register">Register</a>
+                    <a class="nav-link text-white h6" href="/users/register" th:text="#{nav.register}">Register</a>
                 </li>
                 <li class="nav-item" sec:authorize="!isAuthenticated()" th:classappend="${activePage == 'login'} ? 'custom-active'">
-                    <a class="nav-link text-white h6" href="/users/login">Login</a>
+                    <a class="nav-link text-white h6" href="/users/login" th:text="#{nav.login}">Login</a>
                 </li>
-
                 <li class="nav-item" sec:authorize="isAuthenticated()" th:classappend="${activePage == 'myProfile'} ? 'custom-active'">
                     <a class="nav-link" href="/users/profile">
                         <!-- Font Awesome User Icon -->
                         <i class="fas fa-user"></i>
                     </a>
                 </li>
-
                 <li class="nav-item" sec:authorize="isAuthenticated()" th:classappend="${activePage == 'contactUs'} ? 'custom-active'">
-                    <a class="nav-link" href="/contact-us">Contact Us</a>
+                    <a class="nav-link" href="/contact-us" th:text="#{nav.contactUs}">Contact Us</a>
                 </li>
             </ul>
+
+            <form th:action="@{change-language}" method="get" class="form-inline my-2 my-lg-0">
+                <select name="lang" onchange="this.form.submit()" class="form-control">
+                    <option value="en" th:selected="${#locale.language == 'en'}">English</option>
+                    <option value="fr" th:selected="${#locale.language == 'fr'}">French</option>
+                    <option value="de" th:selected="${#locale.language == 'de'}">German</option>
+                </select>
+            </form>
+
         </div>
     </div>
 </nav>
