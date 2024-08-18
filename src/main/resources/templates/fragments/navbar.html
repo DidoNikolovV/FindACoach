@@ -27,21 +27,21 @@
                         <a class="dropdown-item" href="/programs/create" sec:authorize="hasAnyRole('ADMIN', 'COACH')">Create
                             Program</a>
                         <a class="dropdown-item custom-active" th:classappend="${activePage == 'allPrograms'} ? 'custom-active'" href="/programs/all">All Programs</a>
-                        <a class="dropdown-item" th:classappend="${activePage == 'createWorkout'} ? 'custom-active'" href="/workouts/create">Create Workout</a>
+<!--                        <a class="dropdown-item" th:classappend="${activePage == 'createWorkout'} ? 'custom-active'" href="/workouts/create">Create Workout</a>-->
                     </div>
                 </li>
-                <li class="nav-item dropdown" sec:authorize="hasAnyRole('ADMIN', 'COACH')">
-                    <a class="nav-link dropdown-toggle text-white h6" href="#" id="navbarDropdownMenuLink" role="button"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Meals
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                        <a class="dropdown-item" href="/meals/create">Create Meal</a>
-                        <a class="dropdown-item" href="/meals/all">All Meals</a>
-                        <a class="dropdown-item" href="/meal-plans/create">Create Meal Plan</a>
-                        <a class="dropdown-item" href="/meal-plans/all">Meal Plans</a>
-                    </div>
-                </li>
+<!--                <li class="nav-item dropdown" sec:authorize="hasAnyRole('ADMIN', 'COACH')">-->
+<!--                    <a class="nav-link dropdown-toggle text-white h6" href="#" id="navbarDropdownMenuLink" role="button"-->
+<!--                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--                        Meals-->
+<!--                    </a>-->
+<!--                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">-->
+<!--                        <a class="dropdown-item" href="/meals/create">Create Meal</a>-->
+<!--                        <a class="dropdown-item" href="/meals/all">All Meals</a>-->
+<!--                        <a class="dropdown-item" href="/meal-plans/create">Create Meal Plan</a>-->
+<!--                        <a class="dropdown-item" href="/meal-plans/all">Meal Plans</a>-->
+<!--                    </div>-->
+<!--                </li>-->
 
                 <li class="nav-item" th:classappend="${activePage == 'coaches'} ? 'custom-active'" sec:authorize="hasAnyRole('ADMIN', 'CLIENT')">
                     <a class="nav-link text-white h6" href="/coaches/all">Coaches</a>
