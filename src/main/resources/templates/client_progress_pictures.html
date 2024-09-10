@@ -8,8 +8,9 @@
 <div class="container" style="height: 100vh;">
     <h2 class="text-center" th:text="${client.username} + ' Progress'" style="margin-top: 11rem;"></h2>
 
-    <!-- Upload form -->
-    <form class="upload-form" method="POST" th:action="@{/clients/{clientUsername}/progress(clientUsername=${client.username})}" enctype="multipart/form-data" style="margin-top: 5rem;">
+    <form class="upload-form" method="POST"
+          th:action="@{/clients/{clientUsername}/progress(clientUsername=${client.username})}"
+          enctype="multipart/form-data" style="margin-top: 5rem;">
         <div class="form-row align-items-center">
             <div class="col-sm-9 my-1">
                 <input type="file" class="form-control" id="file" name="file" required>
@@ -20,12 +21,11 @@
         </div>
     </form>
 
-    <!-- Uploaded progressPictures gallery -->
     <h4 class="progress-title text-center">Progress Pictures</h4>
     <div class="row">
-        <div th:each="progressPicture: ${progressPictures}" class="col-md-3 mb-3">
-            <div class="card" style="margin-top: 2rem; padding-left: 1rem;">
-                <img th:src="${progressPicture.url}" class="card-img-top" alt="Progress progressPicture" style="height: 300px; width: 300px;">
+        <div th:each="progressPicture: ${progressPictures}" class="col-md-3" style="margin-bottom: 8rem;">
+            <div style="margin-top: 2rem;">
+                <img th:src="${progressPicture.url}" class="card-img-top" alt="Progress Picture" style="height: 300px;">
             </div>
         </div>
     </div>
@@ -33,14 +33,17 @@
     <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
             <li th:if="${progressPictures.hasPrevious()}" class="page-item">
-                <a th:href="@{'/clients/' + ${client.username} + '/progress?page=' + ${progressPictures.number - 1}}" class="page-link">&lt; Prev</a>
+                <a th:href="@{'/clients/' + ${client.username} + '/progress?page=' + ${progressPictures.number - 1}}"
+                   class="page-link">&lt; Prev</a>
             </li>
             <li th:each="page : ${#numbers.sequence(0, progressPictures.totalPages - 1)}"
                 th:class="${page} == ${progressPictures.number} ? 'page-item active' : 'page-item'">
-                <a th:href="@{'/clients/' + ${client.username} + '/progress?page=' + ${page}}" class="page-link" th:text="${page + 1}"></a>
+                <a th:href="@{'/clients/' + ${client.username} + '/progress?page=' + ${page}}" class="page-link"
+                   th:text="${page + 1}"></a>
             </li>
             <li th:if="${progressPictures.hasNext()}" class="page-item">
-                <a th:href="@{'/clients/' + ${client.username} + '/progress?page=' + ${progressPictures.number + 1}}" class="page-link">Next &gt;</a>
+                <a th:href="@{'/clients/' + ${client.username} + '/progress?page=' + ${progressPictures.number + 1}}"
+                   class="page-link">Next &gt;</a>
             </li>
         </ul>
     </nav>

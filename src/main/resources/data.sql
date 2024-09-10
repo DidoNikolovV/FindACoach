@@ -290,20 +290,6 @@ VALUES
     (11, 1, 'SUNDAY');
 
 
--- Assuming the following exercise IDs based on insertion order:
--- 1: Squats
--- 2: Bench Press
--- 3: Deadlifts
--- 4: Pull-ups
--- 5: Push-ups
--- 6: Leg Press
--- 7: Tricep Dips
--- 8: Bent Over Rows
-
--- Program 1, Week 1, User 1
--- Week 1, Program 1
--- User 1, Program 1
--- Inserting data for user_id = 1, program_id = 1
 INSERT INTO user_progress (exercise_completed, workout_started, workout_completed, week_completed, user_id, workout_id, exercise_id, week_id, program_id, day_name)
 VALUES
     -- User 1, Program 1, Week 1
@@ -333,16 +319,35 @@ VALUES
     (false, false, false, false, 1, 20, 3, 3, 1, 'SATURDAY'),
     (false, false, false, false, 1, 21, 1, 3, 1, 'SUNDAY'),
 
-    -- User 2, Program 1, Week 1
-    (false, false, false, false, 2, 1, 1, 1, 1, 'MONDAY'),
-    (false, false, false, false, 2, 2, 2, 1, 1, 'TUESDAY'),
-    (false, false, false, false, 2, 3, 3, 1, 1, 'WEDNESDAY'),
-    (false, false, false, false, 2, 4, 1, 1, 1, 'THURSDAY'),
-    (false, false, false, false, 2, 5, 2, 1, 1, 'FRIDAY'),
-    (false, false, false, false, 2, 6, 3, 1, 1, 'SATURDAY'),
-    (false, false, false, false, 2, 7, 1, 1, 1, 'SUNDAY'),
 
-    -- User 2, Program 1, Week 2
+-- User 1, Program 2, Week 2
+    (false, false, false, false, 1, 29, 1, 6, 2, 'MONDAY'),
+    (false, false, false, false, 1, 30, 2, 6, 2, 'TUESDAY'),
+    (false, false, false, false, 1, 31, 3, 6, 2, 'WEDNESDAY'),
+    (false, false, false, false, 1, 32, 1, 6, 2, 'THURSDAY'),
+    (false, false, false, false, 1, 33, 2, 6, 2, 'FRIDAY'),
+    (false, false, false, false, 1, 34, 3, 6, 2, 'SATURDAY'),
+    (false, false, false, false, 1, 35, 1, 6, 2, 'SUNDAY'),
+
+-- User 1, Program 2, Week 3
+    (false, false, false, false, 1, 36, 1, 7, 2, 'MONDAY'),
+    (false, false, false, false, 1, 37, 2, 7, 2, 'TUESDAY'),
+    (false, false, false, false, 1, 38, 3, 7, 2, 'WEDNESDAY'),
+    (false, false, false, false, 1, 39, 1, 7, 2, 'THURSDAY'),
+    (false, false, false, false, 1, 40, 2, 7, 2, 'FRIDAY'),
+    (false, false, false, false, 1, 41, 3, 7, 2, 'SATURDAY'),
+    (false, false, false, false, 1, 42, 1, 7, 2, 'SUNDAY'),
+
+    -- User 2, Program 1, Week 1
+    (false, false, false, false, 2, 1, 1, 6, 1, 'MONDAY'),
+    (false, false, false, false, 2, 2, 2, 6, 1, 'TUESDAY'),
+    (false, false, false, false, 2, 3, 3, 6, 1, 'WEDNESDAY'),
+    (false, false, false, false, 2, 4, 1, 6, 1, 'THURSDAY'),
+    (false, false, false, false, 2, 5, 2, 6, 1, 'FRIDAY'),
+    (false, false, false, false, 2, 6, 3, 6, 1, 'SATURDAY'),
+    (false, false, false, false, 2, 7, 1, 6, 1, 'SUNDAY'),
+
+-- User 2, Program 1, Week 2
     (false, false, false, false, 2, 8, 1, 2, 1, 'MONDAY'),
     (false, false, false, false, 2, 9, 2, 2, 1, 'TUESDAY'),
     (false, false, false, false, 2, 10, 3, 2, 1, 'WEDNESDAY'),
@@ -359,6 +364,33 @@ VALUES
     (false, false, false, false, 2, 19, 2, 3, 1, 'FRIDAY'),
     (false, false, false, false, 2, 20, 3, 3, 1, 'SATURDAY'),
     (false, false, false, false, 2, 21, 1, 3, 1, 'SUNDAY'),
+
+    -- User 2, Program 2, Week 1
+    (false, false, false, false, 2, 22, 1, 5, 2, 'MONDAY'),
+    (false, false, false, false, 2, 23, 2, 5, 2, 'TUESDAY'),
+    (false, false, false, false, 2, 24, 3, 5, 2, 'WEDNESDAY'),
+    (false, false, false, false, 2, 25, 1, 5, 2, 'THURSDAY'),
+    (false, false, false, false, 2, 26, 2, 5, 2, 'FRIDAY'),
+    (false, false, false, false, 2, 27, 3, 5, 2, 'SATURDAY'),
+    (false, false, false, false, 2, 28, 1, 5, 2, 'SUNDAY'),
+
+    -- User 2, Program 2, Week 2
+    (false, false, false, false, 2, 29, 1, 6, 2, 'MONDAY'),
+    (false, false, false, false, 2, 30, 2, 6, 2, 'TUESDAY'),
+    (false, false, false, false, 2, 31, 3, 6, 2, 'WEDNESDAY'),
+    (false, false, false, false, 2, 32, 1, 6, 2, 'THURSDAY'),
+    (false, false, false, false, 2, 33, 2, 6, 2, 'FRIDAY'),
+    (false, false, false, false, 2, 34, 3, 6, 2, 'SATURDAY'),
+    (false, false, false, false, 2, 35, 1, 6, 2, 'SUNDAY'),
+
+    -- User 2, Program 2, Week 3
+    (false, false, false, false, 2, 36, 1, 7, 2, 'MONDAY'),
+    (false, false, false, false, 2, 37, 2, 7, 2, 'TUESDAY'),
+    (false, false, false, false, 2, 38, 3, 7, 2, 'WEDNESDAY'),
+    (false, false, false, false, 2, 39, 1, 7, 2, 'THURSDAY'),
+    (false, false, false, false, 2, 40, 2, 7, 2, 'FRIDAY'),
+    (false, false, false, false, 2, 41, 3, 7, 2, 'SATURDAY'),
+    (false, false, false, false, 2, 42, 1, 7, 2, 'SUNDAY'),
 
     -- User 3, Program 1, Week 1
     (false, false, false, false, 3, 1, 1, 1, 1, 'MONDAY'),
@@ -385,7 +417,34 @@ VALUES
     (false, false, false, false, 3, 18, 1, 3, 1, 'THURSDAY'),
     (false, false, false, false, 3, 19, 2, 3, 1, 'FRIDAY'),
     (false, false, false, false, 3, 20, 3, 3, 1, 'SATURDAY'),
-    (false, false, false, false, 3, 21, 1, 3, 1, 'SUNDAY');
+    (false, false, false, false, 3, 21, 1, 3, 1, 'SUNDAY'),
+
+    -- User 3, Program 2, Week 1
+    (false, false, false, false, 3, 22, 1, 5, 2, 'MONDAY'),
+    (false, false, false, false, 3, 23, 2, 5, 2, 'TUESDAY'),
+    (false, false, false, false, 3, 24, 3, 5, 2, 'WEDNESDAY'),
+    (false, false, false, false, 3, 25, 1, 5, 2, 'THURSDAY'),
+    (false, false, false, false, 3, 26, 2, 5, 2, 'FRIDAY'),
+    (false, false, false, false, 3, 27, 3, 5, 2, 'SATURDAY'),
+    (false, false, false, false, 3, 28, 1, 5, 2, 'SUNDAY'),
+
+    -- User 3, Program 2, Week 2
+    (false, false, false, false, 3, 29, 1, 6, 2, 'MONDAY'),
+    (false, false, false, false, 3, 30, 2, 6, 2, 'TUESDAY'),
+    (false, false, false, false, 3, 31, 3, 6, 2, 'WEDNESDAY'),
+    (false, false, false, false, 3, 32, 1, 6, 2, 'THURSDAY'),
+    (false, false, false, false, 3, 33, 2, 6, 2, 'FRIDAY'),
+    (false, false, false, false, 3, 34, 3, 6, 2, 'SATURDAY'),
+    (false, false, false, false, 3, 35, 1, 6, 2, 'SUNDAY'),
+
+    -- User 3, Program 2, Week 3
+    (false, false, false, false, 3, 36, 1, 7, 2, 'MONDAY'),
+    (false, false, false, false, 3, 37, 2, 7, 2, 'TUESDAY'),
+    (false, false, false, false, 3, 38, 3, 7, 2, 'WEDNESDAY'),
+    (false, false, false, false, 3, 39, 1, 7, 2, 'THURSDAY'),
+    (false, false, false, false, 3, 40, 2, 7, 2, 'FRIDAY'),
+    (false, false, false, false, 3, 41, 3, 7, 2, 'SATURDAY'),
+    (false, false, false, false, 3, 42, 1, 7, 2, 'SUNDAY');
 
 
 
