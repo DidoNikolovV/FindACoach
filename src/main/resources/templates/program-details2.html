@@ -39,7 +39,7 @@
                 <tr th:each="week : ${program.weeks}">
                     <td>
                         <span th:text="${week.number}"></span>
-                        <span th:if="${week.completed}" class="badge badge-success ml-2">Completed</span>
+<!--                        <span th:if="${week.completed}" class="badge badge-success ml-2">Completed</span>-->
                     </td>
                     <td>
                         <a th:href="@{/programs/{programId}/weeks/{weekId}(programId=${program.id}, weekId=${week.number})}"
