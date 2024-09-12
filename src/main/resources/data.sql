@@ -339,13 +339,13 @@ VALUES
     (false, false, false, false, 1, 42, 1, 7, 2, 'SUNDAY'),
 
     -- User 2, Program 1, Week 1
-    (false, false, false, false, 2, 1, 1, 6, 1, 'MONDAY'),
-    (false, false, false, false, 2, 2, 2, 6, 1, 'TUESDAY'),
-    (false, false, false, false, 2, 3, 3, 6, 1, 'WEDNESDAY'),
-    (false, false, false, false, 2, 4, 1, 6, 1, 'THURSDAY'),
-    (false, false, false, false, 2, 5, 2, 6, 1, 'FRIDAY'),
-    (false, false, false, false, 2, 6, 3, 6, 1, 'SATURDAY'),
-    (false, false, false, false, 2, 7, 1, 6, 1, 'SUNDAY'),
+    (false, false, false, false, 2, 1, 1, 1, 1, 'MONDAY'),
+    (false, false, false, false, 2, 2, 2, 1, 1, 'TUESDAY'),
+    (false, false, false, false, 2, 3, 3, 1, 1, 'WEDNESDAY'),
+    (false, false, false, false, 2, 4, 1, 1, 1, 'THURSDAY'),
+    (false, false, false, false, 2, 5, 2, 1, 1, 'FRIDAY'),
+    (false, false, false, false, 2, 6, 3, 1, 1, 'SATURDAY'),
+    (false, false, false, false, 2, 7, 1, 1, 1, 'SUNDAY'),
 
 -- User 2, Program 1, Week 2
     (false, false, false, false, 2, 8, 1, 2, 1, 'MONDAY'),
