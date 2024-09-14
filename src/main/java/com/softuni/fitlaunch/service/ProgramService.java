@@ -157,7 +157,6 @@ public class ProgramService {
         return day;
     }
 
-
     public ProgramWeekDTO getWeekById(Long weekId, Long programId, String username) {
         ProgramWeekEntity week = weekService.getWeekByNumber(weekId, programId);
         UserEntity user = userService.getUserEntityByUsername(username);

@@ -22,7 +22,7 @@ public class DailyWorkoutReminderScheduler {
         this.userService = userService;
     }
 
-    @Scheduled(fixedRate = 24 * 60 * 60 * 1000) // 24 hours in milliseconds
+    @Scheduled(cron = "0 0 7 * * ?")
     public void sendWorkoutReminders() {
         List<UserDTO> allUsers = userService.getAllUsers();
 
