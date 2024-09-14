@@ -1,4 +1,3 @@
-
 -- Additional Users (Coaches & Clients)
 INSERT INTO users (id, email, username, password, activated, title, img_url)
 VALUES (1, 'admin@example.com', 'Admin',
@@ -42,10 +41,9 @@ VALUES (1, 1),
        (7, 3); -- GeorgiIvanov as Client
 
 INSERT INTO coaches (description, email, img_url, rating, username)
-VALUES
-    ('Strength and endurance coach', 'didaka@example.com', '/images/profile-avatar.jpg', 5.8, 'DidoNikolov'),
-    ('Expert in strength training', 'ivan.petrov@example.com', '/images/coach-ivan.jpg', 4.7, 'IvanPetrov'),
-    ('HIIT and cardio specialist', 'petar.georgiev@example.com', '/images/coach-petar.jpg', 4.9, 'PetarGeorgiev');
+VALUES ('Strength and endurance coach', 'didaka@example.com', '/images/profile-avatar.jpg', 5.8, 'DidoNikolov'),
+       ('Expert in strength training', 'ivan.petrov@example.com', '/images/coach-ivan.jpg', 4.7, 'IvanPetrov'),
+       ('HIIT and cardio specialist', 'petar.georgiev@example.com', '/images/coach-petar.jpg', 4.9, 'PetarGeorgiev');
 
 INSERT INTO clients (email, img_url, username, coach_id)
 VALUES ('user@example.com', '/images/user-avatar.jpg', 'User', 1),
@@ -54,30 +52,30 @@ VALUES ('user@example.com', '/images/user-avatar.jpg', 'User', 1),
 INSERT INTO scheduled_workouts (coach_id, client_id, scheduled_date)
 VALUES
 -- DidoNikolov with User
-    (1, 1, '2024-09-15 09:00:00'),
-    (1, 1, '2024-09-18 15:15:00'),
-    (1, 1, '2024-09-23 13:20:00'),
-    (1, 1, '2024-10-06 17:20:00'),
-    (1, 1, '2024-10-16 18:30:00'),
-    (1, 1, '2024-10-21 10:15:00'),
-    (1, 1, '2024-10-25 11:30:00'),
+(1, 1, '2024-09-15 09:00:00'),
+(1, 1, '2024-09-18 15:15:00'),
+(1, 1, '2024-09-23 13:20:00'),
+(1, 1, '2024-10-06 17:20:00'),
+(1, 1, '2024-10-16 18:30:00'),
+(1, 1, '2024-10-21 10:15:00'),
+(1, 1, '2024-10-25 11:30:00'),
 
-    -- IvanPetrov with VladislavDimitrov
-    (2, 2, '2024-09-18 10:30:00'),
-    (2, 2, '2024-09-27 09:45:00'),
-    (2, 2, '2024-10-02 12:00:00'),
-    (2, 2, '2024-10-11 15:30:00'),
-    (2, 2, '2024-10-14 10:00:00'),
-    (2, 2, '2024-10-23 12:30:00'),
-    (2, 2, '2024-10-28 16:15:00'),
-    -- PetarGeorgiev with GeorgiIvanov
-    (3, 3, '2024-09-22 10:15:00'),
-    (3, 3, '2024-09-25 12:10:00'),
-    (3, 3, '2024-10-09 10:00:00'),
-    (3, 3, '2024-10-17 15:25:00'),
-    (3, 3, '2024-10-23 10:00:00'),
-    (3, 3, '2024-10-27 17:30:00'),
-    (3, 3, '2024-11-03 10:00:00');
+-- IvanPetrov with VladislavDimitrov
+(2, 2, '2024-09-18 10:30:00'),
+(2, 2, '2024-09-27 09:45:00'),
+(2, 2, '2024-10-02 12:00:00'),
+(2, 2, '2024-10-11 15:30:00'),
+(2, 2, '2024-10-14 10:00:00'),
+(2, 2, '2024-10-23 12:30:00'),
+(2, 2, '2024-10-28 16:15:00'),
+-- PetarGeorgiev with GeorgiIvanov
+(3, 3, '2024-09-22 10:15:00'),
+(3, 3, '2024-09-25 12:10:00'),
+(3, 3, '2024-10-09 10:00:00'),
+(3, 3, '2024-10-17 15:25:00'),
+(3, 3, '2024-10-23 10:00:00'),
+(3, 3, '2024-10-27 17:30:00'),
+(3, 3, '2024-11-03 10:00:00');
 --
 -- Inserting Programs for each coach
 INSERT INTO programs (img_url, name, coach_id)
@@ -109,78 +107,77 @@ VALUES
 
 
 INSERT INTO exercises (name, muscle_group, video_url)
-VALUES
-    ('Squats', 'Legs', 'https://www.youtube.com/watch?v=U3HcD0PnczY'),
-    ('Bench Press', 'Chest', 'https://www.youtube.com/watch?v=rT7DgCr-3pg'),
-    ('Deadlifts', 'Back', 'https://www.youtube.com/watch?v=op9kVnSso6Q'),
-    ('Pull-ups', 'Back', 'https://www.youtube.com/watch?v=JB2oyawG9KI'),
-    ('Push-ups', 'Chest', 'https://www.youtube.com/watch?v=IODxDxX7oi4'),
-    ('Leg Press', 'Legs', 'https://www.youtube.com/watch?v=IZxyjW7MPJQ'),
-    ('Dumbbell Rows', 'Back', 'https://www.youtube.com/watch?v=HJMHwJsAnxo'),
-    ('Dumbbell Shoulder Press', 'Shoulders', 'https://www.youtube.com/watch?v=eozdVDA78K0'),
-    ('Lunges', 'Legs', 'https://www.youtube.com/watch?v=QOVaHwm-Q6U'),
-    ('Barbell Curl', 'Biceps', 'https://www.youtube.com/watch?v=kwG2ipFRgfo'),
-    ('Tricep Dips', 'Triceps', 'https://www.youtube.com/watch?v=2z8JmcrW-As'),
-    ('Russian Twists', 'Core', 'https://www.youtube.com/watch?v=VcJq1tZJUI0'),
-    ('Calf Raises', 'Calves', 'https://www.youtube.com/watch?v=6uK8GAXKdAc'),
-    ('Plank', 'Core', 'https://www.youtube.com/watch?v=pSHjTRCQxIw'),
-    ('Bent Over Rows', 'Back', 'https://www.youtube.com/watch?v=JTObkwvNlvM'),
-    ('Burpees', 'Full Body', 'https://www.youtube.com/watch?v=2w8fBtmS_V4'),
-    ('Mountain Climbers', 'Core/Cardio', 'https://www.youtube.com/watch?v=nmwgirgXLYM'),
-    ('Jump Rope', 'Cardio', 'https://www.youtube.com/watch?v=1kNkkESQ5R4'),
-    ('High Knees', 'Cardio', 'https://www.youtube.com/watch?v=8dGJts9jFkE'),
-    ('Box Jumps', 'Legs', 'https://www.youtube.com/watch?v=52cNmgfDkxk'),
-    ('Kettlebell Swings', 'Full Body/Cardio', 'https://www.youtube.com/watch?v=YSjY7GeC59Y'),
-    ('Shadow Boxing', 'Cardio/Full Body', 'https://www.youtube.com/watch?v=J5lJ7pIkQ0g'),
-    ('Front Squats', 'Legs', 'https://www.youtube.com/watch?v=tF7ZWzNY_Xg'),
-    ('Romanian Deadlifts', 'Back/Legs', 'https://www.youtube.com/watch?v=4mtr5zYr34Y'),
-    ('Overhead Press', 'Shoulders', 'https://www.youtube.com/watch?v=2yjv9Wn2Wvg'),
-    ('Barbell Rows', 'Back', 'https://www.youtube.com/watch?v=K6arhZK6I5E'),
-    ('Leg Press Variations', 'Legs', 'https://www.youtube.com/watch?v=E4oSxzS6_nk'),
-    ('Hip Thrusts', 'Glutes', 'https://www.youtube.com/watch?v=2D9z8gE9GnM'),
-    ('Clean and Press', 'Full Body', 'https://www.youtube.com/watch?v=ZHp78eBrw68'),
-    ('Kettlebell Snatch', 'Full Body/Cardio', 'https://www.youtube.com/watch?v=9oWlg7tv7eE'),
-    ('TRX Rows', 'Back/Core', 'https://www.youtube.com/watch?v=3j8NRw1uK1E'),
-    ('Medicine Ball Slams', 'Full Body/Cardio', 'https://www.youtube.com/watch?v=5kn1l76K3HE'),
-    ('Tire Flips', 'Full Body', 'https://www.youtube.com/watch?v=xeYxO5mwm4M'),
-    ('Sled Pushes', 'Full Body/Cardio', 'https://www.youtube.com/watch?v=fq2U2TSrN2U'),
-    ('Bodyweight Squats', 'Legs/Core', 'https://www.youtube.com/watch?v=NI8G6sO9Fq8'),
-    ('Barbell Squats', 'Legs', 'https://www.youtube.com/watch?v=QbOQGMwRZ54'),
-    ('Dumbbell Presses', 'Shoulders', 'https://www.youtube.com/watch?v=gw6fL9-19ck'),
-    ('Barbell Curls', 'Biceps', 'https://www.youtube.com/watch?v=kwG2ipFRgfo'),
-    ('Tricep Extensions', 'Triceps', 'https://www.youtube.com/watch?v=wMNrgs-AB8s'),
-    ('Dumbbell Flyes', 'Chest', 'https://www.youtube.com/watch?v=eozdVDA78K0'),
-    ('Leg Curls', 'Hamstrings', 'https://www.youtube.com/watch?v=s0C5H1K1v68'),
-    ('Lateral Raises', 'Shoulders', 'https://www.youtube.com/watch?v=3aR8y24XJ1Q'),
-    ('Cable Rows', 'Back', 'https://www.youtube.com/watch?v=wK5S1_djC7k'),
-    ('Incline Bench Press', 'Chest', 'https://www.youtube.com/watch?v=8YlVg6wU5sw'),
-    ('Concentration Curls', 'Biceps', 'https://www.youtube.com/watch?v=3t4ph-JtsJk'),
-    ('Skull Crushers', 'Triceps', 'https://www.youtube.com/watch?v=3Qd3PLysHtQ'),
-    ('Snatches', 'Full Body', 'https://www.youtube.com/watch?v=ykT1I6VoQHc'),
-    ('Clean and Jerks', 'Full Body', 'https://www.youtube.com/watch?v=kxC2n8s7PzA'),
-    ('Overhead Squats', 'Legs/Shoulders', 'https://www.youtube.com/watch?v=INaSgVvNCP4'),
-    ('Power Cleans', 'Full Body', 'https://www.youtube.com/watch?v=wW4uR9h7CEw'),
-    ('Push Press', 'Shoulders', 'https://www.youtube.com/watch?v=8M7WGe3LLNc'),
-    ('Trap Bar Deadlifts', 'Back/Legs', 'https://www.youtube.com/watch?v=jj02d1LeLZw'),
-    ('Close-Grip Bench Press', 'Chest', 'https://www.youtube.com/watch?v=ah2DlssxirQ'),
-    ('Box Squats', 'Legs', 'https://www.youtube.com/watch?v=3qG8sFS0K-Q'),
-    ('Single-Leg Deadlifts', 'Legs', 'https://www.youtube.com/watch?v=Ix4EN1ndbMo'),
-    ('Weighted Pull-ups', 'Back', 'https://www.youtube.com/watch?v=dR0ZXSpB_Yo'),
-    ('Dips', 'Chest/Triceps', 'https://www.youtube.com/watch?v=2z8JmcrW-As'),
-    ('Plyometric Push-ups', 'Chest', 'https://www.youtube.com/watch?v=IkKAtcT0zLM'),
-    ('Broad Jumps', 'Legs', 'https://www.youtube.com/watch?v=F_7u4ed9N9M'),
-    ('Sled Drags', 'Full Body/Cardio', 'https://www.youtube.com/watch?v=fq2U2TSrN2U'),
-    ('Jump Squats', 'Legs', 'https://www.youtube.com/watch?v=1oUOa8r4oPY'),
-    ('Battle Ropes', 'Full Body/Cardio', 'https://www.youtube.com/watch?v=G1tSqaL9RTY'),
-    ('Heavy Medicine Ball Throws', 'Full Body', 'https://www.youtube.com/watch?v=8R8H2l4J8Ww'),
-    ('Explosive Push-ups', 'Chest', 'https://www.youtube.com/watch?v=IkKAtcT0zLM'),
-    ('Jumping Jacks', 'Cardio', 'https://www.youtube.com/watch?v=c4dZbs5G3D8'),
-    ('Tuck Jumps', 'Full Body', 'https://www.youtube.com/watch?v=MGcV7MIBCOs'),
-    ('Cone Drills', 'Agility', 'https://www.youtube.com/watch?v=mY5-D_bjOMs'),
-    ('Sprints', 'Speed', 'https://www.youtube.com/watch?v=9h70eGHt0IU'),
-    ('Bounding Drills', 'Speed/Legs', 'https://www.youtube.com/watch?v=ByAayG0OEDQ'),
-    ('Shuttle Runs', 'Speed/Agility', 'https://www.youtube.com/watch?v=YAD2QVO5j1Q'),
-    ('Lateral Jumps', 'Agility', 'https://www.youtube.com/watch?v=l4A8VRoEq8o');
+VALUES ('Squats', 'Legs', 'https://www.youtube.com/watch?v=U3HcD0PnczY'),
+       ('Bench Press', 'Chest', 'https://www.youtube.com/watch?v=rT7DgCr-3pg'),
+       ('Deadlifts', 'Back', 'https://www.youtube.com/watch?v=op9kVnSso6Q'),
+       ('Pull-ups', 'Back', 'https://www.youtube.com/watch?v=JB2oyawG9KI'),
+       ('Push-ups', 'Chest', 'https://www.youtube.com/watch?v=IODxDxX7oi4'),
+       ('Leg Press', 'Legs', 'https://www.youtube.com/watch?v=IZxyjW7MPJQ'),
+       ('Dumbbell Rows', 'Back', 'https://www.youtube.com/watch?v=HJMHwJsAnxo'),
+       ('Dumbbell Shoulder Press', 'Shoulders', 'https://www.youtube.com/watch?v=eozdVDA78K0'),
+       ('Lunges', 'Legs', 'https://www.youtube.com/watch?v=QOVaHwm-Q6U'),
+       ('Barbell Curl', 'Biceps', 'https://www.youtube.com/watch?v=kwG2ipFRgfo'),
+       ('Tricep Dips', 'Triceps', 'https://www.youtube.com/watch?v=2z8JmcrW-As'),
+       ('Russian Twists', 'Core', 'https://www.youtube.com/watch?v=VcJq1tZJUI0'),
+       ('Calf Raises', 'Calves', 'https://www.youtube.com/watch?v=6uK8GAXKdAc'),
+       ('Plank', 'Core', 'https://www.youtube.com/watch?v=pSHjTRCQxIw'),
+       ('Bent Over Rows', 'Back', 'https://www.youtube.com/watch?v=JTObkwvNlvM'),
+       ('Burpees', 'Full Body', 'https://www.youtube.com/watch?v=2w8fBtmS_V4'),
+       ('Mountain Climbers', 'Core/Cardio', 'https://www.youtube.com/watch?v=nmwgirgXLYM'),
+       ('Jump Rope', 'Cardio', 'https://www.youtube.com/watch?v=1kNkkESQ5R4'),
+       ('High Knees', 'Cardio', 'https://www.youtube.com/watch?v=8dGJts9jFkE'),
+       ('Box Jumps', 'Legs', 'https://www.youtube.com/watch?v=52cNmgfDkxk'),
+       ('Kettlebell Swings', 'Full Body/Cardio', 'https://www.youtube.com/watch?v=YSjY7GeC59Y'),
+       ('Shadow Boxing', 'Cardio/Full Body', 'https://www.youtube.com/watch?v=J5lJ7pIkQ0g'),
+       ('Front Squats', 'Legs', 'https://www.youtube.com/watch?v=tF7ZWzNY_Xg'),
+       ('Romanian Deadlifts', 'Back/Legs', 'https://www.youtube.com/watch?v=4mtr5zYr34Y'),
+       ('Overhead Press', 'Shoulders', 'https://www.youtube.com/watch?v=2yjv9Wn2Wvg'),
+       ('Barbell Rows', 'Back', 'https://www.youtube.com/watch?v=K6arhZK6I5E'),
+       ('Leg Press Variations', 'Legs', 'https://www.youtube.com/watch?v=E4oSxzS6_nk'),
+       ('Hip Thrusts', 'Glutes', 'https://www.youtube.com/watch?v=2D9z8gE9GnM'),
+       ('Clean and Press', 'Full Body', 'https://www.youtube.com/watch?v=ZHp78eBrw68'),
+       ('Kettlebell Snatch', 'Full Body/Cardio', 'https://www.youtube.com/watch?v=9oWlg7tv7eE'),
+       ('TRX Rows', 'Back/Core', 'https://www.youtube.com/watch?v=3j8NRw1uK1E'),
+       ('Medicine Ball Slams', 'Full Body/Cardio', 'https://www.youtube.com/watch?v=5kn1l76K3HE'),
+       ('Tire Flips', 'Full Body', 'https://www.youtube.com/watch?v=xeYxO5mwm4M'),
+       ('Sled Pushes', 'Full Body/Cardio', 'https://www.youtube.com/watch?v=fq2U2TSrN2U'),
+       ('Bodyweight Squats', 'Legs/Core', 'https://www.youtube.com/watch?v=NI8G6sO9Fq8'),
+       ('Barbell Squats', 'Legs', 'https://www.youtube.com/watch?v=QbOQGMwRZ54'),
+       ('Dumbbell Presses', 'Shoulders', 'https://www.youtube.com/watch?v=gw6fL9-19ck'),
+       ('Barbell Curls', 'Biceps', 'https://www.youtube.com/watch?v=kwG2ipFRgfo'),
+       ('Tricep Extensions', 'Triceps', 'https://www.youtube.com/watch?v=wMNrgs-AB8s'),
+       ('Dumbbell Flyes', 'Chest', 'https://www.youtube.com/watch?v=eozdVDA78K0'),
+       ('Leg Curls', 'Hamstrings', 'https://www.youtube.com/watch?v=s0C5H1K1v68'),
+       ('Lateral Raises', 'Shoulders', 'https://www.youtube.com/watch?v=3aR8y24XJ1Q'),
+       ('Cable Rows', 'Back', 'https://www.youtube.com/watch?v=wK5S1_djC7k'),
+       ('Incline Bench Press', 'Chest', 'https://www.youtube.com/watch?v=8YlVg6wU5sw'),
+       ('Concentration Curls', 'Biceps', 'https://www.youtube.com/watch?v=3t4ph-JtsJk'),
+       ('Skull Crushers', 'Triceps', 'https://www.youtube.com/watch?v=3Qd3PLysHtQ'),
+       ('Snatches', 'Full Body', 'https://www.youtube.com/watch?v=ykT1I6VoQHc'),
+       ('Clean and Jerks', 'Full Body', 'https://www.youtube.com/watch?v=kxC2n8s7PzA'),
+       ('Overhead Squats', 'Legs/Shoulders', 'https://www.youtube.com/watch?v=INaSgVvNCP4'),
+       ('Power Cleans', 'Full Body', 'https://www.youtube.com/watch?v=wW4uR9h7CEw'),
+       ('Push Press', 'Shoulders', 'https://www.youtube.com/watch?v=8M7WGe3LLNc'),
+       ('Trap Bar Deadlifts', 'Back/Legs', 'https://www.youtube.com/watch?v=jj02d1LeLZw'),
+       ('Close-Grip Bench Press', 'Chest', 'https://www.youtube.com/watch?v=ah2DlssxirQ'),
+       ('Box Squats', 'Legs', 'https://www.youtube.com/watch?v=3qG8sFS0K-Q'),
+       ('Single-Leg Deadlifts', 'Legs', 'https://www.youtube.com/watch?v=Ix4EN1ndbMo'),
+       ('Weighted Pull-ups', 'Back', 'https://www.youtube.com/watch?v=dR0ZXSpB_Yo'),
+       ('Dips', 'Chest/Triceps', 'https://www.youtube.com/watch?v=2z8JmcrW-As'),
+       ('Plyometric Push-ups', 'Chest', 'https://www.youtube.com/watch?v=IkKAtcT0zLM'),
+       ('Broad Jumps', 'Legs', 'https://www.youtube.com/watch?v=F_7u4ed9N9M'),
+       ('Sled Drags', 'Full Body/Cardio', 'https://www.youtube.com/watch?v=fq2U2TSrN2U'),
+       ('Jump Squats', 'Legs', 'https://www.youtube.com/watch?v=1oUOa8r4oPY'),
+       ('Battle Ropes', 'Full Body/Cardio', 'https://www.youtube.com/watch?v=G1tSqaL9RTY'),
+       ('Heavy Medicine Ball Throws', 'Full Body', 'https://www.youtube.com/watch?v=8R8H2l4J8Ww'),
+       ('Explosive Push-ups', 'Chest', 'https://www.youtube.com/watch?v=IkKAtcT0zLM'),
+       ('Jumping Jacks', 'Cardio', 'https://www.youtube.com/watch?v=c4dZbs5G3D8'),
+       ('Tuck Jumps', 'Full Body', 'https://www.youtube.com/watch?v=MGcV7MIBCOs'),
+       ('Cone Drills', 'Agility', 'https://www.youtube.com/watch?v=mY5-D_bjOMs'),
+       ('Sprints', 'Speed', 'https://www.youtube.com/watch?v=9h70eGHt0IU'),
+       ('Bounding Drills', 'Speed/Legs', 'https://www.youtube.com/watch?v=ByAayG0OEDQ'),
+       ('Shuttle Runs', 'Speed/Agility', 'https://www.youtube.com/watch?v=YAD2QVO5j1Q'),
+       ('Lateral Jumps', 'Agility', 'https://www.youtube.com/watch?v=l4A8VRoEq8o');
 
 
 
@@ -417,7 +414,6 @@ VALUES
     (63, 9, 'SUNDAY');
 
 -- Repeat for Programs 4 to 6 if needed
-
 
 
 -- Week 1, Program 1
@@ -668,11 +664,11 @@ VALUES
 
 
 
-
 -- User 2, Program 4, Week 1
 -- User 2, Program 1
 -- Week 1
-INSERT INTO user_progress (exercise_completed, workout_started, workout_completed, week_completed, user_id, workout_id, exercise_id, week_id, program_id, day_name)
+INSERT INTO user_progress (exercise_completed, workout_started, workout_completed, week_completed, user_id, workout_id,
+                           exercise_id, week_id, program_id, day_name)
 VALUES
     -- User 2, Program 1, Week 1
     (false, false, false, false, 2, 1, 1, 1, 1, 'MONDAY'),
@@ -888,14 +884,6 @@ VALUES
     (false, false, false, false, 7, 145, 2, 21, 13, 'FRIDAY'),
     (false, false, false, false, 7, 146, 3, 21, 13, 'SATURDAY'),
     (false, false, false, false, 7, 147, 1, 21, 13, 'SUNDAY');
-
-
-
-
-
-
-
-
 
 
 

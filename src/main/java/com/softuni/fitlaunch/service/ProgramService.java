@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ProgramService {
@@ -123,6 +124,7 @@ public class ProgramService {
         CoachEntity coach = coachService.getCoachEntityByUsername(username);
         ProgramEntity program = modelMapper.map(programCreationDTO, ProgramEntity.class);
         List<ProgramWeekEntity> weeks = new ArrayList<>();
+        UserProgress userProgress = new UserProgress();
 
         for (int i = 0; i < programCreationDTO.getWeeks(); i++) {
             ProgramWeekEntity newWeek = new ProgramWeekEntity();
@@ -166,7 +168,7 @@ public class ProgramService {
 
         List<DayWorkoutsDTO> dayDTOs = week.getDays().stream()
                 .map(day -> modelMapper.map(day, DayWorkoutsDTO.class))
-                .toList();
+                .collect(Collectors.toList());
 
         List<DayWorkoutsDTO> updatedDays = dayDTOs.stream().map(dayDTO -> {
             UserProgress progress = getUserProgressForCurrentDayWorkout(dayDTO, userProgressList);
@@ -179,7 +181,7 @@ public class ProgramService {
                 dayDTO.setStarted(false);
             }
             return dayDTO;
-        }).toList();
+        }).collect(Collectors.toList());
 
         weekDTO.setDays(updatedDays);
         return weekDTO;
@@ -187,8 +189,7 @@ public class ProgramService {
 
     private UserProgress getUserProgressForCurrentDayWorkout(DayWorkoutsDTO dayDTO, List<UserProgress> userProgressList) {
         return userProgressList.stream()
-                .filter(p -> p.getWorkout().getId().equals(dayDTO.getWorkout().getId())
-                        && p.getDayName() != null
+                .filter(p -> p.getWorkout().getId() == (dayDTO.getId())
                         && p.getDayName().equalsIgnoreCase(dayDTO.getName()))
                 .findFirst()
                 .orElse(null);
