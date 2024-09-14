@@ -4,6 +4,33 @@ body, h1, h2, h3, p, ul {
     padding: 0;
 }
 
+/* Default Light Mode */
+:root {
+    --background-color: #ffffff;
+    --text-color: #000000;
+    --button-background: #f0f0f0;
+    --button-text: #000000;
+}
+
+/* Dark Mode */
+[data-theme='dark'] {
+    --background-color: #000000;
+    --text-color: #ffffff;
+    --button-background: #333333;
+    --button-text: #ffffff;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+button {
+    background-color: var(--button-background);
+    color: var(--button-text);
+}
+
+
 
 .hero {
     color: #ffcf40;
@@ -343,13 +370,11 @@ button.th-disabled {
     height: auto; /* Ensure height adjusts to content */
 }
 
-/* Adjust img-container for smaller height */
 .img-container {
     height: 100px; /* Reduced height */
     overflow: hidden;
 }
 
-/* Example additional styling for card content */
 .card-body {
     /*padding: 0.5rem; !* Reduced padding *!*/
     flex-grow: 1;
@@ -358,7 +383,6 @@ button.th-disabled {
     justify-content: space-between; /* Space out elements */
 }
 
-.card-body h5,
 .card-body p {
     margin: 0.25rem 0; /* Reduced margin for compact layout */
 }

@@ -3,80 +3,63 @@
 <head th:replace="~{fragments/head}"></head>
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
-<div class="container d-flex align-items-center" style="height: 100vh;">
-    <div class="row justify-content-sm-center">
-        <div class="col-sm-10 col-md-5">
+<div class="container d-flex align-items-center" style="min-height: 100vh;">
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-6 text-center mb-4">
             <!-- Profile Picture Block -->
-            <div class="member-block-type-5 inset-lg-right-20">
-                <img class="img-fluid mx-auto d-block" th:src="${user.imgUrl}" width="437" height="437"
-                     alt="Profile Picture">
-                <form th:object="${profilePictureDTO}" th:action="@{/users/profile}" th:method="POST"
-                      enctype="multipart/form-data">
-                    <input type="hidden" name="username" id="username" th:value="${user.username}">
-                    <div class="member-block-body mt-3">
+            <div class="card border-light shadow-sm">
+                <img class="card-img-top rounded-circle profile-picture mx-auto mt-3" th:src="${user.imgUrl}" alt="Profile Picture">
+                <div class="card-body">
+                    <form th:object="${profilePictureDTO}" th:action="@{/users/profile}" th:method="POST" enctype="multipart/form-data">
+                        <input type="hidden" name="username" id="username" th:value="${user.username}">
                         <div class="form-group">
                             <label for="imgUrl" class="text-dark">Profile Picture</label>
                             <div class="custom-file d-flex align-items-center">
-                                <img src="/images/add-img.png" alt="Upload Image" class="img-fluid"
-                                     style="max-width: 50px; height: auto; margin-right: 10px;">
-                                <input type="file" class="custom-file-input" id="imgUrl" name="picture"
-                                       th:field="*{picture}" accept="image/*">
+                                <img src="/images/add-img.png" alt="Upload Image" class="img-fluid" style="max-width: 50px; height: auto; margin-right: 10px;">
+                                <input type="file" class="custom-file-input" id="imgUrl" name="picture" th:field="*{picture}" accept="image/*">
                                 <label class="custom-file-label" for="imgUrl">Choose file</label>
                             </div>
                         </div>
-                        <div class="form-group mt-2">
-                            <button type="submit" class="btn btn-primary btn-block rounded">Upload Picture</button>
-                        </div>
-                    </div>
-                </form>
+                        <button type="submit" class="btn btn-primary btn-block rounded mt-2">Upload Picture</button>
+                    </form>
+                </div>
             </div>
         </div>
-        <div class="col-sm-10 col-md-7 text-md-left">
-            <div>
-                <h1 class="text-dark" th:text="${user.username}"></h1>
-            </div>
-            <hr class="divider bg-primary hr-md-left-0">
-            <h2 style="color: #17a2b8">Biography: </h2>
-            <p class="offset-top-50 text-left">
-                <q class="font-italic h3 text-regular">I'm glad to help all clients of Intense Gym acquire the proper
-                    body shape through fitness.</q>
-            </p>
-            <div class="d-flex">
-                <div class="offset-top-50 mr-5">
-                    <p><span>Experience: </span>3 Years</p>
-                    <p><span>Age: </span>28</p>
-                    <p><span>Weight: </span>77 kg</p>
-                    <p><span>Email: </span><a th:href="'mailto:' + ${user.email}" th:text="${user.email}">example@example.com</a>
+        <div class="col-lg-8 col-md-12">
+            <div class="card border-light shadow-sm">
+                <div class="card-body">
+                    <h1 class="text-dark" th:text="${user.username}"></h1>
+                    <hr class="divider bg-primary my-4">
+                    <h2 class="text-primary">Biography</h2>
+                    <p class="mt-3">
+                        <q class="font-italic h4">I'm glad to help all clients of Intense Gym acquire the proper body shape through fitness.</q>
                     </p>
-                    <p><span>Phone: </span>801546142343243</p>
-                    <ul class="list-inline list-inline-xs">
-                        <li class="list-inline-item"><a
-                                class="novi-icon icon icon-xxs icon-circle icon-primary fab fa-facebook" href="#"
-                                target="_blank"></a></li>
-                        <li class="list-inline-item"><a
-                                class="novi-icon icon icon-xxs icon-circle icon-primary fab fa-twitter" href="#"
-                                target="_blank"></a></li>
-                        <li class="list-inline-item"><a
-                                class="novi-icon icon icon-xxs icon-circle icon-primary fab fa-linkedin" href="#"
-                                target="_blank"></a></li>
-                        <li class="list-inline-item"><a
-                                class="novi-icon icon icon-xxs icon-circle icon-primary fab fa-google-plus"
-                                href="#" target="_blank"></a></li>
-                    </ul>
-                </div>
-                <div class="offset-top-50">
-                    <h5>Upcoming Sessions:</h5>
-                    <ul th:if="${upcomingSessions.size() > 0}" class="list-group">
-                        <li th:each="upcomingSession : ${upcomingSessions}" class="list-group-item">
-                            <span th:text="${upcomingSession.scheduledDateTime}"></span>
-                            <!-- Display other session details as needed -->
-                        </li>
-                    </ul>
-                    <a class="btn btn-info mt-2" style="background-color: #17a2b8"
-                       th:href="@{/users/{username}/calendar(username=${user.username})}">Check Your Calendar</a>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <p><strong>Experience:</strong> 3 Years</p>
+                            <p><strong>Age:</strong> 28</p>
+                            <p><strong>Weight:</strong> 77 kg</p>
+                            <p><strong>Email:</strong> <a th:href="'mailto:' + ${user.email}" th:text="${user.email}">example@example.com</a></p>
+                            <p><strong>Phone:</strong> 801546142343243</p>
+                            <ul class="list-inline">
+                                <li class="list-inline-item"><a class="fab fa-facebook fa-2x" href="#" target="_blank"></a></li>
+                                <li class="list-inline-item"><a class="fab fa-twitter fa-2x" href="#" target="_blank"></a></li>
+                                <li class="list-inline-item"><a class="fab fa-linkedin fa-2x" href="#" target="_blank"></a></li>
+                                <li class="list-inline-item"><a class="fab fa-google-plus fa-2x" href="#" target="_blank"></a></li>
+                            </ul>
+                        </div>
+                        <div class="col-md-6">
+                            <h5>Upcoming Sessions:</h5>
+                            <ul th:if="${upcomingSessions.size() > 0}" class="list-group">
+                                <li th:each="upcomingSession : ${upcomingSessions}" class="list-group-item">
+                                    <span th:text="${upcomingSession.scheduledDateTime}"></span>
+                                </li>
+                            </ul>
+                            <a class="btn btn-info mt-3" style="background-color: #17a2b8" th:href="@{/users/{username}/calendar(username=${user.username})}">Check Your Calendar</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>
