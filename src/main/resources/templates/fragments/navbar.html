@@ -9,9 +9,6 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item active" th:classappend="${activePage == 'forum'} ? 'custom-active'">
-                    <a class="nav-link text-white h6" th:href="@{/forum}" th:text="#{nav.forum}">Forum</a>
-                </li>
                 <li class="nav-item active" th:classappend="${activePage == 'myCalendar'} ? 'custom-active'"
                     sec:authorize="hasAnyRole('ADMIN', 'CLIENT', 'COACH')">
                     <a class="nav-link text-white h6"
@@ -100,10 +97,6 @@
                         <!-- Font Awesome User Icon -->
                         <i class="fas fa-user"></i>
                     </a>
-                </li>
-                <li class="nav-item" sec:authorize="isAuthenticated()"
-                    th:classappend="${activePage == 'contactUs'} ? 'custom-active'">
-                    <a class="nav-link" href="/contact-us" th:text="#{nav.contactUs}">Contact Us</a>
                 </li>
             </ul>
 
