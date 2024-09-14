@@ -2,6 +2,8 @@ package com.softuni.fitlaunch.web.rest;
 
 import com.softuni.fitlaunch.model.dto.week.DayWorkoutsDTO;
 import com.softuni.fitlaunch.model.dto.workout.WorkoutAddDTO;
+import com.softuni.fitlaunch.service.ProgramService;
+import com.softuni.fitlaunch.service.UserProgressService;
 import com.softuni.fitlaunch.service.WorkoutService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +23,13 @@ import java.util.List;
 public class WeekDaysWorkoutsRestController {
 
     private final WorkoutService workoutService;
+    private final UserProgressService userProgressService;
+    private final ProgramService programService;
 
-    public WeekDaysWorkoutsRestController(WorkoutService workoutService) {
+    public WeekDaysWorkoutsRestController(WorkoutService workoutService, UserProgressService userProgressService, ProgramService programService) {
         this.workoutService = workoutService;
+        this.userProgressService = userProgressService;
+        this.programService = programService;
     }
 
     @GetMapping("")

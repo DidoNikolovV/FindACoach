@@ -1,21 +1,14 @@
 package com.softuni.fitlaunch.service;
 
-import com.softuni.fitlaunch.model.dto.TopicCommentDTO;
 import com.softuni.fitlaunch.model.dto.comment.CommentCreationDTO;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.view.CommentView;
 import com.softuni.fitlaunch.model.entity.CommentEntity;
-import com.softuni.fitlaunch.model.entity.TopicEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
-import com.softuni.fitlaunch.model.enums.UserRoleEnum;
 import com.softuni.fitlaunch.repository.CommentRepository;
-import com.softuni.fitlaunch.repository.TopicRepository;
 import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,25 +22,19 @@ public class CommentService {
 
     private final WorkoutService workoutService;
 
-    private final TopicService topicService;
-
-    private final TopicRepository topicRepository;
-
     private final ModelMapper modelMapper;
 
-    public CommentService(CommentRepository commentRepository, UserService userService, WorkoutService workoutService, TopicService topicService, TopicRepository topicRepository, ModelMapper modelMapper) {
+    public CommentService(CommentRepository commentRepository, UserService userService, WorkoutService workoutService, ModelMapper modelMapper) {
         this.commentRepository = commentRepository;
         this.userService = userService;
         this.workoutService = workoutService;
-        this.topicService = topicService;
-        this.topicRepository = topicRepository;
         this.modelMapper = modelMapper;
     }
 
     public List<CommentView> getAllCommentsForWorkout(Long workoutId) {
         List<CommentEntity> comments = commentRepository.findAllByWorkoutId(workoutId);
         return comments.stream().map(commentEntity ->
-                        new CommentView(commentEntity.getId(), commentEntity.getAuthor().getImgUrl(), commentEntity.getAuthor().getUsername(), commentEntity.getMessage()))
+                        new CommentView(commentEntity.getId(), commentEntity.getAuthor().getImgUrl(), commentEntity.getAuthor().getUsername(), commentEntity.getMessage(), commentEntity.getLikes()))
                 .collect(Collectors.toList());
     }
 
@@ -57,8 +44,9 @@ public class CommentService {
         CommentEntity comment = createComment(commentDTO, author, workout);
         comment = commentRepository.save(comment);
 
-        return new CommentView(comment.getId(), author.getImgUrl(), author.getUsername(), comment.getMessage());
+        return new CommentView(comment.getId(), author.getImgUrl(), author.getUsername(), comment.getMessage(), comment.getLikes());
     }
+
 
     private CommentEntity createComment(CommentCreationDTO commentDTO, UserEntity author, WorkoutEntity workout) {
         CommentEntity comment = modelMapper.map(commentDTO, CommentEntity.class);
@@ -70,7 +58,7 @@ public class CommentService {
 
     public CommentView getComment(Long commentId) {
         CommentEntity commentEntity = commentRepository.findById(commentId).orElseThrow(() -> new ResourceNotFoundException("Comment with id " + commentId + " was not found"));
-        return new CommentView(commentEntity.getId(), commentEntity.getAuthor().getImgUrl(), commentEntity.getAuthor().getUsername(), commentEntity.getMessage());
+        return new CommentView(commentEntity.getId(), commentEntity.getAuthor().getImgUrl(), commentEntity.getAuthor().getUsername(), commentEntity.getMessage(), commentEntity.getLikes());
     }
 
     public void deleteCommentById(Long id, String username) {
@@ -89,24 +77,13 @@ public class CommentService {
         return user.getUsername().equals(comment.getAuthor().getUsername());
     }
 
+    public void likeCommentById(Long commentId, String username) {
+        UserDTO user = userService.getUserByUsername(username);
 
-    public Page<TopicCommentDTO> findByTopicId(Long id, PageRequest pageRequest) {
-        List<TopicCommentDTO> list = commentRepository.findAllByTopicId(id, pageRequest).stream().map(commentEntity -> modelMapper.map(commentEntity, TopicCommentDTO.class)).toList();
-        return new PageImpl<>(list);
+        CommentEntity comment = commentRepository.findById(commentId).orElseThrow(() -> new ResourceNotFoundException("Comment with id " + commentId + " was not found"));
+        WorkoutEntity workout = comment.getWorkout();
+        comment.setLikes(comment.getLikes() + 1);
+        commentRepository.save(comment);
+
     }
-
-    public TopicCommentDTO addTopicComment(CommentCreationDTO commentCreationDTO, String name, Long topicId) {
-        UserEntity user = userService.getUserEntityByUsername(name);
-        TopicEntity topic = topicService.getEntityById(topicId);
-
-        CommentEntity comment = modelMapper.map(commentCreationDTO, CommentEntity.class);
-        comment.setAuthor(user);
-        comment.setTopic(topic);
-        topic.getComments().add(comment);
-        comment = commentRepository.save(comment);
-
-
-        return modelMapper.map(comment, TopicCommentDTO.class);
-    }
-
 }

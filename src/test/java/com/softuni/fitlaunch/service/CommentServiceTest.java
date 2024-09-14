@@ -6,12 +6,10 @@ import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.user.UserRoleDTO;
 import com.softuni.fitlaunch.model.dto.view.CommentView;
 import com.softuni.fitlaunch.model.entity.CommentEntity;
-import com.softuni.fitlaunch.model.entity.TopicEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.model.enums.UserRoleEnum;
 import com.softuni.fitlaunch.repository.CommentRepository;
-import com.softuni.fitlaunch.repository.TopicRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -36,10 +34,6 @@ class CommentServiceTest {
     private UserService userService;
     @Mock
     private WorkoutService workoutService;
-    @Mock
-    private TopicService topicService;
-    @Mock
-    private TopicRepository topicRepository;
     @Mock
     private ModelMapper modelMapper;
 
@@ -102,37 +96,6 @@ class CommentServiceTest {
         assertNotNull(result);
     }
 
-    @Test
-    void testAddTopicComment_whenUserTriesToLeaveAComment_thenCreateNewCommentAndSaveIt() {
-        UserEntity user = new UserEntity();
-        user.setId(1L);
-        user.setUsername("test");
-        CommentEntity comment = new CommentEntity();
-        comment.setAuthor(user);
-        comment.setMessage("Test comment");
-        comment.setId(1L);
-
-        TopicEntity topic = new TopicEntity();
-        topic.setAuthor(user.getUsername());
-        topic.setTitle("test title");
-        topic.setContent("test content");
-        topic.setComments(new ArrayList<>());
-
-        CommentCreationDTO commentCreationDTO = new CommentCreationDTO();
-        comment.setId(1l);
-        comment.setAuthor(user);
-        comment.setMessage("test content");
-        comment.setTopic(topic);
-
-        when(userService.getUserEntityByUsername("test")).thenReturn(user);
-        when(topicService.getEntityById(1L)).thenReturn(topic);
-        when(modelMapper.map(commentCreationDTO, CommentEntity.class)).thenReturn(comment);
-
-
-        underTest.addTopicComment(commentCreationDTO, "username", 1L);
-
-        verify(commentRepository, times(1)).save(comment);
-    }
 
     @Test
     void testDeleteCommentById_whenUserIsAuthorOfTheComment_thenDeleteIt() {

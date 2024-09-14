@@ -13,4 +13,5 @@ public class CommentView {
     private String profilePicture;
     private String authorUsername;
     private String message;
+    private Long likes;
 }

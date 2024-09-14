@@ -1,7 +1,6 @@
 package com.softuni.fitlaunch.integration;
 
 
-import com.softuni.fitlaunch.model.dto.TopicCommentDTO;
 import com.softuni.fitlaunch.model.dto.comment.CommentCreationDTO;
 import com.softuni.fitlaunch.model.dto.view.CommentView;
 import com.softuni.fitlaunch.service.CommentService;
@@ -10,9 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,7 +22,6 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -114,48 +109,5 @@ public class CommentRestControllerTest {
         mockMvc.perform(delete("/api/v1/comments/{workoutId}/{commentId}", workoutId, commentId)
                         .principal(() -> "testUser"))
                 .andExpect(status().isNoContent());
-    }
-
-    @Test
-    void testGetCommentsByTopicId() throws Exception {
-        Long topicId = 1L;
-
-        TopicCommentDTO topicCommentDTO = new TopicCommentDTO();
-        topicCommentDTO.setId(1L);
-
-        Page<TopicCommentDTO> page = new PageImpl<>(List.of(topicCommentDTO), PageRequest.of(0, 4), 1);
-
-        when(commentService.findByTopicId(topicId, PageRequest.of(0, 4))).thenReturn(page);
-
-        mockMvc.perform(get("/api/v1/comments/topic/{topicId}/all", topicId))
-                .andExpect(status().isOk())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.content[0].id").value(1L));
-    }
-
-    @Test
-    @WithMockUser(username = "testUser")
-    void testPostTopicComment() throws Exception {
-        Long topicId = 1L;
-
-        CommentCreationDTO commentCreationDTO = new CommentCreationDTO();
-        commentCreationDTO.setMessage("New Topic Comment");
-
-        TopicCommentDTO topicCommentDTO = new TopicCommentDTO();
-        topicCommentDTO.setId(1L);
-        topicCommentDTO.setMessage("New Topic Comment");
-
-        String jsonContent = "{\"message\":\"New Topic Comment\"}";
-
-        when(commentService.addTopicComment(any(), anyString(), anyLong())).thenReturn(topicCommentDTO);
-
-        mockMvc.perform(post("/api/v1/comments/topic/{topicId}", topicId)
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonContent)
-                        .principal(() -> "testUser"))
-                .andExpect(status().isCreated())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.message").value("New Topic Comment"));
     }
 }

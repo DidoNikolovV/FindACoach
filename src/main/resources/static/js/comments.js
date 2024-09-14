@@ -71,7 +71,8 @@ function commentAsHTML(comment) {
     commentHTML += `<div class="card-body">\n`;
     commentHTML += `<p class="text-muted">${comment.message}</p>\n`;
     commentHTML += `<div class="d-flex justify-content-start mt-2">\n`;
-    commentHTML += `<button class="btn btn-sm mr-2 like-btn border-0" type="button">Like</button>\n`;
+    commentHTML += `<span id="like-count-comment1">${comment.likes} Likes</span>\n`;
+    commentHTML += `<button class="btn btn-sm mr-2 like-btn border-0" onclick="likeComment(${comment.id})">Like</button>\n`;
     commentHTML += `<button class="btn btn-sm delete-btn border-0" onclick="deleteComment(${comment.id})">Delete</button>\n`;
     commentHTML += `</div>\n`;
     commentHTML += `<div class="reply-form" style="display: none; margin-top: 10px;">\n`;
@@ -84,7 +85,6 @@ function commentAsHTML(comment) {
 
     return commentHTML;
 }
-
 
 
 function deleteComment(commentId) {
@@ -113,6 +113,39 @@ function deleteComment(commentId) {
             console.error("Error deleting comment:", error);
         });
 }
+
+function likeComment(commentId) {
+    fetch(`${url}/api/v1/comments/${workoutId}/${commentId}/like`, {
+        method: 'POST',
+        headers: {
+            [csrfHeaderName]: csrfHeaderValue,
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(res => {
+            if (res.ok) {
+                console.log("Successfully liked comment with ID:", commentId);
+                // Optionally, update the UI to reflect the like status
+                const likeButton = document.querySelector(`button[onclick="likeComment(${commentId})"]`);
+                if (likeButton) {
+                    // Update the button or some element to show the liked status
+                    likeButton.textContent = "Liked"; // Example update
+                } else {
+                    console.error("Like button element not found in DOM:", commentId);
+                }
+            } else {
+                return res.json().then(data => {
+                    console.error("Failed to like comment:", data);
+                });
+            }
+        })
+        .catch(error => {
+            console.error("Error liking comment:", error);
+        });
+}
+
+
+
 
 function loadComments() {
     fetch(`${url}/api/v1/comments/${workoutId}/all`, {
@@ -171,4 +204,4 @@ function renderPaginationControls(totalPages, currentPage) {
 }
 
 loadComments();
-// loadTopicComments();
+loadTopicComments();

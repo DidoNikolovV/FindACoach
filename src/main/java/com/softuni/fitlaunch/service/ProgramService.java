@@ -160,9 +160,23 @@ public class ProgramService {
     public ProgramWeekDTO getWeekById(Long weekId, Long programId, String username) {
         ProgramWeekEntity week = weekService.getWeekByNumber(weekId, programId);
         UserEntity user = userService.getUserEntityByUsername(username);
-
         List<UserProgress> userProgressList = userProgressService.getUserProgressForProgramIdAndWeekId(user.getId(), programId, week.getId());
+        if (userProgressList.isEmpty()) {
+            week.getDays().forEach(day -> {
+                UserProgress newProgress = new UserProgress();
+                newProgress.setUser(user);
+                newProgress.setProgram(week.getProgram());
+                newProgress.setWeek(week);
+                newProgress.setWorkout(day);
+                newProgress.setDayName(day.getName());
+                newProgress.setWorkoutCompleted(false);
+                newProgress.setWorkoutStarted(false);
 
+                userProgressList.add(newProgress);
+            });
+
+            userProgressService.saveAll(userProgressList);
+        }
         ProgramWeekDTO weekDTO = modelMapper.map(week, ProgramWeekDTO.class);
 
         List<DayWorkoutsDTO> dayDTOs = week.getDays().stream()

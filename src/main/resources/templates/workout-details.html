@@ -113,7 +113,7 @@
 
 <section class="container mb-4">
     <input type="hidden" name="workoutId" id="workoutId" th:value="${workout.id}">
-    <div class="comments" th:if="${isCompleted}">
+<!--    <div class="comments" th:if="${isCompleted}">-->
         <h1>Comments</h1>
         <div class="mb-4">
             <form id="commentForm" method="POST" th:action="@{/comments/{workoutId}(workoutId=${workout.id})}">
