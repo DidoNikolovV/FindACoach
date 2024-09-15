@@ -70,10 +70,15 @@ public class CommentsRestController {
                 .build();
     }
 
-    @PostMapping("/{workoutId}/{commentId}/like")
-    public ResponseEntity<Void> likeComment(@PathVariable("workoutId") Long workoutId, @PathVariable("commentId") Long commentId,
-                                            Principal principal) {
-        commentService.likeCommentById(commentId, principal.getName());
+    @PostMapping("/{workoutId}/{commentId}/{action}")
+    public ResponseEntity<Void> likeOrDislikeComment(@PathVariable("workoutId") Long workoutId, @PathVariable("commentId") Long commentId,
+                                                     Principal principal,
+                                                     @PathVariable("action") String action) {
+        if (action.equals("like")) {
+            commentService.likeCommentById(commentId, principal.getName());
+        } else {
+            commentService.dislikeCommentById(commentId, principal.getName());
+        }
 
         return ResponseEntity
                 .noContent()

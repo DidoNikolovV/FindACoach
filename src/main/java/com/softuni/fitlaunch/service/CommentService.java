@@ -82,12 +82,15 @@ public class CommentService {
     }
 
     public void likeCommentById(Long commentId, String username) {
-        UserDTO user = userService.getUserByUsername(username);
-
         CommentEntity comment = commentRepository.findById(commentId).orElseThrow(() -> new ResourceNotFoundException("Comment with id " + commentId + " was not found"));
-        WorkoutEntity workout = comment.getWorkout();
         comment.setLikes(comment.getLikes() + 1);
         commentRepository.save(comment);
 
+    }
+
+    public void dislikeCommentById(Long commentId, String username) {
+        CommentEntity comment = commentRepository.findById(commentId).orElseThrow(() -> new ResourceNotFoundException("Comment with id " + commentId + " was not found"));
+        comment.setLikes(comment.getLikes() - 1);
+        commentRepository.save(comment);
     }
 }
