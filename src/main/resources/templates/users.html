@@ -1,9 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
->
-
-<head th:replace="~{fragments/head}">
-</head>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/head}"></head>
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
 <div class="container" style="height: 100vh; margin-top: 8rem;">
@@ -16,26 +13,22 @@
                 <th class="text-white">Email</th>
                 <th class="text-white">Username</th>
                 <th class="text-white">Role</th>
+                <th class="text-white">Actions</th>
             </tr>
             </thead>
             <tbody>
             <!-- Loop through your user data here -->
-            <tr th:each="user : ${users}">
+            <tr th:each="user : ${usersPage.content}">
                 <td th:text="${user.email}" class="text-white"></td>
                 <td th:text="${user.username}" class="text-white"></td>
                 <td>
                     <form th:action="@{/users/all}" th:method="post">
                         <input type="hidden" th:name="username" th:value="${user.username}"/>
                         <select class="form-control" th:id="'roleSelect-' + ${user.username}" th:name="role">
-
-                            <option th:selected="${user.roles.get(0).getRole().name() == 'USER'}" th:value="USER">User
-                            </option>
-                            <option th:selected="${user.roles.get(0).getRole().name() == 'ADMIN'}" th:value="ADMIN">
-                                Admin
-                            </option>
+                            <option th:selected="${user.roles[0].role == 'USER'}" th:value="USER">User</option>
+                            <option th:selected="${user.roles[0].role == 'ADMIN'}" th:value="ADMIN">Admin</option>
                         </select>
-                        <input type="submit" name="changeRole" id="changeRole" class="btn btn-primary"
-                               value="Change Role">
+                        <input type="submit" class="btn btn-primary mt-2" value="Change Role">
                     </form>
                 </td>
 
@@ -43,12 +36,29 @@
                     <form th:action="@{/users/ban}" th:method="POST">
                         <input type="hidden" th:name="ipAddress" th:value="${session.userIpAddress}">
                         <button type="submit" class="btn btn-danger">Ban User</button>
-
                     </form>
                 </td>
             </tr>
             </tbody>
         </table>
+
+        <!-- Pagination Controls -->
+        <nav>
+            <ul class="pagination justify-content-center">
+                <li class="page-item" th:classappend="${currentPage == 0} ? 'disabled'">
+                    <a class="page-link" th:href="@{/users/all(page=${currentPage - 1}, size=5)}">Previous</a>
+                </li>
+
+                <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
+                    th:classappend="${i == currentPage} ? 'active'">
+                    <a class="page-link" th:text="${i + 1}" th:href="@{/users/all(page=${i}, size=5)}"></a>
+                </li>
+
+                <li class="page-item" th:classappend="${currentPage + 1 == totalPages} ? 'disabled'">
+                    <a class="page-link" th:href="@{/users/all(page=${currentPage + 1}, size=5)}">Next</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 </div>
 <footer th:replace="~{fragments/footer}"></footer>

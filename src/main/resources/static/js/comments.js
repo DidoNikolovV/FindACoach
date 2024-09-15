@@ -4,19 +4,10 @@ const csrfHeaderValue = document.head.querySelector('[name=_csrf]').content;
 const commentContainer = document.getElementById('commentCtnr');
 let workoutId = "";
 
-// Initialize form and buttons
-const currentLocation = window.location.href.toString();
-if (currentLocation.startsWith('http://localhost:8080/forum/topic')) {
-    const topicCommentForm = document.getElementById("topicCommentForm");
-    topicCommentForm.addEventListener("submit", postTopicComment);
-} else {
-    workoutId = document.getElementById('workoutId').value;
-    const commentForm = document.getElementById('commentForm');
-    commentForm.addEventListener('submit', postComment);
-    const showCommentsBtn = document.getElementById('showComments');
-}
+workoutId = document.getElementById('workoutId').value;
+const commentForm = document.getElementById('commentForm');
+commentForm.addEventListener('submit', postComment);
 
-// Post a new comment
 async function postComment(e) {
     e.preventDefault();
     const messageValue = document.getElementById('message').value;
@@ -35,7 +26,6 @@ async function postComment(e) {
         });
 }
 
-// Convert comment to HTML
 function commentAsHTML(comment) {
     let profilePicture = comment.profilePicture ? comment.profilePicture : '/images/profile-avatar.jpg';
     let commentHTML = `<div id="${comment.id}" class="card comment-card mb-3">\n`;
@@ -46,7 +36,7 @@ function commentAsHTML(comment) {
     commentHTML += `<div class="card-body">\n`;
     commentHTML += `<p class="text-muted">${comment.message}</p>\n`;
     commentHTML += `<div class="d-flex justify-content-start mt-2">\n`;
-    commentHTML += `<span id="like-count-comment1">${comment.likes} Likes</span>\n`;
+    commentHTML += `<span id="likesCount-${comment.id}" >${comment.likes} Likes</span>\n`;
     commentHTML += `<button class="btn btn-sm mr-2 like-btn border-0" onclick="likeComment(${comment.id})">Like</button>\n`;
     commentHTML += `<button class="btn btn-sm delete-btn border-0" onclick="deleteComment(${comment.id})">Delete</button>\n`;
     commentHTML += `</div>\n`;
@@ -61,7 +51,6 @@ function commentAsHTML(comment) {
     return commentHTML;
 }
 
-// Delete a comment
 function deleteComment(commentId) {
     fetch(`${url}/api/v1/comments/${workoutId}/${commentId}`, {
         method: 'DELETE',
@@ -89,38 +78,51 @@ function deleteComment(commentId) {
         });
 }
 
-// Like a comment
 function likeComment(commentId) {
-    fetch(`${url}/api/v1/comments/${workoutId}/${commentId}/like`, {
+    const likeButton = document.querySelector(`button[onclick="likeComment(${commentId})"]`);
+    const likesCountElem = document.getElementById(`likesCount-${commentId}`);
+
+    if (!likeButton || !likesCountElem) {
+        console.error("Like button or likes count element not found.");
+        return;
+    }
+
+    const isLiked = likeButton.textContent.trim() === "Dislike";
+    const action = isLiked ? 'dislike' : 'like';
+    const newText = isLiked ? 'Like' : 'Dislike';
+
+    // Send the request to like or dislike
+    fetch(`${url}/api/v1/comments/${workoutId}/${commentId}/${action}`, {
         method: 'POST',
         headers: {
             [csrfHeaderName]: csrfHeaderValue,
             'Content-Type': 'application/json'
         }
     })
-        .then(res => {
-            if (res.ok) {
-                console.log("Successfully liked comment with ID:", commentId);
-                // Optionally, update the UI to reflect the like status
-                const likeButton = document.querySelector(`button[onclick="likeComment(${commentId})"]`);
-                if (likeButton) {
-                    // Update the button or some element to show the liked status
-                    likeButton.textContent = "Liked"; // Example update
-                } else {
-                    console.error("Like button element not found in DOM:", commentId);
-                }
-            } else {
-                return res.json().then(data => {
-                    console.error("Failed to like comment:", data);
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(data => {
+                    console.error(`Failed to ${action} comment:`, data);
                 });
             }
+
+            // Update button text and likes count
+            updateLikeButton(likeButton, newText);
+            updateLikesCount(likesCountElem, action);
         })
         .catch(error => {
-            console.error("Error liking comment:", error);
+            console.error(`Error ${action}ing comment:`, error);
         });
 }
 
+function updateLikeButton(button, newText) {
+    button.textContent = newText;
+}
 
+function updateLikesCount(likesCountElem, action) {
+    let currentLikes = parseInt(likesCountElem.textContent, 10);
+    likesCountElem.textContent = `${action === 'like' ? currentLikes + 1 : currentLikes - 1} Likes`;
+}
 
 
 function loadComments() {
@@ -136,48 +138,4 @@ function loadComments() {
         })
 }
 
-let currentPage = 1;
-const commentsPerPage = 4;
-
-function loadTopicComments(currentPage = 1) {
-    const topicId = document.getElementById("topicId").value;
-    const urlWithParams = `${url}/api/v1/comments/topic/${topicId}/all?page=${currentPage - 1}&size=${commentsPerPage}`;
-
-    fetch(urlWithParams, {
-        headers: {
-            "Accept": "application/json"
-        }
-    })
-        .then(res => res.json())
-        .then(data => {
-            renderComments(data.content);
-            renderPaginationControls(data.totalPages, currentPage);
-        });
-}
-
-function renderComments(comments) {
-    const commentContainer = document.getElementById('commentCtnr');
-    commentContainer.innerHTML = '';
-    comments.forEach(comment => {
-        commentContainer.innerHTML += commentAsHTML(comment);
-    });
-}
-
-function renderPaginationControls(totalPages, currentPage) {
-    const paginationControls = document.getElementById('paginationControls');
-    paginationControls.innerHTML = '';
-
-    for (let i = 1; i <= totalPages; i++) {
-        const pageItem = document.createElement('li');
-        pageItem.className = `page-item ${i === currentPage ? 'active' : ''}`;
-        pageItem.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-        pageItem.addEventListener('click', function(event) {
-            event.preventDefault();
-            loadTopicComments(i);
-        });
-        paginationControls.appendChild(pageItem);
-    }
-}
-
 loadComments();
-loadTopicComments();

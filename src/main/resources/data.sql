@@ -11,16 +11,22 @@ VALUES (1, 'admin@example.com', 'Admin',
         1, 'COACH', '/images/profile-avatar.jpg'),
        (4, 'ivan.petrov@example.com', 'IvanPetrov',
         '95c1933b8ffe84f085f2839899d1673260be58dbd9c2c787ac35515805502c996417596dae9a92880aaa50a046fc7151', 1,
-        'COACH', '/images/coach-ivan.jpg'),
+        'COACH', '/images/profile-avatar.jpg'),
        (5, 'petar.georgiev@example.com', 'PetarGeorgiev',
         '95c1933b8ffe84f085f2839899d1673260be58dbd9c2c787ac35515805502c996417596dae9a92880aaa50a046fc7151', 1,
-        'COACH', '/images/coach-petar.jpg'),
+        'COACH', '/images/profile-avatar.jpg'),
        (6, 'vladislav.dimitrov@example.com', 'VladislavDimitrov',
         '95c1933b8ffe84f085f2839899d1673260be58dbd9c2c787ac35515805502c996417596dae9a92880aaa50a046fc7151', 1,
         'CLIENT', '/images/client-vladislav.jpg'),
        (7, 'georgi.ivanov@example.com', 'GeorgiIvanov',
         '95c1933b8ffe84f085f2839899d1673260be58dbd9c2c787ac35515805502c996417596dae9a92880aaa50a046fc7151', 1,
-        'CLIENT', '/images/client-georgi.jpg');
+        'CLIENT', '/images/client-georgi.jpg'),
+       (8, 'vladislav.nikolov@example.com', 'VladislavNikolov',
+        '95c1933b8ffe84f085f2839899d1673260be58dbd9c2c787ac35515805502c996417596dae9a92880aaa50a046fc7151', 1,
+        'COACH', '/images/profile-avatar.jpg'),
+       (9, 'simeon.nedelchev@example.com', 'SimeonNedelchev',
+        '95c1933b8ffe84f085f2839899d1673260be58dbd9c2c787ac35515805502c996417596dae9a92880aaa50a046fc7151', 1,
+        'COACH', '/images/profile-avatar.jpg');
 
 -- Ensure you also add roles and user-role mappings accordingly.
 
@@ -38,12 +44,16 @@ VALUES (1, 1),
        (4, 2), -- IvanPetrov as Coach
        (5, 2), -- PetarGeorgiev as Coach
        (6, 3), -- VladislavDimitrov as Client
-       (7, 3); -- GeorgiIvanov as Client
+       (7, 3), -- GeorgiIvanov as Client
+       (8, 2), -- VladislavNikolov as Coach
+       (9, 2); -- SimeonNedelchev as Coach
 
 INSERT INTO coaches (description, email, img_url, rating, username)
 VALUES ('Strength and endurance coach', 'didaka@example.com', '/images/profile-avatar.jpg', 5.8, 'DidoNikolov'),
        ('Expert in strength training', 'ivan.petrov@example.com', '/images/coach-ivan.jpg', 4.7, 'IvanPetrov'),
-       ('HIIT and cardio specialist', 'petar.georgiev@example.com', '/images/coach-petar.jpg', 4.9, 'PetarGeorgiev');
+       ('HIIT and cardio specialist', 'petar.georgiev@example.com', '/images/coach-petar.jpg', 4.9, 'PetarGeorgiev'),
+       ('Expert in calisthenics', 'vladislav.nikolov@example.com', '/images/profile-avatar.jpg', 4.7, 'VladislavNikolov'),
+       ('Expert in crossfit', 'simeon.nedelchev@example.com', '/images/profile-avatar.jpg', 4.8, 'SimeonNedelchev');
 
 INSERT INTO clients (email, img_url, username, coach_id)
 VALUES ('user@example.com', '/images/user-avatar.jpg', 'User', 1),

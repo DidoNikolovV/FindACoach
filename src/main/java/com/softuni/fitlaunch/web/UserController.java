@@ -12,6 +12,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.Generated;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -121,16 +123,22 @@ public class UserController {
     }
 
     @GetMapping("/all")
-    public String allUsers(HttpServletRequest request, Model model) {
+    public String allUsers(@RequestParam(defaultValue = "0") int page,
+                           @RequestParam(defaultValue = "5") int size,
+                           HttpServletRequest request,
+                           Model model) {
         String ipAddress = request.getRemoteAddr();
         request.getSession().setAttribute("userIpAddress", ipAddress);
 
-        List<UserDTO> allUsers = userService.getAllUsers();
+        Page<UserDTO> allUsersPage = userService.getAllUsers(PageRequest.of(page, size));
 
-        model.addAttribute("users", allUsers);
+        model.addAttribute("usersPage", allUsersPage);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", allUsersPage.getTotalPages());
 
         return "users";
     }
+
 
     @PostMapping("/all")
     public String allUsers(@RequestParam("username") String username, @RequestParam("role") String role) {
