@@ -4,8 +4,8 @@
 </head>
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
-<div class="container mt-5">
-    <h1 class="text-center mb-4">Client Coaching Survey</h1>
+<div class="container mt-5" style="height: 100vh">
+    <h1 class="text-center mb-4 mt-5">Client Coaching Survey</h1>
     <form th:method="POST" th:object="${client}"
           th:action="@{/coaches/{coachId}/client/information(coachId=${coach.id})}">
         <div class="form-group">

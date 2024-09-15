@@ -8,23 +8,40 @@
 
 <header class="header">
     <div class="container d-flex flex-column align-items-center justify-content-center" style="min-height: 100vh;">
-        <<div th:if="${#lists.isEmpty(allPrograms)}" class="alert alert-warning text-center" role="alert" style="margin-top: 11rem;">
-        <h4 class="alert-heading">No Programs Available</h4>
-        <p>You don't have a coach assigned yet. Please visit the <a th:href="@{/coaches/all}" class="alert-link">coaches page</a> to find and start working with a coach!</p>
-    </div>
+        <div th:if="${#lists.isEmpty(allPrograms)}" class="alert alert-warning text-center" role="alert" style="margin-top: 11rem;">
+            <span class="alert-heading">No Programs Available</span>
+            <span>You don't have a coach assigned yet. Please visit the <a th:href="@{/coaches/all}" class="alert-link">coaches page</a> to find and start working with a coach!</span>
+        </div>
 
-        <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3" id="programsContainer" style="margin-top: 11rem;">
-            <!-- Programs Cards -->
-            <div th:each="program : ${allPrograms}" th:object="${program}" class="col">
-                <div class="card border-0 h-100">
+        <!-- Programs Cards -->
+        <div class="row justify-content-center" id="programsContainer" style="margin-top: 11rem;">
+            <!-- Adjust grid columns if only one program exists -->
+            <div th:if="${allPrograms.size() == 1}" class="col-12 col-md-6 col-lg-4">
+                <div th:each="program : ${allPrograms}" th:object="${program}" class="card border-0 h-100">
                     <a th:href="@{/programs/details/{id}(id=*{id})}"
                        th:class="${membership == 'Free' ? 'th-disabled-overlay' : 'card-link p-0 card-hover'}">
-                        <img th:src="*{imgUrl}" class="card-img-top program-img" alt="Workout Image">
+                        <img th:src="*{imgUrl}" class="card-img-top program-img" alt="Workout Image" style="height: 100%;">
                         <div th:class="${membership == 'Free' ? 'card-img-overlay th-disabled-overlay' : 'card-img-overlay'}">
                             <h5 class="card-title text-center text-white text-uppercase text-info" th:text="*{name}">Full Body</h5>
                             <i th:if="${membership == 'Free'}" class="fas fa-lock lock-icon"></i>
                         </div>
                     </a>
+                </div>
+            </div>
+
+            <!-- Default grid for multiple programs -->
+            <div th:if="${allPrograms.size() > 1}" class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3">
+                <div th:each="program : ${allPrograms}" th:object="${program}" class="col">
+                    <div class="card border-0 h-100">
+                        <a th:href="@{/programs/details/{id}(id=*{id})}"
+                           th:class="${membership == 'Free' ? 'th-disabled-overlay' : 'card-link p-0 card-hover'}">
+                            <img th:src="*{imgUrl}" class="card-img-top program-img" alt="Workout Image">
+                            <div th:class="${membership == 'Free' ? 'card-img-overlay th-disabled-overlay' : 'card-img-overlay'}">
+                                <h5 class="card-title text-center text-white text-uppercase text-info" th:text="*{name}">Full Body</h5>
+                                <i th:if="${membership == 'Free'}" class="fas fa-lock lock-icon"></i>
+                            </div>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
