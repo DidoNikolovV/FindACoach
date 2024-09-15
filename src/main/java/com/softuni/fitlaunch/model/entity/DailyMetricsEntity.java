@@ -25,8 +25,6 @@ public class DailyMetricsEntity extends BaseEntity {
     private Double stepsCount;
     @Column(name = "sleep_duration")
     private Double sleepDuration;
-    @Column(name = "mood")
-    private Integer mood;
     @Column(name = "energy_levels")
     private Integer energyLevels;
     @Column(name = "date")

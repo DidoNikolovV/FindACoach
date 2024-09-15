@@ -176,7 +176,6 @@ function updateWeeklyDataTable(data) {
             <td>${week.avgWeight} kg</td>
             <td>${week.avgStepsCount}</td>
             <td>${week.avgSleepDuration} hours</td>
-            <td>${convertMood(week.avgMood)}</td>
             <td>${convertEnergyLevels(week.avgEnergyLevels)}</td>
         `;
         weeklyDataBody.appendChild(row);

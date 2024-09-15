@@ -8,19 +8,22 @@
 <div class="container" style="height: 100vh;">
     <h2 class="text-center" th:text="${client.username} + ' Progress'" style="margin-top: 11rem;"></h2>
 
-    <form class="upload-form" method="POST"
-          th:action="@{/clients/{clientUsername}/progress(clientUsername=${client.username})}"
-          enctype="multipart/form-data" style="margin-top: 5rem;">
-        <div class="form-row align-items-center">
-            <div class="col-sm-9 my-1">
-                <input type="file" class="form-control" id="file" name="file" required>
+    <div sec:authorize="hasRole('CLIENT')">
+        <form class="upload-form" method="POST"
+              th:action="@{/clients/{clientUsername}/progress(clientUsername=${client.username})}"
+              enctype="multipart/form-data" style="margin-top: 5rem;">
+            <div class="form-row align-items-center">
+                <div class="col-sm-9 my-1">
+                    <input type="file" class="form-control" id="file" name="file" required>
+                </div>
+                <div class="col-sm-3 my-1">
+                    <button type="submit" class="btn btn-primary btn-block">Upload</button>
+                </div>
             </div>
-            <div class="col-sm-3 my-1">
-                <button type="submit" class="btn btn-primary btn-block">Upload</button>
-            </div>
-        </div>
-    </form>
+        </form>
+    </div>
 
+    <hr class="divider bg-primary my-4">
     <h4 class="progress-title text-center">Progress Pictures</h4>
     <div class="row">
         <div th:each="progressPicture: ${progressPictures}" class="col-md-3" style="margin-bottom: 8rem;">

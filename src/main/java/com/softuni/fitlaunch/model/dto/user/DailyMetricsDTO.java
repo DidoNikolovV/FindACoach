@@ -15,7 +15,6 @@ public class DailyMetricsDTO {
     private Double caloriesIntake;
     private Double stepsCount;
     private Double sleepDuration;
-    private Integer mood;
     private Integer energyLevels;
     private LocalDate date;
 }

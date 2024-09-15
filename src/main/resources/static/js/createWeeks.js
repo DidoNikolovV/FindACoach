@@ -93,7 +93,7 @@ function saveWorkouts(e) {
     }).then(res => res.json())
         .then(data => {
             console.log(data);
-            completedWeeks.push(selectedWeek); // Mark the week as completed
+            // completedWeeks.push(selectedWeek);
             updateWeekSelect();
         }).catch(error => {
         console.error('Error saving data:', error);

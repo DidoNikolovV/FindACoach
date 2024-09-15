@@ -1,26 +1,25 @@
-const url = 'http://localhost:8080'
-
-const csrfHeaderName = document.head.querySelector('[name=_csrf_header]').content
-const csrfHeaderValue = document.head.querySelector('[name=_csrf]').content
-
-const currentLocation = window.location.href.toString();
+const url = 'http://localhost:8080';
+const csrfHeaderName = document.head.querySelector('[name=_csrf_header]').content;
+const csrfHeaderValue = document.head.querySelector('[name=_csrf]').content;
 const commentContainer = document.getElementById('commentCtnr');
 let workoutId = "";
-if(currentLocation.startsWith('http://localhost:8080/forum/topic')) {
+
+// Initialize form and buttons
+const currentLocation = window.location.href.toString();
+if (currentLocation.startsWith('http://localhost:8080/forum/topic')) {
     const topicCommentForm = document.getElementById("topicCommentForm");
     topicCommentForm.addEventListener("submit", postTopicComment);
 } else {
-    workoutId = document.getElementById('workoutId').value
-    const commentForm = document.getElementById('commentForm')
-    commentForm.addEventListener('submit', postComment)
+    workoutId = document.getElementById('workoutId').value;
+    const commentForm = document.getElementById('commentForm');
+    commentForm.addEventListener('submit', postComment);
     const showCommentsBtn = document.getElementById('showComments');
 }
 
+// Post a new comment
 async function postComment(e) {
     e.preventDefault();
-
     const messageValue = document.getElementById('message').value;
-
     fetch(`${url}/api/v1/comments/${workoutId}`, {
         method: 'POST',
         headers: {
@@ -28,39 +27,15 @@ async function postComment(e) {
             'Accept': 'application/json',
             [csrfHeaderName]: csrfHeaderValue
         },
-        body: JSON.stringify({
-            message: messageValue
-        })
+        body: JSON.stringify({ message: messageValue })
     }).then(res => res.json())
         .then(data => {
-            document.getElementById('message').value = ""
-            commentContainer.innerHTML += commentAsHTML(data)
-        })
+            document.getElementById('message').value = "";
+            commentContainer.innerHTML += commentAsHTML(data);
+        });
 }
 
-function postTopicComment(e) {
-    e.preventDefault();
-
-    const messageValue = document.getElementById('message').value;
-    const topicId = document.getElementById("topicId").value;
-
-    fetch(`${url}/api/v1/comments/topic/${topicId}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json',
-            [csrfHeaderName]: csrfHeaderValue
-        },
-        body: JSON.stringify({
-            message: messageValue
-        })
-    }).then(res => res.json())
-        .then(data => {
-            document.getElementById('message').value = ""
-            commentContainer.innerHTML += commentAsHTML(data)
-        })
-}
-
+// Convert comment to HTML
 function commentAsHTML(comment) {
     let profilePicture = comment.profilePicture ? comment.profilePicture : '/images/profile-avatar.jpg';
     let commentHTML = `<div id="${comment.id}" class="card comment-card mb-3">\n`;
@@ -86,7 +61,7 @@ function commentAsHTML(comment) {
     return commentHTML;
 }
 
-
+// Delete a comment
 function deleteComment(commentId) {
     fetch(`${url}/api/v1/comments/${workoutId}/${commentId}`, {
         method: 'DELETE',
@@ -114,6 +89,7 @@ function deleteComment(commentId) {
         });
 }
 
+// Like a comment
 function likeComment(commentId) {
     fetch(`${url}/api/v1/comments/${workoutId}/${commentId}/like`, {
         method: 'POST',

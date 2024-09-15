@@ -6,17 +6,6 @@ const clientWorkoutDetailsBtn = document.getElementById("clientWorkoutDetailsBtn
 clientWorkoutDetailsBtn.addEventListener("click", openModal);
 
 
-function workoutDetailsAsHTML(workout) {
-    const workoutNameElement = document.getElementById("workoutName");
-    const workoutDescriptionElement = document.getElementById("workoutDescription");
-
-    workoutNameElement.textContent = workout.name;
-    workoutDescriptionElement.textContent = workout.description; // Assuming description is a property of workout
-
-    return '';
-}
-
-
 function openModal() {
     const clientName = document.getElementById("clientName").value;
     const workoutId = document.getElementById("clientWorkoutDetailsBtn").dataset.workoutId;
@@ -34,7 +23,6 @@ function openModal() {
         return res.json();
     }).then(res => {
         console.log(res);
-        const id = res.id;
         const day = res.name;
         const workoutName = res.workoutName;
 

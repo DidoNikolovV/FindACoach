@@ -14,7 +14,10 @@
                 <div class="card" style="height: 100%">
                     <div class="card-header d-flex justify-content-between">
                         <h5 class="card-title">Metrics</h5>
-                        <button type="button" class="btn btn-info w-25" data-toggle="modal" data-target="#weeklyDataModal" id="dataModalBtn">Data</button>
+                        <form th:action="@{/clients/{clientUsername}/progress(clientUsername=${client.username})}">
+<!--                            data-toggle="modal" data-target="#weeklyDataModal" id="dataModalBtn"-->
+                            <button type="submit" class="btn btn-info w-100">Progress Pictures</button>
+                        </form>
                     </div>
                     <!-- Modal -->
                     <div class="modal fade" id="weeklyDataModal" tabindex="-1" aria-labelledby="weeklyDataModalLabel" aria-hidden="true">
@@ -71,7 +74,6 @@
                                 <th>Average Weight</th>
                                 <th>Average Steps Count</th>
                                 <th>Average Sleep Duration</th>
-                                <th>Average Mood</th>
                                 <th>Average Energy Levels</th>
                                 <th>Action</th>
                             </tr>
@@ -87,18 +89,15 @@
                                 <td th:text="${week.value.weight}">80 kg</td>
                                 <td th:text="${week.value.stepsCount}">10,000</td>
                                 <td th:text="${week.value.sleepDuration}">7 hours</td>
-                                <td th:text="${week.value.mood}">Good</td>
                                 <td th:text="${week.value.energyLevels}">High</td>
                                 <td><button class="btn btn-primary btn-sm ml-auto weekDataModalBtn" data-toggle="modal" data-target="#dailyDataModal">Week Data</button></td>
                             </tr>
-                            <!-- Additional rows for other weeks will be generated here -->
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
 
-            <!-- Modal for displaying daily metrics for a specific week -->
             <div class="modal fade" id="dailyDataModal" tabindex="-1" role="dialog" aria-labelledby="dailyDataModalLabel" aria-hidden="true">
                 <div class="modal-dialog modal-lg" role="document">
                     <div class="modal-content">
@@ -119,7 +118,6 @@
             </div>
 
 
-            <!-- Goals Progress Table -->
             <div class="col">
                 <div class="card" style="height: 100%">
                     <div class="card-header">
@@ -139,20 +137,16 @@
                                 <td>Weight</td>
                                 <td th:text="${client.weightGoal}"></td>
                                 <td>
-                                    <!-- Progress tracking for weight goal -->
                                     <div class="progress" style="height: 20px;">
                                         <div class="progress-bar bg-success" role="progressbar" th:text="${weightProgress} + '%'" th:style="'width:' + ${weightProgress} + '%'" th:aria-valuenow="${client.weight}" aria-valuemin="0" th:aria-valuemax="${client.weightGoal}">75%</div>
                                     </div>
                                 </td>
                             </tr>
-                            <!-- Repeat the same structure for other metrics and goals -->
                             <tr>
                                 <td>Performance goals</td>
                                 <td th:text="${client.performanceGoals}"></td>
                                 <td>
-                                    <!-- Progress tracking for performance goals -->
                                     <div class="progress">
-                                        <!-- Assuming metric.caloriesIntake and goal.caloriesIntake are available -->
                                         <div class="progress-bar bg-success" role="progressbar" style="width: 54%;" aria-valuenow="54" aria-valuemin="0" aria-valuemax="100">54%</div>
                                     </div>
                                 </td>
@@ -161,9 +155,7 @@
                                 <td>Body Composition Goals</td>
                                 <td th:text="${client.bodyCompositionGoal}"></td>
                                 <td>
-                                    <!-- Progress tracking for body composition goals -->
                                     <div class="progress">
-                                        <!-- Assuming metric.caloriesIntake and goal.caloriesIntake are available -->
                                         <div class="progress-bar bg-success" role="progressbar" style="width: 73%;" aria-valuenow="73" aria-valuemin="0" aria-valuemax="100">73%</div>
                                     </div>
                                 </td>

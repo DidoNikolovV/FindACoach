@@ -34,4 +34,7 @@ public class DayWorkoutsEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UserProgress> userProgress = new ArrayList<>();
+
+    @OneToMany(mappedBy = "workout", cascade = CascadeType.ALL)
+    private List<WorkoutExercise> exercises;
 }

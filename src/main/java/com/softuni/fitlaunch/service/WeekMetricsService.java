@@ -64,7 +64,6 @@ public class WeekMetricsService {
                 totalCaloriesIntake += data.getCaloriesIntake();
                 totalStepsCount += data.getStepsCount();
                 totalSleepDuration += data.getSleepDuration();
-                totalMood += data.getMood();
                 totalEnergyLevels += data.getEnergyLevels();
             }
 
@@ -74,7 +73,6 @@ public class WeekMetricsService {
             average.setCaloriesIntake(Math.floor(totalCaloriesIntake / count));
             average.setStepsCount(Math.floor(totalStepsCount / count));
             average.setSleepDuration(Math.floor(totalSleepDuration / count));
-            average.setMood(totalMood / count);
             average.setEnergyLevels(totalEnergyLevels / count);
 
             weeklyAverages.put(weekNumber, average);

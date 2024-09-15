@@ -9,6 +9,10 @@ import com.softuni.fitlaunch.model.entity.WorkoutEntity;
 import com.softuni.fitlaunch.repository.CommentRepository;
 import com.softuni.fitlaunch.service.exception.ResourceNotFoundException;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,7 +39,7 @@ public class CommentService {
         List<CommentEntity> comments = commentRepository.findAllByWorkoutId(workoutId);
         return comments.stream().map(commentEntity ->
                         new CommentView(commentEntity.getId(), commentEntity.getAuthor().getImgUrl(), commentEntity.getAuthor().getUsername(), commentEntity.getMessage(), commentEntity.getLikes()))
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public CommentView addComment(CommentCreationDTO commentDTO, String username, Long workoutId) {

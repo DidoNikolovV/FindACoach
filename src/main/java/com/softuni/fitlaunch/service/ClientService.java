@@ -112,30 +112,27 @@ public class ClientService {
         Double totalWeight = 0D;
         Double totalStepsCount = 0D;
         Double totalSleepDuration = 0D;
-        Integer totalMood = 0;
         Integer totalEnergyLevels = 0;
         for (int i = 0; i < metrics.size(); i++) {
             totalWeight += metrics.get(i).getWeight();
             totalStepsCount += metrics.get(i).getStepsCount();
             totalSleepDuration += metrics.get(i).getSleepDuration();
-            totalMood += metrics.get(i).getMood();
             totalEnergyLevels += metrics.get(i).getEnergyLevels();
         }
 
-        DailyMetricsDTO dailyMetricsDTO = createDailyMetricsDto(totalWeight, totalStepsCount, totalSleepDuration, totalMood, totalEnergyLevels);
+        DailyMetricsDTO dailyMetricsDTO = createDailyMetricsDto(totalWeight, totalStepsCount, totalSleepDuration, totalEnergyLevels);
 
         averageMetrics.add(dailyMetricsDTO);
 
         return averageMetrics;
     }
 
-    private DailyMetricsDTO createDailyMetricsDto(Double totalWeight, Double totalStepsCount, Double totalSleepDuration, Integer totalMood, Integer totalEnergyLevels) {
+    private DailyMetricsDTO createDailyMetricsDto(Double totalWeight, Double totalStepsCount, Double totalSleepDuration, Integer totalEnergyLevels) {
         DailyMetricsDTO dailyMetricsDTO = new DailyMetricsDTO();
 
         dailyMetricsDTO.setWeight(totalWeight / 2);
         dailyMetricsDTO.setStepsCount(totalStepsCount / 2);
         dailyMetricsDTO.setSleepDuration(totalSleepDuration / 2);
-        dailyMetricsDTO.setMood(totalMood / 2);
         dailyMetricsDTO.setEnergyLevels(totalEnergyLevels / 2);
         return dailyMetricsDTO;
     }

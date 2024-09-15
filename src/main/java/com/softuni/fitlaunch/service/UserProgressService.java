@@ -77,7 +77,7 @@ public class UserProgressService {
         UserEntity user = userService.getUserEntityByUsername(username);
         ProgramWeekEntity week = weekService.getWeekByNumber(weekId, programId);
         DayWorkoutsEntity dayWorkoutsEntity = dayWorkoutsRepository.findByNameAndWorkoutIdAndWeekId(dayName, workoutId, week.getId()).orElseThrow(() -> new ResourceNotFoundException("Workout not found"));
-        UserProgress userProgress = userProgressRepository.findByUserIdAndWorkoutIdAndWeekIdAndProgramId(user.getId(), dayWorkoutsEntity.getId(), week.getId(), programId).orElseThrow(() -> new ResourceNotFoundException("UserProgress not found"));
+        UserProgress userProgress = userProgressRepository.findByUserIdAndWorkoutIdAndWeekIdAndProgramId(user.getId(), dayWorkoutsEntity.getId(), week.getId(), programId).orElse(null);
         return userProgress.getWorkout().getWorkout().getExercises().stream().map(exercise -> modelMapper.map(exercise, WorkoutExerciseDTO.class)).toList();
     }
 
@@ -92,5 +92,9 @@ public class UserProgressService {
 
     public UserProgress getByUserIdAndWorkoutIdAndWeekIdAndProgramId(Long userId, Long workoutId, Long weekId, Long programId) {
         return userProgressRepository.findByUserIdAndWorkoutIdAndWeekIdAndProgramId(userId, workoutId, weekId, programId).orElseThrow(() -> new ResourceNotFoundException("UserProgress not found"));
+    }
+
+    public void saveAll(List<UserProgress> userProgressList) {
+        userProgressRepository.saveAll(userProgressList);
     }
 }

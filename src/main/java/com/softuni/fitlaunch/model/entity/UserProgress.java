@@ -28,7 +28,7 @@ public class UserProgress extends BaseEntity {
     private boolean workoutCompleted;
 
     @Column(name = "week_completed")
-    private boolean weekCompleted;
+    private boolean weekCompleted = false;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -37,10 +37,6 @@ public class UserProgress extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "workout_id")
     private DayWorkoutsEntity workout;
-
-    @ManyToOne
-    @JoinColumn(name = "exercise_id")
-    private ExerciseEntity exercise;
 
     @Column(name = "day_name")
     private String dayName;
