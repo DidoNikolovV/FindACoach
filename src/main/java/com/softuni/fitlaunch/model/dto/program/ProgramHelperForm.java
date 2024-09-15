@@ -9,4 +9,5 @@ public class ProgramHelperForm {
     private String goal;
     private String workoutPreference;
     private String workoutFrequency;
+    private String name;
 }

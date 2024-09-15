@@ -52,7 +52,8 @@ INSERT INTO coaches (description, email, img_url, rating, username)
 VALUES ('Strength and endurance coach', 'didaka@example.com', '/images/profile-avatar.jpg', 5.8, 'DidoNikolov'),
        ('Expert in strength training', 'ivan.petrov@example.com', '/images/coach-ivan.jpg', 4.7, 'IvanPetrov'),
        ('HIIT and cardio specialist', 'petar.georgiev@example.com', '/images/coach-petar.jpg', 4.9, 'PetarGeorgiev'),
-       ('Expert in calisthenics', 'vladislav.nikolov@example.com', '/images/profile-avatar.jpg', 4.7, 'VladislavNikolov'),
+       ('Expert in calisthenics', 'vladislav.nikolov@example.com', '/images/profile-avatar.jpg', 4.7,
+        'VladislavNikolov'),
        ('Expert in crossfit', 'simeon.nedelchev@example.com', '/images/profile-avatar.jpg', 4.8, 'SimeonNedelchev');
 
 INSERT INTO clients (email, img_url, username, coach_id)
@@ -112,9 +113,16 @@ VALUES
     ('/images/cardio-blast.jpg', 'Cardio Blast', 3),
     ('/images/fat-burning-hiit.jpg', 'Fat Burning HIIT', 3),
     ('/images/endurance-cardio.jpg', 'Endurance Cardio Program', 3),
-    ('/images/speed-and-agility.jpg', 'Speed and Agility', 3);
+    ('/images/speed-and-agility.jpg', 'Speed and Agility', 3),
 
+    ('/images/calisthenics-beginners.jpg', 'Calisthenics for Beginners', 4),
+    ('/images/advanced-calisthenics.jpg', 'Advanced Calisthenics', 4),
+    ('/images/bodyweight-strength.jpg', 'Bodyweight Strength Program', 4),
 
+    ('/images/crossfit-fundamentals.jpg', 'CrossFit Fundamentals', 5),
+    ('/images/crossfit-power.jpg', 'CrossFit Power and Strength', 5),
+    ('/images/competitive-crossfit.jpg', 'Competitive CrossFit Training', 5),
+    ('/images/crossfit-endurance.jpg', 'CrossFit Endurance Program', 5);
 
 INSERT INTO exercises (name, muscle_group, video_url)
 VALUES ('Squats', 'Legs', 'https://www.youtube.com/watch?v=U3HcD0PnczY'),
@@ -221,8 +229,23 @@ VALUES
     ('', 'Cardio Challenge: Running Intervals, Cycling Sprints, Rowing Intervals, and Jump Rope',
      'https://example.com/cardio_challenge.jpg', 'Advanced', 23, 'Cardio Challenge', 3),
     ('', 'Endurance Cardio Program: Long-Distance Running, Cycling, Swimming, and Rowing',
-     'https://example.com/endurance_cardio.jpg', 'Advanced', 26, 'Endurance Cardio Program', 3);
+     'https://example.com/endurance_cardio.jpg', 'Advanced', 26, 'Endurance Cardio Program', 3),
 
+    ('', 'Beginner Calisthenics: Push-Ups, Bodyweight Squats, Planks, and Lunges',
+     'https://example.com/beginner_calisthenics.jpg', 'Beginner', 19, 'Calisthenics for Beginners', 4),
+    ('', 'Advanced Calisthenics: Muscle-Ups, Handstand Push-Ups, Pistol Squats, and Planche',
+     'https://example.com/advanced_calisthenics.jpg', 'Advanced', 27, 'Advanced Calisthenics', 4),
+    ('', 'Bodyweight Strength: Pull-Ups, Dips, Bulgarian Split Squats, and Hollow Body Holds',
+     'https://example.com/bodyweight_strength.jpg', 'Intermediate', 23, 'Bodyweight Strength Program', 4),
+
+    ('', 'CrossFit Fundamentals: Deadlifts, Box Jumps, Wall Balls, and Kettlebell Swings',
+     'https://example.com/crossfit_fundamentals.jpg', 'Beginner', 26, 'CrossFit Fundamentals', 5),
+    ('', 'CrossFit Power: Power Cleans, Snatches, Thrusters, and Overhead Squats',
+     'https://example.com/crossfit_power.jpg', 'Advanced', 27, 'CrossFit Power and Strength', 5),
+    ('', 'Competitive CrossFit: Clean and Jerk, Burpees, Rowing, and Assault Bike',
+     'https://example.com/competitive_crossfit.jpg', 'Advanced', 28, 'Competitive CrossFit Training', 5),
+    ('', 'CrossFit Endurance: Running, Swimming, Rowing, and Biking',
+     'https://example.com/crossfit_endurance.jpg', 'Intermediate', 29, 'CrossFit Endurance Program', 5);
 
 
 INSERT INTO workout_exercises (reps, sets, name, muscle_group, workout_id, is_completed)
@@ -297,7 +320,38 @@ VALUES
     (60, 1, 'Long-Distance Running', 'Legs', 12, 0),
     (45, 1, 'Swimming', 'Full Body', 12, 0),
     (60, 1, 'Cycling', 'Legs', 12, 0),
-    (60, 1, 'Rowing', 'Full Body', 12, 0);
+    (60, 1, 'Rowing', 'Full Body', 12, 0),
+
+    (10, 3, 'Push-Ups', 'Chest/Arms', 13, 0),
+    (15, 3, 'Bodyweight Squats', 'Legs', 13, 0),
+    (30, 3, 'Planks (seconds)', 'Core', 13, 0),
+    (12, 3, 'Lunges', 'Legs', 13, 0),
+
+    (5, 4, 'Muscle-Ups', 'Upper Body', 14, 0),
+    (8, 4, 'Handstand Push-Ups', 'Shoulders', 14, 0),
+    (10, 4, 'Pistol Squats', 'Legs', 14, 0),
+    (20, 4, 'Planche Hold (seconds)', 'Core/Full Body', 14, 0),
+
+    (8, 3, 'Pull-Ups', 'Back/Arms', 15, 0),
+    (10, 3, 'Dips', 'Chest/Triceps', 15, 0),
+    (12, 3, 'Bulgarian Split Squats', 'Legs', 15, 0),
+    (30, 3, 'Hollow Body Holds (seconds)', 'Core', 15, 0),
+
+    (10, 4, 'Deadlifts', 'Back/Legs', 16, 0),
+    (12, 4, 'Box Jumps', 'Legs/Cardio', 16, 0),
+    (15, 4, 'Wall Balls', 'Full Body/Cardio', 16, 0),
+    (12, 4, 'Kettlebell Swings', 'Full Body/Cardio', 16, 0),
+
+    (5, 5, 'Power Cleans', 'Full Body', 17, 0),
+    (5, 5, 'Snatches', 'Full Body', 17, 0),
+    (8, 4, 'Thrusters', 'Full Body/Cardio', 17, 0),
+    (6, 4, 'Overhead Squats', 'Legs/Shoulders', 17, 0),
+
+    (3, 5, 'Clean and Jerk', 'Full Body', 18, 0),
+    (15, 4, 'Burpees', 'Full Body/Cardio', 18, 0),
+    (10, 4, 'Double Unders', 'Cardio', 18, 0),
+    (12, 4, 'Box Jumps', 'Legs/Cardio', 18, 0);
+
 
 -- Insert weeks for each program with 3 weeks per program
 INSERT INTO weeks (id, number, program_id)
@@ -338,8 +392,6 @@ VALUES
     (25, 1, 15),
     (26, 2, 15),
     (27, 3, 15);
-
-
 
 -- Week 1, Program 1
 -- Week Days for Programs 1 to 3
@@ -928,17 +980,17 @@ VALUES
     (false, 27, 27, 9);
 
 INSERT INTO week_metrics (number)
-VALUES
-(1),
-(2),
-(1),
-(2),
-(1),
-(2),
-(3);
+VALUES (1),
+       (2),
+       (1),
+       (2),
+       (1),
+       (2),
+       (3);
 
 
-INSERT INTO daily_metrics (calories_intake, date, energy_levels, sleep_duration, steps_count, weight, client_id, id, week_id)
+INSERT INTO daily_metrics (calories_intake, date, energy_levels, sleep_duration, steps_count, weight, client_id, id,
+                           week_id)
 VALUES
 -- Week 1 for Client 1
 (2200, '2024-09-01', 8, 7.5, 10000, 75.0, 1, 1, 1),
@@ -998,7 +1050,7 @@ VALUES
 -- Week 2 for Client 3
 (2100, '2024-09-08', 8, 7.5, 9500, 63.6, 3, 36, 6),
 (1900, '2024-09-09', 7, 6.5, 8500, 63.4, 3, 37, 6),
-(2200, '2024-09-10', 9, 7.8, 11000, 63.2, 3, 38,6),
+(2200, '2024-09-10', 9, 7.8, 11000, 63.2, 3, 38, 6),
 (2000, '2024-09-11', 7, 7.0, 9000, 63.0, 3, 39, 6),
 (2400, '2024-09-12', 8, 8.0, 11500, 62.8, 3, 40, 6),
 (2300, '2024-09-13', 8, 7.2, 10000, 62.6, 3, 41, 6),

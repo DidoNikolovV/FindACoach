@@ -3,6 +3,7 @@ package com.softuni.fitlaunch.service;
 
 import com.softuni.fitlaunch.model.dto.program.ProgramCreationDTO;
 import com.softuni.fitlaunch.model.dto.program.ProgramDTO;
+import com.softuni.fitlaunch.model.dto.program.ProgramHelperForm;
 import com.softuni.fitlaunch.model.dto.program.ProgramWeekDTO;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.CoachDTO;
@@ -58,7 +59,7 @@ public class ProgramService {
         List<ProgramEntity> programEntities = new ArrayList<>();
         if (loggedUser.getTitle().equals(UserTitleEnum.CLIENT)) {
             ClientDTO clientDTO = clientService.getClientByUsername(loggedUser.getUsername());
-            if(clientDTO.getCoach() == null) {
+            if (clientDTO.getCoach() == null) {
                 return new ArrayList<>();
             }
             CoachDTO coach = coachService.getCoachById(clientDTO.getCoach().getId());
@@ -209,5 +210,21 @@ public class ProgramService {
                         && p.getDayName().equalsIgnoreCase(dayDTO.getName()))
                 .findFirst()
                 .orElse(null);
+    }
+
+    public ProgramHelperForm getRecommendation(ProgramHelperForm form) {
+        String fitnessLevel = form.getFitnessLevel();
+        String workoutFrequency = form.getWorkoutFrequency();
+
+        List<ProgramEntity> programs = programRepository.findAll();
+
+        ProgramEntity recommendedProgram = programs.stream()
+                .filter(p -> p.getName().equalsIgnoreCase(fitnessLevel))
+                .findFirst()
+                .orElse(null);
+
+        form.setName(recommendedProgram.getName());
+
+        return form;
     }
 }

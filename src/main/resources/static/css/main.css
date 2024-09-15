@@ -576,6 +576,16 @@ button.th-disabled {
     display: block; /* Ensure comment container spans the full width */
 }
 
+.recommended-program {
+  margin: auto;
+}
+
+.recommended-program .program-img {
+    height: auto; /* Remove fixed height for the recommended program */
+    object-fit: cover;
+    /* Ensure image covers its container */
+}
+
 
 /* Dark Mode Styles */
 .bg-dark, .text-dark {

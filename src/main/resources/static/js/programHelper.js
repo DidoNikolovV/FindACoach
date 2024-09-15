@@ -3,8 +3,6 @@ const url = 'http://localhost:8080';
 const csrfHeaderName = document.head.querySelector('[name=_csrf_header]').content;
 const csrfHeaderValue = document.head.querySelector('[name=_csrf]').content;
 
-let recommendationBtn = document.getElementById("getRecommendationBtn");
-console.log(recommendationBtn);
 document.getElementById("getRecommendationBtn").addEventListener("click", loadRecommendation);
 document.getElementById('showAllProgramsButton').addEventListener('click', showAllPrograms);
 
@@ -24,50 +22,79 @@ function loadRecommendation() {
             [csrfHeaderName]: csrfHeaderValue
         },
         body: JSON.stringify(formData)
-    }).then(res => res.json())
+    })
+        .then(res => {
+            if (!res.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return res.json();
+        })
         .then(data => {
-            // Hide all programs
-            const allProgramCards = document.querySelectorAll('#programsContainer .col-md-4');
-            allProgramCards.forEach(card => card.style.display = 'none');
+            console.log(data);
+            if (!data || !data.name) {
+                console.log('No program found for the given criteria.');
+                return;
+            }
 
+            // Hide all programs initially
+            const allProgramCards = document.querySelectorAll('#programsContainer .col');
+            allProgramCards.forEach(card => {
+                card.style.display = 'none';
+            });
+
+            // Show the recommended program
             const recommendedProgram = Array.from(allProgramCards).find(card => {
                 const cardTitle = card.querySelector('.card-title').innerText.toLowerCase();
-                return cardTitle.includes(data.fitnessLevel);
+                return cardTitle.includes(data.name.toLowerCase());
             });
+
+            console.log(recommendedProgram);
 
             if (recommendedProgram) {
                 recommendedProgram.style.display = 'block';
                 recommendedProgram.classList.remove('col-md-4');
-                recommendedProgram.classList.add('col-md-4'); // Keep original size
+                recommendedProgram.classList.add('col-md-4');
+                recommendedProgram.classList.add('recommended-program');
+                // Keep original size
+
+                // Adjust the image style for the recommended program
+                const programImg = recommendedProgram.querySelector('.program-img');
+                if (programImg) {
+                    programImg.style.height = 'auto'; // Remove fixed height
+                    programImg.style.objectFit = 'cover'; // Ensure the image covers its container
+                }
+
+                // Create and insert the recommendation message
+                const titleElement = document.createElement('h4');
+                titleElement.className = 'text-center text-white mb-4';
+                titleElement.innerText = `Recommended Program: ${data.name}`;
+
+                const programsContainer = document.getElementById('programsContainer');
+                const existingRecommendationMessage = document.querySelector('#recommendationMessage');
+                if (existingRecommendationMessage) {
+                    existingRecommendationMessage.remove();
+                }
+
+                const recommendationMessage = document.createElement('p');
+                recommendationMessage.id = 'recommendationMessage';
+                recommendationMessage.className = 'text-center text-white mb-4';
+                recommendationMessage.innerText = `Based on your preferences, we recommend the following program:`;
+
+                programsContainer.parentNode.insertBefore(titleElement, programsContainer);
+                programsContainer.parentNode.insertBefore(recommendationMessage, programsContainer);
             }
 
-            const recommendedProgramTitle = recommendedProgram.querySelector('.card-title').innerText;
-            const recommendationMessage = document.createElement('p');
-
-            const titleElement = document.createElement('h4');
-            titleElement.className = 'text-center text-white';
-            titleElement.innerText = `Recommended Program: ${recommendedProgramTitle}`;
-
-            // Append the recommendation message and title above the recommended program
-            const programsContainer = document.getElementById('programsContainer');
-            programsContainer.parentNode.insertBefore(recommendationMessage, programsContainer);
-            programsContainer.parentNode.insertBefore(titleElement, programsContainer);
-
-            // Hide the helper button container
             document.getElementById('helperButtonContainer').style.display = 'none';
-
-            // Show the button to display all programs
             document.getElementById('showAllProgramsRow').style.display = 'block';
 
             $('#helperModal').modal('hide');
         })
         .catch(err => {
-            console.error(err);
+            console.error('Error fetching recommendation:', err);
         });
 }
 
 function showAllPrograms() {
-
     const allProgramCards = document.querySelectorAll('#programsContainer .col-md-4, #programsContainer .col-md-12');
     allProgramCards.forEach(card => {
         card.style.display = 'block';
@@ -75,8 +102,6 @@ function showAllPrograms() {
         card.classList.add('col-md-4');
     });
 
-
     document.getElementById('helperButtonContainer').style.display = 'block';
     document.getElementById('showAllProgramsRow').style.display = 'none';
-
 }
