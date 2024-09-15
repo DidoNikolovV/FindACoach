@@ -8,6 +8,11 @@
 
 <header class="header">
     <div class="container d-flex flex-column align-items-center justify-content-center" style="min-height: 100vh;">
+        <<div th:if="${#lists.isEmpty(allPrograms)}" class="alert alert-warning text-center" role="alert" style="margin-top: 11rem;">
+        <h4 class="alert-heading">No Programs Available</h4>
+        <p>You don't have a coach assigned yet. Please visit the <a th:href="@{/coaches/all}" class="alert-link">coaches page</a> to find and start working with a coach!</p>
+    </div>
+
         <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 g-3" id="programsContainer" style="margin-top: 11rem;">
             <!-- Programs Cards -->
             <div th:each="program : ${allPrograms}" th:object="${program}" class="col">
@@ -25,7 +30,7 @@
         </div>
 
         <!-- Helper Button Container -->
-        <div class="row mt-4" id="helperButtonContainer">
+        <div class="row mt-4" id="helperButtonContainer" th:unless="${allPrograms.isEmpty()}">
             <div class="col text-center">
                 <button class="btn btn-lg btn-info" data-toggle="modal" data-target="#helperModal"
                         th:text="#{need.help.button}">Need Help Choosing a Program?</button>

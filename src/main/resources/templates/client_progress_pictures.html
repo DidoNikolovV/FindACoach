@@ -5,26 +5,23 @@
 </head>
 <body>
 <nav th:replace="~{fragments/navbar}"></nav>
-<div class="container" style="height: 100vh;">
-    <h2 class="text-center" th:text="${client.username} + ' Progress'" style="margin-top: 11rem;"></h2>
+<div class="container d-flex flex-column justify-content-center" style="min-height: 100vh;">
+    <h2 class="text-center" style="margin-top: 6rem;" th:text="${client.username} + ' Progress'"></h2>
 
-    <div sec:authorize="hasRole('CLIENT')">
+    <hr class="divider bg-primary my-4">
+    <h4 class="progress-title text-center">Progress Pictures</h4>
+    <!-- Progress upload form for CLIENT role -->
+    <div sec:authorize="hasRole('CLIENT')" class="my-5">
         <form class="upload-form" method="POST"
               th:action="@{/clients/{clientUsername}/progress(clientUsername=${client.username})}"
-              enctype="multipart/form-data" style="margin-top: 5rem;">
-            <div class="form-row align-items-center">
-                <div class="col-sm-9 my-1">
-                    <input type="file" class="form-control" id="file" name="file" required>
-                </div>
-                <div class="col-sm-3 my-1">
-                    <button type="submit" class="btn btn-primary btn-block">Upload</button>
-                </div>
+              enctype="multipart/form-data">
+            <div class="input-group mb-3">
+                <input type="file" class="form-control" id="file" name="file" aria-label="Upload" required>
+                <button type="submit" class="btn btn-primary">Upload</button>
             </div>
         </form>
     </div>
 
-    <hr class="divider bg-primary my-4">
-    <h4 class="progress-title text-center">Progress Pictures</h4>
     <div class="row">
         <div th:each="progressPicture: ${progressPictures}" class="col-md-3" style="margin-bottom: 8rem;">
             <div style="margin-top: 2rem;">
@@ -33,14 +30,15 @@
         </div>
     </div>
 
-    <nav aria-label="Page navigation">
+    <!-- Pagination Section -->
+    <nav aria-label="Progress Pictures Pagination" class="mt-4">
         <ul class="pagination justify-content-center">
             <li th:if="${progressPictures.hasPrevious()}" class="page-item">
                 <a th:href="@{'/clients/' + ${client.username} + '/progress?page=' + ${progressPictures.number - 1}}"
                    class="page-link">&lt; Prev</a>
             </li>
             <li th:each="page : ${#numbers.sequence(0, progressPictures.totalPages - 1)}"
-                th:class="${page} == ${progressPictures.number} ? 'page-item active' : 'page-item'">
+                th:classappend="${page == progressPictures.number} ? 'active'">
                 <a th:href="@{'/clients/' + ${client.username} + '/progress?page=' + ${page}}" class="page-link"
                    th:text="${page + 1}"></a>
             </li>
@@ -51,6 +49,7 @@
         </ul>
     </nav>
 </div>
+
 <footer th:replace="~{fragments/footer}"></footer>
 </body>
 </html>

@@ -58,6 +58,9 @@ public class ProgramService {
         List<ProgramEntity> programEntities = new ArrayList<>();
         if (loggedUser.getTitle().equals(UserTitleEnum.CLIENT)) {
             ClientDTO clientDTO = clientService.getClientByUsername(loggedUser.getUsername());
+            if(clientDTO.getCoach() == null) {
+                return new ArrayList<>();
+            }
             CoachDTO coach = coachService.getCoachById(clientDTO.getCoach().getId());
             programEntities = programRepository.findAllByCoachId(coach.getId()).orElseThrow(() -> new ResourceNotFoundException("Programs with coachId " + coach.getId() + " not found"));
         } else {
