@@ -11,22 +11,35 @@ VALUES (1, 'admin@example.com', 'Admin',
         1, 'COACH', '/images/profile-avatar.jpg'),
        (4, 'ivan.petrov@example.com', 'IvanPetrov',
         '95c1933b8ffe84f085f2839899d1673260be58dbd9c2c787ac35515805502c996417596dae9a92880aaa50a046fc7151', 1,
-        'COACH', '/images/profile-avatar.jpg'),
+        'COACH', '/images/ivan-petrov.jpg'),
        (5, 'petar.georgiev@example.com', 'PetarGeorgiev',
         '95c1933b8ffe84f085f2839899d1673260be58dbd9c2c787ac35515805502c996417596dae9a92880aaa50a046fc7151', 1,
-        'COACH', '/images/profile-avatar.jpg'),
+        'COACH', '/images/petar-georgiev.jpg'),
        (6, 'vladislav.dimitrov@example.com', 'VladislavDimitrov',
         '95c1933b8ffe84f085f2839899d1673260be58dbd9c2c787ac35515805502c996417596dae9a92880aaa50a046fc7151', 1,
-        'CLIENT', '/images/client-vladislav.jpg'),
+        'CLIENT', '/images/profile-avatar.jpg'),
        (7, 'georgi.ivanov@example.com', 'GeorgiIvanov',
         '95c1933b8ffe84f085f2839899d1673260be58dbd9c2c787ac35515805502c996417596dae9a92880aaa50a046fc7151', 1,
-        'CLIENT', '/images/client-georgi.jpg'),
+        'CLIENT', '/images/georgi-ivanov.jpg'),
        (8, 'vladislav.nikolov@example.com', 'VladislavNikolov',
         '95c1933b8ffe84f085f2839899d1673260be58dbd9c2c787ac35515805502c996417596dae9a92880aaa50a046fc7151', 1,
-        'COACH', '/images/profile-avatar.jpg'),
+        'COACH', '/images/vladislav-nikolov.jpg'),
        (9, 'simeon.nedelchev@example.com', 'SimeonNedelchev',
         '95c1933b8ffe84f085f2839899d1673260be58dbd9c2c787ac35515805502c996417596dae9a92880aaa50a046fc7151', 1,
-        'COACH', '/images/profile-avatar.jpg');
+        'COACH', '/images/simeon-nedelchev.jpg'),
+       (10, 'vlado.subev@example.com', 'VladoSubev',
+        '95c1933b8ffe84f085f2839899d1673260be58dbd9c2c787ac35515805502c996417596dae9a92880aaa50a046fc7151', 1,
+        'CLIENT', '/images/vlado-subev.jpg'),
+       (11, 'ceco.nikolov@example.com', 'CecoNikolov',
+        '95c1933b8ffe84f085f2839899d1673260be58dbd9c2c787ac35515805502c996417596dae9a92880aaa50a046fc7151', 1,
+        'CLIENT', '/images/ceco-nikolov.jpg'),
+       (12, 'mitko.nikolov@example.com', 'MitkoNikolov',
+        '95c1933b8ffe84f085f2839899d1673260be58dbd9c2c787ac35515805502c996417596dae9a92880aaa50a046fc7151', 1,
+        'CLIENT', '/images/profile-avatar.jpg'),
+       (13, 'alex.georgiev@example.com', 'AlexGeorgiev',
+        '95c1933b8ffe84f085f2839899d1673260be58dbd9c2c787ac35515805502c996417596dae9a92880aaa50a046fc7151', 1,
+        'CLIENT', '/images/alex-georgiev.jpg');
+
 
 -- Ensure you also add roles and user-role mappings accordingly.
 
@@ -36,30 +49,37 @@ VALUES (1, 'ADMIN'),
        (2, 'COACH'),
        (3, 'CLIENT');
 
--- Insert roles for the new users
 INSERT INTO users_roles(`user_id`, `role_id`)
 VALUES (1, 1),
        (2, 3),
        (3, 2),
-       (4, 2), -- IvanPetrov as Coach
-       (5, 2), -- PetarGeorgiev as Coach
-       (6, 3), -- VladislavDimitrov as Client
-       (7, 3), -- GeorgiIvanov as Client
-       (8, 2), -- VladislavNikolov as Coach
-       (9, 2); -- SimeonNedelchev as Coach
+       (4, 2),
+       (5, 2),
+       (6, 3),
+       (7, 3),
+       (8, 2),
+       (9, 2),
+       (10, 3),
+       (11, 3),
+       (12, 3),
+       (13, 3);
 
 INSERT INTO coaches (description, email, img_url, rating, username)
 VALUES ('Strength and endurance coach', 'didaka@example.com', '/images/profile-avatar.jpg', 5.8, 'DidoNikolov'),
-       ('Expert in strength training', 'ivan.petrov@example.com', '/images/coach-ivan.jpg', 4.7, 'IvanPetrov'),
-       ('HIIT and cardio specialist', 'petar.georgiev@example.com', '/images/coach-petar.jpg', 4.9, 'PetarGeorgiev'),
-       ('Expert in calisthenics', 'vladislav.nikolov@example.com', '/images/profile-avatar.jpg', 4.7,
+       ('Expert in strength training', 'ivan.petrov@example.com', '/images/ivan-petrov.jpg', 4.7, 'IvanPetrov'),
+       ('HIIT and cardio specialist', 'petar.georgiev@example.com', '/images/petar-georgiev.jpg', 4.9, 'PetarGeorgiev'),
+       ('Expert in calisthenics', 'vladislav.nikolov@example.com', '/images/vladislav-nikolov.jpg', 4.7,
         'VladislavNikolov'),
-       ('Expert in crossfit', 'simeon.nedelchev@example.com', '/images/profile-avatar.jpg', 4.8, 'SimeonNedelchev');
+       ('Expert in crossfit', 'simeon.nedelchev@example.com', '/images/simeon-nedelchev.jpg', 4.8, 'SimeonNedelchev');
 
 INSERT INTO clients (email, img_url, username, coach_id)
 VALUES ('user@example.com', '/images/user-avatar.jpg', 'User', 1),
        ('vladislav.dimitrov@example.com', '/images/client-vladislav.jpg', 'VladislavDimitrov', 2),
-       ('georgi.ivanov@example.com', '/images/client-georgi.jpg', 'GeorgiIvanov', 3);
+       ('georgi.ivanov@example.com', '/images/client-georgi.jpg', 'GeorgiIvanov', 3),
+        ('vlado.subev@example.com', '/images/vlado-subev.jpg', 'VladoSubev', 1),
+        ('ceco.nikolov@example.com', '/images/ceco-nikolov.jpg', 'CecoNikolov', 1),
+        ('mitko.nikolov@example.com', '/images/mitko-nikolov.jpg', 'MitkoNikolov', 2),
+        ('alex.georgiev@example.com', '/images/alex-georgiev.jpg', 'AlexGeorgiev',2);
 INSERT INTO scheduled_workouts (coach_id, client_id, scheduled_date)
 VALUES
 -- DidoNikolov with User
@@ -70,15 +90,22 @@ VALUES
 (1, 1, '2024-10-16 18:30:00'),
 (1, 1, '2024-10-21 10:15:00'),
 (1, 1, '2024-10-25 11:30:00'),
+(1, 4, '2024-10-25 15:30:00'),
+(1, 5, '2024-10-25 18:30:00'),
 
 -- IvanPetrov with VladislavDimitrov
-(2, 2, '2024-09-18 10:30:00'),
+(2, 2, '2024-09-17 16:30:00'),
+(2, 3, '2024-09-17 18:30:00'),
 (2, 2, '2024-09-27 09:45:00'),
 (2, 2, '2024-10-02 12:00:00'),
 (2, 2, '2024-10-11 15:30:00'),
 (2, 2, '2024-10-14 10:00:00'),
+(2, 3, '2024-10-14 15:30:00'),
 (2, 2, '2024-10-23 12:30:00'),
 (2, 2, '2024-10-28 16:15:00'),
+(2, 2, '2024-10-28 17:35:00'),
+
+
 -- PetarGeorgiev with GeorgiIvanov
 (3, 3, '2024-09-22 10:15:00'),
 (3, 3, '2024-09-25 12:10:00'),
@@ -86,7 +113,8 @@ VALUES
 (3, 3, '2024-10-17 15:25:00'),
 (3, 3, '2024-10-23 10:00:00'),
 (3, 3, '2024-10-27 17:30:00'),
-(3, 3, '2024-11-03 10:00:00');
+(3, 3, '2024-11-03 10:00:00'),
+(3, 3, '2024-11-03 15:30:00');
 --
 -- Inserting Programs for each coach
 INSERT INTO programs (img_url, name, coach_id)

@@ -72,6 +72,7 @@ public class ClientService {
         List<DailyMetricsEntity> allByClientId = dailyMetricsRepository.findAllByClientId(clientEntity.getId());
         DailyMetricsEntity dailyMetrics = modelMapper.map(dailyWeightDTO, DailyMetricsEntity.class);
         WeekMetricsEntity weekMetricsEntity = null;
+        boolean isNew = false;
         if (allByClientId.size() < 7) {
             weekMetricsEntity = weekMetricsService.getByNumberAndClientId(1, clientEntity.getId());
             if (weekMetricsEntity == null) {
@@ -81,10 +82,11 @@ public class ClientService {
         } else {
             DailyMetricsEntity last = allByClientId.get(allByClientId.size() - 1);
             WeekMetricsEntity lastWeek = last.getWeek();
-            weekMetricsEntity = weekMetricsService.getByNumberAndClientId(lastWeek.getNumber() + 1, clientEntity.getId());
-            if (weekMetricsEntity == null) {
+            if (lastWeek.getDailyMetrics().size() >= 7) {
                 weekMetricsEntity = new WeekMetricsEntity();
                 weekMetricsEntity.setNumber(lastWeek.getNumber() + 1);
+            } else {
+                weekMetricsEntity = weekMetricsService.getByNumberAndClientId(lastWeek.getNumber(), clientEntity.getId());
             }
         }
 
@@ -94,6 +96,7 @@ public class ClientService {
         dailyMetrics.setWeek(weekMetricsEntity);
         clientEntity.getDailyMetrics().add(dailyMetrics);
 
+        weekMetricsEntity.setClient(clientEntity);
         weekMetricsService.saveWeekMetrics(weekMetricsEntity);
         clientRepository.save(clientEntity);
     }

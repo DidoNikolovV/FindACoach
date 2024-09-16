@@ -23,7 +23,7 @@ public class WeekMetricsEntity extends BaseEntity{
     @Column(name = "number", nullable = false)
     private int number;
 
-    @OneToMany(mappedBy = "week", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "week")
     private List<DailyMetricsEntity> dailyMetrics = new ArrayList<>();
 
     @ManyToOne

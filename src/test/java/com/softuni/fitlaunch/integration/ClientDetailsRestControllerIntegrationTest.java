@@ -70,7 +70,7 @@ public class ClientDetailsRestControllerIntegrationTest {
         int weekNumber = 1;
 
         List<DailyMetricsDTO> metrics = List.of(new DailyMetricsDTO());
-        when(clientService.getAllByWeekNumber(anyInt())).thenReturn(metrics);
+        when(clientService.getAllByWeekNumber(anyInt(), anyString())).thenReturn(metrics);
 
         mockMvc.perform(get("/api/v1/clients/{clientName}/metrics/week/{weekNumber}", clientName, weekNumber)
                         .accept(MediaType.APPLICATION_JSON))

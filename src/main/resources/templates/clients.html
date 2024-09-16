@@ -20,7 +20,7 @@
             </thead>
             <tbody th:each="client: ${clients}">
             <tr>
-                <td>1</td>
+                <td><img th:src="${client.imgUrl}" class="rounded-circle mr-3" alt="Profile Picture" style="width: 40px; height: 40px;"></td>
                 <td th:text="${client.username}">Client 1</td>
                 <td th:text="${client.email}">client1@example.com</td>
                 <td><a th:href="@{/clients/{clientName}/details(clientName=${client.username})}" class="btn btn-info">Check

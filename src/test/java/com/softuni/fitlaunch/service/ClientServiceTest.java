@@ -125,7 +125,6 @@ class ClientServiceTest {
         List<DailyMetricsEntity> metrics = new ArrayList<>();
 
         DailyMetricsDTO dailyMetricsDto = new DailyMetricsDTO();
-        dailyMetricsDto.setMood(8);
         dailyMetricsDto.setCaloriesIntake(2200.0);
         dailyMetricsDto.setEnergyLevels(7);
         dailyMetricsDto.setStepsCount(10000.0);
@@ -133,8 +132,7 @@ class ClientServiceTest {
 
         DailyMetricsEntity dailyMetrics = new DailyMetricsEntity();
         dailyMetrics.setId(1L);
-        dailyMetrics.setClient(client);
-        dailyMetrics.setMood(8);
+        dailyMetrics.setClient(client);;
         dailyMetrics.setCaloriesIntake(2200.0);
         dailyMetrics.setEnergyLevels(7);
         dailyMetrics.setStepsCount(10000.0);
@@ -161,7 +159,6 @@ class ClientServiceTest {
         DailyMetricsEntity dailyMetrics = new DailyMetricsEntity();
         dailyMetrics.setId(1L);
         dailyMetrics.setClient(client);
-        dailyMetrics.setMood(8);
         dailyMetrics.setCaloriesIntake(2200.0);
         dailyMetrics.setEnergyLevels(7);
         dailyMetrics.setStepsCount(10000.0);
@@ -188,7 +185,6 @@ class ClientServiceTest {
 
     @Test
     void calculcateWeightProgress_whenClientWeightNull_thenCalculate() {
-
         double expected = 0D;
 
         double actual = underTest.calculcateWeightProgress(null, 80.0);
@@ -198,21 +194,24 @@ class ClientServiceTest {
 
     @Test
     void testGetAllByWeekNumber_whenWeekWithNumberExists_thenReturnListOfThem() {
+        ClientEntity client = new ClientEntity();
+        client.setId(1L);
+        client.setUsername("testClient");
+
         DailyMetricsEntity dailyMetrics = new DailyMetricsEntity();
         dailyMetrics.setId(1L);
-        dailyMetrics.setMood(8);
         dailyMetrics.setCaloriesIntake(2200.0);
         dailyMetrics.setEnergyLevels(7);
         dailyMetrics.setStepsCount(10000.0);
         dailyMetrics.setWeight(74.0);
         dailyMetrics.setSleepDuration(6.0);
+        dailyMetrics.setClient(client);
 
         WeekMetricsEntity weekMetrics = new WeekMetricsEntity();
         weekMetrics.setNumber(1);
         weekMetrics.setDailyMetrics(List.of(dailyMetrics));
 
         DailyMetricsDTO dailyMetricsDto = new DailyMetricsDTO();
-        dailyMetricsDto.setMood(8);
         dailyMetricsDto.setCaloriesIntake(2200.0);
         dailyMetricsDto.setEnergyLevels(7);
         dailyMetricsDto.setStepsCount(10000.0);
@@ -220,12 +219,12 @@ class ClientServiceTest {
         dailyMetrics.setSleepDuration(6.0);
 
 
-        when(weekMetricsService.getByNumberAndClientId(1)).thenReturn(weekMetrics);
+        when(weekMetricsService.getByNumberAndClientId(1, client.getId())).thenReturn(weekMetrics);
         when(modelMapper.map(dailyMetrics,  DailyMetricsDTO.class)).thenReturn(dailyMetricsDto);
 
-        underTest.getAllByWeekNumber(1);
+        underTest.getAllByWeekNumber(1, client.getUsername());
 
-        verify(weekMetricsService, times(1)).getByNumberAndClientId(1);
+        verify(weekMetricsService, times(1)).getByNumberAndClientId(1, client.getId());
     }
 
     @Test
@@ -259,9 +258,6 @@ class ClientServiceTest {
 
         underTest.getProgressPicturesByClientUsername("test", pageableMock);
     }
-
-
-
 
 
 }

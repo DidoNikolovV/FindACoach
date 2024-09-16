@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,5 +16,5 @@ public class ScheduledWorkoutDTO {
     private Long id;
     private Long clientId;
     private Long coachId;
-    private LocalDate scheduledDate;
+    private LocalDateTime scheduledDate;
 }

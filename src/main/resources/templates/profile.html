@@ -50,12 +50,16 @@
                         </div>
                         <div class="col-md-6">
                             <h5>Upcoming Sessions:</h5>
-                            <ul th:if="${upcomingSessions.size() > 0}" class="list-group">
-                                <li th:each="upcomingSession : ${upcomingSessions}" class="list-group-item">
-                                    <span th:text="${upcomingSession.scheduledDateTime}"></span>
-                                </li>
-                            </ul>
-                            <a class="btn btn-info mt-3" style="background-color: #17a2b8" th:href="@{/users/{username}/calendar(username=${user.username})}">Check Your Calendar</a>
+                            <div class="overflow-auto" style="max-height: 300px;">
+                                <ul th:if="${upcomingSessions.size() > 0}" class="list-group">
+                                    <li th:each="upcomingSession : ${upcomingSessions}" class="list-group-item">
+                                        <span th:text="${upcomingSession.scheduledDateTime}"></span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <a class="btn btn-info mt-3" href="#" th:href="@{/users/{username}/calendar(username=${user.username})}">
+                                Check Your Calendar
+                            </a>
                         </div>
                     </div>
                 </div>

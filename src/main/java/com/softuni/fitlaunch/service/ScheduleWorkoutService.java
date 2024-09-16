@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -43,7 +45,7 @@ public class ScheduleWorkoutService {
         ScheduledWorkoutEntity scheduledWorkoutEntity = new ScheduledWorkoutEntity();
         scheduledWorkoutEntity.setClient(clientEntity);
         scheduledWorkoutEntity.setCoach(coachEntity);
-        LocalDate parse = LocalDate.parse(scheduledTime);
+        LocalDateTime parse = LocalDateTime.parse(scheduledTime);
         scheduledWorkoutEntity.setScheduledDate(parse);
         return scheduledWorkoutEntity;
     }
@@ -60,7 +62,10 @@ public class ScheduleWorkoutService {
             allScheduledWorkouts = scheduledWorkoutRepository.findAllByCoachId(coach.getId());
         }
 
-        return allScheduledWorkouts.stream().map(scheduledWorkoutEntity -> new ScheduledWorkoutView(scheduledWorkoutEntity.getId(), scheduledWorkoutEntity.getClient().getUsername(), scheduledWorkoutEntity.getCoach().getUsername(), scheduledWorkoutEntity.getScheduledDate().toString())).toList();
+        return allScheduledWorkouts.stream()
+                .sorted(Comparator.comparing(ScheduledWorkoutEntity::getScheduledDate))
+                .map(scheduledWorkoutEntity -> new ScheduledWorkoutView(scheduledWorkoutEntity.getId(), scheduledWorkoutEntity.getClient().getUsername(), scheduledWorkoutEntity.getCoach().getUsername(), scheduledWorkoutEntity.getScheduledDate().toString()))
+                .toList();
     }
 
 
