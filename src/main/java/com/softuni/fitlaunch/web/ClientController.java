@@ -80,7 +80,6 @@ public class ClientController {
 
         Map<Integer, DailyMetricsDTO> average = weekMetricsService.calculateAverageByClient(client);
 
-
         model.addAttribute("client", client);
         model.addAttribute("coach", coach);
         model.addAttribute("scheduledWorkouts", scheduledWorkouts);

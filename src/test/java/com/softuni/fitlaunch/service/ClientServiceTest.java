@@ -3,7 +3,6 @@ package com.softuni.fitlaunch.service;
 import com.softuni.fitlaunch.model.dto.user.ClientDTO;
 import com.softuni.fitlaunch.model.dto.user.DailyMetricsDTO;
 import com.softuni.fitlaunch.model.entity.ClientEntity;
-import com.softuni.fitlaunch.model.entity.CoachEntity;
 import com.softuni.fitlaunch.model.entity.DailyMetricsEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.WeekMetricsEntity;
@@ -20,8 +19,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.swing.text.html.Option;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -29,7 +26,6 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -224,12 +220,12 @@ class ClientServiceTest {
         dailyMetrics.setSleepDuration(6.0);
 
 
-        when(weekMetricsService.getByNumber(1)).thenReturn(weekMetrics);
+        when(weekMetricsService.getByNumberAndClientId(1)).thenReturn(weekMetrics);
         when(modelMapper.map(dailyMetrics,  DailyMetricsDTO.class)).thenReturn(dailyMetricsDto);
 
         underTest.getAllByWeekNumber(1);
 
-        verify(weekMetricsService, times(1)).getByNumber(1);
+        verify(weekMetricsService, times(1)).getByNumberAndClientId(1);
     }
 
     @Test

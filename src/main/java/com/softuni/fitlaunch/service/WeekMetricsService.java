@@ -29,8 +29,8 @@ public class WeekMetricsService {
         return weekMetricsRepository.save(newWeekMetrics);
     }
 
-    public WeekMetricsEntity getByNumber(int number) {
-        return weekMetricsRepository.findByNumber(number).orElse(null);
+    public WeekMetricsEntity getByNumberAndClientId(int number, Long clientId) {
+        return weekMetricsRepository.findByNumberAndClientId(number, clientId).orElse(null);
     }
 
     public List<WeekMetricsEntity> getAll() {
@@ -55,8 +55,8 @@ public class WeekMetricsService {
             double totalCaloriesIntake = 0;
             double totalStepsCount = 0;
             double totalSleepDuration = 0;
-            int totalMood = 0;
             int totalEnergyLevels = 0;
+
 
             int count = weekData.size();
             for (DailyMetricsEntity data : weekData) {

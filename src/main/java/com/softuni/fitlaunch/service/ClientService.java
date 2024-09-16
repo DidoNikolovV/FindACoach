@@ -73,7 +73,7 @@ public class ClientService {
         DailyMetricsEntity dailyMetrics = modelMapper.map(dailyWeightDTO, DailyMetricsEntity.class);
         WeekMetricsEntity weekMetricsEntity = null;
         if (allByClientId.size() < 7) {
-            weekMetricsEntity = weekMetricsService.getByNumber(1);
+            weekMetricsEntity = weekMetricsService.getByNumberAndClientId(1, clientEntity.getId());
             if (weekMetricsEntity == null) {
                 weekMetricsEntity = new WeekMetricsEntity();
                 weekMetricsEntity.setNumber(1);
@@ -81,7 +81,7 @@ public class ClientService {
         } else {
             DailyMetricsEntity last = allByClientId.get(allByClientId.size() - 1);
             WeekMetricsEntity lastWeek = last.getWeek();
-            weekMetricsEntity = weekMetricsService.getByNumber(lastWeek.getNumber() + 1);
+            weekMetricsEntity = weekMetricsService.getByNumberAndClientId(lastWeek.getNumber() + 1, clientEntity.getId());
             if (weekMetricsEntity == null) {
                 weekMetricsEntity = new WeekMetricsEntity();
                 weekMetricsEntity.setNumber(lastWeek.getNumber() + 1);
@@ -144,8 +144,9 @@ public class ClientService {
         return Math.floor((clientWeight / weightGoal) * 100);
     }
 
-    public List<DailyMetricsDTO> getAllByWeekNumber(int weekNumber) {
-        WeekMetricsEntity weekMetrics = weekMetricsService.getByNumber(weekNumber);
+    public List<DailyMetricsDTO> getAllByWeekNumber(int weekNumber, String username) {
+        ClientEntity client = getClientEntityByUsername(username);
+        WeekMetricsEntity weekMetrics = weekMetricsService.getByNumberAndClientId(weekNumber, client.getId());
         return weekMetrics.getDailyMetrics().stream().map(metric -> modelMapper.map(metric, DailyMetricsDTO.class)).toList();
     }
 

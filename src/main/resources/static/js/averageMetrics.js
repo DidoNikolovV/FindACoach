@@ -113,8 +113,6 @@ function updateDailyDataModal(data, weekNumber) {
                     <th>Calories Intake</th>
                     <th>Steps Count</th>
                     <th>Sleep Duration</th>
-                    <th>Mood</th>
-                    <th>Energy Levels</th>
                 </tr>
             </thead>
             <tbody>
@@ -125,8 +123,6 @@ function updateDailyDataModal(data, weekNumber) {
                         <td>${day.caloriesIntake}</td>
                         <td>${day.stepsCount}</td>
                         <td>${day.sleepDuration} hours</td>
-                        <td>${convertMood(day.mood)}</td>
-                        <td>${convertEnergyLevels(day.energyLevels)}</td>
                     </tr>
                 `).join('')}
             </tbody>

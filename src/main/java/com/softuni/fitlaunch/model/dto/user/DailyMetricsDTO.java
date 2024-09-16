@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class DailyMetricsDTO {
+    private Long id;
     private Double weight;
     private Double caloriesIntake;
     private Double stepsCount;

@@ -47,7 +47,7 @@ public class ClientDetailsRestController {
     @GetMapping("{clientName}/metrics/week/{weekNumber}")
     public ResponseEntity<List<DailyMetricsDTO>> loadWeekMetricsData(@PathVariable("clientName") String clientName,
                                                                      @PathVariable("weekNumber") int weekNumber) {
-        List<DailyMetricsDTO> allByWeekNumber = clientService.getAllByWeekNumber(weekNumber);
+        List<DailyMetricsDTO> allByWeekNumber = clientService.getAllByWeekNumber(weekNumber, clientName);
         return ResponseEntity.ok(allByWeekNumber);
     }
 }

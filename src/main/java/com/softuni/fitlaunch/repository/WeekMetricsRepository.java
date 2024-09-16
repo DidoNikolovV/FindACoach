@@ -11,4 +11,6 @@ import java.util.Optional;
 public interface WeekMetricsRepository extends JpaRepository<WeekMetricsEntity, Long> {
     Optional<WeekMetricsEntity> findByNumber(int number);
 
+    Optional<WeekMetricsEntity> findByNumberAndClientId(int number, Long clientId);
+
 }

@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class WorkoutExerciseDTO {
     private Long id;
     private String name;
-    @Pattern(regexp = "https:www\\.youtube\\.com/watch\\?v=.*", message = "Invalid youtube url provided")
+    @Pattern(regexp = "https:\\www.youtube\\.com/watch\\?v=.*", message = "Invalid youtube url provided")
     private String videoUrl;
     private String workout;
     private boolean isCompleted;

@@ -56,7 +56,7 @@ class WeekMetricsServiceTest {
 
         when(weekMetricsRepository.findByNumber(weekNumber)).thenReturn(Optional.of(weekMetricsEntity));
 
-        WeekMetricsEntity foundWeekMetrics = weekMetricsService.getByNumber(weekNumber);
+        WeekMetricsEntity foundWeekMetrics = weekMetricsService.getByNumberAndClientId(weekNumber);
 
         assertNotNull(foundWeekMetrics);
         assertEquals(weekMetricsEntity, foundWeekMetrics);
@@ -69,7 +69,7 @@ class WeekMetricsServiceTest {
 
         when(weekMetricsRepository.findByNumber(weekNumber)).thenReturn(Optional.empty());
 
-        WeekMetricsEntity foundWeekMetrics = weekMetricsService.getByNumber(weekNumber);
+        WeekMetricsEntity foundWeekMetrics = weekMetricsService.getByNumberAndClientId(weekNumber);
 
         assertNull(foundWeekMetrics);
         verify(weekMetricsRepository).findByNumber(weekNumber);
