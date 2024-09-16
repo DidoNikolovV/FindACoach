@@ -45,7 +45,8 @@ public class ScheduleWorkoutService {
         ScheduledWorkoutEntity scheduledWorkoutEntity = new ScheduledWorkoutEntity();
         scheduledWorkoutEntity.setClient(clientEntity);
         scheduledWorkoutEntity.setCoach(coachEntity);
-        LocalDateTime parse = LocalDateTime.parse(scheduledTime);
+        String newScheduledDateTime = scheduledTime.replace(" ", "T");
+        LocalDateTime parse = LocalDateTime.parse(newScheduledDateTime);
         scheduledWorkoutEntity.setScheduledDate(parse);
         return scheduledWorkoutEntity;
     }

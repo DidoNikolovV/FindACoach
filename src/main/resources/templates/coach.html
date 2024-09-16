@@ -20,10 +20,12 @@
                                             <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
-                                    <div class="modal-body">
-                                        <input type="date" id="workoutDate" class="form-control">
-                                        <input type="hidden" id="coachUsername" th:value="${coach.username}">
-                                        <input type="hidden" id="clientUsername" th:value="${#authentication.principal.username}">
+                                    <div class="form-group">
+                                        <div class="modal-body">
+                                            <input type="text" id="workoutDate" class="form-control" placeholder="Select date and time">
+                                            <input type="hidden" id="coachUsername" th:value="${coach.username}">
+                                            <input type="hidden" id="clientUsername" th:value="${#authentication.principal.username}">
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal" th:text="#{modal.close}">Close</button>
@@ -69,5 +71,14 @@
 </div>
 <footer th:replace="~{fragments/footer}"></footer>
 <script th:src="@{/js/scheduleWorkout.js}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        flatpickr("#workoutDate", {
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+            minDate: "today"
+        });
+    });
+</script>
 </body>
 </html>
