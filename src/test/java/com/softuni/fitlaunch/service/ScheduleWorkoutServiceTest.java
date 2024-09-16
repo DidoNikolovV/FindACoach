@@ -12,6 +12,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,7 +79,7 @@ class ScheduleWorkoutServiceTest {
         scheduledWorkoutEntity.setId(1L);
         scheduledWorkoutEntity.setClient(client);
         scheduledWorkoutEntity.setCoach(coach);
-        scheduledWorkoutEntity.setScheduledDate(LocalDate.now());
+        scheduledWorkoutEntity.setScheduledDate(LocalDateTime.now());
         allScheduledWorkouts.add(scheduledWorkoutEntity);
 
         when(userService.getUserEntityByUsername("test")).thenReturn(user);
@@ -112,7 +113,7 @@ class ScheduleWorkoutServiceTest {
         scheduledWorkoutEntity.setId(1L);
         scheduledWorkoutEntity.setClient(client);
         scheduledWorkoutEntity.setCoach(coach);
-        scheduledWorkoutEntity.setScheduledDate(LocalDate.now());
+        scheduledWorkoutEntity.setScheduledDate(LocalDateTime.now());
 
         allScheduledWorkouts.add(scheduledWorkoutEntity);
 
