@@ -176,5 +176,8 @@ public class ClientService {
         return progressPictureRepository.findByClientId(client.getId(), pageable);
     }
 
+    public void updateClient(ClientEntity client) {
+        clientRepository.save(client);
+    }
 }
 

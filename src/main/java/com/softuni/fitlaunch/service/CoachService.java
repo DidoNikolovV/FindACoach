@@ -104,4 +104,8 @@ public class CoachService {
         return coachRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException(COACH_DOES_NOT_EXIST));
 
     }
+
+    public void updateCoach(CoachEntity coach) {
+        coachRepository.save(coach);
+    }
 }

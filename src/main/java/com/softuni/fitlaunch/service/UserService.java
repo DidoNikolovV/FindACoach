@@ -3,6 +3,8 @@ package com.softuni.fitlaunch.service;
 import com.softuni.fitlaunch.model.dto.user.UserDTO;
 import com.softuni.fitlaunch.model.dto.user.UserRegisterDTO;
 import com.softuni.fitlaunch.model.dto.view.UserProfileView;
+import com.softuni.fitlaunch.model.entity.ClientEntity;
+import com.softuni.fitlaunch.model.entity.CoachEntity;
 import com.softuni.fitlaunch.model.entity.UserActivationCodeEntity;
 import com.softuni.fitlaunch.model.entity.UserEntity;
 import com.softuni.fitlaunch.model.entity.UserRoleEntity;
@@ -74,6 +76,7 @@ public class UserService {
         user.getRoles().add(role);
         user.setTitle(UserTitleEnum.valueOf(userRegisterDTO.getTitle()));
         user.setPassword(passwordEncoder.encode(userRegisterDTO.getPassword()));
+        user.setImgUrl("/images/profile-avatar.jpg");
 
         userRepository.save(user);
 
@@ -178,6 +181,16 @@ public class UserService {
 
         UserEntity userEntity = getUserEntityByUsername(username);
         userEntity.setImgUrl(picture);
+
+        if(userEntity.getTitle() == UserTitleEnum.COACH) {
+            CoachEntity coach = coachService.getCoachEntityByUsername(username);
+            coach.setImgUrl(picture);
+            coachService.updateCoach(coach);
+        } else if(userEntity.getTitle() == UserTitleEnum.CLIENT) {
+            ClientEntity client = clientService.getClientEntityByUsername(username);
+            client.setImgUrl(picture);
+            clientService.updateClient(client);
+        }
 
         userRepository.save(userEntity);
 
